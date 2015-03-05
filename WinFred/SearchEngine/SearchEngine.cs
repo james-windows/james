@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,14 +12,13 @@ using Lucene.Net.Index;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
+using Directory = Lucene.Net.Store.Directory;
+using System.IO;
 
 namespace WinFred
 {
     class SearchEngine
     {
-        public const int SEARCH_RESULTS = 10;
-        public const int MIN_SEARCH_LENGTH = 3;
-
         private static SearchEngine searchEngine;
         private static object singeltonLock = new object();
 
@@ -40,6 +40,7 @@ namespace WinFred
                 Path = path;
                 path = path.Replace('-', ' ').Replace(" ", "");
                 FileName = path.Substring(path.LastIndexOf('\\') + 1); 
+                
             }
 
             public int Priority { get; set; }
@@ -55,6 +56,11 @@ namespace WinFred
                 doc.Add(new Field("Priority", (-Priority).ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 return doc;
             }
+
+            public override string ToString()
+            {
+                return Path;
+            }
         }
 
         Directory index;
@@ -64,8 +70,7 @@ namespace WinFred
 
         private SearchEngine()
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+ "\\WinFred";
-            index = FSDirectory.Open(path);
+            index = FSDirectory.Open(Config.GetInstance().ConfigFolderLocation + "\\Index");
             analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
             sort = new Sort(new SortField[] { SortField.FIELD_SCORE, new SortField("Priority", SortField.INT) });
         }
@@ -73,17 +78,33 @@ namespace WinFred
         public void BuildIndex()
         {
             List<Data> data = new List<Data>();
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Desktop";
-            foreach (string file in System.IO.Directory.GetFiles(path, "*", System.IO.SearchOption.AllDirectories))
-                data.Add(new Data(file));
-            foreach (string dir in System.IO.Directory.GetDirectories(path, "*", System.IO.SearchOption.AllDirectories))
-                data.Add(new Data(dir) { Priority = 1 });
+            foreach (var item in Config.GetInstance().Paths)
+            {
+                data.AddRange(GetFiles(item.Location, "*"));
+            }
             using (IndexWriter writer = new IndexWriter(index, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 foreach (Data a in data)
                     writer.AddDocument(a.GetDocument());
                 writer.Optimize();
             }
+            Trace.WriteLine("index built! Count: " + data.Count);
+        }
+        private List<Data> GetFiles(string path, string pattern)
+        {
+            List<Data> data = new List<Data>();
+            data.Add(new Data(path) { Priority = 1 });
+            try
+            {
+                foreach (var item in System.IO.Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly))
+                {
+                    data.Add(new Data(item));
+                }
+                foreach (var directory in System.IO.Directory.GetDirectories(path))
+                    data.AddRange(GetFiles(directory, pattern));
+            }
+            catch (UnauthorizedAccessException) { }
+            return data;
         }
 
         public void InitSearch()
@@ -101,9 +122,10 @@ namespace WinFred
             }
         }
 
-        public List<string> Query(string str, int limit = SEARCH_RESULTS)
+        public List<string> Query(string str)
         {
-            if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < MIN_SEARCH_LENGTH)
+            int limit = Config.GetInstance().MaxSearchResults;
+            if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
                 return new List<string>();
             str = str.Replace('-', ' ').Replace(" ", "").ToLower();
             Query query = new PrefixQuery(new Term("FileName", str.Trim()));

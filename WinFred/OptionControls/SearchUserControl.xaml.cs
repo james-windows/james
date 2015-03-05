@@ -24,5 +24,10 @@ namespace WinFred.OptionControls
         {
             InitializeComponent();
         }
+
+        private void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchEngine.GetInstance().BuildIndex();
+        }
     }
 }

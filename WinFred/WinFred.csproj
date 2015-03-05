@@ -70,6 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="HelperClass.cs" />
     <Compile Include="OptionControls\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>
     </Compile>
@@ -91,7 +92,7 @@
     <Compile Include="OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SearchConfig.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="SearchEngine\SearchEngine.cs" />
     <Compile Include="SearchResult.cs" />
     <Page Include="LargeType.xaml">

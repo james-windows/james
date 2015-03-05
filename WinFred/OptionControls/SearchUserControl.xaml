@@ -3,19 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d">
+             mc:Ignorable="d" Height="600" Width="800">
     <Grid>
         <WrapPanel>
-            <GroupBox Header="Folders to be searched" >
-                <ListView>
+            <GroupBox Header="Folders to be searched" Width="400">
+                <ListView Height="400" Margin="20">
 
                 </ListView>
             </GroupBox>
-            <GroupBox Header="Index Settings">
-                <WrapPanel>
-                    <Button Content="Rebuild Index"></Button>
-                    <Button Content="Delete Index"/>
-                </WrapPanel>
+            <GroupBox Header="Index Settings" Width="400">
+                <StackPanel>
+                    <Button x:Name="RebuildIndexButton" Content="Rebuild Index" Click="RebuildIndexButton_Click"/>
+                </StackPanel>
             </GroupBox>
         </WrapPanel>
     </Grid>

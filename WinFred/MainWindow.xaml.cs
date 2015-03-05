@@ -1,29 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Common;
-using System.Data.OleDb;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Threading;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using MessageBox = System.Windows.MessageBox;
 
 namespace WinFred
 {
@@ -44,19 +28,11 @@ namespace WinFred
             this.Visibility = Visibility.Hidden;
 
             search = SearchEngine.GetInstance();
-            //search.BuildIndex();
-            Trace.WriteLine("ok");
             search.InitSearch();
 
-
-            SearchConfig config = new SearchConfig();
-            Path path = new Path();
-            path.ExcludedExtensions.Add("adsf");
-            path.IncludedExtensions.Add("hello");
-            path.ExcludedFolders.Add("flo");
-            config.Paths.Add(path);
-
+            Config.GetInstance();
         }
+
         private void OnHotKeyHandler(HotKey hotKey)
         {
             if (this.IsVisible)
@@ -65,13 +41,13 @@ namespace WinFred
                 {
                     lt.Close();
                 }
+                this.SearchTextBox.Text = "";
                 this.Hide();
             }
             else
             {
                 this.Show();
-                this.Focus();
-                this.SearchTextBox.Text = "";
+                this.Activate();
                 this.SearchTextBox.Focus();
             }
         }
@@ -79,13 +55,6 @@ namespace WinFred
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             SearchTextBox.Focus();
-            //dummy items
-     /*       for (int i = 0; i < SearchEngine.SEARCH_RESULTS; i++)
-            {
-                FileControl control = new FileControl();
-                control.Visibility = Visibility.Collapsed;
-                this.SearchResultListBox.Items.Add(control);
-            } */
         }
 
         private void initFileSystemWatcher(ref FileSystemWatcher watcher)
@@ -120,6 +89,7 @@ namespace WinFred
                     lt.Close();
                 }
                 this.Hide();
+                this.SearchTextBox.Text = "";
             }
             if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) && SearchTextBox.Text.Length > 0)
             {
@@ -128,6 +98,8 @@ namespace WinFred
             }
             if (e.KeyboardDevice.IsKeyDown(Key.S) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))
             {
+                this.Hide();
+                this.SearchTextBox.Text = "";
                 OptionWindow window = new OptionWindow();
                 window.ShowDialog();
             }
@@ -156,6 +128,5 @@ namespace WinFred
             SEARCH_ID = (SEARCH_ID + 1) % 1000000007;
             new Task(() => Search(str, id)).Start();
         }
-
     }
 }
