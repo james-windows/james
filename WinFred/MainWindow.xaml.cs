@@ -5,9 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace WinFred
 {
@@ -37,12 +40,7 @@ namespace WinFred
         {
             if (this.IsVisible)
             {
-                if (lt != null)
-                {
-                    lt.Close();
-                }
-                this.SearchTextBox.Text = "";
-                this.Hide();
+                HideWindow();
             }
             else
             {
@@ -57,7 +55,17 @@ namespace WinFred
             SearchTextBox.Focus();
         }
 
-        private void initFileSystemWatcher(ref FileSystemWatcher watcher)
+        private void HideWindow()
+        {
+            if (lt != null)
+            {
+                lt.Close();
+            }
+            this.SearchTextBox.Text = "";
+            this.Hide();
+        }
+
+        private void InitFileSystemWatcher(ref FileSystemWatcher watcher)
         {
             watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastAccess;
             watcher.IncludeSubdirectories = true;
@@ -98,13 +106,28 @@ namespace WinFred
             }
             else if (e.KeyboardDevice.IsKeyDown(Key.S) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))
             {
-                this.Hide();
-                this.SearchTextBox.Text = "";
+                HideWindow();
                 OptionWindow window = new OptionWindow();
                 window.ShowDialog();
             }
         }
-
+        private void SearchTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyboardDevice.IsKeyDown(Key.Down))
+            {
+                SearchResultListBox.SelectedIndex++;
+            }
+            else if (e.KeyboardDevice.IsKeyDown(Key.Up))
+            {
+                if(SearchResultListBox.SelectedIndex > 0)
+                    SearchResultListBox.SelectedIndex--;
+            }
+            else if (e.KeyboardDevice.IsKeyDown(Key.Enter) && SearchResultListBox.SelectedItem != null)
+            {
+                Process.Start(((SearchResult)SearchResultListBox.SelectedItem).Path);
+                HideWindow();
+            }
+        }
         private int SEARCH_ID;
 
         private void Search(string str, int id)

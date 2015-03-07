@@ -13,7 +13,6 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Directory = Lucene.Net.Store.Directory;
-using System.IO;
 
 namespace WinFred
 {

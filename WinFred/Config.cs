@@ -23,7 +23,7 @@ namespace WinFred
                     config = HelperClass.Derialize<Config>(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                         "\\WinFred\\config.xml");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     InitConfig();
                 }
