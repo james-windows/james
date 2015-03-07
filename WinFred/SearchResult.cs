@@ -10,6 +10,14 @@ namespace WinFred
 {
     public class SearchResult
     {
-        public string Text { get; set; }
+        public string Path { get; set; }
+
+        public string Filename
+        {
+            get
+            {
+                return Path.Substring(Path.LastIndexOf('\\') + 1);
+            }
+        }
     }
 }

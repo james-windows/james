@@ -91,12 +91,12 @@ namespace WinFred
                 this.Hide();
                 this.SearchTextBox.Text = "";
             }
-            if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) && SearchTextBox.Text.Length > 0)
+            else if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) && SearchTextBox.Text.Length > 0)
             {
                 lt = new LargeType(this.SearchTextBox.Text);
                 lt.ShowDialog();
             }
-            if (e.KeyboardDevice.IsKeyDown(Key.S) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))
+            else if (e.KeyboardDevice.IsKeyDown(Key.S) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))
             {
                 this.Hide();
                 this.SearchTextBox.Text = "";
@@ -116,7 +116,7 @@ namespace WinFred
             {
                 ObservableCollection<SearchResult> resultList = new ObservableCollection<SearchResult>();
                 foreach (string x in res)
-                    resultList.Add(new SearchResult() { Text = x });
+                    resultList.Add(new SearchResult() { Path = x });
                 SearchResultListBox.ItemsSource = resultList;
             }));
         }

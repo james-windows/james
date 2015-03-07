@@ -11,7 +11,10 @@
         <ListBox x:Name="SearchResultListBox" MouseDoubleClick="SearchResultListBox_MouseDoubleClick" BorderThickness="0">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type winFred:SearchResult}">
-                    <TextBlock Text="{Binding Text}" Padding="10"/>
+                    <Grid>
+                        <TextBlock Text="{Binding Filename}" Padding="10" FontSize="18"/>
+                        <TextBlock Text="{Binding Path}" Padding="10, 30,10,10"/>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

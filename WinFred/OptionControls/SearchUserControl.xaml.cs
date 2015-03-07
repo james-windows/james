@@ -35,7 +35,7 @@ namespace WinFred.OptionControls
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            Config.GetInstance().Paths.Add(new Path(){Location = result.ToString()});
+            Config.GetInstance().Paths.Add(new Path() { Location = dialog.SelectedPath });
         }
 
         private void RemoveFolderButton_Click(object sender, RoutedEventArgs e)
