@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -44,7 +45,7 @@ namespace WinFred
         #endregion
 
         #region fields
-        public List<Path> Paths { get; set; }
+        public ObservableCollection<Path> Paths { get; set; }
         public List<string> DefaultFileExtensions { get; set; } 
 
         public int MaxSearchResults;
@@ -56,7 +57,7 @@ namespace WinFred
         #endregion
         private Config()
         {
-            Paths = new List<Path>();
+            Paths = new ObservableCollection<Path>();
             DefaultFileExtensions = new List<string>();
             
         }

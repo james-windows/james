@@ -7,9 +7,21 @@
     <Grid>
         <WrapPanel>
             <GroupBox Header="Folders to be searched" Width="400">
-                <ListView Height="400" Margin="20">
-
-                </ListView>
+                <StackPanel>
+                    <ListBox x:Name="PathListBox" Height="400" Margin="20">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Path=Location}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <WrapPanel>
+                        <Button x:Name="AddFolderButton" Content="Add Folder" Width="194" Click="AddFolderButton_Click"/>
+                        <Button x:Name="RemoveFolderButton" Content="Remove Folder" Width="194" Click="RemoveFolderButton_Click"/>
+                    </WrapPanel>
+                </StackPanel>
             </GroupBox>
             <GroupBox Header="Index Settings" Width="400">
                 <StackPanel>
