@@ -31,7 +31,6 @@ namespace WinFred
             this.Visibility = Visibility.Hidden;
 
             search = SearchEngine.GetInstance();
-            search.InitSearch();
 
             Config.GetInstance();
         }
@@ -124,7 +123,7 @@ namespace WinFred
             }
             else if (e.KeyboardDevice.IsKeyDown(Key.Enter) && SearchResultListBox.SelectedItem != null)
             {
-                Process.Start(((SearchResult)SearchResultListBox.SelectedItem).Path);
+                ((SearchResult)SearchResultListBox.SelectedItem).Open();
                 HideWindow();
             }
         }
@@ -138,8 +137,8 @@ namespace WinFred
             Dispatcher.BeginInvoke((Action)(() =>
             {
                 ObservableCollection<SearchResult> resultList = new ObservableCollection<SearchResult>();
-                foreach (string x in res)
-                    resultList.Add(new SearchResult() { Path = x });
+                foreach (SearchResult x in res)
+                    resultList.Add(x);
                 SearchResultListBox.ItemsSource = resultList;
             }));
         }

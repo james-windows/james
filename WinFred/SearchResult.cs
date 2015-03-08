@@ -10,6 +10,8 @@ namespace WinFred
 {
     public class SearchResult
     {
+        public string Id { get; set; }
+        public int Priority { get; set; }
         public string Path { get; set; }
 
         public string Filename
@@ -18,6 +20,12 @@ namespace WinFred
             {
                 return Path.Substring(Path.LastIndexOf('\\') + 1);
             }
+        }
+
+        public void Open()
+        {
+            System.Diagnostics.Process.Start(Path);
+            SearchEngine.GetInstance().IncrementPriority(this);
         }
     }
 }

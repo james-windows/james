@@ -38,8 +38,12 @@ namespace WinFred
             config.MaxSearchResults = 10;
             config.StartSearchMinTextLength = 3;
             config.Paths.Add(new Path() { Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) });
-            string xml = HelperClass.Serialize(config);
-            File.WriteAllText(config.ConfigFolderLocation + "\\config.xml", xml);
+            config.Persist();
+        }
+
+        public void Persist()
+        {
+            File.WriteAllText(config.ConfigFolderLocation + "\\config.xml", HelperClass.Serialize(config));
         }
 
         #endregion
