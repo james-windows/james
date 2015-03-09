@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace WinFred
 {
@@ -19,6 +22,24 @@ namespace WinFred
             get
             {
                 return Path.Substring(Path.LastIndexOf('\\') + 1);
+            }
+        }
+
+        public ImageSource Icon
+        {
+            get
+            {
+                if (File.Exists(Path))
+                {
+                    Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(Path);
+                    if (ico != null) return HelperClass.ToImageSource(ico);
+                }
+                else
+                {
+                    
+                }
+                
+                return null;
             }
         }
 

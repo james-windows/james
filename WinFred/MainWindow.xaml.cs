@@ -123,8 +123,8 @@ namespace WinFred
             }
             else if (e.KeyboardDevice.IsKeyDown(Key.Enter) && SearchResultListBox.SelectedItem != null)
             {
-                ((SearchResult)SearchResultListBox.SelectedItem).Open();
                 HideWindow();
+                ((SearchResult)SearchResultListBox.SelectedItem).Open();
             }
         }
         private int SEARCH_ID;
