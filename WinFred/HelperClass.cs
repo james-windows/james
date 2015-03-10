@@ -29,7 +29,8 @@ namespace WinFred
                 using (var writer = XmlWriter.Create(stringWriter))
                 {
                     xmlserializer.Serialize(writer, value);
-                    return stringWriter.ToString();
+                    XDocument doc = XDocument.Parse(stringWriter.ToString());
+                    return doc.ToString();
                 }
             }
             catch (Exception ex)
