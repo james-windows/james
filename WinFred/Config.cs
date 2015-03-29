@@ -35,7 +35,7 @@ namespace WinFred
         {
             config = new Config();
             config.ConfigFolderLocation = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WinFred";
-            config.MaxSearchResults = 10;
+            config.MaxSearchResults = 8;
             config.StartSearchMinTextLength = 3;
             config.Paths.Add(new Path() { Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) });
             config.Persist();

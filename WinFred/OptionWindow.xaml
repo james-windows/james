@@ -1,77 +1,45 @@
-﻿<Window x:Class="WinFred.OptionWindow"
+﻿<Controls:MetroWindow x:Class="WinFred.OptionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:optionControls="clr-namespace:WinFred.OptionControls"
-        Title="WinFred - Settings"  WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+        Title="WinFred - Settings"  WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        EnableDWMDropShadow="True"
+        >
+    
     <Grid>
         <TabControl>
-            <TabItem Height="50" Width="100" Foreground="#FF686868">
-                <TabItem.Header>
-                    <Grid>
-                        <Image Source="Icons/General.png" Margin="0,0,0,15" />
-                        <TextBlock Text="General" Margin="0,30,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </Grid>
-                </TabItem.Header>
-                <Grid Background="#FFE5E5E5" Height="600" Width="800">
+            <TabItem Header="General">
+                <Grid Height="600" Width="800">
                     <optionControls:GeneralUserControl />
                 </Grid>
             </TabItem>
-            <TabItem Height="50" Width="100" Foreground="#FF686868">
-                <TabItem.Header>
-                    <Grid>
-                        <Image Source="Icons/Search.png" Margin="0,0,0,15" />
-                        <TextBlock Text="Search" Margin="0,30,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </Grid>
-                </TabItem.Header>
-                <Grid Background="#FFE5E5E5" Height="600" Width="800">
+            <TabItem Header="Search">
+                <Grid Height="600" Width="800">
                     <optionControls:SearchUserControl/>
                 </Grid>
             </TabItem>
-            <TabItem Height="50" Width="100"  Foreground="#FF686868">
-                <TabItem.Header>
-                    <Grid>
-                        <Image Source="Icons/Workflows.png" Margin="0,0,0,15" />
-                        <TextBlock Text="Workflows" Margin="0,30,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </Grid>
-                </TabItem.Header>
-                <Grid Background="#FFE5E5E5" Height="600" Width="800">
+            <TabItem Header="Workflows">
+                <Grid Height="600" Width="800">
                     <optionControls:WorkflowsUserControl />
                 </Grid>
             </TabItem>
-            <TabItem Height="50" Width="100"  Foreground="#FF686868">
-                <TabItem.Header>
-                    <Grid>
-                        <Image Source="Icons/Customize.png" Margin="0,0,0,15" />
-                        <TextBlock Text="Customize" Margin="0,30,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </Grid>
-                </TabItem.Header>
-                <Grid Background="#FFE5E5E5" Height="600" Width="800">
+            <TabItem Header="Customize">
+                <Grid Height="600" Width="800">
                     <optionControls:CustomizeUserControl />
                 </Grid>
             </TabItem>
-            <TabItem Height="50" Width="100"  Foreground="#FF686868">
-                <TabItem.Header>
-                    <Grid>
-                        <Image Source="Icons/Usage.png" Margin="0,0,0,15" />
-                        <TextBlock Text="Usage" Margin="0,30,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </Grid>
-                </TabItem.Header>
-                <Grid Background="#FFE5E5E5" Height="600" Width="800">
+            <TabItem Header="Usage">
+                <Grid Height="600" Width="800">
                     <optionControls:UsageUserControl />
                 </Grid>
             </TabItem>
-            <TabItem Height="50" Width="100"  Foreground="#FF686868">
-                <TabItem.Header>
-                    <Grid>
-                        <Image Source="Icons/About.png" Margin="0,0,0,15"/>
-                        <TextBlock Text="About" Margin="0,30,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </Grid>
-                </TabItem.Header>
-                <Grid Background="#FFE5E5E5" Height="600" Width="800">
+            <TabItem Header="About">
+                <Grid Height="600" Width="800">
                     <optionControls:AboutUserControl />
                 </Grid>
             </TabItem>
         </TabControl>
 
     </Grid>
-</Window>
+</Controls:MetroWindow>

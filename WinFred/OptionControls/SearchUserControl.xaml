@@ -18,14 +18,14 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     <WrapPanel>
-                        <Button x:Name="AddFolderButton" Content="Add Folder" Width="194" Click="AddFolderButton_Click"/>
-                        <Button x:Name="RemoveFolderButton" Content="Remove Folder" Width="194" Click="RemoveFolderButton_Click"/>
+                        <Button x:Name="AddFolderButton" Content="Add Folder" Width="194" Click="AddFolderButton_Click" Style="{DynamicResource SquareButtonStyle}"/>
+                        <Button x:Name="RemoveFolderButton" Content="Remove Folder" Width="194" Click="RemoveFolderButton_Click" Style="{DynamicResource SquareButtonStyle}"/>
                     </WrapPanel>
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="Index Settings" Width="400">
                 <StackPanel>
-                    <Button x:Name="RebuildIndexButton" Content="Rebuild Index" Click="RebuildIndexButton_Click"/>
+                    <Button x:Name="RebuildIndexButton" Content="Rebuild Index" Click="RebuildIndexButton_Click" Style="{DynamicResource SquareButtonStyle}"/>
                 </StackPanel>
             </GroupBox>
         </WrapPanel>

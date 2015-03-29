@@ -11,13 +11,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 
 namespace WinFred
 {
     /// <summary>
     /// Interaction logic for OptionWindow.xaml
     /// </summary>
-    public partial class OptionWindow : Window
+    public partial class OptionWindow : MetroWindow
     {
         public OptionWindow()
         {

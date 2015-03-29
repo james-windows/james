@@ -29,6 +29,7 @@ namespace WinFred
         {
             get
             {
+                return null;
                 if (File.Exists(Path))
                 {
                     Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(Path);

@@ -10,6 +10,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace WinFred
