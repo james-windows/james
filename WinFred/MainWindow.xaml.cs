@@ -128,7 +128,7 @@ namespace WinFred
             }
         }
         private int SEARCH_ID;
-
+        private ObservableCollection<SearchResult> resultList;
         private void Search(string str, int id)
         {
             var res = search.Query(str);
@@ -136,11 +136,12 @@ namespace WinFred
                 return;
             Dispatcher.BeginInvoke((Action)(() =>
             {
-                ObservableCollection<SearchResult> resultList = new ObservableCollection<SearchResult>();
+                resultList = new ObservableCollection<SearchResult>();
                 foreach (SearchResult x in res)
                     resultList.Add(x);
                 SearchResultListBox.ItemsSource = resultList;
             }));
+
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
