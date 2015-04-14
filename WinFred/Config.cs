@@ -38,7 +38,8 @@ namespace WinFred
             config.MaxSearchResults = 8;
             config.StartSearchMinTextLength = 3;
             config.Paths.Add(new Path() { Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) });
-            config.Persist();
+            loadDefaultFileExtensions();
+            config.Persist();            
         }
 
         public void Persist()
@@ -50,7 +51,7 @@ namespace WinFred
 
         #region fields
         public ObservableCollection<Path> Paths { get; set; }
-        public List<string> DefaultFileExtensions { get; set; } 
+        public List<FileExtension> DefaultFileExtensions { get; set; } 
 
         public int MaxSearchResults;
         public int StartSearchMinTextLength;
@@ -62,8 +63,33 @@ namespace WinFred
         private Config()
         {
             Paths = new ObservableCollection<Path>();
-            DefaultFileExtensions = new List<string>();
+            DefaultFileExtensions = new List<FileExtension>();
             
+        }
+        static public void loadDefaultFileExtensions()
+        {
+            List<FileExtension> tmp = new List<FileExtension>();
+            tmp.Add(new FileExtension("exe", 100));
+            tmp.Add(new FileExtension("png", 10));
+            tmp.Add(new FileExtension("jpg", 10));
+            tmp.Add(new FileExtension("pdf", 40));
+            tmp.Add(new FileExtension("doc", 10));
+            tmp.Add(new FileExtension("c", 11));
+            tmp.Add(new FileExtension("cpp", 11));
+            tmp.Add(new FileExtension("html", 15));
+            tmp.Add(new FileExtension("js", 10));
+            tmp.Add(new FileExtension("html", 10));
+            tmp.Add(new FileExtension("msi", 80));
+            tmp.Add(new FileExtension("zip", 50));
+            tmp.Add(new FileExtension("csv", 10));
+            tmp.Add(new FileExtension("cs", 10));
+            tmp.Add(new FileExtension("cshtml", 10));
+            tmp.Add(new FileExtension("jar", 20));
+            tmp.Add(new FileExtension("java", 30));
+            tmp.Add(new FileExtension("txt", 20));
+            tmp.Add(new FileExtension("docx", 10));
+            config.DefaultFileExtensions.AddRange(tmp);
+            config.DefaultFileExtensions.Sort();
         }
     }
 
@@ -81,5 +107,24 @@ namespace WinFred
             ExcludedFolders = new List<string>();
         }
     }
+    public class FileExtension : IComparable<FileExtension>
+    {
+        public FileExtension()
+        {
 
+        }
+
+        public int Priority { get; set; }
+        public string Extension { get; set; }
+        public FileExtension(string value, int priority)
+        {
+            Priority = priority;
+            Extension = value;
+        }
+
+        public int CompareTo(FileExtension other)
+        {
+            return String.Compare(other.Extension, Extension);
+        }
+    }
 }

@@ -100,6 +100,7 @@
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
+    <Compile Include="SearchEngine\Data.cs" />
     <Compile Include="SearchEngine\SearchEngine.cs" />
     <Compile Include="SearchResult.cs" />
     <Page Include="LargeType.xaml">

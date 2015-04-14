@@ -31,40 +31,6 @@ namespace WinFred
             }
         }
 
-        public class Data
-        {
-            public Data(string path)
-            {
-                Id = System.Guid.NewGuid().ToString();
-                path = path.ToLower();
-                Path = path;
-                path = path.Replace('-', ' ').Replace(" ", "");
-                FileName = path.Substring(path.LastIndexOf('\\') + 1); 
-                
-            }
-
-            public string Id { get; set; }
-            public int Priority { get; set; }
-            public string FileName { get; set; }
-            public string Path { get; set; }
-
-            public Document GetDocument()
-            {
-                Document doc = new Document();
-                doc.Add(new Field("Id", Id, Field.Store.YES, Field.Index.NOT_ANALYZED));
-                for (int i = 0; i < FileName.Length - 1; i++)
-                    doc.Add(new Field("FileName", FileName.Substring(i), Field.Store.NO, Field.Index.ANALYZED));
-                doc.Add(new Field("Path", Path, Field.Store.YES, Field.Index.NO));
-                doc.Add(new Field("Priority", (-Priority).ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-                return doc;
-            }
-
-            public override string ToString()
-            {
-                return Path;
-            }
-        }
-
         Directory index;
         Sort sort;
         Analyzer analyzer;
@@ -79,10 +45,12 @@ namespace WinFred
         public void BuildIndex()
         {
             List<Data> data = new List<Data>();
+            DateTime date = DateTime.Now;
             foreach (var item in Config.GetInstance().Paths)
             {
                 data.AddRange(GetFiles(item.Location, "*"));
             }
+            Debug.WriteLine((DateTime.Now - date).TotalMilliseconds);
             using (IndexWriter writer = new IndexWriter(index, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 foreach (Data a in data)
@@ -94,15 +62,23 @@ namespace WinFred
         private List<Data> GetFiles(string path, string pattern)
         {
             List<Data> data = new List<Data>();
-            data.Add(new Data(path) { Priority = 1 });
             try
             {
-                foreach (var item in System.IO.Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly))
+                foreach (string item in System.IO.Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly))
                 {
-                    data.Add(new Data(item));
+                    //data.Add(new Data(item));
+                    int index = Config.GetInstance().DefaultFileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
+                    if (index >= 0)
+                    {
+                        data.Add(new Data(item, Config.GetInstance().DefaultFileExtensions[index].Priority));
+                    }
                 }
                 foreach (var directory in System.IO.Directory.GetDirectories(path))
                     data.AddRange(GetFiles(directory, pattern));
+                if (data.Count > 0)
+                {
+                    data.Add(new Data(path) {Priority = 1});
+                }            
             }
             catch (UnauthorizedAccessException) { }
             return data;
