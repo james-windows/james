@@ -44,6 +44,12 @@ namespace WinFred
 
         public void Persist()
         {
+            
+            DefaultFileExtensions.Sort();
+            foreach (var item in Paths)
+            {
+                item.FileExtensions.Sort();
+            }
             File.WriteAllText(config.ConfigFolderLocation + "\\config.xml", HelperClass.Serialize(config));
         }
 
@@ -96,15 +102,14 @@ namespace WinFred
     public class Path
     {
         public string Location { get; set; }
-        public List<string> IncludedExtensions { get; set; }
-        public List<string> ExcludedExtensions { get; set; }
-        public List<string> ExcludedFolders { get; set; }
+
+        //public List<string> ExcludedFolders { get; set; }
+
+        public List<FileExtension> FileExtensions { get; set; } 
 
         public Path()
         {
-            IncludedExtensions = new List<string>();
-            ExcludedExtensions = new List<string>();
-            ExcludedFolders = new List<string>();
+            FileExtensions = new List<FileExtension>();
         }
     }
     public class FileExtension : IComparable<FileExtension>
@@ -124,7 +129,12 @@ namespace WinFred
 
         public int CompareTo(FileExtension other)
         {
-            return String.Compare(other.Extension, Extension);
+            return String.Compare(Extension, other.Extension);
+        }
+
+        public override string ToString()
+        {
+            return Extension + " Wert: " + Priority;
         }
     }
 }

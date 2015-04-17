@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Windows.Threading;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace WinFred
@@ -31,7 +32,8 @@ namespace WinFred
             this.Visibility = Visibility.Hidden;
 
             search = SearchEngine.GetInstance();
-
+            resultList = new ObservableCollection<SearchResult>();
+            SearchResultListBox.ItemsSource = resultList;
             Config.GetInstance();
         }
 
@@ -131,22 +133,26 @@ namespace WinFred
         private ObservableCollection<SearchResult> resultList;
         private void Search(string str, int id)
         {
+            DateTime tmp = DateTime.Now;
             var res = search.Query(str);
-            if (id != SEARCH_ID - 1)
-                return;
+            
             Dispatcher.BeginInvoke((Action)(() =>
             {
-                resultList = new ObservableCollection<SearchResult>();
+                resultList.Clear();
                 foreach (SearchResult x in res)
                     resultList.Add(x);
-                SearchResultListBox.ItemsSource = resultList;
-            }));
-
+                if (res.Count > 0)
+                {
+                    SearchResultListBox.SelectedIndex = 0;    
+                }
+            }), DispatcherPriority.Send);
+            Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string str = SearchTextBox.Text;
+            //string str = "index.html";
             int id = SEARCH_ID;
             SEARCH_ID = (SEARCH_ID + 1) % 1000000007;
             new Task(() => Search(str, id)).Start();

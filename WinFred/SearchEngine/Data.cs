@@ -11,21 +11,17 @@ namespace WinFred
     {
         public Data(string path)
         {
-            Id = System.Guid.NewGuid().ToString();
-            path = path.ToLower();
-            Path = path;
-            path = path.Replace('-', ' ').Replace(" ", "");
+            Id = Guid.NewGuid().ToString();
+            Path = path.ToLower();
             FileName = path.Substring(path.LastIndexOf('\\') + 1);
         }
 
-        public Data(string path, int prioirty)
+        public Data(string path, int priority)
         {
-            Id = System.Guid.NewGuid().ToString();
-            path = path.ToLower();
-            Path = path;
-            path = path.Replace('-', ' ').Replace(" ", "");
+            Id = Guid.NewGuid().ToString();
+            Path = path.ToLower();
             FileName = path.Substring(path.LastIndexOf('\\') + 1);
-            Priority = prioirty;
+            Priority = Convert.ToInt32(priority + Math.Max(5 - Math.Sqrt(FileName.Length), 0));
         }
 
         public string Id { get; set; }
@@ -37,7 +33,7 @@ namespace WinFred
         {
             Document doc = new Document();
             doc.Add(new Field("Id", Id, Field.Store.YES, Field.Index.NOT_ANALYZED));
-            for (int i = 0; i < FileName.Length - 1; i++)
+            for (int i = 0; i < FileName.Length - 1 && i != -1; i = FileName.IndexOf(" ", i + 1))
                 doc.Add(new Field("FileName", FileName.Substring(i), Field.Store.NO, Field.Index.ANALYZED));
             doc.Add(new Field("Path", Path, Field.Store.YES, Field.Index.NO));
             doc.Add(new Field("Priority", (-Priority).ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));

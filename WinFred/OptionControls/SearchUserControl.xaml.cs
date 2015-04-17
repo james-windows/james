@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +36,11 @@ namespace WinFred.OptionControls
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            Config.GetInstance().Paths.Add(new Path() { Location = dialog.SelectedPath });
-            Config.GetInstance().Persist();
+            if (dialog.SelectedPath != "")
+            {
+                Config.GetInstance().Paths.Add(new Path() { Location = dialog.SelectedPath });
+                Config.GetInstance().Persist();
+            }
         }
 
         private void RemoveFolderButton_Click(object sender, RoutedEventArgs e)

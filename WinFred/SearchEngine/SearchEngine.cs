@@ -44,22 +44,39 @@ namespace WinFred
 
         public void BuildIndex()
         {
-            List<Data> data = new List<Data>();
+            Queue<Data> data = new Queue<Data>();
             DateTime date = DateTime.Now;
             foreach (var item in Config.GetInstance().Paths)
             {
-                data.AddRange(GetFiles(item.Location, "*"));
+                var tmp = (GetFiles(item.Location, "*", item.FileExtensions));
+                foreach (var i in tmp)
+                {
+                    data.Enqueue(i);
+                }
             }
             Debug.WriteLine((DateTime.Now - date).TotalMilliseconds);
+            Debug.WriteLine("Count: " + data.Count);
+            int cnt = 0;
             using (IndexWriter writer = new IndexWriter(index, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
             {
-                foreach (Data a in data)
-                    writer.AddDocument(a.GetDocument());
+                while (data.Count > 0)
+                {
+                    if (data.First().Priority >= 0)
+                    {
+                        writer.AddDocument(data.Dequeue().GetDocument());
+                        cnt++;
+                    }
+                    else
+                    {
+                        data.Dequeue();
+                    }
+                } 
                 writer.Optimize();
             }
-            Trace.WriteLine("index built! Count: " + data.Count);
+            Debug.WriteLine("index built! Count: " + cnt);
+            Debug.WriteLine((DateTime.Now - date).TotalMilliseconds);
         }
-        private List<Data> GetFiles(string path, string pattern)
+        private List<Data> GetFiles(string path, string pattern, List<FileExtension> fileExtensions)
         {
             List<Data> data = new List<Data>();
             try
@@ -67,14 +84,22 @@ namespace WinFred
                 foreach (string item in System.IO.Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly))
                 {
                     //data.Add(new Data(item));
-                    int index = Config.GetInstance().DefaultFileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
+                    int index = fileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
                     if (index >= 0)
                     {
-                        data.Add(new Data(item, Config.GetInstance().DefaultFileExtensions[index].Priority));
+                        data.Add(new Data(item, fileExtensions[index].Priority));
+                    }
+                    else
+                    {
+                        index = Config.GetInstance().DefaultFileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
+                        if (index >= 0)
+                        {
+                            data.Add(new Data(item, Config.GetInstance().DefaultFileExtensions[index].Priority));
+                        }
                     }
                 }
                 foreach (var directory in System.IO.Directory.GetDirectories(path))
-                    data.AddRange(GetFiles(directory, pattern));
+                    data.AddRange(GetFiles(directory, pattern, fileExtensions));
                 if (data.Count > 0)
                 {
                     data.Add(new Data(path) {Priority = 1});
