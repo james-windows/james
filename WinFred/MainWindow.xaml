@@ -17,7 +17,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="{Binding Icon}"/>
+                        <TextBlock Grid.Column="0" Text="{Binding Priority}"/>
                         <TextBlock Grid.Column="1" Text="{Binding Filename}" Padding="10" FontSize="18"/>
                         <TextBlock Grid.Column="1" Text="{Binding Path}" Padding="10, 30,10,10"/>
                     </Grid>

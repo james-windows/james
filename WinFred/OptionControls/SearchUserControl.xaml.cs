@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,13 +31,14 @@ namespace WinFred.OptionControls
 
         private void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
         {
-            SearchEngine.GetInstance().BuildIndex();
+            Task tmp = new Task(() => SearchEngine.GetInstance().BuildIndex());
+            tmp.Start();
         }
 
         private void AddFolderButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            dialog.ShowDialog();
             if (dialog.SelectedPath != "")
             {
                 Config.GetInstance().Paths.Add(new Path() { Location = dialog.SelectedPath });

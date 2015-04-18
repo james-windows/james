@@ -48,7 +48,7 @@ namespace WinFred
             DateTime date = DateTime.Now;
             foreach (var item in Config.GetInstance().Paths)
             {
-                var tmp = (GetFiles(item.Location, "*", item.FileExtensions));
+                var tmp = (GetFiles(item.Location, "*", item));
                 foreach (var i in tmp)
                 {
                     data.Enqueue(i);
@@ -76,7 +76,7 @@ namespace WinFred
             Debug.WriteLine("index built! Count: " + cnt);
             Debug.WriteLine((DateTime.Now - date).TotalMilliseconds);
         }
-        private List<Data> GetFiles(string path, string pattern, List<FileExtension> fileExtensions)
+        private List<Data> GetFiles(string path, string pattern, Path folderPath)
         {
             List<Data> data = new List<Data>();
             try
@@ -84,25 +84,25 @@ namespace WinFred
                 foreach (string item in System.IO.Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly))
                 {
                     //data.Add(new Data(item));
-                    int index = fileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
+                    int index = folderPath.FileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
                     if (index >= 0)
                     {
-                        data.Add(new Data(item, fileExtensions[index].Priority));
+                        data.Add(new Data(item, folderPath.FileExtensions[index].Priority + folderPath.Priority));
                     }
                     else
                     {
                         index = Config.GetInstance().DefaultFileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
                         if (index >= 0)
                         {
-                            data.Add(new Data(item, Config.GetInstance().DefaultFileExtensions[index].Priority));
+                            data.Add(new Data(item, Config.GetInstance().DefaultFileExtensions[index].Priority + folderPath.Priority));
                         }
                     }
                 }
                 foreach (var directory in System.IO.Directory.GetDirectories(path))
-                    data.AddRange(GetFiles(directory, pattern, fileExtensions));
+                    data.AddRange(GetFiles(directory, pattern, folderPath));
                 if (data.Count > 0)
                 {
-                    data.Add(new Data(path) {Priority = 1});
+                    data.Add(new Data(path) {Priority = 80});
                 }            
             }
             catch (UnauthorizedAccessException) { }
@@ -120,16 +120,15 @@ namespace WinFred
 
         public List<SearchResult> Query(string str)
         {
-            int limit = Config.GetInstance().MaxSearchResults;
             if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
                 return new List<SearchResult>();
-            str = str.Replace('-', ' ').Replace(" ", "").ToLower();
+            str = str.ToLower();
             Query query = new PrefixQuery(new Term("FileName", str.Trim()));
             using (IndexReader reader = IndexReader.Open(index, true))
             {
                 using (Searcher searcher = new IndexSearcher(reader))
                 {
-                    TopFieldDocs docs = searcher.Search(query, new QueryWrapperFilter(query), limit, sort);
+                    TopFieldDocs docs = searcher.Search(query, new QueryWrapperFilter(query), Config.GetInstance().MaxSearchResults, sort);
                     ScoreDoc[] res = docs.ScoreDocs;
                     List<SearchResult> match = new List<SearchResult>();
                     foreach (ScoreDoc scoreDoc in res)
