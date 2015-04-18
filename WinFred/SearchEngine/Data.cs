@@ -35,7 +35,7 @@ namespace WinFred
             doc.Add(new Field("Id", Id, Field.Store.YES, Field.Index.NOT_ANALYZED));
             for (int i = 0; i < FileName.Length - 1 && i != -1; i = FileName.IndexOf(" ", i + 1))
                 doc.Add(new Field("FileName", FileName.Substring(i), Field.Store.NO, Field.Index.ANALYZED));
-            doc.Add(new Field("Path", Path, Field.Store.YES, Field.Index.NO));
+            doc.Add(new Field("Path", Path, Field.Store.YES, Field.Index.ANALYZED));
             doc.Add(new Field("Priority", (-Priority).ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
             return doc;
         }

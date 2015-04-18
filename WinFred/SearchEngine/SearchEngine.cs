@@ -148,7 +148,7 @@ namespace WinFred
 
         public void IncrementPriority(SearchResult result)
         {
-            Data data = new Data(result.Path) { Id = result.Id, Priority = result.Priority + 1 };
+            Data data = new Data(result.Path) { Id = result.Id, Priority = Math.Abs(result.Priority) + 5 };
             using (IndexWriter writer = new IndexWriter(index, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 writer.UpdateDocument(new Term("Id", result.Id), data.GetDocument());
@@ -156,6 +156,40 @@ namespace WinFred
             }
         }
 
+        public void DeleteFile(String path)
+        {
+            using (IndexWriter writer = new IndexWriter(index, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+            {
+                Query query = new PrefixQuery(new Term("Path", path.ToLower()));
+                writer.DeleteDocuments(query);
+                writer.Commit();
+            }
+        }
+
+        public void IncrementPriority(String path)
+        {
+            using (IndexReader reader = IndexReader.Open(index, true))
+            {
+                Query query = new PrefixQuery(new Term("Path", path.ToLower()));
+                using (Searcher searcher = new IndexSearcher(reader))
+                {
+                    ScoreDoc[] res = searcher.Search(query, new QueryWrapperFilter(query), 1, sort).ScoreDocs;
+                    if (res.Length == 0)
+                    {
+                        return;
+                    }
+                    ScoreDoc scoreDoc = res[0];
+                    Document doc = searcher.Doc(scoreDoc.Doc);
+                    SearchResult item = new SearchResult()
+                    {
+                        Id = doc.Get("Id"),
+                        Priority = Convert.ToInt32(doc.Get("Priority")) + 5,
+                        Path = doc.Get("Path")
+                    };
+                    IncrementPriority(item);
+                }
+            }
+        }
     }
 
 }

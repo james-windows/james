@@ -27,8 +27,8 @@ namespace WinFred
         {
             InitializeComponent();
             var _hotKey = new HotKey(Key.Space, KeyModifier.Alt, OnHotKeyHandler);
-            //FileSystemWatcher watcher = new FileSystemWatcher(@"C:\Users\fleimgruber\Desktop");
-            //initFileSystemWatcher(ref watcher);
+            FileSystemWatcher watcher = new FileSystemWatcher(@"C:");
+            InitFileSystemWatcher(ref watcher);
             this.Visibility = Visibility.Hidden;
 
             search = SearchEngine.GetInstance();
@@ -68,18 +68,74 @@ namespace WinFred
 
         private void InitFileSystemWatcher(ref FileSystemWatcher watcher)
         {
-            watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastAccess;
+            //watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastAccess;
             watcher.IncludeSubdirectories = true;
          //   watcher.Filter = @"^.*\.(pdf|txt|html|doc|docx|csv|cs|c|cpp|exe|msi|zip|rar|xml|xaml|js|css|jpg|png|jpeg|gif|mp4|mp3)$";
             watcher.Created += file_Changed;
+            watcher.Deleted += file_Changed;
             watcher.Renamed += file_Changed;
+            watcher.Changed += file_Changed;
             watcher.EnableRaisingEvents = true;
         }
 
         void file_Changed(object sender, FileSystemEventArgs e)
         {
-         //   Trace.WriteLine("ok: "+e.FullPath);
-          //  search.AddFile(new SearchEngine.Data(e.FullPath) { Priority = 2 });
+            String path = e.FullPath;
+            Path isInterestingPath = null;
+            foreach (Path item in Config.GetInstance().Paths)
+            {
+                if (path.ToLower().StartsWith(item.Location.ToLower()))
+                {
+                    isInterestingPath = item;
+                    break;
+                }
+            }
+
+            if (isInterestingPath != null)//look if ending is interesting
+            {
+                FileExtension interestingFileExtension = null;
+                String fileExtension = path.Split('.').Last();
+                foreach (FileExtension item in isInterestingPath.FileExtensions)
+                {
+                    if (fileExtension == item.Extension)
+                    {
+                        interestingFileExtension = item;
+                        break;
+                    }
+                }
+                if (interestingFileExtension == null)
+                {
+                    foreach (FileExtension item in Config.GetInstance().DefaultFileExtensions)
+                    {
+                        if (fileExtension == item.Extension)
+                        {
+                            interestingFileExtension = item;
+                            break;
+                        }
+                    }
+                }
+                if (interestingFileExtension != null) //matching file
+                {
+                    if (e.ChangeType == WatcherChangeTypes.Created)
+                    {
+                        search.AddFile(new Data(path, interestingFileExtension.Priority));
+                    }
+                    else if (e.ChangeType == WatcherChangeTypes.Changed)
+                    {
+                        search.IncrementPriority(path);
+                    }
+                    else if (e.ChangeType == WatcherChangeTypes.Deleted)
+                    {
+                        search.DeleteFile(path);
+                    }
+                    //else if (e.ChangeType == WatcherChangeTypes.Renamed)
+                    //{
+                        
+                    //}
+                }
+            }
+            //   Trace.WriteLine("ok: "+e.FullPath);
+            //  search.AddFile(new SearchEngine.Data(e.FullPath) { Priority = 2 });
             //do stuff
             //MessageBox.Show("new File created!: " + e.FullPath);
         }
