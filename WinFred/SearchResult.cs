@@ -52,8 +52,21 @@ namespace WinFred
 
         public void Open()
         {
-            System.Diagnostics.Process.Start(Path);
+            Process.Start(Path);
             SearchEngine.GetInstance().IncrementPriority(this);
+        }
+
+        public void OpenFolder()
+        {
+            if (Directory.Exists(Path))
+            {
+                Open();
+            }
+            else
+            {
+                Process.Start(Path.Substring(0, Path.LastIndexOf('\\')));
+                SearchEngine.GetInstance().IncrementPriority(this);
+            }
         }
     }
 }

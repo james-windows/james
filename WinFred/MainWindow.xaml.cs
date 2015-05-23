@@ -182,7 +182,14 @@ namespace WinFred
             else if (e.KeyboardDevice.IsKeyDown(Key.Enter) && SearchResultListBox.SelectedItem != null)
             {
                 HideWindow();
-                ((SearchResult)SearchResultListBox.SelectedItem).Open();
+                if (!(e.KeyboardDevice.IsKeyDown(Key.LeftShift) || e.KeyboardDevice.IsKeyDown(Key.RightShift)))
+                {
+                    ((SearchResult)SearchResultListBox.SelectedItem).Open();
+                }
+                else
+                {
+                    ((SearchResult)SearchResultListBox.SelectedItem).OpenFolder();
+                }
             }
         }
         private int SEARCH_ID;

@@ -13,6 +13,7 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Directory = Lucene.Net.Store.Directory;
+using Version = Lucene.Net.Util.Version;
 
 namespace WinFred
 {
@@ -21,7 +22,7 @@ namespace WinFred
         private static SearchEngine searchEngine;
         private static object singeltonLock = new object();
 
-        public  static SearchEngine GetInstance()
+        public static SearchEngine GetInstance()
         {
             lock (singeltonLock)
             {
@@ -38,7 +39,10 @@ namespace WinFred
         private SearchEngine()
         {
             index = FSDirectory.Open(Config.GetInstance().ConfigFolderLocation + "\\Index");
-            analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            analyzer = new StandardAnalyzer(Version.LUCENE_30);
+            //analyzer = new SimpleAnalyzer();
+            //analyzer = new WhitespaceAnalyzer();
+            //analyzer = new KeywordAnalyzer();
             sort = new Sort(new SortField[] { SortField.FIELD_SCORE, new SortField("Priority", SortField.INT) });
         }
 
@@ -61,17 +65,11 @@ namespace WinFred
             {
                 while (data.Count > 0)
                 {
-                    if (data.First().Priority >= 0)
-                    {
-                        writer.AddDocument(data.Dequeue().GetDocument());
-                        cnt++;
-                    }
-                    else
-                    {
-                        data.Dequeue();
-                    }
+                    writer.AddDocument(data.Dequeue().GetDocument());
+                    cnt++;
                 } 
                 writer.Optimize();
+                writer.Commit();
             }
             Debug.WriteLine("index built! Count: " + cnt);
             Debug.WriteLine((DateTime.Now - date).TotalMilliseconds);
@@ -115,6 +113,7 @@ namespace WinFred
             {
                 writer.AddDocument(data.GetDocument());
                 writer.Optimize();
+                writer.Commit();
             }
         }
 
@@ -123,7 +122,14 @@ namespace WinFred
             if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
                 return new List<SearchResult>();
             str = str.ToLower();
+            //BooleanQuery query = new BooleanQuery();
+            //foreach (var item in str.Trim().Split(' '))
+            //{
+            //    query.Add(new BooleanClause(new PrefixQuery(new Term("FileName", item)), Occur.SHOULD));
+            //}
+
             Query query = new PrefixQuery(new Term("FileName", str.Trim()));
+            
             using (IndexReader reader = IndexReader.Open(index, true))
             {
                 using (Searcher searcher = new IndexSearcher(reader))
@@ -152,6 +158,7 @@ namespace WinFred
             using (IndexWriter writer = new IndexWriter(index, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 writer.UpdateDocument(new Term("Id", result.Id), data.GetDocument());
+                writer.Optimize();
                 writer.Commit();
             }
         }
@@ -162,6 +169,7 @@ namespace WinFred
             {
                 Query query = new PrefixQuery(new Term("Path", path.ToLower()));
                 writer.DeleteDocuments(query);
+                writer.Optimize();
                 writer.Commit();
             }
         }
@@ -173,7 +181,7 @@ namespace WinFred
                 Query query = new PrefixQuery(new Term("Path", path.ToLower()));
                 using (Searcher searcher = new IndexSearcher(reader))
                 {
-                    ScoreDoc[] res = searcher.Search(query, new QueryWrapperFilter(query), 1, sort).ScoreDocs;
+                    ScoreDoc[] res = searcher.Search(query, new QueryWrapperFilter(query), 10, sort).ScoreDocs;
                     if (res.Length == 0)
                     {
                         return;

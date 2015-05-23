@@ -33,10 +33,12 @@ namespace WinFred
         {
             Document doc = new Document();
             doc.Add(new Field("Id", Id, Field.Store.YES, Field.Index.NOT_ANALYZED));
-            for (int i = 0; i < FileName.Length - 1 && i != -1; i = FileName.IndexOf(" ", i + 1))
-                doc.Add(new Field("FileName", FileName.Substring(i), Field.Store.NO, Field.Index.ANALYZED));
-            doc.Add(new Field("Path", Path, Field.Store.YES, Field.Index.ANALYZED));
-            doc.Add(new Field("Priority", (-Priority).ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+            foreach (String item in FileName.Split(' '))
+            {
+                doc.Add(new Field("FileName", item, Field.Store.YES, Field.Index.ANALYZED));
+            }
+            doc.Add(new Field("Path", Path, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS));
+            doc.Add(new Field("Priority", (-Priority).ToString(), Field.Store.YES, Field.Index.ANALYZED_NO_NORMS));
             return doc;
         }
 
