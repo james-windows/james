@@ -81,13 +81,15 @@ namespace WinFred
             {
                 foreach (string item in System.IO.Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly))
                 {
-                    //data.Add(new Data(item));
                     int index = folderPath.FileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
-                    if (index >= 0)
+                    if (index >= 0) //Is file extention found in the folder file extensions
                     {
-                        data.Add(new Data(item, folderPath.FileExtensions[index].Priority + folderPath.Priority));
+                        if (folderPath.FileExtensions[index].Priority >= 0)
+                        {
+                            data.Add(new Data(item, folderPath.FileExtensions[index].Priority + folderPath.Priority));    
+                        }
                     }
-                    else
+                    else //else look into the defaultfileextensions
                     {
                         index = Config.GetInstance().DefaultFileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
                         if (index >= 0)
@@ -96,8 +98,11 @@ namespace WinFred
                         }
                     }
                 }
-                foreach (var directory in System.IO.Directory.GetDirectories(path))
+                foreach (String directory in System.IO.Directory.GetDirectories(path))
+                {
+                    DirectoryInfo di = new DirectoryInfo(directory);
                     data.AddRange(GetFiles(directory, pattern, folderPath));
+                }
                 if (data.Count > 0)
                 {
                     data.Add(new Data(path) {Priority = 80});

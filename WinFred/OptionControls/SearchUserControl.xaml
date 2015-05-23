@@ -9,27 +9,37 @@
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Folders to be searched" Grid.Column="0">
-            <StackPanel>
-                <ListBox x:Name="PathListBox" Height="400" Margin="20">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path=Location}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <WrapPanel>
-                    <Button x:Name="AddFolderButton" Content="Add Folder" Width="194" Click="AddFolderButton_Click" Style="{DynamicResource SquareButtonStyle}"/>
-                    <Button x:Name="RemoveFolderButton" Content="Remove Folder" Width="194" Click="RemoveFolderButton_Click" Style="{DynamicResource SquareButtonStyle}"/>
-                </WrapPanel>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Header="Index Settings" Grid.Column="1">
-            <StackPanel>
-                <Button x:Name="RebuildIndexButton" Content="Rebuild Index" Click="RebuildIndexButton_Click" Style="{DynamicResource SquareButtonStyle}"/>
-            </StackPanel>
-        </GroupBox>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="520px"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Folders to be searched" Grid.Row="0">
+                <StackPanel>
+                    <ListBox x:Name="PathListBox" Height="400" Margin="20">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Path=Location}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="189"/>
+                            <ColumnDefinition Width="189"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="AddFolderButton" Grid.Column="0" Content="Add Folder" Width="184" Click="AddFolderButton_Click" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Center" Margin="4,0,1,0"/>
+                        <Button x:Name="RemoveFolderButton" Grid.Column="1" Content="Remove Folder" Width="184" Click="RemoveFolderButton_Click" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Center" Margin="3,0,0,0"/>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Index Settings" Grid.Row="1">
+                <StackPanel>
+                    <Button x:Name="RebuildIndexButton" Content="Rebuild Index" Click="RebuildIndexButton_Click" Style="{DynamicResource SquareButtonStyle}"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>
