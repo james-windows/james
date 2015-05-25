@@ -68,7 +68,6 @@ namespace WinFred
 
         private void InitFileSystemWatcher(ref FileSystemWatcher watcher)
         {
-            //watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastAccess;
             watcher.IncludeSubdirectories = true;
          //   watcher.Filter = @"^.*\.(pdf|txt|html|doc|docx|csv|cs|c|cpp|exe|msi|zip|rar|xml|xaml|js|css|jpg|png|jpeg|gif|mp4|mp3)$";
             watcher.Created += file_Changed;
@@ -134,10 +133,6 @@ namespace WinFred
                     //}
                 }
             }
-            //   Trace.WriteLine("ok: "+e.FullPath);
-            //  search.AddFile(new SearchEngine.Data(e.FullPath) { Priority = 2 });
-            //do stuff
-            //MessageBox.Show("new File created!: " + e.FullPath);
         }
 
         private void SearchResultListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -215,7 +210,6 @@ namespace WinFred
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string str = SearchTextBox.Text;
-            //string str = "index.html";
             int id = SEARCH_ID;
             SEARCH_ID = (SEARCH_ID + 1) % 1000000007;
             new Task(() => Search(str, id)).Start();

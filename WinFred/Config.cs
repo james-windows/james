@@ -117,15 +117,13 @@ namespace WinFred
             set
             {
                 _isEnabled = value;
-                OnPropertyChanged("IsEnabled");
+                OnPropertyChanged();
             }
         }
 
         public string Location { get; set; }
 
         public int Priority { get; set; }
-
-        //public List<string> ExcludedFolders { get; set; }
 
         public List<FileExtension> FileExtensions { get; set; } 
 
