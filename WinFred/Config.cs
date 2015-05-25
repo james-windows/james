@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WinFred.Annotations;
 
 namespace WinFred
 {
@@ -42,6 +45,9 @@ namespace WinFred
             config.Persist();            
         }
 
+        /// <summary>
+        /// Saves the current configuration as xml in the config for
+        /// </summary>
         public void Persist()
         {
             
@@ -94,13 +100,27 @@ namespace WinFred
             tmp.Add(new FileExtension("java", 30));
             tmp.Add(new FileExtension("txt", 20));
             tmp.Add(new FileExtension("docx", 10));
+            tmp.Add(new FileExtension("xmcd", 39));
+            tmp.Add(new FileExtension("mcdx", 40));
             config.DefaultFileExtensions.AddRange(tmp);
             config.DefaultFileExtensions.Sort();
         }
     }
 
-    public class Path
+    public class Path:INotifyPropertyChanged
     {
+        private bool _isEnabled = true;
+
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged("IsEnabled");
+            }
+        }
+
         public string Location { get; set; }
 
         public int Priority { get; set; }
@@ -112,6 +132,15 @@ namespace WinFred
         public Path()
         {
             FileExtensions = new List<FileExtension>();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
     public class FileExtension : IComparable<FileExtension>

@@ -84,7 +84,7 @@ namespace WinFred
             Path isInterestingPath = null;
             foreach (Path item in Config.GetInstance().Paths)
             {
-                if (path.ToLower().StartsWith(item.Location.ToLower()))
+                if (path.ToLower().StartsWith(item.Location.ToLower()) && item.IsEnabled)
                 {
                     isInterestingPath = item;
                     break;

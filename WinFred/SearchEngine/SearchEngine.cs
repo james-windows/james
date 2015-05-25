@@ -52,10 +52,13 @@ namespace WinFred
             DateTime date = DateTime.Now;
             foreach (var item in Config.GetInstance().Paths)
             {
-                var tmp = (GetFiles(item.Location, "*", item));
-                foreach (var i in tmp)
+                if (item.IsEnabled)
                 {
-                    data.Enqueue(i);
+                    var tmp = (GetFiles(item.Location, "*", item));
+                    foreach (var i in tmp)
+                    {
+                        data.Enqueue(i);
+                    }
                 }
             }
             Debug.WriteLine((DateTime.Now - date).TotalMilliseconds);
@@ -100,7 +103,6 @@ namespace WinFred
                 }
                 foreach (String directory in System.IO.Directory.GetDirectories(path))
                 {
-                    DirectoryInfo di = new DirectoryInfo(directory);
                     data.AddRange(GetFiles(directory, pattern, folderPath));
                 }
                 if (data.Count > 0)

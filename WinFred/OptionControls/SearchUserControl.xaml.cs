@@ -51,5 +51,34 @@ namespace WinFred.OptionControls
             Config.GetInstance().Paths.Remove((Path)PathListBox.SelectedItem);
             Config.GetInstance().Persist();
         }
+
+        /// <summary>
+        /// reverts the isEnabled Propertie
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeStatusMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (PathListBox.SelectedItem != null)
+            {
+                int index = Config.GetInstance().Paths.IndexOf((Path) PathListBox.SelectedItem);
+                Config.GetInstance().Paths[index].IsEnabled = !((Path)PathListBox.SelectedItem).IsEnabled;
+                Config.GetInstance().Persist();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the current selected item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeletePathMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (PathListBox.SelectedItem != null)
+            {
+                Config.GetInstance().Paths.Remove((Path) PathListBox.SelectedItem);
+                Config.GetInstance().Persist();
+            }
+        }
     }
 }
