@@ -27,6 +27,7 @@ namespace WinFred.OptionControls
         {
             InitializeComponent();
             PathListBox.ItemsSource = Config.GetInstance().Paths;
+            FileExtensionsDataGrid.ItemsSource = Config.GetInstance().DefaultFileExtensions;
         }
 
         private void RebuildIndexButton_Click(object sender, RoutedEventArgs e)

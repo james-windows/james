@@ -75,5 +75,12 @@
                 </StackPanel>
             </GroupBox>
         </Grid>
+        <Grid Column="2">
+            <GroupBox Header="Details per folder" VerticalContentAlignment="Stretch">
+                <DataGrid x:Name="FileExtensionsDataGrid">
+                    
+                </DataGrid>
+            </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>

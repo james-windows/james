@@ -210,9 +210,62 @@ namespace WinFred
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string str = SearchTextBox.Text;
-            int id = SEARCH_ID;
-            SEARCH_ID = (SEARCH_ID + 1) % 1000000007;
-            new Task(() => Search(str, id)).Start();
+            if (str == "suppl")
+            {
+                resultList.Clear();
+                OutputWebBrowser.Visibility = Visibility.Visible;
+                Process proc = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "powershell.exe",
+                        Arguments = "-Command \"& {Get-Supplierplan}\"",
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        CreateNoWindow = false
+                    }
+                };
+                new Task(() => { 
+                    proc.Start() ;
+                    string line = "";
+                    while (!proc.StandardOutput.EndOfStream)
+                    {
+                        line += proc.StandardOutput.ReadLine();
+                        // do something with line
+                    }
+                    line = BuildHTML(line);
+                    Dispatcher.BeginInvoke((Action) (() =>
+                    {
+                        OutputWebBrowser.NavigateToString(line);
+                    }), DispatcherPriority.Send);
+                }).Start();
+
+            }
+            else
+            {
+                dynamic doc=OutputWebBrowser.Document;
+                OutputWebBrowser.Navigate("about:blank");
+                OutputWebBrowser.Visibility = Visibility.Collapsed;
+                int id = SEARCH_ID;
+                SEARCH_ID = (SEARCH_ID + 1) % 1000000007;
+                new Task(() => Search(str, id)).Start();
+            }
+        }
+        public string BuildHTML(string htmlFromWS)
+        {
+            StringBuilder html = new StringBuilder(@"<!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset=""utf-8"" />
+                        <link rel=""stylesheet"" 
+                          type=""text/css"" 
+                          href=""http://holdirbootstrap.de/dist/css/bootstrap.min.css"" />
+                    </head>
+                    <body style=""-webkit-user-select: none;"">");
+
+            html.Append(htmlFromWS.Replace("suppldata", "\"table table-bordered table-striped\""));
+            html.Append("</body></html>");
+            return html.ToString();
         }
     }
 }
