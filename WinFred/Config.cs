@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using WinFred.Annotations;
 
 namespace WinFred
@@ -42,6 +44,7 @@ namespace WinFred
             config.StartSearchMinTextLength = 3;
             config.Paths.Add(new Path() { Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) });
             loadDefaultFileExtensions();
+            //add suppl workflow
             config.Persist();            
         }
 
@@ -63,7 +66,9 @@ namespace WinFred
 
         #region fields
         public ObservableCollection<Path> Paths { get; set; }
-        public List<FileExtension> DefaultFileExtensions { get; set; } 
+        public List<FileExtension> DefaultFileExtensions { get; set; }
+
+        public List<Workflow> Workflows { get; set; } 
 
         public int MaxSearchResults;
         public int StartSearchMinTextLength;
@@ -76,6 +81,7 @@ namespace WinFred
         {
             Paths = new ObservableCollection<Path>();
             DefaultFileExtensions = new List<FileExtension>();
+            Workflows = new List<Workflow>();
             
         }
         static public void loadDefaultFileExtensions()
@@ -164,6 +170,52 @@ namespace WinFred
         public override string ToString()
         {
             return Extension + " Wert: " + Priority;
+        }
+    }
+
+    public class Workflow
+    {
+        public Workflow()
+        {
+            
+        }
+
+        public bool ShowProcessWindow { get; set; }
+        public string Name { get; set; }
+
+        public string Keyword { get; set; }
+
+        public string ProgramName { get; set; }
+        public string Arguments { get; set; }
+
+        public Workflow(String name, String keyword, bool showProcessWindow = false)
+        {
+            Name = name;
+            Keyword = keyword;
+        }
+
+        /// <summary>
+        /// Generates an Process and returns it.
+        /// </summary>
+        /// <returns>The Process of the Workflow</returns>
+        public Process Execute(string parameter)
+        {
+            if (ProgramName.Trim() == "")
+            {
+                throw new ArgumentException("The Command property must not be null!");
+            }
+            Process proc = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = this.ProgramName,
+                    Arguments = this.Arguments + " " + parameter.Trim(),
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = !ShowProcessWindow
+                }
+            };
+            return proc;
         }
     }
 }

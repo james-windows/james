@@ -61,5 +61,21 @@ namespace WinFred
 
             return imageSource;
         }
+        public static String BuildHTML(string htmlFromWorkflow)
+        {
+            StringBuilder html = new StringBuilder(@"<!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset=""utf-8"" />
+                        <link rel=""stylesheet"" 
+                          type=""text/css"" 
+                          href=""http://holdirbootstrap.de/dist/css/bootstrap.min.css"" />
+                    </head>
+                    <body style=""-webkit-user-select: none;"">");
+
+            html.Append(htmlFromWorkflow);
+            html.Append("</body></html>");
+            return html.ToString();
+        }
     }
 }

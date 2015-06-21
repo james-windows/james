@@ -207,43 +207,39 @@ namespace WinFred
             Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
         }
 
+        private void ExecuteWorkflow(Workflow workflow, String str)
+        {
+            DateTime tmp = DateTime.Now;
+            String line = "";
+            Process process = workflow.Execute(str.Replace(workflow.Keyword, ""));
+            process.Start();
+            while (!process.StandardOutput.EndOfStream)
+            {
+                line += process.StandardOutput.ReadLine();
+            }
+            line = HelperClass.BuildHTML(line);
+            line = line.Replace("suppldata", "\"table table-bordered table-striped\"");
+            Dispatcher.BeginInvoke((Action)(() => OutputWebBrowser.NavigateToString(line)));
+            Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
+        }
+
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string str = SearchTextBox.Text;
-            if (str == "suppl")
+            bool workflowExecuted = false;
+            foreach (Workflow item in Config.GetInstance().Workflows)//update to binary search is necessary
             {
-                resultList.Clear();
-                OutputWebBrowser.Visibility = Visibility.Visible;
-                Process proc = new Process
+                if (str.StartsWith(item.Keyword))
                 {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = "powershell.exe",
-                        Arguments = "-Command \"& {Get-Supplierplan}\"",
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        CreateNoWindow = false
-                    }
-                };
-                new Task(() => { 
-                    proc.Start() ;
-                    string line = "";
-                    while (!proc.StandardOutput.EndOfStream)
-                    {
-                        line += proc.StandardOutput.ReadLine();
-                        // do something with line
-                    }
-                    line = BuildHTML(line);
-                    Dispatcher.BeginInvoke((Action) (() =>
-                    {
-                        OutputWebBrowser.NavigateToString(line);
-                    }), DispatcherPriority.Send);
-                }).Start();
-
+                    workflowExecuted = true;
+                    resultList.Clear();
+                    OutputWebBrowser.Visibility = Visibility.Visible;
+                    new Task(()=>ExecuteWorkflow(item, str)).Start();
+                    return;
+                }
             }
-            else
+            if(!workflowExecuted)
             {
-                dynamic doc=OutputWebBrowser.Document;
                 OutputWebBrowser.Navigate("about:blank");
                 OutputWebBrowser.Visibility = Visibility.Collapsed;
                 int id = SEARCH_ID;
@@ -251,21 +247,6 @@ namespace WinFred
                 new Task(() => Search(str, id)).Start();
             }
         }
-        public string BuildHTML(string htmlFromWS)
-        {
-            StringBuilder html = new StringBuilder(@"<!DOCTYPE html>
-                    <html>
-                    <head>
-                        <meta charset=""utf-8"" />
-                        <link rel=""stylesheet"" 
-                          type=""text/css"" 
-                          href=""http://holdirbootstrap.de/dist/css/bootstrap.min.css"" />
-                    </head>
-                    <body style=""-webkit-user-select: none;"">");
-
-            html.Append(htmlFromWS.Replace("suppldata", "\"table table-bordered table-striped\""));
-            html.Append("</body></html>");
-            return html.ToString();
-        }
+        
     }
 }
