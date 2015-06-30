@@ -16,7 +16,7 @@ namespace WinFred
     public class Config
     {
         #region singleton
-        private static Config config;
+        public static Config config;
         private static readonly Object lookObject = new object();
         public static Config GetInstance()
         {
@@ -145,6 +145,14 @@ namespace WinFred
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+        /// <summary>
+        /// For debugging
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Location + " :" + Priority;
         }
     }
     public class FileExtension : IComparable<FileExtension>

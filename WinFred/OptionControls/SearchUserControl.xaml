@@ -76,9 +76,36 @@
             </GroupBox>
         </Grid>
         <Grid Column="2">
-            <GroupBox Header="Details per folder" VerticalContentAlignment="Stretch">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Hidden" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=PathListBox, Path=SelectedIndex}" Value="-1">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <GroupBox Header="Default Settings" VerticalContentAlignment="Stretch">
                 <DataGrid x:Name="FileExtensionsDataGrid">
                     
+                </DataGrid>
+            </GroupBox>
+        </Grid>
+        <Grid Column="2">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=PathListBox, Path=SelectedIndex}" Value="-1">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <GroupBox Header="{Binding ElementName=PathListBox, Path=SelectedValue.Location}" VerticalContentAlignment="Stretch">
+                <DataGrid x:Name="SpecificFileExtensionsDataGrid" ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions}">
+
                 </DataGrid>
             </GroupBox>
         </Grid>
