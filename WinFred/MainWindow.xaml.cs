@@ -227,7 +227,7 @@ namespace WinFred
         {
             string str = SearchTextBox.Text;
             bool workflowExecuted = false;
-            foreach (Workflow item in Config.GetInstance().Workflows)//update to binary search is necessary
+            foreach (Workflow item in Config.GetInstance().Workflows)//todo update to binary search is necessary
             {
                 if (str.StartsWith(item.Keyword))
                 {
@@ -247,6 +247,11 @@ namespace WinFred
                 new Task(() => Search(str, id)).Start();
             }
         }
-        
+
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            HideWindow();
+            ((SearchResult)SearchResultListBox.SelectedItem).Open();
+        }        
     }
 }
