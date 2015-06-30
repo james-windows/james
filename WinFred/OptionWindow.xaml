@@ -4,9 +4,7 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:optionControls="clr-namespace:WinFred.OptionControls"
         Title="WinFred - Settings"  WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
-        EnableDWMDropShadow="True"
-        >
-    
+        EnableDWMDropShadow="True" Closing="MetroWindow_Closing">
     <Grid>
         <TabControl>
             <TabItem Header="General">

@@ -75,6 +75,7 @@
                 </StackPanel>
             </GroupBox>
         </Grid>
+        <!-- Block for default configuration -->
         <Grid Column="2">
             <Grid.Style>
                 <Style TargetType="Grid">
@@ -92,6 +93,8 @@
                 </DataGrid>
             </GroupBox>
         </Grid>
+        
+        <!-- Block for specific Path configuration -->
         <Grid Column="2">
             <Grid.Style>
                 <Style TargetType="Grid">
@@ -104,9 +107,25 @@
                 </Style>
             </Grid.Style>
             <GroupBox Header="{Binding ElementName=PathListBox, Path=SelectedValue.Location}" VerticalContentAlignment="Stretch">
-                <DataGrid x:Name="SpecificFileExtensionsDataGrid" ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0">is enabled: </TextBlock>
+                        <CheckBox Grid.Column="1" IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}"></CheckBox>
+                        <TextBlock Grid.Column="0" Grid.Row="1">default priority:</TextBlock>
+                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}"></TextBox>
+                    </Grid>
+                    <DataGrid x:Name="SpecificFileExtensionsDataGrid" ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions}">
 
-                </DataGrid>
+                    </DataGrid>
+                </StackPanel>
             </GroupBox>
         </Grid>
     </Grid>
