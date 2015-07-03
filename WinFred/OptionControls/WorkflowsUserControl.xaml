@@ -3,8 +3,138 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Height="600" Width="800">
+             mc:Ignorable="d" Height="600" Width="800" Loaded="UserControl_Loaded">
     <Grid>
-        <Label Content="Workflows" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Workflows" Grid.Row="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ListBox x:Name="WorkflowListBox" Grid.Row="0" Margin="20" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Path=Name}" HorizontalAlignment="Stretch" ContextMenuService.ShowOnDisabled="True">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                                                    <Setter Property="Foreground" Value="DarkGray"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem x:Name="ChangeStatusMenuItem" Click="ChangeStatusMenuItem_Click">
+                                            <MenuItem.Style>
+                                                <Style TargetType="MenuItem">
+                                                    <Setter Property="Header" Value="Disable"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                                                            <Setter Property="Header" Value="Enable"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </MenuItem.Style>
+                                        </MenuItem>
+                                        <MenuItem x:Name="DeletePathMenuItem" Click="DeletePathMenuItem_Click">
+                                            <MenuItem.Style>
+                                                <Style TargetType="MenuItem">
+                                                    <Setter Property="Header" Value="Delete"/>
+                                                </Style>
+                                            </MenuItem.Style>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="AddWorkflowButton" Grid.Column="0" Content="Add Workflow" Style="{DynamicResource SquareButtonStyle}" Click="AddWorkflowButton_Click"/>
+                    <Button x:Name="RemoveWorkflowButton" Grid.Column="1" Content="Remove Workflow" Style="{DynamicResource SquareButtonStyle}" IsEnabled="{Binding ElementName=WorkflowListBox, Path=SelectedItems.Count}" Click="DeletePathMenuItem_Click"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+        <Grid Column="2">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=WorkflowListBox, Path=SelectedIndex}" Value="-1">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <GroupBox Header="{Binding ElementName=WorkflowListBox, Path=SelectedValue.Name}" VerticalContentAlignment="Stretch">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Grid}">
+                            <Setter Property="Height" Value="26" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">Name:</TextBlock>
+                        <TextBox Grid.Column="1" Text="{Binding ElementName=WorkflowListBox, Path=SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">is enabled:</TextBlock>
+                        <CheckBox Grid.Column="1" IsChecked="{Binding ElementName=WorkflowListBox, Path=SelectedItem.IsEnabled}"></CheckBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">program name:</TextBlock>
+                        <TextBox Grid.Column="1" Text="{Binding ElementName=WorkflowListBox, Path=SelectedItem.ProgramName}"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">arguments:</TextBlock>
+                        <TextBox Grid.Column="1" Text="{Binding ElementName=WorkflowListBox, Path=SelectedItem.Arguments}"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">keyword:</TextBlock>
+                        <TextBox Grid.Column="1" Text="{Binding ElementName=WorkflowListBox, Path=SelectedItem.Keyword}"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">Show Process Window:</TextBlock>
+                        <CheckBox Grid.Column="1" IsChecked="{Binding ElementName=WorkflowListBox, Path=SelectedItem.ShowProcessWindow}"></CheckBox>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>

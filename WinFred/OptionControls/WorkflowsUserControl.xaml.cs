@@ -24,5 +24,28 @@ namespace WinFred.OptionControls
         {
             InitializeComponent();
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            WorkflowListBox.ItemsSource = Config.GetInstance().Workflows;
+        }
+
+        private void ChangeStatusMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ((Workflow) WorkflowListBox.SelectedItem).IsEnabled = !((Workflow) WorkflowListBox.SelectedItem).IsEnabled;
+        }
+
+        private void DeletePathMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Config.GetInstance().Workflows.Remove(((Workflow) WorkflowListBox.SelectedItem));
+        }
+
+        private void AddWorkflowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Workflow wf = new Workflow();
+            wf.IsEnabled = false;
+            Config.GetInstance().Workflows.Add(wf);
+            WorkflowListBox.SelectedIndex = Config.GetInstance().Workflows.Count - 1;
+        }
     }
 }

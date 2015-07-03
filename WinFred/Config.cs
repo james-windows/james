@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Threading;
 using WinFred.Annotations;
 
@@ -53,7 +54,6 @@ namespace WinFred
         /// </summary>
         public void Persist()
         {
-            
             DefaultFileExtensions.Sort();
             foreach (var item in Paths)
             {
@@ -68,7 +68,7 @@ namespace WinFred
         public ObservableCollection<Path> Paths { get; set; }
         public List<FileExtension> DefaultFileExtensions { get; set; }
 
-        public List<Workflow> Workflows { get; set; } 
+        public ObservableCollection<Workflow> Workflows { get; set; } 
 
         public int MaxSearchResults;
         public int StartSearchMinTextLength;
@@ -81,7 +81,7 @@ namespace WinFred
         {
             Paths = new ObservableCollection<Path>();
             DefaultFileExtensions = new List<FileExtension>();
-            Workflows = new List<Workflow>();
+            Workflows = new ObservableCollection<Workflow>();
             
         }
         static public void loadDefaultFileExtensions()
@@ -181,7 +181,7 @@ namespace WinFred
         }
     }
 
-    public class Workflow
+    public class Workflow:INotifyPropertyChanged
     {
         public Workflow()
         {
@@ -189,17 +189,40 @@ namespace WinFred
         }
 
         public bool ShowProcessWindow { get; set; }
-        public string Name { get; set; }
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Keyword { get; set; }
 
         public string ProgramName { get; set; }
         public string Arguments { get; set; }
 
-        public Workflow(String name, String keyword, bool showProcessWindow = false)
+        private bool _isEnabled = true;
+
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Workflow(String name, String keyword, bool showProcessWindow = false, bool isEnabled = true)
         {
             Name = name;
             Keyword = keyword;
+            this.ShowProcessWindow = showProcessWindow;
+            this.IsEnabled = isEnabled;
         }
 
         /// <summary>
@@ -224,6 +247,15 @@ namespace WinFred
                 }
             };
             return proc;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -4,20 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WinFred"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" Height="600" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="520px"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <GroupBox Header="Folders to be searched" Grid.Row="0">
-                <StackPanel>
-                    <ListBox x:Name="PathListBox" Height="400" Margin="20" HorizontalContentAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListBox Grid.Row="0" x:Name="PathListBox" Margin="20" HorizontalContentAlignment="Stretch">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -59,15 +64,15 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Grid>
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="189"/>
-                            <ColumnDefinition Width="189"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="AddFolderButton" Grid.Column="0" Content="Add Folder" Width="184" Click="AddFolderButton_Click" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Center" Margin="4,0,1,0"/>
-                        <Button x:Name="RemoveFolderButton" Grid.Column="1" Content="Remove Folder" Width="184" Click="RemoveFolderButton_Click" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Center" Margin="3,0,0,0"/>
+                        <Button x:Name="AddFolderButton" Grid.Column="0" Content="Add Folder" Click="AddFolderButton_Click" Style="{DynamicResource SquareButtonStyle}"/>
+                        <Button x:Name="RemoveFolderButton" Grid.Column="1" Content="Remove Folder" Click="RemoveFolderButton_Click" Style="{DynamicResource SquareButtonStyle}" IsEnabled="{Binding ElementName=PathListBox, Path=SelectedItems.Count}"/>
                     </Grid>
-                </StackPanel>
+                </Grid>
             </GroupBox>
             <GroupBox Header="Index Settings" Grid.Row="1">
                 <StackPanel>
@@ -88,8 +93,11 @@
                 </Style>
             </Grid.Style>
             <GroupBox Header="Default Settings" VerticalContentAlignment="Stretch">
-                <DataGrid x:Name="FileExtensionsDataGrid">
-                    
+                <DataGrid x:Name="FileExtensionsDataGrid" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" />
+                        <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority"/>
+                    </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
         </Grid>
@@ -108,22 +116,33 @@
             </Grid.Style>
             <GroupBox Header="{Binding ElementName=PathListBox, Path=SelectedValue.Location}" VerticalContentAlignment="Stretch">
                 <StackPanel>
-                    <Grid Margin="0,0,0,10">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Grid}">
+                            <Setter Property="Height" Value="26" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30"></RowDefinition>
-                            <RowDefinition Height="30"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0" Grid.Row="0">is enabled: </TextBlock>
+                        <TextBlock Grid.Column="0">is enabled:</TextBlock>
                         <CheckBox Grid.Column="1" IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}"></CheckBox>
-                        <TextBlock Grid.Column="0" Grid.Row="1">default priority:</TextBlock>
-                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}"></TextBox>
                     </Grid>
-                    <DataGrid x:Name="SpecificFileExtensionsDataGrid" ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions}">
-
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">default priority:</TextBlock>
+                        <!--<TextBox Grid.Column="1" Text="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}"></TextBox>-->
+                        <controls:NumericUpDown Grid.Column="1" Value="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}"/>
+                    </Grid>
+                    <DataGrid x:Name="SpecificFileExtensionsDataGrid" ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" />
+                            <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority"/>
+                        </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
             </GroupBox>

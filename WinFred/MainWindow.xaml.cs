@@ -229,7 +229,7 @@ namespace WinFred
             bool workflowExecuted = false;
             foreach (Workflow item in Config.GetInstance().Workflows)//todo update to binary search is necessary
             {
-                if (str.StartsWith(item.Keyword))
+                if (item.IsEnabled && str.StartsWith(item.Keyword))
                 {
                     workflowExecuted = true;
                     resultList.Clear();
