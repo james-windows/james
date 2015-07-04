@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
@@ -49,11 +51,6 @@ namespace WinFred
                 this.Activate();
                 this.SearchTextBox.Focus();
             }
-        }
-
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            SearchTextBox.Focus();
         }
 
         private void HideWindow()
@@ -135,11 +132,7 @@ namespace WinFred
             }
         }
 
-        private void SearchResultListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //todo open
-        }
-
+        #region Window-Events
         private void SearchTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.KeyboardDevice.IsKeyDown(Key.Escape))
@@ -186,6 +179,10 @@ namespace WinFred
                     ((SearchResult)SearchResultListBox.SelectedItem).OpenFolder();
                 }
             }
+        }
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            SearchTextBox.Focus();
         }
         private int SEARCH_ID;
         private ObservableCollection<SearchResult> resultList;
@@ -252,6 +249,86 @@ namespace WinFred
         {
             HideWindow();
             ((SearchResult)SearchResultListBox.SelectedItem).Open();
-        }        
+        }
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            OnHotKeyHandler(null);
+        }
+
+        #region region for hidding the window in the taskswitch
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            WindowInteropHelper wndHelper = new WindowInteropHelper(this);
+
+            int exStyle = (int)GetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE);
+
+            exStyle |= (int)ExtendedWindowStyles.WS_EX_TOOLWINDOW;
+            SetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE, (IntPtr)exStyle);
+        }
+        #region Window styles
+        [Flags]
+        public enum ExtendedWindowStyles
+        {
+            // ...
+            WS_EX_TOOLWINDOW = 0x00000080,
+            // ...
+        }
+
+        public enum GetWindowLongFields
+        {
+            // ...
+            GWL_EXSTYLE = (-20),
+            // ...
+        }
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindowLong(IntPtr hWnd, int nIndex);
+
+        public static IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
+        {
+            int error = 0;
+            IntPtr result = IntPtr.Zero;
+            // Win32 SetWindowLong doesn't clear error on success
+            SetLastError(0);
+
+            if (IntPtr.Size == 4)
+            {
+                // use SetWindowLong
+                Int32 tempResult = IntSetWindowLong(hWnd, nIndex, IntPtrToInt32(dwNewLong));
+                error = Marshal.GetLastWin32Error();
+                result = new IntPtr(tempResult);
+            }
+            else
+            {
+                // use SetWindowLongPtr
+                result = IntSetWindowLongPtr(hWnd, nIndex, dwNewLong);
+                error = Marshal.GetLastWin32Error();
+            }
+
+            if ((result == IntPtr.Zero) && (error != 0))
+            {
+                throw new System.ComponentModel.Win32Exception(error);
+            }
+
+            return result;
+        }
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr", SetLastError = true)]
+        private static extern IntPtr IntSetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong", SetLastError = true)]
+        private static extern Int32 IntSetWindowLong(IntPtr hWnd, int nIndex, Int32 dwNewLong);
+
+        private static int IntPtrToInt32(IntPtr intPtr)
+        {
+            return unchecked((int)intPtr.ToInt64());
+        }
+
+        [DllImport("kernel32.dll", EntryPoint = "SetLastError")]
+        public static extern void SetLastError(int dwErrorCode);
+        #endregion
+        #endregion
+
+        #endregion
     }
 }
