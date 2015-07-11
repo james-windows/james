@@ -147,7 +147,6 @@ namespace WinFred
             else if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) && SearchTextBox.Text.Length > 0)
             {
                 String message = this.SearchTextBox.Text;
-                //HideWindow();
                 lt = new LargeType(message);
                 lt.Owner = this;
                 lt.ShowDialog();
@@ -155,9 +154,9 @@ namespace WinFred
             }
             else if (e.KeyboardDevice.IsKeyDown(Key.S) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))
             {
-                HideWindow();
                 OptionWindow window = new OptionWindow();
                 window.ShowDialog();
+                HideWindow();
             }
         }
         private void SearchTextBox_PreviewKeyDown(object sender, KeyEventArgs e)

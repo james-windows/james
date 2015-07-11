@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
 
 namespace WinFred.OptionControls
 {
@@ -35,17 +37,27 @@ namespace WinFred.OptionControls
             ((Workflow) WorkflowListBox.SelectedItem).IsEnabled = !((Workflow) WorkflowListBox.SelectedItem).IsEnabled;
         }
 
-        private void DeletePathMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void DeletePathMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Config.GetInstance().Workflows.Remove(((Workflow) WorkflowListBox.SelectedItem));
+            MetroWindow parentWindow = (MetroWindow)Window.GetWindow(this);
+            MetroDialogSettings setting = new MetroDialogSettings(){NegativeButtonText = "Cancel", AffirmativeButtonText = "Yes, I'm sure!"};
+            MessageDialogResult result = await parentWindow.ShowMessageAsync("Delete Workflow", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative, setting);
+            if (MessageDialogResult.Affirmative == result)
+            {
+                Config.GetInstance().Workflows.Remove(((Workflow)WorkflowListBox.SelectedItem));
+            }
         }
 
-        private void AddWorkflowButton_Click(object sender, RoutedEventArgs e)
+        private async void AddWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
-            Workflow wf = new Workflow();
-            wf.IsEnabled = false;
-            Config.GetInstance().Workflows.Add(wf);
-            WorkflowListBox.SelectedIndex = Config.GetInstance().Workflows.Count - 1;
+            MetroWindow parentWindow = (MetroWindow)Window.GetWindow(this);
+            string name = await parentWindow.ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
+            if (name != null) 
+            {
+                Workflow wf = new Workflow() { Name = name, IsEnabled = false };
+                Config.GetInstance().Workflows.Add(wf);
+                WorkflowListBox.SelectedIndex = Config.GetInstance().Workflows.Count - 1;
+            }
         }
     }
 }

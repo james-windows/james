@@ -3,41 +3,40 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:optionControls="clr-namespace:WinFred.OptionControls"
-        Title="WinFred - Settings"  WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        Title="WinFred - Settings"  WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Height="600" Width="800" ResizeMode="NoResize"
         EnableDWMDropShadow="True" Closing="MetroWindow_Closing">
     <Grid>
         <TabControl>
             <TabItem Header="General">
-                <Grid Height="600" Width="800">
+                <Grid>
                     <optionControls:GeneralUserControl />
                 </Grid>
             </TabItem>
             <TabItem Header="Search">
-                <Grid Height="600" Width="800">
-                    <optionControls:SearchUserControl/>
-                </Grid>
+                <Grid>
+                <optionControls:SearchUserControl/>
+            </Grid>
             </TabItem>
             <TabItem Header="Workflows">
-                <Grid Height="600" Width="800">
+                <Grid>
                     <optionControls:WorkflowsUserControl />
                 </Grid>
             </TabItem>
             <TabItem Header="Customize">
-                <Grid Height="600" Width="800">
+                <Grid>
                     <optionControls:CustomizeUserControl />
                 </Grid>
             </TabItem>
             <TabItem Header="Usage">
-                <Grid Height="600" Width="800">
+                <Grid>
                     <optionControls:UsageUserControl />
                 </Grid>
             </TabItem>
             <TabItem Header="About">
-                <Grid Height="600" Width="800">
+                <Grid>
                     <optionControls:AboutUserControl />
                 </Grid>
             </TabItem>
         </TabControl>
-
     </Grid>
 </Controls:MetroWindow>

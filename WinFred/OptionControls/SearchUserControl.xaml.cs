@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
 
 namespace WinFred.OptionControls
 {
@@ -47,39 +49,21 @@ namespace WinFred.OptionControls
             }
         }
 
-        private void RemoveFolderButton_Click(object sender, RoutedEventArgs e)
+        private async void RemoveFolderButton_Click(object sender, RoutedEventArgs e)
         {
-            Config.GetInstance().Paths.Remove((Path)PathListBox.SelectedItem);
-            Config.GetInstance().Persist();
+            MetroWindow parentWindow = (MetroWindow)Window.GetWindow(this);
+            MetroDialogSettings setting = new MetroDialogSettings(){NegativeButtonText = "Cancel", AffirmativeButtonText = "Yes, I'm sure!"};
+            MessageDialogResult result = await parentWindow.ShowMessageAsync("Delete Path", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative, setting);
+            if (MessageDialogResult.Affirmative == result)
+            {
+                Config.GetInstance().Paths.Remove((Path)PathListBox.SelectedItem);
+                Config.GetInstance().Persist();
+            }
         }
 
-        /// <summary>
-        /// reverts the isEnabled Propertie
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ChangeStatusMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (PathListBox.SelectedItem != null)
-            {
-                int index = Config.GetInstance().Paths.IndexOf((Path) PathListBox.SelectedItem);
-                Config.GetInstance().Paths[index].IsEnabled = !((Path)PathListBox.SelectedItem).IsEnabled;
-                Config.GetInstance().Persist();
-            }
-        }
-
-        /// <summary>
-        /// Deletes the current selected item
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeletePathMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (PathListBox.SelectedItem != null)
-            {
-                Config.GetInstance().Paths.Remove((Path) PathListBox.SelectedItem);
-                Config.GetInstance().Persist();
-            }
+            ((Path)PathListBox.SelectedItem).IsEnabled = !((Path)PathListBox.SelectedItem).IsEnabled;
         }
     }
 }
