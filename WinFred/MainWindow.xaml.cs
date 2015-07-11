@@ -55,7 +55,7 @@ namespace WinFred
 
         private void HideWindow()
         {
-            if (lt != null)
+            if (lt != null && lt.IsActive)
             {
                 lt.Close();
             }
@@ -137,7 +137,7 @@ namespace WinFred
         {
             if (e.KeyboardDevice.IsKeyDown(Key.Escape))
             {
-                if (lt != null) 
+                if (lt != null && lt.IsActive) 
                 {
                     lt.Close();
                 }
@@ -146,8 +146,12 @@ namespace WinFred
             }
             else if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) && SearchTextBox.Text.Length > 0)
             {
-                lt = new LargeType(this.SearchTextBox.Text);
+                String message = this.SearchTextBox.Text;
+                //HideWindow();
+                lt = new LargeType(message);
+                lt.Owner = this;
                 lt.ShowDialog();
+                lt = null;
             }
             else if (e.KeyboardDevice.IsKeyDown(Key.S) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))
             {
@@ -252,7 +256,8 @@ namespace WinFred
         }
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            OnHotKeyHandler(null);
+            if (!(lt != null))
+                OnHotKeyHandler(null);
         }
 
         #region region for hidding the window in the taskswitch

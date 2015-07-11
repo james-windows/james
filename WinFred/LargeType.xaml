@@ -4,7 +4,7 @@
         Title="LargeType" Height="300" Width="300" WindowStartupLocation="CenterScreen" AllowsTransparency="True" Topmost="True" ShowInTaskbar="False" WindowStyle="None" Opacity="0.75" Background="{x:Null}" KeyDown="Window_KeyDown">
     <Grid  Background="Black" Margin="50">
         <Viewbox Margin="20" x:Name="ViewBox">
-            <TextBlock x:Name="TextBlock" Foreground="White" TextWrapping="Wrap" >
+            <TextBlock x:Name="TextBlock" Foreground="White" TextWrapping="Wrap" MaxWidth="100" TextAlignment="Center" >
 
             </TextBlock>
         </Viewbox>

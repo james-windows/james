@@ -126,7 +126,10 @@
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SearchEngine\Data.cs" />
+    <Compile Include="SearchEngine\FileExtension.cs" />
+    <Compile Include="SearchEngine\Path.cs" />
     <Compile Include="SearchEngine\SearchEngine.cs" />
+    <Compile Include="SearchEngine\Workflow.cs" />
     <Compile Include="SearchResult.cs" />
     <Page Include="LargeType.xaml">
       <SubType>Designer</SubType>
