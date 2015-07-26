@@ -14,8 +14,8 @@
             </TabItem>
             <TabItem Header="Search">
                 <Grid>
-                <optionControls:SearchUserControl/>
-            </Grid>
+                    <optionControls:SearchUserControl/>
+                </Grid>
             </TabItem>
             <TabItem Header="Workflows">
                 <Grid>
@@ -32,11 +32,11 @@
                     <optionControls:UsageUserControl />
                 </Grid>
             </TabItem>
-            <TabItem Header="About">
-                <Grid>
-                    <optionControls:AboutUserControl />
-                </Grid>
-            </TabItem>
         </TabControl>
     </Grid>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button x:Name="AboutButton" Content="about" Click="AboutButton_Click" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
 </Controls:MetroWindow>

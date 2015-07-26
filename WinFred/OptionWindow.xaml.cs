@@ -16,5 +16,10 @@ namespace WinFred
         {
             Config.GetInstance().Persist();
         }
+
+        private void AboutButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            //TODO making a flyout about page
+        }
     }
 }
