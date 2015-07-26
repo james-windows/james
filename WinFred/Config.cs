@@ -54,12 +54,15 @@ namespace WinFred
         /// </summary>
         public void Persist()
         {
-            DefaultFileExtensions.Sort();
-            foreach (var item in Paths)
+            lock (config)
             {
-                item.FileExtensions.Sort();
+                DefaultFileExtensions.Sort();
+                foreach (var item in Paths)
+                {
+                    item.FileExtensions.Sort();
+                }
+                File.WriteAllText(config.ConfigFolderLocation + "\\config.xml", HelperClass.Serialize(config));
             }
-            File.WriteAllText(config.ConfigFolderLocation + "\\config.xml", HelperClass.Serialize(config));
         }
 
         #endregion
@@ -72,7 +75,7 @@ namespace WinFred
 
         public int MaxSearchResults;
         public int StartSearchMinTextLength;
-        public String ConfigFolderLocation { get; set; }
+        public string ConfigFolderLocation { get; set; }
 
 
 

@@ -14,6 +14,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
+        <!--#region Block for the Path list-->
         <Grid Grid.Column="0" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -40,6 +42,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
+                                    <!--#region Context Menu-->
                                     <Grid.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem x:Name="ChangeStatusMenuItem" Click="ChangeStatusMenuItem_Click">
@@ -63,6 +66,7 @@
                                             </MenuItem>
                                         </ContextMenu>
                                     </Grid.ContextMenu>
+                                    <!--#endregion-->
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -83,8 +87,10 @@
                 </StackPanel>
             </GroupBox>
         </Grid>
-        <!-- Block for default configuration -->
-        <Grid Grid.Column="1" Grid.Row ="0">
+        <!--#endregion-->
+
+        <!--#region Block for default configuration -->
+        <Grid x:Name="grid" Grid.Column="1" Grid.Row ="0">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Hidden" />
@@ -104,8 +110,9 @@
                 </DataGrid>
             </GroupBox>
         </Grid>
-        
-        <!-- Block for specific Path configuration -->
+        <!--#endregion-->
+
+        <!--#region Block for specific Path configuration -->
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.Style>
                 <Style TargetType="Grid">
@@ -138,7 +145,6 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0">default priority:</TextBlock>
-                        <!--<TextBox Grid.Column="1" Text="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}"></TextBox>-->
                         <controls:NumericUpDown Grid.Column="1" Value="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}"/>
                     </Grid>
                     <DataGrid x:Name="SpecificFileExtensionsDataGrid" ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions}" AutoGenerateColumns="False">
@@ -150,5 +156,7 @@
                 </StackPanel>
             </GroupBox>
         </Grid>
+        <!--#endregion-->
+
     </Grid>
 </UserControl>

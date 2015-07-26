@@ -28,14 +28,23 @@ namespace WinFred.OptionControls
         public SearchUserControl()
         {
             InitializeComponent();
-            PathListBox.ItemsSource = Config.GetInstance().Paths;
-            FileExtensionsDataGrid.ItemsSource = Config.GetInstance().DefaultFileExtensions;
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                PathListBox.ItemsSource = Config.GetInstance().Paths;
+                FileExtensionsDataGrid.ItemsSource = Config.GetInstance().DefaultFileExtensions;
+            }), null);
         }
 
-        private void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
+        private async void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
         {
-            Task tmp = new Task(() => SearchEngine.GetInstance().BuildIndex());
-            tmp.Start();
+            MetroWindow parentWindow = (MetroWindow)Window.GetWindow(this);
+            MetroDialogSettings setting = new MetroDialogSettings() { NegativeButtonText = "Cancel", AffirmativeButtonText = "Yes, I'm sure!" };
+            MessageDialogResult result = await parentWindow.ShowMessageAsync("Rebuilding file index", "Do you really want to rebuild your index, this may take a few minutes?", MessageDialogStyle.AffirmativeAndNegative, setting);
+            if (MessageDialogResult.Affirmative == result)
+            {
+                Task tmp = new Task(() => SearchEngine.GetInstance().BuildIndex());
+                tmp.Start();
+            }
         }
 
         private void AddFolderButton_Click(object sender, RoutedEventArgs e)

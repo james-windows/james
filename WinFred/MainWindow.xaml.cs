@@ -41,7 +41,7 @@ namespace WinFred
 
         private void OnHotKeyHandler(HotKey hotKey)
         {
-            if (this.IsVisible)
+            if (this.IsVisible || hotKey == null)
             {
                 HideWindow();
             }
