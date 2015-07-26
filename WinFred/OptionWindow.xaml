@@ -36,6 +36,7 @@
     </Grid>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
+            <!-- TODO insert icon here -->
             <Button x:Name="AboutButton" Content="about" Click="AboutButton_Click" Foreground="White"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
