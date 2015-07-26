@@ -19,7 +19,7 @@ namespace WinFred
 
         private void AboutButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            //TODO making a flyout about page
+            AboutFlyout.IsOpen = !AboutFlyout.IsOpen;
         }
     }
 }

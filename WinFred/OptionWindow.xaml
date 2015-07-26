@@ -36,7 +36,14 @@
     </Grid>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button x:Name="AboutButton" Content="about" Click="AboutButton_Click" />
+            <Button x:Name="AboutButton" Content="about" Click="AboutButton_Click" Foreground="White"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout x:Name="AboutFlyout" Header="About" Position="Right" Width="300">
+                <optionControls:AboutUserControl />
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
 </Controls:MetroWindow>
