@@ -23,6 +23,7 @@ namespace WinFred.OptionControls
         public GeneralUserControl()
         {
             InitializeComponent();
+            this.DataContext = Config.GetInstance();
         }
     }
 }

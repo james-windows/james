@@ -22,9 +22,9 @@
                     <optionControls:WorkflowsUserControl />
                 </Grid>
             </TabItem>
-            <TabItem Header="Customize">
+            <TabItem Header="Appearance">
                 <Grid>
-                    <optionControls:CustomizeUserControl />
+                    <optionControls:AppearanceUserControl />
                 </Grid>
             </TabItem>
             <TabItem Header="Usage">

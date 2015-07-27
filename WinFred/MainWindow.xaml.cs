@@ -201,7 +201,7 @@ namespace WinFred
                     resultList.Add(x);
                 if (res.Count > 0)
                 {
-                    SearchResultListBox.SelectedIndex = 0;    
+                    SearchResultListBox.SelectedIndex = 0;
                 }
             }), DispatcherPriority.Send);
             Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);

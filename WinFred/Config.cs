@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
 using WinFred.Annotations;
@@ -73,11 +75,35 @@ namespace WinFred
 
         public ObservableCollection<Workflow> Workflows { get; set; } 
 
-        public int MaxSearchResults;
-        public int StartSearchMinTextLength;
+        public int MaxSearchResults {get; set; }
+        public int StartSearchMinTextLength { get; set; }
         public string ConfigFolderLocation { get; set; }
+        private bool startProgramOnStartup = false;
 
-
+        /// <summary>
+        /// Insert a key into the Windows registry if the program should start with windows
+        /// </summary>
+        public bool StartProgramOnStartup
+        {
+            get
+            {
+                return startProgramOnStartup;
+            }
+            set
+            {
+                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey
+                        ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                if (value)
+                {
+                    registryKey.SetValue("Winfred", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                }
+                else
+                {
+                    registryKey.DeleteValue("Winfred", false);
+                }
+                startProgramOnStartup = value;
+            }
+        }
 
         #endregion
         private Config()

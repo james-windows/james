@@ -3,8 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
     <Grid>
-        <Label Content="Basic settings for the search" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="General Settings" Grid.Row="0">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Grid}">
+                        <Setter Property="Height" Value="26" />
+                    </Style>
+                </StackPanel.Resources>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"><Run Text="Start with windows:"/></TextBlock>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding Path=StartProgramOnStartup}"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"><Run Text="Count for displayed search results"/></TextBlock>
+                    <controls:NumericUpDown Grid.Column="1" Value="{Binding Path=MaxSearchResults, UpdateSourceTrigger=LostFocus}"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"><Run Text="Limit to start with searching"/></TextBlock>
+                    <controls:NumericUpDown Grid.Column="1" Value="{Binding Path=StartSearchMinTextLength, UpdateSourceTrigger=LostFocus}"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </UserControl>

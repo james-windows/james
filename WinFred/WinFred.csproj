@@ -102,8 +102,8 @@
     <Compile Include="OptionControls\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OptionControls\CustomizeUserControl.xaml.cs">
-      <DependentUpon>CustomizeUserControl.xaml</DependentUpon>
+    <Compile Include="OptionControls\AppearanceUserControl.xaml.cs">
+      <DependentUpon>AppearanceUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="OptionControls\GeneralUserControl.xaml.cs">
       <DependentUpon>GeneralUserControl.xaml</DependentUpon>
@@ -155,7 +155,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OptionControls\CustomizeUserControl.xaml">
+    <Page Include="OptionControls\AppearanceUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
