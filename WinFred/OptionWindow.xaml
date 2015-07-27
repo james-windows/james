@@ -36,8 +36,9 @@
     </Grid>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <!-- TODO insert icon here -->
-            <Button x:Name="AboutButton" Content="about" Click="AboutButton_Click" Foreground="White"/>
+            <Button x:Name="AboutButton" Click="AboutButton_Click" ToolTip="About">
+                <Image Source="D:\WinFred\Project\winfred\WinFred\Resources\About.png" Height="16"/>
+            </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Controls:MetroWindow.Flyouts>
