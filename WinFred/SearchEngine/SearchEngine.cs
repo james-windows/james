@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using Lucene.Net.Analysis;
+﻿using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
-using Directory = Lucene.Net.Store.Directory;
+using System;
+using System.Collections.Generic;
+using WinFred.Search.IndexGeneration;
+using LuceneDirectory = Lucene.Net.Store.Directory;
 using Version = Lucene.Net.Util.Version;
 
-namespace WinFred
+namespace WinFred.Search
 {
     class SearchEngine
     {
         private static SearchEngine searchEngine;
         private static object singeltonLock = new object();
+        LuceneDirectory index;
+        Sort sort;
+        Analyzer analyzer;
 
         public static SearchEngine GetInstance()
         {
@@ -31,10 +29,6 @@ namespace WinFred
                 return searchEngine;
             }
         }
-
-        Directory index;
-        Sort sort;
-        Analyzer analyzer;
 
         private SearchEngine()
         {
@@ -48,70 +42,19 @@ namespace WinFred
 
         public void BuildIndex()
         {
-            Queue<Data> data = new Queue<Data>();
-            DateTime date = DateTime.Now;
-            foreach (var item in Config.GetInstance().Paths)
+            List<Document> data = new List<Document>();
+            foreach(Path currentPath in Config.GetInstance().Paths)
             {
-                if (item.IsEnabled)
-                {
-                    var tmp = (GetFiles(item.Location, "*", item));
-                    foreach (var i in tmp)
-                    {
-                        data.Enqueue(i);
-                    }
-                }
+                Folder currentFolder = new Folder(currentPath);
+                data.AddRange(currentFolder.getItemsToBeIndexed());
             }
-            Debug.WriteLine((DateTime.Now - date).TotalMilliseconds);
-            Debug.WriteLine("Count: " + data.Count);
-            int cnt = 0;
+
             using (IndexWriter writer = new IndexWriter(index, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
             {
-                while (data.Count > 0)
-                {
-                    writer.AddDocument(data.Dequeue().GetDocument());
-                    cnt++;
-                } 
+                data.ForEach(ElementToBeIndexed => writer.AddDocument(ElementToBeIndexed));
                 writer.Optimize();
                 writer.Commit();
             }
-            Debug.WriteLine("index built! Count: " + cnt);
-            Debug.WriteLine((DateTime.Now - date).TotalMilliseconds);
-        }
-        private List<Data> GetFiles(string path, string pattern, Path folderPath)
-        {
-            List<Data> data = new List<Data>();
-            try
-            {
-                foreach (string item in System.IO.Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly))
-                {
-                    int index = folderPath.FileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
-                    if (index >= 0) //Is file extention found in the folder file extensions
-                    {
-                        if (folderPath.FileExtensions[index].Priority >= 0)
-                        {
-                            data.Add(new Data(item, folderPath.FileExtensions[index].Priority + folderPath.Priority));    
-                        }
-                    }
-                    else //else look into the defaultfileextensions
-                    {
-                        index = Config.GetInstance().DefaultFileExtensions.BinarySearch(new FileExtension(item.Split('.').Last(), 0));
-                        if (index >= 0)
-                        {
-                            data.Add(new Data(item, Config.GetInstance().DefaultFileExtensions[index].Priority + folderPath.Priority));
-                        }
-                    }
-                }
-                foreach (String directory in System.IO.Directory.GetDirectories(path))
-                {
-                    data.AddRange(GetFiles(directory, pattern, folderPath));
-                }
-                if (data.Count > 0)
-                {
-                    data.Add(new Data(path) {Priority = 80});
-                }            
-            }
-            catch (UnauthorizedAccessException) { }
-            return data;
         }
 
         public void AddFile(Data data)
@@ -129,12 +72,6 @@ namespace WinFred
             if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
                 return new List<SearchResult>();
             str = str.ToLower();
-            //BooleanQuery query = new BooleanQuery();
-            //foreach (var item in str.Trim().Split(' '))
-            //{
-            //    query.Add(new BooleanClause(new PrefixQuery(new Term("FileName", item)), Occur.SHOULD));
-            //}
-
             Query query = new PrefixQuery(new Term("FileName", str.Trim()));
             
             using (IndexReader reader = IndexReader.Open(index, true))
@@ -206,5 +143,4 @@ namespace WinFred
             }
         }
     }
-
 }

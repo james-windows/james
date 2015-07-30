@@ -1,18 +1,16 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using WinFred.Search;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace WinFred
