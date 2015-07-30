@@ -35,11 +35,11 @@ namespace WinFred.Search.IndexGeneration
             List<Document> data = new List<Document>();
             foreach (string filePath in Directory.GetFiles(currentPath))
             {
-                data.AddRange(GetFileIfObserved(filePath));
+                data.AddRange(GetFileIfItShouldBeTraced(filePath));
             }
             return data;
         }
-        private IEnumerable<Document> GetFileIfObserved(String filePath)
+        private IEnumerable<Document> GetFileIfItShouldBeTraced(String filePath)
         {
             List<Document> data = new List<Document>();
             int priority = folder.GetFilePriority(filePath);
@@ -49,7 +49,5 @@ namespace WinFred.Search.IndexGeneration
             }
             return data;
         }
-
-        
     }
 }

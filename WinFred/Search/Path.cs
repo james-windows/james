@@ -40,10 +40,7 @@ namespace WinFred
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
-        /// <summary>
-        /// For debugging
-        /// </summary>
-        /// <returns></returns>
+
         public override string ToString()
         {
             return Location + " :" + Priority;

@@ -12,7 +12,7 @@ namespace WinFred.Search
         {
             paths = Config.GetInstance().Paths.ToArray();
             fileSystemWatchers = new LinkedList<FileSystemWatcher>();
-            
+
             for (int i = 0; i < paths.Length; i++)
             {
                 FileSystemWatcher tmpWatcher = new FileSystemWatcher(paths[i].Location);
@@ -31,7 +31,7 @@ namespace WinFred.Search
             FileSystemWatcher watcher = sender as FileSystemWatcher;//TODO find better solution than duplication
             Path currentPath = paths.First(path => path.Location == watcher.Path);
             int priority = currentPath.GetFilePriority(e.FullPath);
-            if(priority >= 0)
+            if (priority >= 0)
             {
                 SearchEngine.GetInstance().AddFile(new Data(e.FullPath, priority));
             }
