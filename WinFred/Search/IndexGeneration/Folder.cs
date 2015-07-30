@@ -42,31 +42,12 @@ namespace WinFred.Search.IndexGeneration
         private IEnumerable<Document> GetFileIfItShouldBeTraced(String filePath)
         {
             List<Document> data = new List<Document>();
-            int priority = GetFilePriority(filePath);
+            int priority = folder.GetFilePriority(filePath);
             if(priority > 0)
             {
                 data.Add((new Data(filePath, priority + folder.Priority)).GetDocument());
             }
             return data;
-        }
-
-        private int GetFilePriority(String filePath)
-        {
-            int FileExtension = CalculatePriorityByFileExtensions(filePath, folder.FileExtensions);
-            int DefaultFileExtension = CalculatePriorityByFileExtensions(filePath, Config.GetInstance().DefaultFileExtensions);
-
-            return Math.Max(FileExtension, DefaultFileExtension) + folder.Priority;
-        }
-
-        private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> fileExtensions)
-        {
-            int wasFound = fileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-            int priority = wasFound;
-            if (priority >= 0)
-            {
-                priority = fileExtensions[priority].Priority;
-            }
-            return priority;
         }
     }
 }
