@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Directory = System.IO.Directory;
-using System.Linq;
-using System.Diagnostics;
-using Lucene.Net.Analysis;
+﻿using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
+using System;
+using System.Collections.Generic;
+using WinFred.Search.IndexGeneration;
 using LuceneDirectory = Lucene.Net.Store.Directory;
 using Version = Lucene.Net.Util.Version;
 
-namespace WinFred
+namespace WinFred.Search
 {
     class SearchEngine
     {
@@ -46,65 +42,19 @@ namespace WinFred
 
         public void BuildIndex()
         {
-            List<Data> data = GetPathsToBeIndexed();
+            List<Document> data = new List<Document>();
+            foreach(Path currentPath in Config.GetInstance().Paths)
+            {
+                Folder currentFolder = new Folder(currentPath);
+                data.AddRange(currentFolder.getItemsToBeIndexed());
+            }
+
             using (IndexWriter writer = new IndexWriter(index, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
             {
-                data.ForEach(ElementToBeIndexed => writer.AddDocument(ElementToBeIndexed.GetDocument()));
+                data.ForEach(ElementToBeIndexed => writer.AddDocument(ElementToBeIndexed));
                 writer.Optimize();
                 writer.Commit();
             }
-        }
-
-        private List<Data> GetPathsToBeIndexed()
-        {
-            List<Data> data = new List<Data>();
-            foreach (var currentFolder in Config.GetInstance().Paths.Where(path => path.IsEnabled))
-            {
-                var tmp = GetFilesInDirectory(currentFolder.Location, currentFolder);
-                data.AddRange(tmp);
-            }
-            return data;
-        }
-
-        private List<Data> GetFilesInDirectory(String currentFolder, Path currentScope)
-        {
-            List<Data> data = new List<Data>();
-            try
-            {
-                data.AddRange(AddFilesInTheCurrentDirectory(currentFolder, currentScope));
-                foreach (String directory in Directory.GetDirectories(currentFolder))
-                {
-                    data.AddRange(GetFilesInDirectory(directory, currentScope));
-                }
-                data.Add(new Data(currentFolder) {Priority = 80});
-            }
-            catch (UnauthorizedAccessException) { }
-            return data;
-        }
-
-        private List<Data> AddFilesInTheCurrentDirectory(String currentFolder, Path currentScope)
-        {
-            List<Data> data = new List<Data>();
-            foreach (string filePath in Directory.GetFiles(currentFolder))
-            {
-                int index = currentScope.FileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-                if (index >= 0) //Is file extention found in the folder file extensions
-                {
-                    if (currentScope.FileExtensions[index].Priority >= 0)
-                    {
-                        data.Add(new Data(filePath, currentScope.FileExtensions[index].Priority + currentScope.Priority));
-                    }
-                }
-                else //else look into the defaultfileextensions
-                {
-                    index = Config.GetInstance().DefaultFileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-                    if (index >= 0)
-                    {
-                        data.Add(new Data(filePath, Config.GetInstance().DefaultFileExtensions[index].Priority + currentScope.Priority));
-                    }
-                }
-            }
-            return data;
         }
 
         public void AddFile(Data data)
