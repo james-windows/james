@@ -128,6 +128,7 @@
     <Compile Include="SearchEngine\Data.cs" />
     <Compile Include="SearchEngine\FileExtension.cs" />
     <Compile Include="SearchEngine\IndexGeneration\Folder.cs" />
+    <Compile Include="SearchEngine\MyFileWatcher.cs" />
     <Compile Include="SearchEngine\Path.cs" />
     <Compile Include="SearchEngine\SearchEngine.cs" />
     <Compile Include="SearchEngine\Workflow.cs" />

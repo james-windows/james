@@ -67,6 +67,11 @@ namespace WinFred.Search
             }
         }
 
+        internal void RenameFile(string fullPath)
+        {
+            //todo
+        }
+
         public List<SearchResult> Query(string str)
         {
             if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
