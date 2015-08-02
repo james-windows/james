@@ -10,6 +10,7 @@ namespace WinFred
         public OptionWindow()
         {
             InitializeComponent();
+            System.Threading.Thread.CurrentThread.Priority = System.Threading.ThreadPriority.Highest;
         }
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

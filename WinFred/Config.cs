@@ -33,9 +33,6 @@ namespace WinFred
         private static void InitConfig()
         {
             config = new Config();
-            config.ConfigFolderLocation = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WinFred";
-            config.MaxSearchResults = 8;
-            config.StartSearchMinTextLength = 3;
             config.Paths.Add(new Path() { Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) });
             loadDefaultFileExtensions();
             //add suppl workflow
@@ -64,11 +61,11 @@ namespace WinFred
         public ObservableCollection<Path> Paths { get; set; }
         public List<FileExtension> DefaultFileExtensions { get; set; }
 
-        public ObservableCollection<Workflow> Workflows { get; set; } 
+        public ObservableCollection<Workflow> Workflows { get; set; }
 
-        public int MaxSearchResults {get; set; }
-        public int StartSearchMinTextLength { get; set; }
-        public string ConfigFolderLocation { get; set; }
+        public int MaxSearchResults { get; set; } = 8;
+        public int StartSearchMinTextLength { get; set; } = 3;
+        public string ConfigFolderLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WinFred";
         private bool startProgramOnStartup = false;
 
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
