@@ -128,7 +128,7 @@
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style TargetType="{x:Type Grid}">
-                            <Setter Property="Height" Value="26" />
+                            <Setter Property="Height" Value="Auto" />
                         </Style>
                     </StackPanel.Resources>
                     <Grid>
@@ -137,7 +137,7 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0">is enabled:</TextBlock>
-                        <CheckBox Grid.Column="1" IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}"></CheckBox>
+                        <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}"></controls:ToggleSwitch>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>

@@ -34,7 +34,6 @@ namespace WinFred
             search = SearchEngine.GetInstance();
             resultList = new ObservableCollection<SearchResult>();
             SearchResultListBox.ItemsSource = resultList;
-            Config.GetInstance();
         }
 
         private void OnHotKeyHandler(HotKey hotKey)

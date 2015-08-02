@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -89,7 +90,7 @@
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style TargetType="{x:Type Grid}">
-                            <Setter Property="Height" Value="26" />
+                            <Setter Property="Height" Value="Auto" />
                         </Style>
                     </StackPanel.Resources>
                     <Grid>
@@ -106,7 +107,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"><Run Text="is enabled:"/></TextBlock>
-                        <CheckBox Grid.Column="1" IsChecked="{Binding SelectedItem.IsEnabled, ElementName=WorkflowListBox}"/>
+                        <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding SelectedItem.IsEnabled, ElementName=WorkflowListBox}"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -138,7 +139,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"><Run Text="Show Process Window:"/></TextBlock>
-                        <CheckBox Grid.Column="1" IsChecked="{Binding SelectedItem.ShowProcessWindow, ElementName=WorkflowListBox}"/>
+                        <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding SelectedItem.ShowProcessWindow, ElementName=WorkflowListBox}"/>
                     </Grid>
                 </StackPanel>
             </GroupBox>

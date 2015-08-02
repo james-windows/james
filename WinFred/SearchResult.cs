@@ -27,14 +27,12 @@ namespace WinFred
                 return null;
                 if (File.Exists(Path))
                 {
-                    //DateTime tmp = DateTime.Now;
                     Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(Path);
                     if (ico == null)
                         return null;
                     ImageSource imageSource = null;
                     if (ico != null)
                         imageSource = HelperClass.ToImageSource(ico);
-                    //Debug.WriteLine("Get Image: " + (DateTime.Now - tmp).TotalMilliseconds);
                     return imageSource;
                 }
                 

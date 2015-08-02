@@ -14,7 +14,7 @@
             <StackPanel>
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Grid}">
-                        <Setter Property="Height" Value="26" />
+                        <Setter Property="Height" Value="Auto" />
                     </Style>
                 </StackPanel.Resources>
                 <Grid>
@@ -23,7 +23,7 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"><Run Text="Start with windows:"/></TextBlock>
-                    <CheckBox Grid.Column="1" IsChecked="{Binding Path=StartProgramOnStartup}"/>
+                    <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=StartProgramOnStartup}"/>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -40,6 +40,22 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"><Run Text="Limit to start with searching"/></TextBlock>
                     <controls:NumericUpDown Grid.Column="1" Value="{Binding Path=StartSearchMinTextLength, UpdateSourceTrigger=LostFocus}"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"><Run Text="Window Accent Color"/></TextBlock>
+                    <ComboBox x:Name="AccentColorComboBox" Grid.Column="1" Text="{Binding Path=WindowAccentColor}"></ComboBox>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"><Run Text="BaseColor:"/></TextBlock>
+                    <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=IsBaseLight}" OnLabel="light" OffLabel="dark"/>
                 </Grid>
             </StackPanel>
         </GroupBox>

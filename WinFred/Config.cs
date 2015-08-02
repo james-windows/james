@@ -6,6 +6,7 @@ using System.IO;
 
 namespace WinFred
 {
+    public delegate void ChangedWindowAccentColorEventHandler(object sender, EventArgs e);
     public class Config
     {
         #region singleton
@@ -70,9 +71,10 @@ namespace WinFred
         public string ConfigFolderLocation { get; set; }
         private bool startProgramOnStartup = false;
 
-        /// <summary>
-        /// Insert a key into the Windows registry if the program should start with windows
-        /// </summary>
+        public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
+        private string windowAccentColor = "Lime";
+        private bool isBaseLight = true;
+
         public bool StartProgramOnStartup
         {
             get
@@ -92,6 +94,36 @@ namespace WinFred
                     registryKey.DeleteValue("Winfred", false);
                 }
                 startProgramOnStartup = value;
+            }
+        }
+
+        public string WindowAccentColor
+        {
+            get
+            {
+                return windowAccentColor;
+            }
+
+            set
+            {
+                windowAccentColor = value;
+                if(WindowChangedAccentColor != null)
+                    WindowChangedAccentColor(this, new EventArgs());
+            }
+        }
+
+        public bool IsBaseLight
+        {
+            get
+            {
+                return isBaseLight;
+            }
+
+            set
+            {
+                isBaseLight = value;
+                if (WindowChangedAccentColor != null)
+                    WindowChangedAccentColor(this, new EventArgs());
             }
         }
 

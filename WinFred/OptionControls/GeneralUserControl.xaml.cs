@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
+using WinFred.Enumerations;
 
 namespace WinFred.OptionControls
 {
@@ -11,6 +13,7 @@ namespace WinFred.OptionControls
         {
             InitializeComponent();
             this.DataContext = Config.GetInstance();
+            AccentColorComboBox.ItemsSource = Enum.GetNames(typeof(AccentColorTypes));
         }
     }
 }
