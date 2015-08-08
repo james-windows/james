@@ -51,16 +51,25 @@ namespace WinFred
             int FileExtension = CalculatePriorityByFileExtensions(filePath, this.FileExtensions);
             int DefaultFileExtension = CalculatePriorityByFileExtensions(filePath, Config.GetInstance().DefaultFileExtensions);
 
+            if (FileExtension < -1)
+            {
+                return -1;
+            }
+
             return Math.Max(FileExtension, DefaultFileExtension) + this.Priority;
         }
 
         private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> fileExtensions)
         {
-            int wasFound = fileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-            int priority = wasFound;
-            if (priority >= 0)
+            int indexOfSearchedItem = fileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
+            int priority = 0;
+            if (indexOfSearchedItem < 0)
             {
-                priority = fileExtensions[priority].Priority;
+                priority = -2;
+            }
+            else if (indexOfSearchedItem >= 0)
+            {
+                priority = fileExtensions[indexOfSearchedItem].Priority;
             }
             return priority;
         }

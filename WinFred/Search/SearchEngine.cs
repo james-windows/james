@@ -37,7 +37,7 @@ namespace WinFred.Search
             //analyzer = new SimpleAnalyzer();
             //analyzer = new WhitespaceAnalyzer();
             //analyzer = new KeywordAnalyzer();
-            sort = new Sort(new SortField[] { SortField.FIELD_SCORE, new SortField("Priority", SortField.INT) });
+            sort = new Sort(new SortField[] { SortField.FIELD_SCORE, new SortField("Priority", SortField.INT, true) });
         }
 
         public void BuildIndex()

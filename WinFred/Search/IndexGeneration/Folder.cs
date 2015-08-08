@@ -45,7 +45,7 @@ namespace WinFred.Search.IndexGeneration
             int priority = folder.GetFilePriority(filePath);
             if(priority > 0)
             {
-                data.Add((new Data(filePath, priority + folder.Priority)).GetDocument());
+                data.Add((new Data(filePath, priority)).GetDocument());
             }
             return data;
         }

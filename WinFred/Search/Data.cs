@@ -34,7 +34,7 @@ namespace WinFred
                 doc.Add(new Field("FileName", item, Field.Store.YES, Field.Index.ANALYZED));
             }
             doc.Add(new Field("Path", Path, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS));
-            doc.Add(new Field("Priority", (-Priority).ToString(), Field.Store.YES, Field.Index.ANALYZED_NO_NORMS));
+            doc.Add(new Field("Priority", Priority.ToString(), Field.Store.YES, Field.Index.ANALYZED_NO_NORMS));
             return doc;
         }
 
