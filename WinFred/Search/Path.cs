@@ -51,7 +51,7 @@ namespace WinFred
             int FileExtension = CalculatePriorityByFileExtensions(filePath, this.FileExtensions);
             int DefaultFileExtension = CalculatePriorityByFileExtensions(filePath, Config.GetInstance().DefaultFileExtensions);
 
-            if (FileExtension < -1)
+            if (FileExtension < -1 && DefaultFileExtension < -1)
             {
                 return -1;
             }

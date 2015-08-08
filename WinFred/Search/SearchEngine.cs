@@ -6,6 +6,7 @@ using Lucene.Net.Search;
 using Lucene.Net.Store;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WinFred.Search.IndexGeneration;
 using LuceneDirectory = Lucene.Net.Store.Directory;
 using Version = Lucene.Net.Util.Version;
@@ -41,7 +42,7 @@ namespace WinFred.Search
         public void BuildIndex()
         {
             List<Document> data = new List<Document>();
-            foreach(Path currentPath in Config.GetInstance().Paths)
+            foreach(Path currentPath in Config.GetInstance().Paths.Where(path => path.IsEnabled))
             {
                 Folder currentFolder = new Folder(currentPath);
                 data.AddRange(currentFolder.getItemsToBeIndexed());
