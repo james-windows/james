@@ -32,8 +32,6 @@ namespace WinFred
             this.Visibility = Visibility.Hidden;
 
             search = SearchEngine.GetInstance();
-            //resultList = new ObservableCollection<SearchResult>();
-            //SearchResultListBox.ItemsSource = resultList;
         }
 
         private void OnHotKeyHandler(HotKey hotKey)
@@ -185,7 +183,6 @@ namespace WinFred
             SearchTextBox.Focus();
         }
         private int SEARCH_ID;
-        //private ObservableCollection<SearchResult> resultList;
         private void Search(string str, int id)
         {
             DateTime tmp = DateTime.Now;
@@ -193,9 +190,6 @@ namespace WinFred
             
             Dispatcher.BeginInvoke((Action)(() =>
             {
-                //resultList.Clear();
-                //foreach (SearchResult x in res)
-                //    resultList.Add(x);
                 SearchResultListBox.ItemsSource = res;
                 if (res.Count > 0)
                 {
@@ -230,7 +224,6 @@ namespace WinFred
                 if (item.IsEnabled && str.StartsWith(item.Keyword))
                 {
                     workflowExecuted = true;
-                    //resultList.Clear();
                     OutputWebBrowser.Visibility = Visibility.Visible;
                     new Task(()=>ExecuteWorkflow(item, str)).Start();
                     return;
@@ -267,20 +260,17 @@ namespace WinFred
             exStyle |= (int)ExtendedWindowStyles.WS_EX_TOOLWINDOW;
             SetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE, (IntPtr)exStyle);
         }
+
         #region Window styles
         [Flags]
         public enum ExtendedWindowStyles
         {
-            // ...
             WS_EX_TOOLWINDOW = 0x00000080,
-            // ...
         }
 
         public enum GetWindowLongFields
         {
-            // ...
             GWL_EXSTYLE = (-20),
-            // ...
         }
 
         [DllImport("user32.dll")]
