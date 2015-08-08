@@ -104,8 +104,8 @@
             <GroupBox Header="Default Settings" VerticalContentAlignment="Stretch">
                 <DataGrid x:Name="FileExtensionsDataGrid" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" />
-                        <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority"/>
+                        <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto"/>
+                        <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
@@ -149,8 +149,8 @@
                     </Grid>
                     <DataGrid x:Name="SpecificFileExtensionsDataGrid" ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" />
-                            <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority"/>
+                            <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto"/>
+                            <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

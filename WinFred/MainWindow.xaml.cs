@@ -32,8 +32,8 @@ namespace WinFred
             this.Visibility = Visibility.Hidden;
 
             search = SearchEngine.GetInstance();
-            resultList = new ObservableCollection<SearchResult>();
-            SearchResultListBox.ItemsSource = resultList;
+            //resultList = new ObservableCollection<SearchResult>();
+            //SearchResultListBox.ItemsSource = resultList;
         }
 
         private void OnHotKeyHandler(HotKey hotKey)
@@ -185,7 +185,7 @@ namespace WinFred
             SearchTextBox.Focus();
         }
         private int SEARCH_ID;
-        private ObservableCollection<SearchResult> resultList;
+        //private ObservableCollection<SearchResult> resultList;
         private void Search(string str, int id)
         {
             DateTime tmp = DateTime.Now;
@@ -193,9 +193,10 @@ namespace WinFred
             
             Dispatcher.BeginInvoke((Action)(() =>
             {
-                resultList.Clear();
-                foreach (SearchResult x in res)
-                    resultList.Add(x);
+                //resultList.Clear();
+                //foreach (SearchResult x in res)
+                //    resultList.Add(x);
+                SearchResultListBox.ItemsSource = res;
                 if (res.Count > 0)
                 {
                     SearchResultListBox.SelectedIndex = 0;
@@ -229,7 +230,7 @@ namespace WinFred
                 if (item.IsEnabled && str.StartsWith(item.Keyword))
                 {
                     workflowExecuted = true;
-                    resultList.Clear();
+                    //resultList.Clear();
                     OutputWebBrowser.Visibility = Visibility.Visible;
                     new Task(()=>ExecuteWorkflow(item, str)).Start();
                     return;
