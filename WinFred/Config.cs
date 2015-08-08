@@ -11,20 +11,24 @@ namespace WinFred
     {
         #region singleton
         public static Config config;
-        private static readonly Object lookObject = new object();
+        private static readonly object LookObject = new object();
         public static Config GetInstance()
         {
-            lock (lookObject)
+            lock (LookObject)
             {
                 if (config == null)
-                try
                 {
-                    config = HelperClass.Derialize<Config>(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                        "\\WinFred\\config.xml");
-                }
-                catch (Exception)
-                {
-                    InitConfig();
+                    try
+                    {
+                        config =
+                            HelperClass.Derialize<Config>(
+                                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                "\\WinFred\\config.xml");
+                    }
+                    catch (Exception)
+                    {
+                        InitConfig();
+                    }
                 }
                 return config;
             }
@@ -34,8 +38,7 @@ namespace WinFred
         {
             config = new Config();
             config.Paths.Add(new Path() { Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) });
-            loadDefaultFileExtensions();
-            //add suppl workflow
+            LoadDefaultFileExtensions();
             config.Persist();            
         }
 
@@ -66,17 +69,17 @@ namespace WinFred
         public int MaxSearchResults { get; set; } = 8;
         public int StartSearchMinTextLength { get; set; } = 3;
         public string ConfigFolderLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WinFred";
-        private bool startProgramOnStartup = false;
+        private bool _startProgramOnStartup = false;
 
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
-        private string windowAccentColor = "Lime";
-        private bool isBaseLight = true;
+        private string _windowAccentColor = "Lime";
+        private bool _isBaseLight = true;
 
         public bool StartProgramOnStartup
         {
             get
             {
-                return startProgramOnStartup;
+                return _startProgramOnStartup;
             }
             set
             {
@@ -84,13 +87,13 @@ namespace WinFred
                         ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 if (value)
                 {
-                    registryKey.SetValue("Winfred", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    registryKey?.SetValue("Winfred", System.Reflection.Assembly.GetExecutingAssembly().Location);
                 }
                 else
                 {
-                    registryKey.DeleteValue("Winfred", false);
+                    registryKey?.DeleteValue("Winfred", false);
                 }
-                startProgramOnStartup = value;
+                _startProgramOnStartup = value;
             }
         }
 
@@ -98,14 +101,13 @@ namespace WinFred
         {
             get
             {
-                return windowAccentColor;
+                return _windowAccentColor;
             }
 
             set
             {
-                windowAccentColor = value;
-                if(WindowChangedAccentColor != null)
-                    WindowChangedAccentColor(this, new EventArgs());
+                _windowAccentColor = value;
+                WindowChangedAccentColor?.Invoke(this, new EventArgs());
             }
         }
 
@@ -113,14 +115,13 @@ namespace WinFred
         {
             get
             {
-                return isBaseLight;
+                return _isBaseLight;
             }
 
             set
             {
-                isBaseLight = value;
-                if (WindowChangedAccentColor != null)
-                    WindowChangedAccentColor(this, new EventArgs());
+                _isBaseLight = value;
+                WindowChangedAccentColor?.Invoke(this, new EventArgs());
             }
         }
 
@@ -132,30 +133,32 @@ namespace WinFred
             Workflows = new ObservableCollection<Workflow>();
             
         }
-        static public void loadDefaultFileExtensions()
+        static public void LoadDefaultFileExtensions()
         {
-            List<FileExtension> tmp = new List<FileExtension>();
-            tmp.Add(new FileExtension("exe", 100));
-            tmp.Add(new FileExtension("png", 10));
-            tmp.Add(new FileExtension("jpg", 10));
-            tmp.Add(new FileExtension("pdf", 40));
-            tmp.Add(new FileExtension("doc", 10));
-            tmp.Add(new FileExtension("c", 11));
-            tmp.Add(new FileExtension("cpp", 11));
-            tmp.Add(new FileExtension("html", 15));
-            tmp.Add(new FileExtension("js", 10));
-            tmp.Add(new FileExtension("html", 10));
-            tmp.Add(new FileExtension("msi", 80));
-            tmp.Add(new FileExtension("zip", 50));
-            tmp.Add(new FileExtension("csv", 10));
-            tmp.Add(new FileExtension("cs", 10));
-            tmp.Add(new FileExtension("cshtml", 10));
-            tmp.Add(new FileExtension("jar", 20));
-            tmp.Add(new FileExtension("java", 30));
-            tmp.Add(new FileExtension("txt", 20));
-            tmp.Add(new FileExtension("docx", 10));
-            tmp.Add(new FileExtension("xmcd", 39));
-            tmp.Add(new FileExtension("mcdx", 40));
+            List<FileExtension> tmp = new List<FileExtension>
+            {
+                new FileExtension("exe", 100),
+                new FileExtension("png", 10),
+                new FileExtension("jpg", 10),
+                new FileExtension("pdf", 40),
+                new FileExtension("doc", 10),
+                new FileExtension("c", 11),
+                new FileExtension("cpp", 11),
+                new FileExtension("html", 15),
+                new FileExtension("js", 10),
+                new FileExtension("html", 10),
+                new FileExtension("msi", 80),
+                new FileExtension("zip", 50),
+                new FileExtension("csv", 10),
+                new FileExtension("cs", 10),
+                new FileExtension("cshtml", 10),
+                new FileExtension("jar", 20),
+                new FileExtension("java", 30),
+                new FileExtension("txt", 20),
+                new FileExtension("docx", 10),
+                new FileExtension("xmcd", 39),
+                new FileExtension("mcdx", 40)
+            };
             config.DefaultFileExtensions.AddRange(tmp);
             config.DefaultFileExtensions.Sort();
         }

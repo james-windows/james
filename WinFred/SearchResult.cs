@@ -12,13 +12,7 @@ namespace WinFred
         public int Priority { get; set; }
         public string Path { get; set; }
 
-        public string Filename
-        {
-            get
-            {
-                return Path.Substring(Path.LastIndexOf('\\') + 1);
-            }
-        }
+        public string Filename => Path.Substring(Path.LastIndexOf('\\') + 1);
 
         public ImageSource Icon
         {

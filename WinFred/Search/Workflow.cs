@@ -42,7 +42,7 @@ namespace WinFred
             }
         }
 
-        public Workflow(String name, String keyword, bool showProcessWindow = false, bool isEnabled = true)
+        public Workflow(string name, string keyword, bool showProcessWindow = false, bool isEnabled = true)
         {
             Name = name;
             Keyword = keyword;
@@ -80,7 +80,7 @@ namespace WinFred
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

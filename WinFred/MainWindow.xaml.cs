@@ -21,7 +21,7 @@ namespace WinFred
     public partial class MainWindow : Window
     {
         private LargeType lt;
-        private SearchEngine search;
+        private readonly SearchEngine search;
 
         public MainWindow()
         {
@@ -96,13 +96,10 @@ namespace WinFred
                 }
                 if (interestingFileExtension == null)
                 {
-                    foreach (FileExtension item in Config.GetInstance().DefaultFileExtensions)
+                    foreach (FileExtension item in Config.GetInstance().DefaultFileExtensions.Where(item => fileExtension == item.Extension))
                     {
-                        if (fileExtension == item.Extension)
-                        {
-                            interestingFileExtension = item;
-                            break;
-                        }
+                        interestingFileExtension = item;
+                        break;
                     }
                 }
                 if (interestingFileExtension != null) //matching file
@@ -199,7 +196,7 @@ namespace WinFred
             Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
         }
 
-        private void ExecuteWorkflow(Workflow workflow, String str)
+        private void ExecuteWorkflow(Workflow workflow, string str)
         {
             DateTime tmp = DateTime.Now;
             String line = "";
@@ -246,7 +243,7 @@ namespace WinFred
         }
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            if (!(lt != null))
+            if (lt == null)
                 OnHotKeyHandler(null);
         }
 

@@ -38,7 +38,7 @@ namespace WinFred
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public override string ToString()
@@ -46,7 +46,7 @@ namespace WinFred
             return Location + " :" + Priority;
         }
 
-        public int GetFilePriority(String filePath)
+        public int GetFilePriority(string filePath)
         {
             int FileExtension = CalculatePriorityByFileExtensions(filePath, this.FileExtensions);
             int DefaultFileExtension = CalculatePriorityByFileExtensions(filePath, Config.GetInstance().DefaultFileExtensions);

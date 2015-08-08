@@ -12,8 +12,8 @@ namespace WinFred
         {
             InitializeComponent();
             WindowState = WindowState.Maximized;
-            Width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            Height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            Width = SystemParameters.PrimaryScreenWidth;
+            Height = SystemParameters.PrimaryScreenHeight;
             this.TextBlock.Text = message;
         }
 

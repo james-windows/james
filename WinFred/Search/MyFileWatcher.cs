@@ -6,22 +6,22 @@ namespace WinFred.Search
 {
     class MyFileWatcher
     {
-        Path[] paths;
-        LinkedList<FileSystemWatcher> fileSystemWatchers;
+        readonly Path[] _paths;
+        readonly LinkedList<FileSystemWatcher> _fileSystemWatchers;
         public MyFileWatcher()
         {
-            paths = Config.GetInstance().Paths.ToArray();
-            fileSystemWatchers = new LinkedList<FileSystemWatcher>();
+            _paths = Config.GetInstance().Paths.ToArray();
+            _fileSystemWatchers = new LinkedList<FileSystemWatcher>();
 
-            for (int i = 0; i < paths.Length; i++)
+            for (int i = 0; i < _paths.Length; i++)
             {
-                FileSystemWatcher tmpWatcher = new FileSystemWatcher(paths[i].Location);
+                FileSystemWatcher tmpWatcher = new FileSystemWatcher(_paths[i].Location);
                 tmpWatcher.IncludeSubdirectories = true;
                 tmpWatcher.Created += File_Created;
                 tmpWatcher.Deleted += File_Deleted;
                 tmpWatcher.Renamed += File_Renamed;
                 tmpWatcher.Changed += File_Changed;
-                fileSystemWatchers.AddLast(tmpWatcher);
+                _fileSystemWatchers.AddLast(tmpWatcher);
                 tmpWatcher.EnableRaisingEvents = true;
             }
         }
@@ -29,7 +29,7 @@ namespace WinFred.Search
         private void File_Created(object sender, FileSystemEventArgs e)
         {
             FileSystemWatcher watcher = sender as FileSystemWatcher;//TODO find better solution than duplication
-            Path currentPath = paths.First(path => path.Location == watcher.Path);
+            Path currentPath = _paths.First(path => path.Location == watcher?.Path);
             int priority = currentPath.GetFilePriority(e.FullPath);
             if (priority >= 0)
             {
@@ -40,7 +40,7 @@ namespace WinFred.Search
         private void File_Deleted(object sender, FileSystemEventArgs e)
         {
             FileSystemWatcher watcher = sender as FileSystemWatcher;
-            Path currentPath = paths.First(path => path.Location == watcher.Path);
+            Path currentPath = _paths.First(path => path.Location == watcher?.Path);
             int priority = currentPath.GetFilePriority(e.FullPath);
             if (priority >= 0)
             {
@@ -51,7 +51,7 @@ namespace WinFred.Search
         private void File_Renamed(object sender, RenamedEventArgs e)
         {
             FileSystemWatcher watcher = sender as FileSystemWatcher;
-            Path currentPath = paths.First(path => path.Location == watcher.Path);
+            Path currentPath = _paths.First(path => path.Location == watcher?.Path);
             int priority = currentPath.GetFilePriority(e.FullPath);
             if (priority >= 0)
             {
@@ -62,7 +62,7 @@ namespace WinFred.Search
         private void File_Changed(object sender, FileSystemEventArgs e)
         {
             FileSystemWatcher watcher = sender as FileSystemWatcher;
-            Path currentPath = paths.First(path => path.Location == watcher.Path);
+            Path currentPath = _paths.First(path => path.Location == watcher?.Path);
             int priority = currentPath.GetFilePriority(e.FullPath);
             if (priority >= 0)
             {

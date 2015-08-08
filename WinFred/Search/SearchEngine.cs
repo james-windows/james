@@ -14,30 +14,28 @@ namespace WinFred.Search
 {
     class SearchEngine
     {
-        private static SearchEngine searchEngine;
-        private static object singeltonLock = new object();
-        LuceneDirectory index;
-        Sort sort;
-        Analyzer analyzer;
+        private static SearchEngine _searchEngine;
+        private static readonly object SingeltonLock = new object();
+        readonly LuceneDirectory _index;
+        readonly Sort _sort;
+        readonly Analyzer _analyzer;
 
         public static SearchEngine GetInstance()
         {
-            lock (singeltonLock)
+            lock (SingeltonLock)
             {
-                if (searchEngine == null)
-                    searchEngine = new SearchEngine();
-                return searchEngine;
+                return _searchEngine ?? (_searchEngine = new SearchEngine());
             }
         }
 
         private SearchEngine()
         {
-            index = FSDirectory.Open(Config.GetInstance().ConfigFolderLocation + "\\Index");
-            analyzer = new StandardAnalyzer(Version.LUCENE_30);
+            _index = FSDirectory.Open(Config.GetInstance().ConfigFolderLocation + "\\Index");
+            _analyzer = new StandardAnalyzer(Version.LUCENE_30);
             //analyzer = new SimpleAnalyzer();
             //analyzer = new WhitespaceAnalyzer();
             //analyzer = new KeywordAnalyzer();
-            sort = new Sort(new SortField[] { SortField.FIELD_SCORE, new SortField("Priority", SortField.INT, true) });
+            _sort = new Sort(new SortField[] { SortField.FIELD_SCORE, new SortField("Priority", SortField.INT, true) });
         }
 
         public void BuildIndex()
@@ -49,7 +47,7 @@ namespace WinFred.Search
                 data.AddRange(currentFolder.getItemsToBeIndexed());
             }
 
-            using (IndexWriter writer = new IndexWriter(index, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
+            using (IndexWriter writer = new IndexWriter(_index, _analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 data.ForEach(ElementToBeIndexed => writer.AddDocument(ElementToBeIndexed));
                 writer.Optimize();
@@ -59,7 +57,7 @@ namespace WinFred.Search
 
         public void AddFile(Data data)
         {
-            using (IndexWriter writer = new IndexWriter(index, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+            using (IndexWriter writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 writer.AddDocument(data.GetDocument());
                 writer.Optimize();
@@ -79,11 +77,11 @@ namespace WinFred.Search
             str = str.ToLower();
             Query query = new PrefixQuery(new Term("FileName", str.Trim()));
             
-            using (IndexReader reader = IndexReader.Open(index, true))
+            using (IndexReader reader = IndexReader.Open(_index, true))
             {
                 using (Searcher searcher = new IndexSearcher(reader))
                 {
-                    TopFieldDocs docs = searcher.Search(query, new QueryWrapperFilter(query), Config.GetInstance().MaxSearchResults, sort);
+                    TopFieldDocs docs = searcher.Search(query, new QueryWrapperFilter(query), Config.GetInstance().MaxSearchResults, _sort);
                     ScoreDoc[] res = docs.ScoreDocs;
                     List<SearchResult> match = new List<SearchResult>();
                     foreach (ScoreDoc scoreDoc in res)
@@ -104,7 +102,7 @@ namespace WinFred.Search
         public void IncrementPriority(SearchResult result)
         {
             Data data = new Data(result.Path) { Id = result.Id, Priority = Math.Abs(result.Priority) + 5 };
-            using (IndexWriter writer = new IndexWriter(index, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+            using (IndexWriter writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 writer.UpdateDocument(new Term("Id", result.Id), data.GetDocument());
                 writer.Optimize();
@@ -112,9 +110,9 @@ namespace WinFred.Search
             }
         }
 
-        public void DeleteFile(String path)
+        public void DeleteFile(string path)
         {
-            using (IndexWriter writer = new IndexWriter(index, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+            using (IndexWriter writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 Query query = new PrefixQuery(new Term("Path", path.ToLower()));
                 writer.DeleteDocuments(query);
@@ -123,14 +121,14 @@ namespace WinFred.Search
             }
         }
 
-        public void IncrementPriority(String path)
+        public void IncrementPriority(string path)
         {
-            using (IndexReader reader = IndexReader.Open(index, true))
+            using (IndexReader reader = IndexReader.Open(_index, true))
             {
                 Query query = new PrefixQuery(new Term("Path", path.ToLower()));
                 using (Searcher searcher = new IndexSearcher(reader))
                 {
-                    ScoreDoc[] res = searcher.Search(query, new QueryWrapperFilter(query), 10, sort).ScoreDocs;
+                    ScoreDoc[] res = searcher.Search(query, new QueryWrapperFilter(query), 10, _sort).ScoreDocs;
                     if (res.Length == 0)
                     {
                         return;

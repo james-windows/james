@@ -8,29 +8,29 @@ namespace WinFred.Search.IndexGeneration
 {
     class Folder
     {
-        Path folder;
+        readonly Path _folder;
         public Folder(Path folder)
         {
-            this.folder = folder;
+            this._folder = folder;
         }
 
-        internal IEnumerable<Document> getItemsToBeIndexed(String currentPath = "")
+        internal IEnumerable<Document> getItemsToBeIndexed(string currentPath = "")
         {
             List<Document> data = new List<Document>();
             try
             {
-                data.AddRange(getItemsInCurrentScope(folder.Location + currentPath));
-                foreach (String directory in Directory.GetDirectories(folder.Location + currentPath))
+                data.AddRange(getItemsInCurrentScope(_folder.Location + currentPath));
+                foreach (String directory in Directory.GetDirectories(_folder.Location + currentPath))
                 {
-                    data.AddRange(getItemsToBeIndexed(directory.Replace(folder.Location, "")));
+                    data.AddRange(getItemsToBeIndexed(directory.Replace(_folder.Location, "")));
                 }
             }
             catch (UnauthorizedAccessException) { }
-            data.Add((new Data(folder.Location + currentPath) { Priority = 80 }).GetDocument());
+            data.Add((new Data(_folder.Location + currentPath) { Priority = 80 }).GetDocument());
             return data;
         }
 
-        private IEnumerable<Document> getItemsInCurrentScope(String currentPath)
+        private IEnumerable<Document> getItemsInCurrentScope(string currentPath)
         {
             List<Document> data = new List<Document>();
             foreach (string filePath in Directory.GetFiles(currentPath))
@@ -39,10 +39,10 @@ namespace WinFred.Search.IndexGeneration
             }
             return data;
         }
-        private IEnumerable<Document> GetFileIfItShouldBeTraced(String filePath)
+        private IEnumerable<Document> GetFileIfItShouldBeTraced(string filePath)
         {
             List<Document> data = new List<Document>();
-            int priority = folder.GetFilePriority(filePath);
+            int priority = _folder.GetFilePriority(filePath);
             if(priority > 0)
             {
                 data.Add((new Data(filePath, priority)).GetDocument());
