@@ -115,7 +115,7 @@ namespace WinFred
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WinFred";
 
         private bool _startProgramOnStartup;
-        public int FolderPriority { get; set; } = 80;
+        public int DefaultFolderPriority { get; set; } = 80;
 
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
         private string _windowAccentColor = "Lime";

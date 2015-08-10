@@ -13,11 +13,7 @@ namespace WinFred.OptionControls
         public WorkflowsUserControl()
         {
             InitializeComponent();
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            WorkflowListBox.ItemsSource = Config.GetInstance().Workflows;
+            this.DataContext = Config.GetInstance();
         }
 
         private void ChangeStatusMenuItem_Click(object sender, RoutedEventArgs e)

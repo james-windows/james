@@ -29,6 +29,7 @@ namespace WinFred
         public string Location { get; set; }
         public int Priority { get; set; }
         public List<FileExtension> FileExtensions { get; set; }
+        public int FolderPriority { get; set; } = 0;
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

@@ -16,11 +16,7 @@ namespace WinFred.OptionControls
         public SearchUserControl()
         {
             InitializeComponent();
-            this.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                PathListBox.ItemsSource = Config.GetInstance().Paths;
-                FileExtensionsDataGrid.ItemsSource = Config.GetInstance().DefaultFileExtensions;
-            }), null);
+            this.DataContext = Config.GetInstance();
         }
 
         private async void RebuildIndexButton_Click(object sender, RoutedEventArgs e)

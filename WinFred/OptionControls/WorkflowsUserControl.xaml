@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" Loaded="UserControl_Loaded">
+             mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -18,7 +18,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <ListBox x:Name="WorkflowListBox" Grid.Row="0" Margin="20" HorizontalContentAlignment="Stretch">
+                <ListBox x:Name="WorkflowListBox" Grid.Row="0" Margin="20" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Workflows, IsAsync=True}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>

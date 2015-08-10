@@ -31,7 +31,7 @@ namespace WinFred.Search.IndexGeneration
             data.Add(
                 (new Data(_folder.Location + currentPath)
                 {
-                    Priority = Config.GetInstance().FolderPriority + _folder.Priority
+                    Priority = Config.GetInstance().DefaultFolderPriority + _folder.Priority
                 }).GetDocument());
             return data;
         }
