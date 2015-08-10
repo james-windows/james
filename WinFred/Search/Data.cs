@@ -27,9 +27,9 @@ namespace WinFred
 
         public Document GetDocument()
         {
-            Document doc = new Document();
+            var doc = new Document();
             doc.Add(new Field("Id", Id, Field.Store.YES, Field.Index.NOT_ANALYZED));
-            foreach (String item in FileName.Split(' '))
+            foreach (var item in FileName.Split(' '))
             {
                 doc.Add(new Field("FileName", item, Field.Store.YES, Field.Index.ANALYZED));
             }

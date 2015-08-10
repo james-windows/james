@@ -11,6 +11,11 @@ namespace WinFred
     {
         private bool _isEnabled = true;
 
+        public Path()
+        {
+            FileExtensions = new List<FileExtension>();
+        }
+
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -22,22 +27,14 @@ namespace WinFred
         }
 
         public string Location { get; set; }
-
         public int Priority { get; set; }
-
         public List<FileExtension> FileExtensions { get; set; }
-
-        public Path()
-        {
-            FileExtensions = new List<FileExtension>();
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            var handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
@@ -48,21 +45,22 @@ namespace WinFred
 
         public int GetFilePriority(string filePath)
         {
-            int FileExtension = CalculatePriorityByFileExtensions(filePath, this.FileExtensions);
-            int DefaultFileExtension = CalculatePriorityByFileExtensions(filePath, Config.GetInstance().DefaultFileExtensions);
+            var FileExtension = CalculatePriorityByFileExtensions(filePath, FileExtensions);
+            var DefaultFileExtension = CalculatePriorityByFileExtensions(filePath,
+                Config.GetInstance().DefaultFileExtensions);
 
             if (FileExtension < -1 && DefaultFileExtension < -1)
             {
                 return -1;
             }
 
-            return Math.Max(FileExtension, DefaultFileExtension) + this.Priority;
+            return Math.Max(FileExtension, DefaultFileExtension) + Priority;
         }
 
         private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> fileExtensions)
         {
-            int indexOfSearchedItem = fileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-            int priority = 0;
+            var indexOfSearchedItem = fileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
+            var priority = 0;
             if (indexOfSearchedItem < 0)
             {
                 priority = -2;
