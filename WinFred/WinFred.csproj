@@ -134,6 +134,7 @@
     <Compile Include="Search\SearchEngine.cs" />
     <Compile Include="Search\Workflow.cs" />
     <Compile Include="SearchResult.cs" />
+    <Compile Include="ValidationRules\FileExtensionValidationRule.cs" />
     <Page Include="LargeType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

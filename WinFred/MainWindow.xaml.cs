@@ -239,7 +239,7 @@ namespace WinFred
         private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             HideWindow();
-            ((SearchResult)SearchResultListBox.SelectedItem).Open();
+            ((SearchResult) SearchResultListBox.SelectedItem).Open();
         }
         private void Window_Deactivated(object sender, EventArgs e)
         {

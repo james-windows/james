@@ -114,8 +114,16 @@
                     <DataGrid x:Name="FileExtensionsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding DefaultFileExtensions, IsAsync=True}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto"/>
-                            <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority" Width="*"/>
+                            <controls:DataGridNumericUpDownColumn Header="Priority" Width="*" Binding="{Binding Priority}" Minimum="-1" Maximum="10000"/>                           
                         </DataGrid.Columns>
+                        <DataGrid.RowValidationErrorTemplate>
+                            <ControlTemplate>
+                                <Grid ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}},Path=(Validation.Errors)[0].ErrorContent}">
+                                    <Ellipse Width="16" Height="16" Fill="Red"/>
+                                    <TextBlock Text="!" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                            </ControlTemplate>
+                        </DataGrid.RowValidationErrorTemplate>
                     </DataGrid>
                 </StackPanel>
             </GroupBox>
@@ -141,7 +149,7 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0">is enabled:</TextBlock>
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center">is enabled:</TextBlock>
                         <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}"></controls:ToggleSwitch>
                     </Grid>
                     <Grid>

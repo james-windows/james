@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:optionControls="clr-namespace:WinFred.OptionControls"
-        Title="WinFred - Settings"  WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Height="600" Width="800" ResizeMode="NoResize"
+        Title="WinFred - Settings"  WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" MinHeight="600" MinWidth="800" Height="600" Width="800"
         EnableDWMDropShadow="True" Closing="MetroWindow_Closing">
     <Grid>
         <TabControl>
