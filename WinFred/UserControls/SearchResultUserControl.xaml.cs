@@ -68,15 +68,15 @@ namespace WinFred.UserControls
 
         public void Open(KeyEventArgs e)
         {
-            if (searchResultElement.Currentfocus >= 0 && searchResultElement.Currentfocus < searchResults.Count)
+            if (searchResultElement.CurrentFocus >= 0 && searchResultElement.CurrentFocus < searchResults.Count)
             {
                 if (e.KeyboardDevice.IsKeyDown(Key.LeftShift) || e.KeyboardDevice.IsKeyDown(Key.RightShift))
                 {
-                    searchResults[searchResultElement.Currentfocus].OpenFolder();
+                    searchResults[searchResultElement.CurrentFocus].OpenFolder();
                 }
                 else
                 {
-                    searchResults[searchResultElement.Currentfocus].Open();
+                    searchResults[searchResultElement.CurrentFocus].Open();
                 }
             }
         }

@@ -15,11 +15,11 @@ namespace WinFred
     {
         public const int ROW_HEIGHT = 50;
         private VisualCollection _children;
-        private int _currentfocus;
+        private int _currentFocus;
 
-        public int Currentfocus
+        public int CurrentFocus
         {
-            get { return _currentfocus; }
+            get { return _currentFocus; }
         }
 
         public Brush FocusBackgroundBrush { get; set; } = (Brush) ThemeManager.GetResourceFromAppStyle(null, "AccentColorBrush");
@@ -54,7 +54,7 @@ namespace WinFred
 
         private void focusIndex(int index)
         {
-            _currentfocus = index;
+            _currentFocus = index;
             DrawingVisual drawingVisual = new DrawingVisual();
             using (DrawingContext ctx = drawingVisual.RenderOpen())
             {
@@ -72,9 +72,9 @@ namespace WinFred
             DrawingVisual drawingVisual = new DrawingVisual();
             using (DrawingContext ctx = drawingVisual.RenderOpen())
             {
-                ctx.DrawText(CreateText(sr.Filename, 18, index == _currentfocus), new Point(30, index * ROW_HEIGHT));
-                ctx.DrawText(CreateText(sr.Path, 10, index == _currentfocus), new Point(30, index * ROW_HEIGHT + 25));
-                ctx.DrawText(CreateText(sr.Priority.ToString(), 10, index == _currentfocus), new Point(5, index * ROW_HEIGHT));
+                ctx.DrawText(CreateText(sr.Filename, 18, index == _currentFocus), new Point(30, index * ROW_HEIGHT));
+                ctx.DrawText(CreateText(sr.Path, 10, index == _currentFocus), new Point(30, index * ROW_HEIGHT + 25));
+                ctx.DrawText(CreateText(sr.Priority.ToString(), 10, index == _currentFocus), new Point(5, index * ROW_HEIGHT));
             }
             _children.Add(drawingVisual);
         }
