@@ -23,7 +23,7 @@ namespace WinFred.UserControls
     public partial class SearchResultUserControl : UserControl
     {
         private SearchResultElement searchResultElement;
-        private List<SearchResult> searchResult;
+        private List<SearchResult> searchResults;
         public SearchResultUserControl()
         {
             InitializeComponent();
@@ -37,12 +37,12 @@ namespace WinFred.UserControls
         public void Search(string str)
         {
             DateTime tmp = DateTime.Now;
-            searchResult = SearchEngine.GetInstance().Query(str);
+            searchResults = SearchEngine.GetInstance().Query(str);
             FocusedIndex = 0;
-            searchResultElement.DrawItems(searchResult, FocusedIndex);
+            searchResultElement.DrawItems(searchResults, FocusedIndex);
             Dispatcher.BeginInvoke((Action)(() =>
             {
-                searchResultElement.Height = searchResult.Count * SearchResultElement.ROW_HEIGHT;
+                searchResultElement.Height = searchResults.Count * SearchResultElement.ROW_HEIGHT;
             }));
 
             Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
@@ -53,16 +53,31 @@ namespace WinFred.UserControls
             if (FocusedIndex > 0)
             {
                 FocusedIndex--;
-                searchResultElement.DrawItems(searchResult, FocusedIndex);
+                searchResultElement.DrawItems(searchResults, FocusedIndex);
             }
         }
 
         public void MoveDown()
         {
-            if (FocusedIndex < searchResult.Count - 1)
+            if (FocusedIndex < searchResults.Count - 1)
             {
                 FocusedIndex++;
-                searchResultElement.DrawItems(searchResult, FocusedIndex);
+                searchResultElement.DrawItems(searchResults, FocusedIndex);
+            }
+        }
+
+        public void Open(KeyEventArgs e)
+        {
+            if (searchResultElement.Currentfocus >= 0 && searchResultElement.Currentfocus < searchResults.Count)
+            {
+                if (e.KeyboardDevice.IsKeyDown(Key.LeftShift) || e.KeyboardDevice.IsKeyDown(Key.RightShift))
+                {
+                    searchResults[searchResultElement.Currentfocus].OpenFolder();
+                }
+                else
+                {
+                    searchResults[searchResultElement.Currentfocus].Open();
+                }
             }
         }
     }

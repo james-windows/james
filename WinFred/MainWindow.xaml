@@ -33,6 +33,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>-->
-        <userControls:SearchResultUserControl x:Name="SearchResultControl" Grid.Row="2"></userControls:SearchResultUserControl>
+        <userControls:SearchResultUserControl x:Name="searchResultControl" Grid.Row="2"></userControls:SearchResultUserControl>
     </Grid>
 </Window>

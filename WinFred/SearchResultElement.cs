@@ -17,6 +17,11 @@ namespace WinFred
         private VisualCollection _children;
         private int _currentfocus;
 
+        public int Currentfocus
+        {
+            get { return _currentfocus; }
+        }
+
         public Brush FocusBackgroundBrush { get; set; } = (Brush) ThemeManager.GetResourceFromAppStyle(null, "AccentColorBrush");
         public Brush FocusForegroundBrush { get; set; } = (Brush)ThemeManager.GetResourceFromAppStyle(null, "IdealForegroundColorBrush");
 
