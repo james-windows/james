@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
+using MahApps.Metro;
 using Microsoft.Win32;
 
 namespace WinFred
@@ -105,11 +106,22 @@ namespace WinFred
 
         public ObservableCollection<Path> Paths { get; set; }
         public List<FileExtension> DefaultFileExtensions { get; set; }
-
         public ObservableCollection<Workflow> Workflows { get; set; }
 
-        public int MaxSearchResults { get; set; } = 8;
-        public int StartSearchMinTextLength { get; set; } = 3;
+        private int maxSearchResults = 8;
+        private int startSearchMinTextLength = 3;
+
+        public int MaxSearchResults
+        {
+            get { return maxSearchResults; }
+            set { maxSearchResults = value; }
+        }
+
+        public int StartSearchMinTextLength
+        {
+            get { return startSearchMinTextLength; }
+            set { startSearchMinTextLength = value; }
+        }
 
         public string ConfigFolderLocation { get; set; } =
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WinFred";

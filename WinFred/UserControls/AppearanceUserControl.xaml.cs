@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace WinFred.OptionControls
+namespace WinFred.UserControls
 {
     /// <summary>
     /// Interaction logic for CustomizeUserControl.xaml

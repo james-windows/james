@@ -100,22 +100,26 @@
     </ApplicationDefinition>
     <Compile Include="Enumerations\AccentColorTypes.cs" />
     <Compile Include="HelperClass.cs" />
-    <Compile Include="OptionControls\AboutUserControl.xaml.cs">
+    <Compile Include="SearchResultElement.cs" />
+    <Compile Include="UserControls\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OptionControls\AppearanceUserControl.xaml.cs">
+    <Compile Include="UserControls\AppearanceUserControl.xaml.cs">
       <DependentUpon>AppearanceUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OptionControls\GeneralUserControl.xaml.cs">
+    <Compile Include="UserControls\GeneralUserControl.xaml.cs">
       <DependentUpon>GeneralUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OptionControls\SearchUserControl.xaml.cs">
+    <Compile Include="UserControls\SearchResultUserControl.xaml.cs">
+      <DependentUpon>SearchResultUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SearchUserControl.xaml.cs">
       <DependentUpon>SearchUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OptionControls\UsageUserControl.xaml.cs">
+    <Compile Include="UserControls\UsageUserControl.xaml.cs">
       <DependentUpon>UsageUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OptionControls\WorkflowsUserControl.xaml.cs">
+    <Compile Include="UserControls\WorkflowsUserControl.xaml.cs">
       <DependentUpon>WorkflowsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="OptionWindow.xaml.cs">
@@ -155,27 +159,31 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="OptionControls\AboutUserControl.xaml">
+    <Page Include="UserControls\AboutUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OptionControls\AppearanceUserControl.xaml">
+    <Page Include="UserControls\AppearanceUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OptionControls\GeneralUserControl.xaml">
+    <Page Include="UserControls\GeneralUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OptionControls\SearchUserControl.xaml">
+    <Page Include="UserControls\SearchResultUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OptionControls\UsageUserControl.xaml">
+    <Page Include="UserControls\SearchUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OptionControls\WorkflowsUserControl.xaml">
+    <Page Include="UserControls\UsageUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\WorkflowsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

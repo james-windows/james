@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -155,45 +157,28 @@ namespace WinFred
         {
             if (e.KeyboardDevice.IsKeyDown(Key.Down))
             {
-                SearchResultListBox.SelectedIndex++;
+                SearchResultControl.MoveDown();
             }
             else if (e.KeyboardDevice.IsKeyDown(Key.Up))
             {
-                if(SearchResultListBox.SelectedIndex > 0)
-                    SearchResultListBox.SelectedIndex--;
+                SearchResultControl.MoveUp();
             }
-            else if (e.KeyboardDevice.IsKeyDown(Key.Enter) && SearchResultListBox.SelectedItem != null)
-            {
-                HideWindow();
-                if (!(e.KeyboardDevice.IsKeyDown(Key.LeftShift) || e.KeyboardDevice.IsKeyDown(Key.RightShift)))
-                {
-                    ((SearchResult)SearchResultListBox.SelectedItem).Open();
-                }
-                else
-                {
-                    ((SearchResult)SearchResultListBox.SelectedItem).OpenFolder();
-                }
-            }
+            //else if (e.KeyboardDevice.IsKeyDown(Key.Enter) && SearchResultListBox.SelectedItem != null)
+            //{
+            //    HideWindow();
+            //    if (!(e.KeyboardDevice.IsKeyDown(Key.LeftShift) || e.KeyboardDevice.IsKeyDown(Key.RightShift)))
+            //    {
+            //        ((SearchResult)SearchResultListBox.SelectedItem).Open();
+            //    }
+            //    else
+            //    {
+            //        ((SearchResult)SearchResultListBox.SelectedItem).OpenFolder();
+            //    }
+            //}
         }
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             SearchTextBox.Focus();
-        }
-        private int SEARCH_ID;
-        private void Search(string str, int id)
-        {
-            DateTime tmp = DateTime.Now;
-            var res = search.Query(str);
-            
-            Dispatcher.BeginInvoke((Action)(() =>
-            {
-                SearchResultListBox.ItemsSource = res;
-                if (res.Count > 0)
-                {
-                    SearchResultListBox.SelectedIndex = 0;
-                }
-            }), DispatcherPriority.Send);
-            Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
         }
 
         private void ExecuteWorkflow(Workflow workflow, string str)
@@ -230,16 +215,14 @@ namespace WinFred
             {
                 OutputWebBrowser.Navigate("about:blank");
                 OutputWebBrowser.Visibility = Visibility.Collapsed;
-                int id = SEARCH_ID;
-                SEARCH_ID = (SEARCH_ID + 1) % 1000000007;
-                new Task(() => Search(str, id)).Start();
+                new Task(() => SearchResultControl.Search(str)).Start();
             }
         }
 
         private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             HideWindow();
-            ((SearchResult) SearchResultListBox.SelectedItem).Open();
+            //((SearchResult) SearchResultListBox.SelectedItem).Open();
         }
         private void Window_Deactivated(object sender, EventArgs e)
         {
