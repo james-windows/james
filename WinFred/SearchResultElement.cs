@@ -15,26 +15,22 @@ namespace WinFred
     class SearchResultElement : FrameworkElement
     {
         public const int ROW_HEIGHT = 50;
-        private VisualCollection _children;
-        private int _currentFocus;
-        private List<SearchResult> searchResults;
+        private readonly VisualCollection _children;
+        private List<SearchResult> _searchResults;
 
-        public int CurrentFocus
-        {
-            get { return _currentFocus; }
-        }
+        public int CurrentFocus { get; private set; }
 
-        public Brush FocusBackgroundBrush { get; set; } = (Brush) ThemeManager.GetResourceFromAppStyle(null, "AccentColorBrush");
-        public Brush FocusForegroundBrush { get; set; } = (Brush)ThemeManager.GetResourceFromAppStyle(null, "IdealForegroundColorBrush");
+        public Brush FocusBackgroundBrush { get; set; }
+        public Brush FocusForegroundBrush { get; set; }
 
         public SearchResultElement()
         {
-            Config.GetInstance().WindowChangedAccentColor += SearchResultElement_WindowChangedAccentColor;
+            Config.GetInstance().WindowChangedAccentColor += UpdateAccentColor;
             _children = new VisualCollection(this);
-            //this.MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(MyVisualHost_MouseLeftButtonUp);
+            UpdateAccentColor(this, null);
         }
 
-        private void SearchResultElement_WindowChangedAccentColor(object sender, EventArgs e)
+        private void UpdateAccentColor(object sender, EventArgs e)
         {
             FocusBackgroundBrush = (Brush)ThemeManager.GetResourceFromAppStyle(null, "AccentColorBrush");
             FocusForegroundBrush = (Brush)ThemeManager.GetResourceFromAppStyle(null, "IdealForegroundColorBrush");
@@ -42,12 +38,12 @@ namespace WinFred
 
         public void DrawItems(List<SearchResult> searchResults, int focusedIndex)
         {
-            this.searchResults = searchResults;
+            this._searchResults = searchResults;
             Dispatcher.BeginInvoke((Action)(() =>
             {
                 _children.Clear();
-                createBackground();
-                focusIndex(focusedIndex);
+                CreateBackground();
+                FocusIndex(focusedIndex);
                 for (int i = 0; i < searchResults.Count; i++)
                 {
                     DrawItemAtPos(searchResults[i], i);
@@ -55,31 +51,25 @@ namespace WinFred
             }));
         }
 
-        private void focusIndex(int index)
+        private void FocusIndex(int index)
         {
-            _currentFocus = index;
+            CurrentFocus = index;
             DrawingVisual drawingVisual = new DrawingVisual();
             using (DrawingContext ctx = drawingVisual.RenderOpen())
             {
                 Rect rect = new Rect(new Point(0, index * ROW_HEIGHT), new Size(700, ROW_HEIGHT));
-                ctx.DrawRectangle(
-                    FocusBackgroundBrush,
-                    null,
-                    rect);
+                ctx.DrawRectangle(FocusBackgroundBrush, null, rect);
             }
             _children.Add(drawingVisual);
         }
 
-        private void createBackground()
+        private void CreateBackground()
         {
             DrawingVisual drawingVisual = new DrawingVisual();
             using (DrawingContext ctx = drawingVisual.RenderOpen())
             {
-                Rect rect = new Rect(new Point(0, 0), new Size(700, searchResults.Count * ROW_HEIGHT));
-                ctx.DrawRectangle(
-                    Brushes.Transparent,
-                    null,
-                    rect);
+                Rect rect = new Rect(new Point(0, 0), new Size(700, _searchResults.Count * ROW_HEIGHT));
+                ctx.DrawRectangle(Brushes.Transparent, null, rect);
             }
             _children.Add(drawingVisual);
         }
@@ -89,14 +79,28 @@ namespace WinFred
             DrawingVisual drawingVisual = new DrawingVisual();
             using (DrawingContext ctx = drawingVisual.RenderOpen())
             {
-                ctx.DrawText(CreateText(sr.Filename, 18, index == _currentFocus), new Point(30, index * ROW_HEIGHT));
-                ctx.DrawText(CreateText(sr.Path, 10, index == _currentFocus), new Point(30, index * ROW_HEIGHT + 25));
-                ctx.DrawText(CreateText(sr.Priority.ToString(), 10, index == _currentFocus), new Point(5, index * ROW_HEIGHT));
+                bool isFocused = index == CurrentFocus;
+                ctx.DrawText(CreateText(sr.Filename, 18, isFocused), new Point(30, index * ROW_HEIGHT));
+                ctx.DrawText(CreateText(sr.Path, 10, isFocused), new Point(30, index * ROW_HEIGHT + 25));
+                ctx.DrawText(CreateText(sr.Priority.ToString(), 10, isFocused), new Point(5, index * ROW_HEIGHT));
             }
             _children.Add(drawingVisual);
         }
 
         private FormattedText CreateText(string text, int fontSize, bool focused = false)
+        {
+            
+            FormattedText formattedText = new FormattedText(
+                text,
+                CultureInfo.GetCultureInfo("en-us"),
+                FlowDirection.LeftToRight,
+                new Typeface("Verdana"),
+                fontSize,
+                GetBrush(focused)) {MaxTextWidth = 700 - 30};
+            return formattedText;
+        }
+
+        private Brush GetBrush(bool focused)
         {
             Brush tmpBrush = Brushes.Black;
             if (!Config.GetInstance().IsBaseLight)
@@ -107,24 +111,14 @@ namespace WinFred
             {
                 tmpBrush = FocusForegroundBrush;
             }
-            FormattedText formattedText = new FormattedText(
-                    text,
-                    CultureInfo.GetCultureInfo("en-us"),
-                    FlowDirection.LeftToRight,
-                    new Typeface("Verdana"),
-                    fontSize,
-                    tmpBrush);
-            formattedText.MaxTextWidth = 700 - 30;
-            return formattedText;
+            return tmpBrush;
         }
 
-        // Provide a required override for the VisualChildrenCount property.
+        #region necessary for FrameworkElement
         protected override int VisualChildrenCount
         {
             get { return _children.Count; }
         }
-
-        // Provide a required override for the GetVisualChild method.
         protected override Visual GetVisualChild(int index)
         {
             if (index < 0 || index >= _children.Count)
@@ -134,5 +128,6 @@ namespace WinFred
 
             return _children[index];
         }
+        #endregion
     }
 }
