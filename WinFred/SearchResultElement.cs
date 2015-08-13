@@ -80,9 +80,10 @@ namespace WinFred
             using (DrawingContext ctx = drawingVisual.RenderOpen())
             {
                 bool isFocused = index == CurrentFocus;
-                ctx.DrawText(CreateText(sr.Filename, 18, isFocused), new Point(30, index * ROW_HEIGHT));
-                ctx.DrawText(CreateText(sr.Path, 10, isFocused), new Point(30, index * ROW_HEIGHT + 25));
+                ctx.DrawText(CreateText(sr.Filename, 18, isFocused), new Point(50, index * ROW_HEIGHT));
+                ctx.DrawText(CreateText(sr.Path, 10, isFocused), new Point(50, index * ROW_HEIGHT + 25));
                 ctx.DrawText(CreateText(sr.Priority.ToString(), 10, isFocused), new Point(5, index * ROW_HEIGHT));
+                ctx.DrawImage(sr.Icon, new Rect(10,10 + index * ROW_HEIGHT,32,32));
             }
             _children.Add(drawingVisual);
         }

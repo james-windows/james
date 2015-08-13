@@ -13,25 +13,7 @@ namespace WinFred
         public string Path { get; set; }
         public string Filename => Path.Substring(Path.LastIndexOf('\\') + 1);
 
-        public ImageSource Icon
-        {
-            get
-            {
-                return null;
-                if (File.Exists(Path))
-                {
-                    var ico = System.Drawing.Icon.ExtractAssociatedIcon(Path);
-                    if (ico == null)
-                        return null;
-                    ImageSource imageSource = null;
-                    if (ico != null)
-                        imageSource = ico.ToImageSource();
-                    return imageSource;
-                }
-
-                return null;
-            }
-        }
+        public ImageSource Icon => HelperClass.GetIcon(Path);
 
         public int CompareTo(SearchResult other)
         {
