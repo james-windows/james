@@ -19,21 +19,23 @@ namespace WinFred.UserControls
         public SearchResultUserControl()
         {
             InitializeComponent();
-            _searchResultElement = new SearchResultElement();
-            _searchResultElement.Width = 700;
-            _searchResultElement.Cursor = Cursors.Hand;
+            _searchResultElement = new SearchResultElement
+            {
+                Width = 700,
+                Cursor = Cursors.Hand
+            };
             Grid.Children.Add(_searchResultElement);
-            _searchResultElement.MouseLeftButtonDown += SearchResultElement_MouseLeftButtonDown;
+            _searchResultElement.MouseLeftButtonDown += MouseClick;
         }
 
         public int FocusedIndex { get; private set; }
 
-        private void SearchResultElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void MouseClick(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             var window = Window.GetWindow(this);
-            window.Hide();
-            var index = (int) (e.GetPosition(this).Y/SearchResultElement.ROW_HEIGHT);
+            window?.Hide();
+            var index = (int) (e.GetPosition(this).Y / SearchResultElement.ROW_HEIGHT);
             if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
             {
                 _searchResults[index].OpenFolder();
@@ -46,14 +48,13 @@ namespace WinFred.UserControls
 
         public void Search(string str)
         {
-            var tmp = DateTime.Now;
             _searchResults = SearchEngine.GetInstance().Query(str);
             FocusedIndex = 0;
             _searchResultElement.DrawItems(_searchResults, FocusedIndex);
-            Dispatcher.BeginInvoke(
-                (Action) (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.ROW_HEIGHT; }));
-
-            Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
+            Dispatcher.BeginInvoke((Action) (() =>
+            {
+                _searchResultElement.Height = _searchResults.Count*SearchResultElement.ROW_HEIGHT;
+            }));
         }
 
         public void MoveUp()
