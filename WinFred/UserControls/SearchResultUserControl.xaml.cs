@@ -21,6 +21,7 @@ namespace WinFred.UserControls
             InitializeComponent();
             _searchResultElement = new SearchResultElement();
             _searchResultElement.Width = 700;
+            _searchResultElement.Cursor = Cursors.Hand;
             Grid.Children.Add(_searchResultElement);
             _searchResultElement.MouseLeftButtonDown += SearchResultElement_MouseLeftButtonDown;
         }

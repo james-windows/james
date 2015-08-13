@@ -46,6 +46,7 @@ namespace WinFred
             Dispatcher.BeginInvoke((Action)(() =>
             {
                 _children.Clear();
+                createBackground();
                 focusIndex(focusedIndex);
                 for (int i = 0; i < searchResults.Count; i++)
                 {
@@ -63,6 +64,20 @@ namespace WinFred
                 Rect rect = new Rect(new Point(0, index * ROW_HEIGHT), new Size(700, ROW_HEIGHT));
                 ctx.DrawRectangle(
                     FocusBackgroundBrush,
+                    null,
+                    rect);
+            }
+            _children.Add(drawingVisual);
+        }
+
+        private void createBackground()
+        {
+            DrawingVisual drawingVisual = new DrawingVisual();
+            using (DrawingContext ctx = drawingVisual.RenderOpen())
+            {
+                Rect rect = new Rect(new Point(0, 0), new Size(700, searchResults.Count * ROW_HEIGHT));
+                ctx.DrawRectangle(
+                    Brushes.Transparent,
                     null,
                     rect);
             }
