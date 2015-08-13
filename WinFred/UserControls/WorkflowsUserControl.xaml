@@ -106,7 +106,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center"><Run Text="is enabled:"/></TextBlock>
+                        <TextBlock Grid.Column="0"><Run Text="is enabled:"/></TextBlock>
                         <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding SelectedItem.IsEnabled, ElementName=WorkflowListBox}"/>
                     </Grid>
                     <Grid>
@@ -138,7 +138,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center"><Run Text="Show Process Window:"/></TextBlock>
+                        <TextBlock Grid.Column="0"><Run Text="Show Process Window:"/></TextBlock>
                         <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding SelectedItem.ShowProcessWindow, ElementName=WorkflowListBox}"/>
                     </Grid>
                 </StackPanel>

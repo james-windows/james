@@ -11,6 +11,15 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/baselight.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Lime.xaml" />
+                <ResourceDictionary>
+                    <Style TargetType="Grid">
+                        <Style.Resources>
+                            <Style TargetType="TextBlock" >
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

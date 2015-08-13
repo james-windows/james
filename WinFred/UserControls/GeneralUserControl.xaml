@@ -22,7 +22,7 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" VerticalAlignment="Center"><Run Text="Start with windows:"/></TextBlock>
+                    <TextBlock Grid.Column="0"><Run Text="Start with windows:"/></TextBlock>
                     <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=StartProgramOnStartup}"/>
                 </Grid>
                 <Grid>
@@ -54,7 +54,7 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" VerticalAlignment="Center"><Run Text="BaseColor:"/></TextBlock>
+                    <TextBlock Grid.Column="0"><Run Text="BaseColor:"/></TextBlock>
                     <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=IsBaseLight}" OnLabel="light" OffLabel="dark"/>
                 </Grid>
             </StackPanel>

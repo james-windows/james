@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using MahApps.Metro;
 
@@ -16,6 +17,7 @@ namespace WinFred
         public const int ROW_HEIGHT = 50;
         private VisualCollection _children;
         private int _currentFocus;
+        private List<SearchResult> searchResults;
 
         public int CurrentFocus
         {
@@ -29,7 +31,6 @@ namespace WinFred
         {
             Config.GetInstance().WindowChangedAccentColor += SearchResultElement_WindowChangedAccentColor;
             _children = new VisualCollection(this);
-
             //this.MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(MyVisualHost_MouseLeftButtonUp);
         }
 
@@ -41,6 +42,7 @@ namespace WinFred
 
         public void DrawItems(List<SearchResult> searchResults, int focusedIndex)
         {
+            this.searchResults = searchResults;
             Dispatcher.BeginInvoke((Action)(() =>
             {
                 _children.Clear();

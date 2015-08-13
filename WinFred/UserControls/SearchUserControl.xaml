@@ -120,7 +120,7 @@
                             <ControlTemplate>
                                 <Grid ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}},Path=(Validation.Errors)[0].ErrorContent}">
                                     <Ellipse Width="16" Height="16" Fill="Red"/>
-                                    <TextBlock Text="!" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <TextBlock Text="!" Foreground="White" HorizontalAlignment="Center" />
                                 </Grid>
                             </ControlTemplate>
                         </DataGrid.RowValidationErrorTemplate>
@@ -149,7 +149,7 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center">is enabled:</TextBlock>
+                        <TextBlock Grid.Column="0">is enabled:</TextBlock>
                         <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}"></controls:ToggleSwitch>
                     </Grid>
                     <Grid>
