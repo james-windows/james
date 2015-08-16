@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shell;
 using WinFred.Search;
 
 namespace WinFred.UserControls
@@ -18,6 +19,7 @@ namespace WinFred.UserControls
             InitializeComponent();
             this.DataContext = Config.GetInstance();
         }
+        private ProgressDialogController _controller;
 
         private async void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
         {
@@ -26,9 +28,28 @@ namespace WinFred.UserControls
             MessageDialogResult result = await parentWindow.ShowMessageAsync("Rebuilding file index", "Do you really want to rebuild your index, this may take a few minutes?", MessageDialogStyle.AffirmativeAndNegative, setting);
             if (MessageDialogResult.Affirmative == result)
             {
-                Task tmp = new Task(() => SearchEngine.GetInstance().BuildIndex());
-                tmp.Start();
+                BuildIndexInTheBg();
             }
+        }
+
+        private async void BuildIndexInTheBg()
+        {
+            MetroWindow parentWindow = (MetroWindow)Window.GetWindow(this);
+            SearchEngine.GetInstance().ChangedBuildingIndexProgress += ChangedBuildingIndexProgress;
+            _controller = await parentWindow.ShowProgressAsync("Building index...", "Browsing through your files...");
+            _controller.SetIndeterminate();
+            Task tmp = new Task(() => SearchEngine.GetInstance().BuildIndex());
+            tmp.Start();
+        }
+
+        private void ChangedBuildingIndexProgress(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            if (e.ProgressPercentage == 100)
+            {
+                _controller.CloseAsync();
+            }
+            _controller.SetProgress(e.ProgressPercentage / 100.0);
+            _controller.SetMessage(e.ProgressPercentage + "% of the files already added!");
         }
 
         private void AddFolderButton_Click(object sender, RoutedEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Lucene.Net.Analysis;
@@ -16,6 +17,8 @@ namespace WinFred.Search
 {
     internal class SearchEngine
     {
+        public delegate void ChangedBuildingIndexProgressEventHandler(object sender, ProgressChangedEventArgs e);
+
         private static SearchEngine _searchEngine;
         private static readonly object SingeltonLock = new object();
         private readonly Analyzer _analyzer;
@@ -29,6 +32,8 @@ namespace WinFred.Search
             _sort = new Sort(new SortField("Priority", SortField.INT, true));
         }
 
+        public event ChangedBuildingIndexProgressEventHandler ChangedBuildingIndexProgress;
+
         public static SearchEngine GetInstance()
         {
             lock (SingeltonLock)
@@ -39,19 +44,47 @@ namespace WinFred.Search
 
         public void BuildIndex()
         {
+            var data = GetFilesToBeIndexed();
+            WriteIntoIndex(data);
+        }
+
+        private List<Document> GetFilesToBeIndexed()
+        {
             var data = new List<Document>();
             Parallel.ForEach(Config.GetInstance().Paths.Where(path => path.IsEnabled), currentPath =>
             {
                 var currentFolder = new Folder(currentPath);
                 data.AddRange(currentFolder.getItemsToBeIndexed());
             });
+            return data;
+        }
+
+        private void WriteIntoIndex(List<Document> data)
+        {
+            var lastProgress = -1;
             using (var writer = new IndexWriter(_index, _analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
             {
-                data.ForEach(ElementToBeIndexed => writer.AddDocument(ElementToBeIndexed));
+                for (var i = 0; i < data.Count; i++)
+                {
+                    ChangeProgress(i, data.Count, ref lastProgress);
+                    writer.AddDocument(data[i]);
+                }
+                ChangedBuildingIndexProgress?.Invoke(this, new ProgressChangedEventArgs(100, null));
                 writer.Optimize();
                 writer.Commit();
             }
         }
+
+        private void ChangeProgress(int position, int total, ref int lastProgress)
+        {
+            if (lastProgress != CalcProgress(position, total))
+            {
+                lastProgress = CalcProgress(position, total);
+                ChangedBuildingIndexProgress?.Invoke(this, new ProgressChangedEventArgs(lastProgress, null));
+            }
+        }
+
+        private static int CalcProgress(int position, int total) => (int) (((double) position)/total*100);
 
         public void AddFile(Data data)
         {
@@ -82,18 +115,10 @@ namespace WinFred.Search
                         Config.GetInstance().MaxSearchResults, _sort);
                     var res = docs.ScoreDocs;
 
-                    var match = new List<SearchResult>();
-                    foreach (var scoreDoc in res)
+                    return res.Select(scoreDoc => searcher.Doc(scoreDoc.Doc)).Select(doc => new SearchResult
                     {
-                        var doc = searcher.Doc(scoreDoc.Doc);
-                        match.Add(new SearchResult
-                        {
-                            Id = doc.Get("Id"),
-                            Priority = Convert.ToInt32(doc.Get("Priority")),
-                            Path = doc.Get("Path")
-                        });
-                    }
-                    return match;
+                        Id = doc.Get("Id"), Priority = Convert.ToInt32(doc.Get("Priority")), Path = doc.Get("Path")
+                    }).ToList();
                 }
             }
         }
@@ -128,19 +153,18 @@ namespace WinFred.Search
                 using (Searcher searcher = new IndexSearcher(reader))
                 {
                     var res = searcher.Search(query, new QueryWrapperFilter(query), 10, _sort).ScoreDocs;
-                    if (res.Length == 0)
+                    if (res.Length != 0)
                     {
-                        return;
+                        var scoreDoc = res[0];
+                        var doc = searcher.Doc(scoreDoc.Doc);
+                        var item = new SearchResult
+                        {
+                            Id = doc.Get("Id"),
+                            Priority = Convert.ToInt32(doc.Get("Priority")) + 5,
+                            Path = doc.Get("Path")
+                        };
+                        IncrementPriority(item);
                     }
-                    var scoreDoc = res[0];
-                    var doc = searcher.Doc(scoreDoc.Doc);
-                    var item = new SearchResult
-                    {
-                        Id = doc.Get("Id"),
-                        Priority = Convert.ToInt32(doc.Get("Priority")) + 5,
-                        Path = doc.Get("Path")
-                    };
-                    IncrementPriority(item);
                 }
             }
         }

@@ -51,12 +51,12 @@ namespace WinFred
 
         #region singleton
 
-        public static Config config;
-        private static readonly object LookObject = new object();
+        public static Config config; //todo test if private is possible
+        private static readonly object SingeltonLock = new object();
 
         public static Config GetInstance()
         {
-            lock (LookObject)
+            lock (SingeltonLock)
             {
                 if (config == null)
                 {
@@ -108,26 +108,13 @@ namespace WinFred
         public List<FileExtension> DefaultFileExtensions { get; set; }
         public ObservableCollection<Workflow> Workflows { get; set; }
 
-        private int maxSearchResults = 8;
-        private int startSearchMinTextLength = 3;
-
-        public int MaxSearchResults
-        {
-            get { return maxSearchResults; }
-            set { maxSearchResults = value; }
-        }
-
-        public int StartSearchMinTextLength
-        {
-            get { return startSearchMinTextLength; }
-            set { startSearchMinTextLength = value; }
-        }
-
         public string ConfigFolderLocation { get; set; } =
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WinFred";
+        public int DefaultFolderPriority { get; set; } = 80;
+        public int MaxSearchResults { get; set; } = 8;
+        public int StartSearchMinTextLength { get; set; } = 3;        
 
         private bool _startProgramOnStartup;
-        public int DefaultFolderPriority { get; set; } = 80;
 
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
         private string _windowAccentColor = "Lime";
@@ -155,7 +142,6 @@ namespace WinFred
         public string WindowAccentColor
         {
             get { return _windowAccentColor; }
-
             set
             {
                 _windowAccentColor = value;
@@ -166,7 +152,6 @@ namespace WinFred
         public bool IsBaseLight
         {
             get { return _isBaseLight; }
-
             set
             {
                 _isBaseLight = value;

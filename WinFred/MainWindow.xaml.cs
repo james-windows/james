@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using MahApps.Metro.Controls.Dialogs;
 using WinFred.Search;
 
 namespace WinFred
@@ -140,12 +141,6 @@ namespace WinFred
                 OutputWebBrowser.Visibility = Visibility.Collapsed;
                 new Task(() => searchResultControl.Search(str)).Start();
             }
-        }
-
-        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            HideWindow();
-            //((SearchResult) SearchResultListBox.SelectedItem).Open();
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
