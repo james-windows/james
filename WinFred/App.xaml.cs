@@ -31,34 +31,11 @@ namespace WinFred
             Config.GetInstance().WindowChangedAccentColor += App_WindowChangedAccentColor;
             MyFileWatcher.GetInstance();
             SetStyleAccents();
-            UpdateProgram();
-            if (ShowTheWelcomeWizard)
-            {
-                new WelcomeWindow().Show();
-            }
-            else
-            {
-                new MainWindow().Show();
-            }
+            new MainWindow().Show();
             base.OnStartup(e);
         }
 
         private static bool ShowTheWelcomeWizard;
-
-        private static void UpdateProgram()
-        {
-            Task.Run(async () =>
-            {
-                using (var mgr = new UpdateManager("http://www.moserm.tk/winfred/"))
-                {
-                    SquirrelAwareApp.HandleEvents(
-                      onInitialInstall: v => mgr.CreateShortcutForThisExe(),
-                      onAppUpdate: v => mgr.CreateShortcutForThisExe(),
-                      onAppUninstall: v => mgr.RemoveShortcutForThisExe(),
-                      onFirstRun: () => ShowTheWelcomeWizard = true);
-                }
-            });
-        }
 
         private void App_WindowChangedAccentColor(object sender, EventArgs e)
         {

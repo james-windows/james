@@ -17,10 +17,7 @@ namespace WinFred
             Extension = value;
         }
 
-        public int CompareTo(FileExtension other)
-        {
-            return String.Compare(Extension, other.Extension);
-        }
+        public int CompareTo(FileExtension other) => string.Compare(Extension, other.Extension);
 
         public override string ToString()
         {
