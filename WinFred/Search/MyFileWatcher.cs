@@ -68,13 +68,7 @@ namespace WinFred.Search
 
         private void File_Changed(object sender, FileSystemEventArgs e)
         {
-            FileSystemWatcher watcher = sender as FileSystemWatcher;
-            Path currentPath = _paths.First(path => path.Location == watcher?.Path);
-            int priority = currentPath.GetFilePriority(e.FullPath);
-            if (priority >= 0)
-            {
-                SearchEngine.GetInstance().IncrementPriority(e.FullPath);
-            }
+            SearchEngine.GetInstance().IncrementPriority(e.FullPath);
         }
     }
 }
