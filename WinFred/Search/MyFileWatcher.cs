@@ -6,23 +6,36 @@ namespace WinFred.Search
 {
     class MyFileWatcher
     {
-        readonly Path[] _paths;
-        readonly LinkedList<FileSystemWatcher> _fileSystemWatchers;
-        public MyFileWatcher()
+        private readonly Path[] _paths;
+        private static readonly object SingeltonLock = new object();
+        //private List<object> _list;
+
+        private static MyFileWatcher _watcher;
+
+        public static MyFileWatcher GetInstance()
+        {
+            lock (SingeltonLock)
+            {
+                return _watcher ?? (_watcher = new MyFileWatcher());
+            }
+        }
+
+        private MyFileWatcher()
         {
             _paths = Config.GetInstance().Paths.ToArray();
-            _fileSystemWatchers = new LinkedList<FileSystemWatcher>();
+            var fileSystemWatchers = new LinkedList<FileSystemWatcher>();
 
-            for (int i = 0; i < _paths.Length; i++)
+            foreach (Path path in _paths)
             {
-                FileSystemWatcher tmpWatcher = new FileSystemWatcher(_paths[i].Location);
-                tmpWatcher.IncludeSubdirectories = true;
-                tmpWatcher.Created += File_Created;
-                tmpWatcher.Deleted += File_Deleted;
-                tmpWatcher.Renamed += File_Renamed;
-                tmpWatcher.Changed += File_Changed;
-                _fileSystemWatchers.AddLast(tmpWatcher);
-                tmpWatcher.EnableRaisingEvents = true;
+                FileSystemWatcher watcher = new FileSystemWatcher(path.Location);
+                watcher.IncludeSubdirectories = true;
+                watcher.Created += File_Created;
+                watcher.Deleted += File_Deleted;
+                watcher.Renamed += File_Renamed;
+                watcher.Changed += File_Changed;
+                fileSystemWatchers.AddLast(watcher);
+                watcher.EnableRaisingEvents = true;
+                //_list.Add(watcher);
             }
         }
 
@@ -55,7 +68,7 @@ namespace WinFred.Search
             int priority = currentPath.GetFilePriority(e.FullPath);
             if (priority >= 0)
             {
-                SearchEngine.GetInstance().RenameFile(e.FullPath);
+                SearchEngine.GetInstance().RenameFile(e.OldFullPath, e.FullPath);
             }
         }
 

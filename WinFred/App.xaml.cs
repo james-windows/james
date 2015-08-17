@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using WinFred.Search;
 
 namespace WinFred
 {
@@ -17,9 +18,9 @@ namespace WinFred
     {
         private void SetStyleAccents()
         {
-            String accentColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/"+ Config.GetInstance().WindowAccentColor +".xaml";
+            string accentColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/"+ Config.GetInstance().WindowAccentColor +".xaml";
             (((App)Application.Current).Resources).MergedDictionaries[5].Source = new Uri(accentColor);
-            String baseColor = Config.GetInstance().IsBaseLight ? "BaseLight" : "BaseDark";
+            string baseColor = Config.GetInstance().IsBaseLight ? "BaseLight" : "BaseDark";
             baseColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/" + baseColor + ".xaml";
             (((App)Application.Current).Resources).MergedDictionaries[4].Source = new Uri(baseColor);
         }
@@ -27,6 +28,7 @@ namespace WinFred
         protected override void OnStartup(StartupEventArgs e)
         {
             Config.GetInstance().WindowChangedAccentColor += App_WindowChangedAccentColor;
+            MyFileWatcher.GetInstance();
             SetStyleAccents();
             base.OnStartup(e);
         }

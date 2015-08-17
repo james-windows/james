@@ -96,9 +96,28 @@ namespace WinFred.Search
             }
         }
 
-        internal void RenameFile(string fullPath)
+        internal void RenameFile(string oldPath, string newPath)
         {
-            //todo
+            using(var reader = IndexReader.Open(_index, true))
+            {
+                Query query = new PrefixQuery(new Term("Path", oldPath.ToLower()));
+                using (Searcher searcher = new IndexSearcher(reader))
+                {
+                    var res = searcher.Search(query, new QueryWrapperFilter(query), 10, _sort).ScoreDocs;
+                    if (res.Length != 0)
+                    {
+                        var scoreDoc = res[0];
+                        var doc = searcher.Doc(scoreDoc.Doc);
+                        var item = new SearchResult
+                        {
+                            Id = doc.Get("Id"),
+                            Priority = Convert.ToInt32(doc.Get("Priority")),
+                            Path = newPath
+                        };
+                        IncrementPriority(item);
+                    }
+                }
+            }
         }
 
         public List<SearchResult> Query(string str)
