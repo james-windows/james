@@ -62,10 +62,10 @@ namespace WinFred
                 {
                     try
                     {
-                        config =
-                            HelperClass.Derialize<Config>(
-                                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                "\\WinFred\\config.xml");
+                        string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+                        Directory.CreateDirectory(path);
+                        Directory.CreateDirectory(path + "\\Index");
+                        config = HelperClass.Derialize<Config>(path + "\\config.xml");
                     }
                     catch (Exception)
                     {
@@ -109,7 +109,7 @@ namespace WinFred
         public ObservableCollection<Workflow> Workflows { get; set; }
 
         public string ConfigFolderLocation { get; set; } =
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WinFred";
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
         public int DefaultFolderPriority { get; set; } = 80;
         public int MaxSearchResults { get; set; } = 8;
         public int StartSearchMinTextLength { get; set; } = 3;        
@@ -129,11 +129,11 @@ namespace WinFred
                     ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 if (value)
                 {
-                    registryKey?.SetValue("Winfred", Assembly.GetExecutingAssembly().Location);
+                    registryKey?.SetValue("James", Assembly.GetExecutingAssembly().Location);
                 }
                 else
                 {
-                    registryKey?.DeleteValue("Winfred", false);
+                    registryKey?.DeleteValue("James", false);
                 }
                 _startProgramOnStartup = value;
             }

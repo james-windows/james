@@ -138,6 +138,7 @@ publish/
 *.publishproj
 
 # NuGet Packages
+*.nuspec
 *.nupkg
 # The packages folder can be ignored because of Package Restore
 **/packages/*
@@ -211,3 +212,6 @@ Session.vim
 ### NotepadPP ###
 # Notepad++ backups #
 *.bak
+
+### own edit ###
+nuget.exe
