@@ -52,13 +52,7 @@ namespace WinFred.Search
 
         private void File_Deleted(object sender, FileSystemEventArgs e)
         {
-            FileSystemWatcher watcher = sender as FileSystemWatcher;
-            Path currentPath = _paths.First(path => path.Location == watcher?.Path);
-            int priority = currentPath.GetFilePriority(e.FullPath);
-            if (priority >= 0)
-            {
-                SearchEngine.GetInstance().DeleteFile(e.FullPath);
-            }
+            SearchEngine.GetInstance().DeleteFile(e.FullPath);
         }
 
         private void File_Renamed(object sender, RenamedEventArgs e)

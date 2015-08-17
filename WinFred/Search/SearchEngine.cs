@@ -45,7 +45,7 @@ namespace WinFred.Search
         public void BuildIndex()
         {
             var data = GetFilesToBeIndexed();
-            WriteIntoIndex(data);
+            WriteFileToIndex(data);
         }
 
         private List<Document> GetFilesToBeIndexed()
@@ -59,7 +59,7 @@ namespace WinFred.Search
             return data;
         }
 
-        private void WriteIntoIndex(List<Document> data)
+        private void WriteFileToIndex(List<Document> data)
         {
             var lastProgress = -1;
             using (var writer = new IndexWriter(_index, _analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
@@ -124,32 +124,17 @@ namespace WinFred.Search
         {
             if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
                 return new List<SearchResult>();
-            str = str.ToLower();
-            Query query = new PrefixQuery(new Term("FileName", str.Trim()));
+            Query query = new PrefixQuery(new Term("FileName", str.ToLower().Trim()));
             using (var reader = IndexReader.Open(_index, true))
             {
                 using (Searcher searcher = new IndexSearcher(reader))
                 {
-                    var docs = searcher.Search(query, new QueryWrapperFilter(query),
-                        Config.GetInstance().MaxSearchResults, _sort);
-                    var res = docs.ScoreDocs;
-
-                    return res.Select(scoreDoc => searcher.Doc(scoreDoc.Doc)).Select(doc => new SearchResult
+                    var docs = searcher.Search(query, new QueryWrapperFilter(query), Config.GetInstance().MaxSearchResults, _sort);
+                    return docs.ScoreDocs.Select(scoreDoc => searcher.Doc(scoreDoc.Doc)).Select(doc => new SearchResult
                     {
                         Id = doc.Get("Id"), Priority = Convert.ToInt32(doc.Get("Priority")), Path = doc.Get("Path")
                     }).ToList();
                 }
-            }
-        }
-
-        public void IncrementPriority(SearchResult result)
-        {
-            var data = new Data(result.Path) {Id = result.Id, Priority = Math.Abs(result.Priority) + 5};
-            using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
-            {
-                writer.UpdateDocument(new Term("Id", result.Id), data.GetDocument());
-                writer.Optimize();
-                writer.Commit();
             }
         }
 
@@ -159,6 +144,17 @@ namespace WinFred.Search
             {
                 Query query = new PrefixQuery(new Term("Path", path.ToLower()));
                 writer.DeleteDocuments(query);
+                writer.Optimize();
+                writer.Commit();
+            }
+        }
+
+        public void IncrementPriority(SearchResult result)
+        {
+            var data = new Data(result.Path) { Id = result.Id, Priority = Math.Abs(result.Priority) + 5 };
+            using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+            {
+                writer.UpdateDocument(new Term("Id", result.Id), data.GetDocument());
                 writer.Optimize();
                 writer.Commit();
             }
