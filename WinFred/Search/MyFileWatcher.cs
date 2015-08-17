@@ -41,7 +41,7 @@ namespace WinFred.Search
 
         private void File_Created(object sender, FileSystemEventArgs e)
         {
-            FileSystemWatcher watcher = sender as FileSystemWatcher;//TODO find better solution than duplication
+            FileSystemWatcher watcher = sender as FileSystemWatcher;
             Path currentPath = _paths.First(path => path.Location == watcher?.Path);
             int priority = currentPath.GetFilePriority(e.FullPath);
             if (priority >= 0)
