@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Lucene.Net.Analysis;
@@ -88,100 +89,132 @@ namespace WinFred.Search
 
         public void AddFile(Data data)
         {
-            using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
-            {
-                writer.AddDocument(data.GetDocument());
-                writer.Optimize();
-                writer.Commit();
+            try
+            { 
+                using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+                {
+                    writer.AddDocument(data.GetDocument());
+                    writer.Optimize();
+                    writer.Commit();
+                }
             }
-        }
+            catch (FileNotFoundException e) { }
+    }
 
         internal void RenameFile(string oldPath, string newPath)
         {
-            using(var reader = IndexReader.Open(_index, true))
-            {
-                Query query = new PrefixQuery(new Term("Path", oldPath.ToLower()));
-                using (Searcher searcher = new IndexSearcher(reader))
+            try
+            { 
+                using(var reader = IndexReader.Open(_index, true))
                 {
-                    var res = searcher.Search(query, new QueryWrapperFilter(query), 10, _sort).ScoreDocs;
-                    if (res.Length != 0)
+                    Query query = new PrefixQuery(new Term("Path", oldPath.ToLower()));
+                    using (Searcher searcher = new IndexSearcher(reader))
                     {
-                        var scoreDoc = res[0];
-                        var doc = searcher.Doc(scoreDoc.Doc);
-                        var item = new SearchResult
+                        var res = searcher.Search(query, new QueryWrapperFilter(query), 10, _sort).ScoreDocs;
+                        if (res.Length != 0)
                         {
-                            Id = doc.Get("Id"),
-                            Priority = Convert.ToInt32(doc.Get("Priority")),
-                            Path = newPath
-                        };
-                        IncrementPriority(item);
+                            var scoreDoc = res[0];
+                            var doc = searcher.Doc(scoreDoc.Doc);
+                            var item = new SearchResult
+                            {
+                                Id = doc.Get("Id"),
+                                Priority = Convert.ToInt32(doc.Get("Priority")),
+                                Path = newPath
+                            };
+                            IncrementPriority(item);
+                        }
                     }
                 }
             }
+            catch (FileNotFoundException e) { }
         }
 
         public List<SearchResult> Query(string str)
         {
-            if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
-                return new List<SearchResult>();
-            Query query = new PrefixQuery(new Term("FileName", str.ToLower().Trim()));
-            using (var reader = IndexReader.Open(_index, true))
+            try
             {
-                using (Searcher searcher = new IndexSearcher(reader))
+                if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
+                    return new List<SearchResult>();
+                Query query = new PrefixQuery(new Term("FileName", str.ToLower().Trim()));
+                using (var reader = IndexReader.Open(_index, true))
                 {
-                    var docs = searcher.Search(query, new QueryWrapperFilter(query), Config.GetInstance().MaxSearchResults, _sort);
-                    return docs.ScoreDocs.Select(scoreDoc => searcher.Doc(scoreDoc.Doc)).Select(doc => new SearchResult
+                    using (Searcher searcher = new IndexSearcher(reader))
                     {
-                        Id = doc.Get("Id"), Priority = Convert.ToInt32(doc.Get("Priority")), Path = doc.Get("Path")
-                    }).ToList();
+                        var docs = searcher.Search(query, new QueryWrapperFilter(query),
+                            Config.GetInstance().MaxSearchResults, _sort);
+                        return
+                            docs.ScoreDocs.Select(scoreDoc => searcher.Doc(scoreDoc.Doc)).Select(doc => new SearchResult
+                            {
+                                Id = doc.Get("Id"),
+                                Priority = Convert.ToInt32(doc.Get("Priority")),
+                                Path = doc.Get("Path")
+                            }).ToList();
+                    }
                 }
+            }
+            catch (FileNotFoundException e)
+            {
+                return new List<SearchResult> ();
             }
         }
 
         public void DeleteFile(string path)
         {
-            using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
-            {
-                Query query = new PrefixQuery(new Term("Path", path.ToLower()));
-                writer.DeleteDocuments(query);
-                writer.Optimize();
-                writer.Commit();
+            try
+            { 
+                using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+                {
+                    Query query = new PrefixQuery(new Term("Path", path.ToLower()));
+                    writer.DeleteDocuments(query);
+                    writer.Optimize();
+                    writer.Commit();
+                }
             }
-        }
+            catch (FileNotFoundException e) { }
+}
 
         public void IncrementPriority(SearchResult result)
         {
-            var data = new Data(result.Path) { Id = result.Id, Priority = Math.Abs(result.Priority) + 5 };
-            using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
-            {
-                writer.UpdateDocument(new Term("Id", result.Id), data.GetDocument());
-                writer.Optimize();
-                writer.Commit();
+            try
+            { 
+
+                var data = new Data(result.Path) { Id = result.Id, Priority = Math.Abs(result.Priority) + 5 };
+                using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+                {
+                    writer.UpdateDocument(new Term("Id", result.Id), data.GetDocument());
+                    writer.Optimize();
+                    writer.Commit();
+                }
             }
-        }
+            catch (FileNotFoundException e) { }
+}
 
         public void IncrementPriority(string path)
         {
-            using (var reader = IndexReader.Open(_index, true))
+            try
             {
-                Query query = new PrefixQuery(new Term("Path", path.ToLower()));
-                using (Searcher searcher = new IndexSearcher(reader))
+                using (var reader = IndexReader.Open(_index, true))
                 {
-                    var res = searcher.Search(query, new QueryWrapperFilter(query), 10, _sort).ScoreDocs;
-                    if (res.Length != 0)
+                    Query query = new PrefixQuery(new Term("Path", path.ToLower()));
+                    using (Searcher searcher = new IndexSearcher(reader))
                     {
-                        var scoreDoc = res[0];
-                        var doc = searcher.Doc(scoreDoc.Doc);
-                        var item = new SearchResult
+                        var res = searcher.Search(query, new QueryWrapperFilter(query), 10, _sort).ScoreDocs;
+                        if (res.Length != 0)
                         {
-                            Id = doc.Get("Id"),
-                            Priority = Convert.ToInt32(doc.Get("Priority")) + 5,
-                            Path = doc.Get("Path")
-                        };
-                        IncrementPriority(item);
+                            var scoreDoc = res[0];
+                            var doc = searcher.Doc(scoreDoc.Doc);
+                            var item = new SearchResult
+                            {
+                                Id = doc.Get("Id"),
+                                Priority = Convert.ToInt32(doc.Get("Priority")) + 5,
+                                Path = doc.Get("Path")
+                            };
+                            IncrementPriority(item);
+                        }
                     }
                 }
             }
+            catch (FileNotFoundException e) { }
         }
     }
 }

@@ -26,16 +26,28 @@ namespace WinFred
             (((App)Application.Current).Resources).MergedDictionaries[4].Source = new Uri(baseColor);
         }
 
+        private static bool ShowTheWelcomeWizard;
         protected override void OnStartup(StartupEventArgs e)
         {
-            Config.GetInstance().WindowChangedAccentColor += App_WindowChangedAccentColor;
-            MyFileWatcher.GetInstance();
+            Config.GetInstance().WindowChangedAccentColor += App_WindowChangedAccentColor;            
             SetStyleAccents();
-            new MainWindow().Show();
             base.OnStartup(e);
+            SquirrelAwareApp.HandleEvents(onFirstRun: ShowWelcomeWindow);
+            if (ShowTheWelcomeWizard)
+            {
+                new WelcomeWindow().Show();
+            }
+            else
+            {
+                new MainWindow().Show();
+                //MyFileWatcher.GetInstance();
+            }
         }
 
-        private static bool ShowTheWelcomeWizard;
+        private void ShowWelcomeWindow()
+        {
+            ShowTheWelcomeWizard = true;
+        }
 
         private void App_WindowChangedAccentColor(object sender, EventArgs e)
         {
