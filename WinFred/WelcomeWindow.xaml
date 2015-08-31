@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WinFred"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="WelcomeWindow" Height="300" Width="600">
+        Title="WelcomeWindow" Height="300" Width="600" MinHeight="300" MinWidth="600" WindowStyle="ToolWindow">
     <Grid>
         <StackPanel>
             <TextBlock>Hello, this is the welcome screen, it will be filled in the near futer!</TextBlock>
