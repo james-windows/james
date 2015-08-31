@@ -27,7 +27,7 @@ namespace WinFred
             Config.GetInstance().WindowChangedAccentColor += App_WindowChangedAccentColor;
             SetStyleAccents();
             base.OnStartup(e);
-            SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onInitialInstall: OnInitialInstall,
+            SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onInitialInstall: AddAutoUpdateTask,
                 onAppUninstall: OnAppUninstall);
             if (_showTheWelcomeWizard)
             {
@@ -48,15 +48,14 @@ namespace WinFred
             }
         }
 
-        private static void OnInitialInstall(Version version)
+        private static void AddAutoUpdateTask(Version version)
         {
             using (var ts = new TaskService())
             {
                 var td = ts.NewTask();
                 td.RegistrationInfo.Description = "Calls the updater for James once a day";
                 td.Triggers.Add(new DailyTrigger {DaysInterval = 1});
-                td.Actions.Add(new ExecAction("Update.exe", "--update " + Config.GetInstance().ReleaseUrl,
-                    Config.GetInstance().ConfigFolderLocation));
+                td.Actions.Add(new ExecAction(Config.GetInstance().ConfigFolderLocation + "\\Update.exe", "--update " + Config.GetInstance().ReleaseUrl, null));
                 ts.RootFolder.RegisterTaskDefinition(@"James", td);
             }
         }
