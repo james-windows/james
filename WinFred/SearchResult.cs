@@ -12,9 +12,7 @@ namespace WinFred
         public int Priority { get; set; }
         public string Path { get; set; }
         public string Filename => Path.Substring(Path.LastIndexOf('\\') + 1);
-
         public ImageSource Icon => null; //HelperClass.GetIcon(Path);
-
         public int CompareTo(SearchResult other) => Priority - other.Priority;
 
         public void Open()

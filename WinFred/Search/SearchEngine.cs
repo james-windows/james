@@ -90,7 +90,7 @@ namespace WinFred.Search
         public void AddFile(Data data)
         {
             try
-            { 
+            {
                 using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
                 {
                     writer.AddDocument(data.GetDocument());
@@ -98,14 +98,16 @@ namespace WinFred.Search
                     writer.Commit();
                 }
             }
-            catch (FileNotFoundException e) { }
-    }
+            catch (FileNotFoundException e)
+            {
+            }
+        }
 
         internal void RenameFile(string oldPath, string newPath)
         {
             try
-            { 
-                using(var reader = IndexReader.Open(_index, true))
+            {
+                using (var reader = IndexReader.Open(_index, true))
                 {
                     Query query = new PrefixQuery(new Term("Path", oldPath.ToLower()));
                     using (Searcher searcher = new IndexSearcher(reader))
@@ -126,7 +128,9 @@ namespace WinFred.Search
                     }
                 }
             }
-            catch (FileNotFoundException e) { }
+            catch (FileNotFoundException e)
+            {
+            }
         }
 
         public List<SearchResult> Query(string str)
@@ -154,14 +158,14 @@ namespace WinFred.Search
             }
             catch (FileNotFoundException e)
             {
-                return new List<SearchResult> ();
+                return new List<SearchResult>();
             }
         }
 
         public void DeleteFile(string path)
         {
             try
-            { 
+            {
                 using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
                 {
                     Query query = new PrefixQuery(new Term("Path", path.ToLower()));
@@ -170,15 +174,16 @@ namespace WinFred.Search
                     writer.Commit();
                 }
             }
-            catch (FileNotFoundException e) { }
-}
+            catch (FileNotFoundException e)
+            {
+            }
+        }
 
         public void IncrementPriority(SearchResult result)
         {
             try
-            { 
-
-                var data = new Data(result.Path) { Id = result.Id, Priority = Math.Abs(result.Priority) + 5 };
+            {
+                var data = new Data(result.Path) {Id = result.Id, Priority = Math.Abs(result.Priority) + 5};
                 using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
                 {
                     writer.UpdateDocument(new Term("Id", result.Id), data.GetDocument());
@@ -186,8 +191,10 @@ namespace WinFred.Search
                     writer.Commit();
                 }
             }
-            catch (FileNotFoundException e) { }
-}
+            catch (FileNotFoundException e)
+            {
+            }
+        }
 
         public void IncrementPriority(string path)
         {
@@ -214,7 +221,9 @@ namespace WinFred.Search
                     }
                 }
             }
-            catch (FileNotFoundException e) { }
+            catch (FileNotFoundException e)
+            {
+            }
         }
     }
 }

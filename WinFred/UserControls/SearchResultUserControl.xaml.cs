@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -35,7 +34,7 @@ namespace WinFred.UserControls
             e.Handled = true;
             var window = Window.GetWindow(this);
             window?.Hide();
-            var index = (int) (e.GetPosition(this).Y / SearchResultElement.ROW_HEIGHT);
+            var index = (int) (e.GetPosition(this).Y/SearchResultElement.ROW_HEIGHT);
             if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
             {
                 _searchResults[index].OpenFolder();
@@ -51,10 +50,8 @@ namespace WinFred.UserControls
             _searchResults = SearchEngine.GetInstance().Query(str);
             FocusedIndex = 0;
             _searchResultElement.DrawItems(_searchResults, FocusedIndex);
-            Dispatcher.BeginInvoke((Action) (() =>
-            {
-                _searchResultElement.Height = _searchResults.Count*SearchResultElement.ROW_HEIGHT;
-            }));
+            Dispatcher.BeginInvoke(
+                (Action) (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.ROW_HEIGHT; }));
         }
 
         public void MoveUp()

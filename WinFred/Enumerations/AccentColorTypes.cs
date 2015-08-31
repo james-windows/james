@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WinFred.Enumerations
+﻿namespace WinFred.Enumerations
 {
     public enum AccentColorTypes
     {

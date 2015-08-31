@@ -4,7 +4,7 @@ using MahApps.Metro.Controls;
 namespace WinFred
 {
     /// <summary>
-    /// Interaction logic for WelcomeWindow.xaml
+    ///     Interaction logic for WelcomeWindow.xaml
     /// </summary>
     public partial class WelcomeWindow : MetroWindow
     {
@@ -15,9 +15,9 @@ namespace WinFred
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            MainWindow window = new MainWindow();
+            var window = new MainWindow();
             window.Show();
-            this.Close();
+            Close();
         }
     }
 }

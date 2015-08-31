@@ -3,7 +3,7 @@
 namespace WinFred.UserControls
 {
     /// <summary>
-    /// Interaction logic for CustomizeUserControl.xaml
+    ///     Interaction logic for CustomizeUserControl.xaml
     /// </summary>
     public partial class AppearanceUserControl : UserControl
     {

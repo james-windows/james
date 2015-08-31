@@ -4,7 +4,7 @@ using System.Windows.Input;
 namespace WinFred
 {
     /// <summary>
-    /// Interaction logic for LargeType.xaml
+    ///     Interaction logic for LargeType.xaml
     /// </summary>
     public partial class LargeType : Window
     {
@@ -14,14 +14,15 @@ namespace WinFred
             WindowState = WindowState.Maximized;
             Width = SystemParameters.PrimaryScreenWidth;
             Height = SystemParameters.PrimaryScreenHeight;
-            this.TextBlock.Text = message;
+            TextBlock.Text = message;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyboardDevice.IsKeyDown(Key.Escape) || (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt)))
+            if (e.KeyboardDevice.IsKeyDown(Key.Escape) ||
+                (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt)))
             {
-                this.Close();
+                Close();
             }
         }
     }

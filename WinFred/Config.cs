@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
-using MahApps.Metro;
 using Microsoft.Win32;
 
 namespace WinFred
@@ -62,7 +61,7 @@ namespace WinFred
                 {
                     try
                     {
-                        string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+                        var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
                         Directory.CreateDirectory(path);
                         Directory.CreateDirectory(path + "\\Index");
                         config = HelperClass.Derialize<Config>(path + "\\config.xml");
@@ -110,9 +109,10 @@ namespace WinFred
 
         public string ConfigFolderLocation { get; set; } =
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+
         public int DefaultFolderPriority { get; set; } = 80;
         public int MaxSearchResults { get; set; } = 8;
-        public int StartSearchMinTextLength { get; set; } = 3;        
+        public int StartSearchMinTextLength { get; set; } = 3;
 
         private bool _startProgramOnStartup;
 

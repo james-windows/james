@@ -6,9 +6,9 @@ using MahApps.Metro.Controls;
 namespace WinFred
 {
     /// <summary>
-    /// Interaction logic for ChangelogWindow.xaml
+    ///     Interaction logic for ChangelogWindow.xaml
     /// </summary>
-    public partial class ChangelogWindow: MetroWindow
+    public partial class ChangelogWindow : MetroWindow
     {
         public ChangelogWindow()
         {
@@ -30,14 +30,13 @@ namespace WinFred
 
         private async Task<string> LoadChangelog()
         {
-            using (WebClient webClient = new WebClient())
+            using (var webClient = new WebClient())
             {
                 return await webClient.DownloadStringTaskAsync(@"http://moserm.tk/Releases/changelog.txt");
             }
         }
 
-        private void CloseWindow(object sender, RoutedEventArgs e) => this.Close();
-
+        private void CloseWindow(object sender, RoutedEventArgs e) => Close();
         private void CopyToClipboard(object sender, RoutedEventArgs e) => Clipboard.SetText(ChangelogTextBlock.Text);
     }
 }

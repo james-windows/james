@@ -8,13 +8,23 @@ namespace WinFred
 {
     public class Workflow : INotifyPropertyChanged
     {
+        private bool _isEnabled = true;
+        private string _name;
+
         public Workflow()
         {
+        }
 
+        public Workflow(string name, string keyword, bool showProcessWindow = false, bool isEnabled = true)
+        {
+            Name = name;
+            Keyword = keyword;
+            ShowProcessWindow = showProcessWindow;
+            IsEnabled = isEnabled;
         }
 
         public bool ShowProcessWindow { get; set; }
-        private string _name;
+
         public string Name
         {
             get { return _name; }
@@ -26,11 +36,8 @@ namespace WinFred
         }
 
         public string Keyword { get; set; }
-
         public string ProgramName { get; set; }
         public string Arguments { get; set; }
-
-        private bool _isEnabled = true;
 
         public bool IsEnabled
         {
@@ -42,16 +49,10 @@ namespace WinFred
             }
         }
 
-        public Workflow(string name, string keyword, bool showProcessWindow = false, bool isEnabled = true)
-        {
-            Name = name;
-            Keyword = keyword;
-            this.ShowProcessWindow = showProcessWindow;
-            this.IsEnabled = isEnabled;
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Generates an Process and returns it.
+        ///     Generates an Process and returns it.
         /// </summary>
         /// <returns>The Process of the Workflow</returns>
         public Process Execute(string parameter)
@@ -60,12 +61,12 @@ namespace WinFred
             {
                 throw new ArgumentException("The Command property must not be null!");
             }
-            Process proc = new Process
+            var proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = this.ProgramName,
-                    Arguments = this.Arguments + " " + parameter.Trim(),
+                    FileName = ProgramName,
+                    Arguments = Arguments + " " + parameter.Trim(),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = !ShowProcessWindow
@@ -74,12 +75,10 @@ namespace WinFred
             return proc;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            var handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }

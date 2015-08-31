@@ -4,17 +4,23 @@
         xmlns:winFred="clr-namespace:WinFred"
         xmlns:canvas="using:Microsoft.Graphics.Canvas"
         xmlns:userControls="clr-namespace:WinFred.UserControls"
-        Title="MainWindow" Width="700" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" Opacity="0.9" SizeToContent="Height" ShowInTaskbar="False" Loaded="Window_Loaded" Deactivated="Window_Deactivated" BorderBrush="#FF777777" BorderThickness="1">
-    
+        Title="MainWindow" Width="700" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
+        Opacity="0.9" SizeToContent="Height" ShowInTaskbar="False" Loaded="Window_Loaded"
+        Deactivated="Window_Deactivated" BorderBrush="#FF777777" BorderThickness="1">
+
     <Grid Loaded="Grid_Loaded">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="0" x:Name="SearchTextBox" Margin="0" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="55" VerticalContentAlignment="Center" Padding="10,0,10,10" Foreground="#FF383838" MaxLines="1" Height="100" KeyDown="SearchTextBox_KeyDown" TextChanged="SearchTextBox_TextChanged" PreviewKeyDown="SearchTextBox_PreviewKeyDown" BorderBrush="{x:Null}" BorderThickness="0" UndoLimit="0" VerticalScrollBarVisibility="Disabled"/>
+        <TextBox Grid.Row="0" x:Name="SearchTextBox" Margin="0" TextWrapping="Wrap" HorizontalAlignment="Stretch"
+                 VerticalAlignment="Top" FontSize="55" VerticalContentAlignment="Center" Padding="10,0,10,10"
+                 Foreground="#FF383838" MaxLines="1" Height="100" KeyDown="SearchTextBox_KeyDown"
+                 TextChanged="SearchTextBox_TextChanged" PreviewKeyDown="SearchTextBox_PreviewKeyDown"
+                 BorderBrush="{x:Null}" BorderThickness="0" UndoLimit="0" VerticalScrollBarVisibility="Disabled" />
         <Grid Grid.Row="1">
-            <WebBrowser Name="OutputWebBrowser" Height="400" Visibility="Collapsed" Width="700"></WebBrowser>
+            <WebBrowser Name="OutputWebBrowser" Height="400" Visibility="Collapsed" Width="700" />
         </Grid>
         <!--<ListBox Grid.Row="2" x:Name="SearchResultListBox" BorderThickness="0" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
             <ListBox.ItemTemplate>
@@ -33,6 +39,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>-->
-        <userControls:SearchResultUserControl x:Name="searchResultControl" Grid.Row="2"></userControls:SearchResultUserControl>
+        <userControls:SearchResultUserControl x:Name="searchResultControl" Grid.Row="2" />
     </Grid>
 </Window>
