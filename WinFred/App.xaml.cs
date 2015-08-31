@@ -27,8 +27,7 @@ namespace WinFred
             Config.GetInstance().WindowChangedAccentColor += App_WindowChangedAccentColor;
             SetStyleAccents();
             base.OnStartup(e);
-            SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onInitialInstall: AddAutoUpdateTask,
-                onAppUninstall: OnAppUninstall);
+            SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
             if (_showTheWelcomeWizard)
             {
                 new WelcomeWindow().Show();
@@ -48,7 +47,7 @@ namespace WinFred
             }
         }
 
-        private static void AddAutoUpdateTask(Version version)
+        private static void AddAutoUpdateTask()
         {
             using (var ts = new TaskService())
             {
@@ -60,7 +59,12 @@ namespace WinFred
             }
         }
 
-        private static void OnFirstRun() => _showTheWelcomeWizard = true;
+        private static void OnFirstRun()
+        {
+            _showTheWelcomeWizard = true;
+            AddAutoUpdateTask();
+        }
+
         private static void App_WindowChangedAccentColor(object sender, EventArgs e) => SetStyleAccents();
     }
 }
