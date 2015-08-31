@@ -98,7 +98,7 @@ namespace WinFred.Search
                     writer.Commit();
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
             }
         }
@@ -128,7 +128,7 @@ namespace WinFred.Search
                     }
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
             }
         }
@@ -156,7 +156,7 @@ namespace WinFred.Search
                     }
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
                 return new List<SearchResult>();
             }
@@ -174,7 +174,7 @@ namespace WinFred.Search
                     writer.Commit();
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
             }
         }
@@ -191,7 +191,7 @@ namespace WinFred.Search
                     writer.Commit();
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
             }
         }
@@ -221,7 +221,7 @@ namespace WinFred.Search
                     }
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
             }
         }
