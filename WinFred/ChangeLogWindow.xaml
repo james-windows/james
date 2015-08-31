@@ -5,10 +5,10 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       mc:Ignorable="d"
-                      Title="ChangelogWindow" MinHeight="400" MinWidth="300" Width="400" Height="500"
+                      Title="Changelog" MinHeight="400" MinWidth="300" Width="400" Height="500"
                       WindowStartupLocation="CenterOwner" Loaded="ChangeLogWindow_OnLoaded" WindowStyle="ToolWindow"
                       ShowMinButton="False" ShowMaxRestoreButton="False">
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
@@ -18,8 +18,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="ChangelogTextBlock" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top"
-                   ScrollViewer.CanContentScroll="True" Padding="10" />
-        <controls:ProgressRing IsActive="True" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Visibility="Visible"
+                   ScrollViewer.CanContentScroll="True" Margin="0,0,0,10" />
+        <controls:ProgressRing IsActive="True" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Visibility="Hidden"
                                x:Name="progressRing" />
         <Button Grid.Row="1" Grid.Column="0" Style="{DynamicResource SquareButtonStyle}" Click="CloseWindow">OK</Button>
         <Button Grid.Row="1" Grid.Column="1" Style="{DynamicResource SquareButtonStyle}" Click="CopyToClipboard">Copy to Clipboard</Button>
