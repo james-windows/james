@@ -6,6 +6,10 @@
              mc:Ignorable="d">
     <Grid>
         <!-- TODO add text (version, developer, copyright, email, ...) -->
-        <Label>text for about</Label>
+        <StackPanel>
+            <Label>text for about</Label>
+            <Label>James</Label>
+            <Label x:Name="versionLabel"/>
+        </StackPanel>
     </Grid>
 </UserControl>
