@@ -18,7 +18,7 @@ namespace WinFred.UserControls
             versionLabel.Content = Version;
         }
 
-        public string Version { get; } = "v0.1.1";
+        public string Version { get; private set;  } = "v0.1.1";
 
         private void DisplayChangelog(object sender, RoutedEventArgs e)
         {
