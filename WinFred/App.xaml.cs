@@ -1,14 +1,7 @@
-﻿using MahApps.Metro;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
+﻿using Microsoft.Win32.TaskScheduler;
 using Squirrel;
-using WinFred.Search;
+using System;
+using System.Windows;
 
 namespace WinFred
 {
@@ -17,7 +10,7 @@ namespace WinFred
     /// </summary>
     public partial class App : Application
     {
-        private void SetStyleAccents()
+        private static void SetStyleAccents()
         {
             string accentColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/"+ Config.GetInstance().WindowAccentColor +".xaml";
             (((App)Application.Current).Resources).MergedDictionaries[5].Source = new Uri(accentColor);
@@ -26,14 +19,14 @@ namespace WinFred
             (((App)Application.Current).Resources).MergedDictionaries[4].Source = new Uri(baseColor);
         }
 
-        private static bool ShowTheWelcomeWizard;
+        private static bool _showTheWelcomeWizard;
         protected override void OnStartup(StartupEventArgs e)
         {
             Config.GetInstance().WindowChangedAccentColor += App_WindowChangedAccentColor;            
             SetStyleAccents();
             base.OnStartup(e);
-            SquirrelAwareApp.HandleEvents(onFirstRun: ShowWelcomeWindow);
-            if (ShowTheWelcomeWizard)
+            SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onInitialInstall: OnInitialInstall, onAppUninstall: OnAppUninstall);
+            if (_showTheWelcomeWizard)
             {
                 new WelcomeWindow().Show();
             }
@@ -44,14 +37,28 @@ namespace WinFred
             }
         }
 
-        private void ShowWelcomeWindow()
+        private static void OnAppUninstall(Version version)
         {
-            ShowTheWelcomeWizard = true;
+            using (TaskService ts = new TaskService())
+            {
+                ts.RootFolder.DeleteTask("James");
+            }
         }
 
-        private void App_WindowChangedAccentColor(object sender, EventArgs e)
+        private static void OnInitialInstall(Version version)
         {
-            SetStyleAccents();
+            using (TaskService ts = new TaskService())
+            {
+                TaskDefinition td = ts.NewTask();
+                td.RegistrationInfo.Description = "Calls the updater for James once a day";
+                td.Triggers.Add(new DailyTrigger { DaysInterval = 1 });
+                td.Actions.Add(new ExecAction("Update.exe", "--update http://moserm.tk/Releases", Config.GetInstance().ConfigFolderLocation));
+                ts.RootFolder.RegisterTaskDefinition(@"James", td);
+            }
         }
+
+        private static void OnFirstRun() => _showTheWelcomeWizard = true;
+
+        private static void App_WindowChangedAccentColor(object sender, EventArgs e) => SetStyleAccents();
     }
 }
