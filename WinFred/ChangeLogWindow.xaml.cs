@@ -32,7 +32,7 @@ namespace WinFred
         {
             using (var webClient = new WebClient())
             {
-                return await webClient.DownloadStringTaskAsync(@"http://moserm.tk/Releases/changelog.txt");
+                return await webClient.DownloadStringTaskAsync(Config.GetInstance().ReleaseUrl + @"/changelog.txt");
             }
         }
 

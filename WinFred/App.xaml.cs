@@ -55,7 +55,7 @@ namespace WinFred
                 var td = ts.NewTask();
                 td.RegistrationInfo.Description = "Calls the updater for James once a day";
                 td.Triggers.Add(new DailyTrigger {DaysInterval = 1});
-                td.Actions.Add(new ExecAction("Update.exe", "--update http://moserm.tk/Releases",
+                td.Actions.Add(new ExecAction("Update.exe", "--update " + Config.GetInstance().ReleaseUrl,
                     Config.GetInstance().ConfigFolderLocation));
                 ts.RootFolder.RegisterTaskDefinition(@"James", td);
             }

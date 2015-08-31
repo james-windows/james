@@ -109,16 +109,17 @@ namespace WinFred
 
         public string ConfigFolderLocation { get; set; } =
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+        public string ReleaseUrl { get; set; } = @"http://www.moserm.tk/Releases";
 
         public int DefaultFolderPriority { get; set; } = 80;
         public int MaxSearchResults { get; set; } = 8;
         public int StartSearchMinTextLength { get; set; } = 3;
 
-        private bool _startProgramOnStartup;
-
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
+
         private string _windowAccentColor = "Lime";
         private bool _isBaseLight = true;
+        private bool _startProgramOnStartup;
 
         public bool StartProgramOnStartup
         {
