@@ -105,7 +105,7 @@ namespace WinFred
             {
                 line += process.StandardOutput.ReadLine();
             }
-            line = HelperClass.BuildHTML(line);
+            line = HelperClass.BuildHtml(line);
             line = line.Replace("suppldata", "\"table table-bordered table-striped\"");
             Dispatcher.BeginInvoke((Action) (() => OutputWebBrowser.NavigateToString(line)));
             Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);

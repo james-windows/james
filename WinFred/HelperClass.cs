@@ -58,11 +58,10 @@ namespace WinFred
                 icon.Handle,
                 Int32Rect.Empty,
                 BitmapSizeOptions.FromEmptyOptions());
-
             return imageSource;
         }
 
-        public static string BuildHTML(string htmlFromWorkflow)
+        public static string BuildHtml(string htmlFromWorkflow)
         {
             var html = new StringBuilder(@"<!DOCTYPE html>
                     <html>
