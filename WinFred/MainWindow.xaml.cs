@@ -19,9 +19,12 @@ namespace WinFred
     {
         private LargeType _largeType;
 
-        public MainWindow()
+        public MainWindow(bool showOnStartup = false)
         {
-            Visibility = Visibility.Hidden;
+            if (!showOnStartup)
+            {
+                Visibility = Visibility.Hidden;
+            }
             InitializeComponent();
             new HotKey(Key.Space, KeyModifier.Alt, OnHotKeyHandler);
         }
