@@ -6,12 +6,77 @@
                       xmlns:local="clr-namespace:WinFred"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       mc:Ignorable="d" EnableDWMDropShadow="True"
-                      Title="WelcomeWindow" Height="300" Width="600" MinHeight="300" MinWidth="600"
-                      WindowStyle="ToolWindow">
+                      Title="Welcome" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <Grid>
-        <StackPanel>
-            <TextBlock>Hello, this is the welcome screen, it will be filled in the near futer!</TextBlock>
-            <Button Click="ButtonBase_OnClick">Launch</Button>
-        </StackPanel>
+        <controls:FlipView IsBannerEnabled="False" Margin="10" Width="600" Height="500">
+            <controls:FlipView.Items>
+                <StackPanel Width="600" Height="500">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32">Welcome!</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="26">Thank you for choosing:</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="40">James</TextBlock>
+                    <Rectangle Width="200" Height="200" Fill="Red" Margin="0,0,0,100"></Rectangle>
+                    <TextBlock HorizontalAlignment="Center" FontSize="21">Now we will give you a brief demo how to use James!</TextBlock>
+                </StackPanel>
+                <StackPanel Width="600" Height="500">
+                    <TextBlock HorizontalAlignment="Center" FontSize="26">To open James simply press:</TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                        <Grid>
+                            <Rectangle Stroke="#FF333333"/>
+                            <TextBlock FontSize="34.667" Padding="15,10">Alt</TextBlock>
+                        </Grid>
+                        <Grid>
+                            <TextBlock FontSize="34.667" Padding="15,10">+</TextBlock>
+                        </Grid>
+                        <Grid>
+                            <Rectangle Stroke="#FF333333"/>
+                            <TextBlock FontSize="34.667" Padding="50,10">Space</TextBlock>
+                        </Grid>
+                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Center" FontSize="26">and start typing...</TextBlock>
+                </StackPanel>
+                <StackPanel Width="600" Height="500">
+                    <TextBlock HorizontalAlignment="Center" FontSize="26">Customize James for a better experience:</TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                        <Grid>
+                            <Rectangle Stroke="#FF333333"/>
+                            <TextBlock FontSize="34.667" Padding="15,10">Alt</TextBlock>
+                        </Grid>
+                        <Grid>
+                            <TextBlock FontSize="34.667" Padding="15,10">+</TextBlock>
+                        </Grid>
+                        <Grid>
+                            <Rectangle Stroke="#FF333333"/>
+                            <TextBlock FontSize="34.667" Padding="15,10">S</TextBlock>
+                        </Grid>
+                        <Grid>
+                            <TextBlock FontSize="34.667" Padding="5,10,15,10">ettings</TextBlock>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Width="600" Height="500">
+                    <TextBlock HorizontalAlignment="Center" FontSize="26">Share messages with your friends:</TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                        <Grid>
+                            <Rectangle Stroke="#FF333333"/>
+                            <TextBlock FontSize="34.667" Padding="15,10">Alt</TextBlock>
+                        </Grid>
+                        <Grid>
+                            <TextBlock FontSize="34.667" Padding="15,10">+</TextBlock>
+                        </Grid>
+                        <Grid>
+                            <Rectangle Stroke="#FF333333"/>
+                            <TextBlock FontSize="34.667" Padding="15,10">L</TextBlock>
+                        </Grid>
+                        <Grid>
+                            <TextBlock FontSize="34.667" Padding="5,10,15,10">arge Type</TextBlock>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Width="600" Height="500">
+                    <TextBlock HorizontalAlignment="Center" FontSize="26">Now you're ready for the journey with James:</TextBlock>
+                    <Button FontSize="42.667" Width="400" Height="100"  Click="ButtonBase_OnClick" Padding="1" Margin="0,50,0,0">Launch James</Button>
+                </StackPanel>
+            </controls:FlipView.Items>
+        </controls:FlipView>
     </Grid>
 </controls:MetroWindow>
