@@ -23,7 +23,7 @@ namespace WinFred.UserControls
 
         private void DisplayChangelog(object sender, RoutedEventArgs e)
         {
-            var changelogWindow = new ChangelogWindow {Owner = Window.GetWindow(this)};
+            var changelogWindow = new ChangelogWindow() {Owner = Window.GetWindow(this)};
             changelogWindow.ShowDialog();
         }
     }
