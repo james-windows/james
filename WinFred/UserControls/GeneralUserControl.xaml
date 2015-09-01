@@ -10,7 +10,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Header="General Settings" Grid.Row="0">
+        <GroupBox Header="General Settings" Grid.Column="0">
             <StackPanel>
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Grid}">
@@ -72,5 +72,17 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
+        <StackPanel Grid.Column="1">
+            <GroupBox Header="Import / Export">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="Export Config" Style="{DynamicResource SquareButtonStyle}" />
+                    <Button Grid.Column="1" Content="Import Config" Style="{DynamicResource SquareButtonStyle}" />
+                </Grid>
+            </GroupBox>
+        </StackPanel>
     </Grid>
 </UserControl>
