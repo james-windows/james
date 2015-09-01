@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using WinFred.Annotations;
 
-namespace WinFred
+namespace WinFred.Search
 {
     public class Path : INotifyPropertyChanged
     {
@@ -39,26 +39,22 @@ namespace WinFred
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public override string ToString()
-        {
-            return Location + " :" + Priority;
-        }
+        public override string ToString() => Location + " :" + Priority;
 
         public int GetFilePriority(string filePath)
         {
-            var FileExtension = CalculatePriorityByFileExtensions(filePath, FileExtensions);
-            var DefaultFileExtension = CalculatePriorityByFileExtensions(filePath,
+            var fileExtension = CalculatePriorityByFileExtensions(filePath, FileExtensions);
+            var defaultFileExtension = CalculatePriorityByFileExtensions(filePath,
                 Config.GetInstance().DefaultFileExtensions);
 
-            if (FileExtension < -1 && DefaultFileExtension < -1)
+            if (fileExtension < -1 && defaultFileExtension < -1)
             {
                 return -1;
             }
-
-            return Math.Max(FileExtension, DefaultFileExtension) + Priority;
+            return Math.Max(fileExtension, defaultFileExtension) + Priority;
         }
 
-        private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> fileExtensions)
+        private static int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> fileExtensions)
         {
             var indexOfSearchedItem = fileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
             var priority = 0;

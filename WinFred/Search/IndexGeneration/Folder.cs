@@ -14,15 +14,15 @@ namespace WinFred.Search.IndexGeneration
             _folder = folder;
         }
 
-        internal IEnumerable<Document> getItemsToBeIndexed(string currentPath = "")
+        internal IEnumerable<Document> GetItemsToBeIndexed(string currentPath = "")
         {
             var data = new List<Document>();
             try
             {
-                data.AddRange(getItemsInCurrentScope(_folder.Location + currentPath));
+                data.AddRange(GetItemsInCurrentScope(_folder.Location + currentPath));
                 foreach (var directory in Directory.GetDirectories(_folder.Location + currentPath))
                 {
-                    data.AddRange(getItemsToBeIndexed(directory.Replace(_folder.Location, "")));
+                    data.AddRange(GetItemsToBeIndexed(directory.Replace(_folder.Location, "")));
                 }
             }
             catch (UnauthorizedAccessException)
@@ -36,7 +36,7 @@ namespace WinFred.Search.IndexGeneration
             return data;
         }
 
-        private IEnumerable<Document> getItemsInCurrentScope(string currentPath)
+        private IEnumerable<Document> GetItemsInCurrentScope(string currentPath)
         {
             var data = new List<Document>();
             foreach (var filePath in Directory.GetFiles(currentPath))

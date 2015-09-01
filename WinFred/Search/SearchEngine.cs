@@ -49,18 +49,18 @@ namespace WinFred.Search
             WriteFileToIndex(data);
         }
 
-        private List<Document> GetFilesToBeIndexed()
+        private static List<Document> GetFilesToBeIndexed()
         {
             var data = new List<Document>();
             Parallel.ForEach(Config.GetInstance().Paths.Where(path => path.IsEnabled), currentPath =>
             {
                 var currentFolder = new Folder(currentPath);
-                data.AddRange(currentFolder.getItemsToBeIndexed());
+                data.AddRange(currentFolder.GetItemsToBeIndexed());
             });
             return data;
         }
 
-        private void WriteFileToIndex(List<Document> data)
+        private void WriteFileToIndex(IReadOnlyList<Document> data)
         {
             var lastProgress = -1;
             using (var writer = new IndexWriter(_index, _analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
@@ -85,7 +85,7 @@ namespace WinFred.Search
             }
         }
 
-        private static int CalcProgress(int position, int total) => (int) (((double) position)/total*100);
+        private static int CalcProgress(int position, int total) => (int) (((double) position) / total * 100);
 
         public void AddFile(Data data)
         {
@@ -146,8 +146,8 @@ namespace WinFred.Search
                     {
                         var docs = searcher.Search(query, new QueryWrapperFilter(query),
                             Config.GetInstance().MaxSearchResults, _sort);
-                        return
-                            docs.ScoreDocs.Select(scoreDoc => searcher.Doc(scoreDoc.Doc)).Select(doc => new SearchResult
+                        return docs.ScoreDocs.Select(scoreDoc => searcher.Doc(scoreDoc.Doc))
+                            .Select(doc => new SearchResult
                             {
                                 Id = doc.Get("Id"),
                                 Priority = Convert.ToInt32(doc.Get("Priority")),
@@ -195,7 +195,7 @@ namespace WinFred.Search
             {
             }
         }
-
+        
         public void IncrementPriority(string path)
         {
             try

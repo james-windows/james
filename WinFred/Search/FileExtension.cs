@@ -1,6 +1,7 @@
 ﻿using System;
+using static System.String;
 
-namespace WinFred
+namespace WinFred.Search
 {
     public class FileExtension : IComparable<FileExtension>
     {
@@ -16,11 +17,8 @@ namespace WinFred
 
         public int Priority { get; set; }
         public string Extension { get; set; }
-        public int CompareTo(FileExtension other) => string.Compare(Extension, other.Extension);
+        public int CompareTo(FileExtension other) => CompareOrdinal(Extension, other.Extension);
 
-        public override string ToString()
-        {
-            return Extension + " Wert: " + Priority;
-        }
+        public override string ToString() => Extension + " Wert: " + Priority;
     }
 }

@@ -38,9 +38,6 @@ namespace WinFred
             return doc;
         }
 
-        public override string ToString()
-        {
-            return Path;
-        }
+        public override string ToString() => Path;
     }
 }

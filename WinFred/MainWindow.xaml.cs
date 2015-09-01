@@ -99,7 +99,7 @@ namespace WinFred
         {
             var tmp = DateTime.Now;
             var line = "";
-            var process = workflow.Execute(str.Replace(workflow.Keyword, ""));
+            var process = workflow.GetProcess(str.Replace(workflow.Keyword, ""));
             process.Start();
             while (!process.StandardOutput.EndOfStream)
             {

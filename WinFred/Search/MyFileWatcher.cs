@@ -7,7 +7,6 @@ namespace WinFred.Search
     internal class MyFileWatcher
     {
         private static readonly object SingeltonLock = new object();
-        //private List<object> _list;
 
         private static MyFileWatcher _watcher;
         private readonly Path[] _paths;
@@ -16,18 +15,15 @@ namespace WinFred.Search
         {
             _paths = Config.GetInstance().Paths.ToArray();
             var fileSystemWatchers = new LinkedList<FileSystemWatcher>();
-
             foreach (var path in _paths)
             {
-                var watcher = new FileSystemWatcher(path.Location);
-                watcher.IncludeSubdirectories = true;
+                var watcher = new FileSystemWatcher(path.Location) {IncludeSubdirectories = true};
                 watcher.Created += File_Created;
                 watcher.Deleted += File_Deleted;
                 watcher.Renamed += File_Renamed;
                 watcher.Changed += File_Changed;
                 fileSystemWatchers.AddLast(watcher);
                 watcher.EnableRaisingEvents = true;
-                //_list.Add(watcher);
             }
         }
 
@@ -50,7 +46,7 @@ namespace WinFred.Search
             }
         }
 
-        private void File_Deleted(object sender, FileSystemEventArgs e)
+        private static void File_Deleted(object sender, FileSystemEventArgs e)
         {
             SearchEngine.GetInstance().DeleteFile(e.FullPath);
         }
@@ -66,7 +62,7 @@ namespace WinFred.Search
             }
         }
 
-        private void File_Changed(object sender, FileSystemEventArgs e)
+        private static void File_Changed(object sender, FileSystemEventArgs e)
         {
             SearchEngine.GetInstance().IncrementPriority(e.FullPath);
         }

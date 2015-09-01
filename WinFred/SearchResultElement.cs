@@ -110,10 +110,7 @@ namespace WinFred
 
         #region necessary for FrameworkElement
 
-        protected override int VisualChildrenCount
-        {
-            get { return _children.Count; }
-        }
+        protected override int VisualChildrenCount => _children.Count;
 
         protected override Visual GetVisualChild(int index)
         {

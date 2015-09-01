@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using WinFred.Annotations;
 
-namespace WinFred
+namespace WinFred.Search
 {
     public class Workflow : INotifyPropertyChanged
     {
@@ -51,11 +51,7 @@ namespace WinFred
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        ///     Generates an Process and returns it.
-        /// </summary>
-        /// <returns>The Process of the Workflow</returns>
-        public Process Execute(string parameter)
+        public Process GetProcess(string parameter)
         {
             if (ProgramName.Trim() == "")
             {

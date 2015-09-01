@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using WinFred.Search;
 
 namespace WinFred.UserControls
 {

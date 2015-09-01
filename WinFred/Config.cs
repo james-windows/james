@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
 using Microsoft.Win32;
+using WinFred.Search;
+using Path = WinFred.Search.Path;
 
 namespace WinFred
 {
