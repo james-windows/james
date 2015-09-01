@@ -7,7 +7,6 @@
         Title="MainWindow" Width="700" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Opacity="0.9" SizeToContent="Height" ShowInTaskbar="False" Loaded="Window_Loaded"
         Deactivated="Window_Deactivated" BorderBrush="#FF777777" BorderThickness="1">
-
     <Grid Loaded="Grid_Loaded">
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />

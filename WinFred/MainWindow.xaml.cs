@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,16 +17,13 @@ namespace WinFred
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly SearchEngine search;
-        private LargeType lt;
+        private LargeType _largeType;
 
         public MainWindow()
         {
-            InitializeComponent();
-            var _hotKey = new HotKey(Key.Space, KeyModifier.Alt, OnHotKeyHandler);
             Visibility = Visibility.Hidden;
-
-            search = SearchEngine.GetInstance();
+            InitializeComponent();
+            new HotKey(Key.Space, KeyModifier.Alt, OnHotKeyHandler);
         }
 
         private void OnHotKeyHandler(HotKey hotKey)
@@ -45,10 +43,8 @@ namespace WinFred
 
         private void HideWindow()
         {
-            if (lt != null && lt.IsActive)
-            {
-                lt.Close();
-            }
+            _largeType?.Close();
+            _largeType = null;
             Hide();
         }
 
@@ -58,10 +54,6 @@ namespace WinFred
         {
             if (e.KeyboardDevice.IsKeyDown(Key.Escape))
             {
-                if (lt != null && lt.IsActive)
-                {
-                    lt.Close();
-                }
                 Hide();
                 SearchTextBox.Text = "";
             }
@@ -69,10 +61,9 @@ namespace WinFred
                      SearchTextBox.Text.Length > 0)
             {
                 var message = SearchTextBox.Text;
-                lt = new LargeType(message);
-                lt.Owner = this;
-                lt.ShowDialog();
-                lt = null;
+                _largeType = new LargeType(message) {Owner = this};
+                _largeType.ShowDialog();
+                _largeType = null;
             }
             else if (e.KeyboardDevice.IsKeyDown(Key.S) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))
             {
@@ -124,15 +115,12 @@ namespace WinFred
         {
             var str = SearchTextBox.Text;
             var workflowExecuted = false;
-            foreach (var item in Config.GetInstance().Workflows) //todo update to binary search is necessary
+            foreach (var item in Config.GetInstance().Workflows.Where(item => item.IsEnabled && str.StartsWith(item.Keyword)))
             {
-                if (item.IsEnabled && str.StartsWith(item.Keyword))
-                {
-                    workflowExecuted = true;
-                    OutputWebBrowser.Visibility = Visibility.Visible;
-                    new Task(() => ExecuteWorkflow(item, str)).Start();
-                    return;
-                }
+                workflowExecuted = true;
+                OutputWebBrowser.Visibility = Visibility.Visible;
+                new Task(() => ExecuteWorkflow(item, str)).Start();
+                return;
             }
             if (!workflowExecuted)
             {
@@ -144,8 +132,10 @@ namespace WinFred
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            if (lt == null)
+            if (_largeType == null)
+            {
                 OnHotKeyHandler(null);
+            }
         }
 
         #region region for hidding the window in the taskswitch
@@ -153,9 +143,7 @@ namespace WinFred
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var wndHelper = new WindowInteropHelper(this);
-
             var exStyle = (int) GetWindowLong(wndHelper.Handle, (int) GetWindowLongFields.GWL_EXSTYLE);
-
             exStyle |= (int) ExtendedWindowStyles.WS_EX_TOOLWINDOW;
             SetWindowLong(wndHelper.Handle, (int) GetWindowLongFields.GWL_EXSTYLE, (IntPtr) exStyle);
         }
@@ -201,7 +189,6 @@ namespace WinFred
             {
                 throw new Win32Exception(error);
             }
-
             return result;
         }
 
