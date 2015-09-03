@@ -8,7 +8,7 @@
                       mc:Ignorable="d" EnableDWMDropShadow="True"
                       Title="Welcome" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <Grid>
-        <controls:FlipView IsBannerEnabled="False" Margin="10" Width="600" Height="500">
+        <controls:FlipView IsBannerEnabled="False" Margin="10" Width="600" Height="500" MouseOverGlowEnabled="False" >
             <controls:FlipView.Items>
                 <StackPanel Width="600" Height="500">
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32">Welcome!</TextBlock>
