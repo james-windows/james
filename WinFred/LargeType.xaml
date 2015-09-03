@@ -5,7 +5,7 @@
         ShowInTaskbar="False" WindowStyle="None" Opacity="0.75" Background="{x:Null}"
         KeyDown="Window_KeyDown">
     <Grid Background="Black" Margin="50">
-        <Viewbox Margin="20" x:Name="ViewBox">
+        <Viewbox Margin="20">
             <TextBlock x:Name="TextBlock" Foreground="White" TextWrapping="Wrap" MaxWidth="100" TextAlignment="Center" />
         </Viewbox>
     </Grid>
