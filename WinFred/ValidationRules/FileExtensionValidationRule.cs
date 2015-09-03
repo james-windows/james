@@ -1,11 +1,13 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using WinFred.Search;
 
 namespace WinFred.ValidationRules
 {
-    internal class FileExtensionValidationRule : ValidationRule
+    public class FileExtensionValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
@@ -17,12 +19,32 @@ namespace WinFred.ValidationRules
                 {
                     return new ValidationResult(false, "Priority must be inside the range ]-1, 10000[");
                 }
-                if (fileExtension.Extension.Contains("."))
+                if (fileExtension.Extension != null && fileExtension.Extension.Contains("."))
                 {
                     return new ValidationResult(false, "Extension must not contain a dot");
                 }
             }
             return ValidationResult.ValidResult;
+        }
+    }
+    public class FileExtensionConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string)
+            {
+                var extension = (string)value;
+                if (!extension.Contains("."))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return DependencyProperty.UnsetValue;
         }
     }
 }
