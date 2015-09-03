@@ -20,6 +20,13 @@
                             </Style>
                         </Style.Resources>
                     </Style>
+                    <Style TargetType="DataGrid" BasedOn="{StaticResource MetroDataGrid}">
+                        <Setter Property="SelectionUnit" Value="FullRow" />
+                        <Setter Property="GridLinesVisibility" Value="Vertical" />
+                        <Setter Property="SelectionMode" Value="Single" />
+                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}"/>
+                        <Setter Property="AutoGenerateColumns" Value="False"/>
+                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

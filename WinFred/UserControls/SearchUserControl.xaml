@@ -109,36 +109,26 @@
                 </Style>
             </Grid.Style>
             <GroupBox Header="Default Settings" VerticalContentAlignment="Stretch">
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0">
-                            <Run Text="Default folder priority:" />
-                        </TextBlock>
-                        <controls:NumericUpDown Grid.Column="1" Value="{Binding DefaultFolderPriority}" />
-                    </Grid>
-                    <DataGrid x:Name="FileExtensionsDataGrid" AutoGenerateColumns="False"
-                              ItemsSource="{Binding DefaultFileExtensions, IsAsync=True}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0">
+                        <Run Text="Default folder priority:" />
+                    </TextBlock>
+                    <controls:NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DefaultFolderPriority}" />
+                    <DataGrid ItemsSource="{Binding DefaultFileExtensions, IsAsync=True}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto" />
-                            <controls:DataGridNumericUpDownColumn Header="Priority" Width="*"
-                                                                  Binding="{Binding Priority}" Minimum="-1"
-                                                                  Maximum="10000" />
+                            <controls:DataGridNumericUpDownColumn Header="Priority" Width="*" Binding="{Binding Priority}" Minimum="-1" Maximum="10000" />
                         </DataGrid.Columns>
-                        <DataGrid.RowValidationErrorTemplate>
-                            <ControlTemplate>
-                                <Grid
-                                    ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}},Path=(Validation.Errors)[0].ErrorContent}">
-                                    <Ellipse Width="16" Height="16" Fill="Red" />
-                                    <TextBlock Text="!" Foreground="White" HorizontalAlignment="Center" />
-                                </Grid>
-                            </ControlTemplate>
-                        </DataGrid.RowValidationErrorTemplate>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </GroupBox>
         </Grid>
         <!--#endregion-->
@@ -187,9 +177,7 @@
                         <controls:NumericUpDown Grid.Column="1"
                                                 Value="{Binding ElementName=PathListBox, Path=SelectedItem.FolderPriority}" />
                     </Grid>
-                    <DataGrid x:Name="SpecificFileExtensionsDataGrid"
-                              ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions, IsAsync=True}"
-                              AutoGenerateColumns="False">
+                    <DataGrid ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions, IsAsync=True}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto" />
                             <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority"
