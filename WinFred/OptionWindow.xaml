@@ -39,7 +39,7 @@
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button x:Name="AboutButton" Click="AboutButton_Click" ToolTip="About">
-                <Image Source="D:\WinFred\Project\winfred\WinFred\Resources\About.png" Height="16" />
+                <Image Source="Resources\About.png" Height="16" />
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
