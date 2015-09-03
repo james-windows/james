@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
 using Microsoft.Win32;
+using WinFred.HelperClasses;
 using WinFred.Search;
 using Path = WinFred.Search.Path;
 
@@ -66,7 +67,7 @@ namespace WinFred
                         var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
                         Directory.CreateDirectory(path);
                         Directory.CreateDirectory(path + "\\Index");
-                        config = HelperClass.Derialize<Config>(path + "\\config.xml");
+                        config = GeneralHelper.Derialize<Config>(path + "\\config.xml");
                     }
                     catch (Exception)
                     {

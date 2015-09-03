@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using WinFred.HelperClasses;
 using WinFred.Search;
 
 namespace WinFred
@@ -108,7 +109,7 @@ namespace WinFred
             {
                 line += process.StandardOutput.ReadLine();
             }
-            line = HelperClass.BuildHtml(line);
+            line = GeneralHelper.BuildHtml(line);
             line = line.Replace("suppldata", "\"table table-bordered table-striped\"");
             Dispatcher.BeginInvoke((Action) (() => OutputWebBrowser.NavigateToString(line)));
             Debug.WriteLine((DateTime.Now - tmp).TotalMilliseconds);

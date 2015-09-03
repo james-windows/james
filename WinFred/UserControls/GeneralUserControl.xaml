@@ -4,12 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
+             xmlns:helper="clr-namespace:WinFred.HelperClasses"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <Grid helper:GridHelper.ColumnDefinition="*|*">
         <GroupBox Header="General Settings" Grid.Column="0">
             <StackPanel>
                 <StackPanel.Resources>
@@ -17,53 +14,33 @@
                         <Setter Property="Height" Value="Auto" />
                     </Style>
                 </StackPanel.Resources>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock Grid.Column="0">
                         <Run Text="Start with windows:" />
                     </TextBlock>
                     <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=StartProgramOnStartup}" />
                 </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock Grid.Column="0">
                         <Run Text="Count for displayed search results" />
                     </TextBlock>
                     <controls:NumericUpDown Grid.Column="1"
                                             Value="{Binding Path=MaxSearchResults, UpdateSourceTrigger=LostFocus}" />
                 </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock Grid.Column="0">
                         <Run Text="Limit to start with searching" />
                     </TextBlock>
                     <controls:NumericUpDown Grid.Column="1"
                                             Value="{Binding Path=StartSearchMinTextLength, UpdateSourceTrigger=LostFocus}" />
                 </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock Grid.Column="0">
                         <Run Text="Window Accent Color" />
                     </TextBlock>
                     <ComboBox x:Name="AccentColorComboBox" Grid.Column="1" Text="{Binding Path=WindowAccentColor}" />
                 </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock Grid.Column="0">
                         <Run Text="BaseColor:" />
                     </TextBlock>
@@ -74,11 +51,7 @@
         </GroupBox>
         <StackPanel Grid.Column="1">
             <GroupBox Header="Import / Export">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                <Grid helper:GridHelper.ColumnDefinition="1*|1*">
                     <Button Grid.Column="0" Content="Export Config" Style="{DynamicResource SquareButtonStyle}" />
                     <Button Grid.Column="1" Content="Import Config" Style="{DynamicResource SquareButtonStyle}" />
                 </Grid>

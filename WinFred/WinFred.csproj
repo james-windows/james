@@ -128,7 +128,8 @@
       <DependentUpon>ChangelogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enumerations\AccentColorTypes.cs" />
-    <Compile Include="HelperClass.cs" />
+    <Compile Include="HelperClasses\GeneralHelper.cs" />
+    <Compile Include="HelperClasses\GridHelper.cs" />
     <Compile Include="SearchResultElement.cs" />
     <Compile Include="UserControls\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>

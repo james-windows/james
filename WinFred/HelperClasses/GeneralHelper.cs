@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -11,9 +11,9 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace WinFred
+namespace WinFred.HelperClasses
 {
-    public static class HelperClass
+    public static class GeneralHelper
     {
         public static string Serialize<T>(this T value)
         {
