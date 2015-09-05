@@ -51,10 +51,17 @@
         </GroupBox>
         <StackPanel Grid.Column="1">
             <GroupBox Header="Import / Export">
-                <Grid helper:GridHelper.ColumnDefinition="1*|1*">
-                    <Button Grid.Column="0" Content="Export Config" Style="{DynamicResource SquareButtonStyle}" />
-                    <Button Grid.Column="1" Content="Import Config" Style="{DynamicResource SquareButtonStyle}" />
-                </Grid>
+                <WrapPanel>
+                    <Button Content="Export Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False" Width="175" Margin="2" />
+                    <Button Content="Import Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False" Width="175" Margin="2" />
+                </WrapPanel>
+            </GroupBox>
+            <GroupBox Header="Program">
+                <WrapPanel>
+                    <Button Content="Uninstall Program" Style="{DynamicResource SquareButtonStyle}" Click="UninstallProgram" Width="175" Margin="2" />
+                    <Button Content="Check for Updates" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False" Width="175" Margin="2" />
+                    <Button Content="Close Program" Style="{DynamicResource SquareButtonStyle}" Click="CloseProgram" Width="175" Margin="2" />
+                </WrapPanel>
             </GroupBox>
         </StackPanel>
     </Grid>
