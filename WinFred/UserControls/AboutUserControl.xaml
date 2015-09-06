@@ -5,13 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d">
     <Grid>
-        <!-- TODO add text (version, developer, copyright, email, ...) -->
         <StackPanel>
             <Label>text for about</Label>
             <Label>James</Label>
             <Label x:Name="versionLabel" />
-            <Button Content="Display Changelog" Click="DisplayChangelog" />
-
+            <Button Content="Display Changelog" Click="DisplayChangelog" Style="{DynamicResource SquareButtonStyle}" />
         </StackPanel>
     </Grid>
 </UserControl>
