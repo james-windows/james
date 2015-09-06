@@ -86,9 +86,6 @@ namespace WinFred
             config.Persist();
         }
 
-        /// <summary>
-        ///     Saves the current configuration as xml in the config for
-        /// </summary>
         public void Persist()
         {
             lock (config)
@@ -100,6 +97,17 @@ namespace WinFred
                 }
                 File.WriteAllText(config.ConfigFolderLocation + "\\config.xml", config.Serialize());
             }
+        }
+
+        public void ResetConfig()
+        {
+            lock (SingeltonLock)
+            {
+                InitConfig();
+                StartProgramOnStartup = false;
+                WindowChangedAccentColor?.Invoke(this, null);
+            }
+            Persist();
         }
 
         #endregion

@@ -60,6 +60,7 @@
                 <WrapPanel>
                     <Button Content="Export Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False" Width="175" Margin="2" />
                     <Button Content="Import Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False" Width="175" Margin="2" />
+                    <Button Content="Reset Config" Style="{DynamicResource SquareButtonStyle}" Width="175" Margin="2" Click="ResetConfig"/>
                 </WrapPanel>
             </GroupBox>
             <GroupBox Header="Program">
