@@ -8,9 +8,9 @@
              mc:Ignorable="d">
     <Grid helper:GridHelper.ColumnDefinition="*|*">
         <!--#region Block for the Workflows list -->
-        <GroupBox Header="Workflows" Grid.Row="0">
+        <GroupBox Header="Workflows">
             <Grid helper:GridHelper.RowDefinition="*|a">
-                <ListBox x:Name="WorkflowListBox" Grid.Row="0" Margin="20" HorizontalContentAlignment="Stretch"
+                <ListBox x:Name="WorkflowListBox" Margin="20" HorizontalContentAlignment="Stretch"
                          ItemsSource="{Binding Workflows, IsAsync=True}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -57,18 +57,15 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <Grid Grid.Row="1" helper:GridHelper.ColumnDefinition="*|*">
-                    <Button x:Name="AddWorkflowButton" Grid.Column="0" Content="Add Workflow"
-                            Style="{DynamicResource SquareButtonStyle}" Click="AddWorkflowButton_Click" />
-                    <Button x:Name="RemoveWorkflowButton" Grid.Column="1" Content="Remove Workflow"
-                            Style="{DynamicResource SquareButtonStyle}"
-                            IsEnabled="{Binding SelectedItems.Count, ElementName=WorkflowListBox}"
-                            Click="DeletePathMenuItem_Click" />
+                    <Button x:Name="AddWorkflowButton" Content="Add Workflow" Style="{DynamicResource SquareButtonStyle}" Click="AddWorkflowButton_Click" />
+                    <Button x:Name="RemoveWorkflowButton" Grid.Column="1" Content="Remove Workflow" Style="{DynamicResource SquareButtonStyle}"
+                            IsEnabled="{Binding SelectedItems.Count, ElementName=WorkflowListBox}" Click="DeletePathMenuItem_Click" />
                 </Grid>
             </Grid>
         </GroupBox>
         <!--#endregion-->
         <!--#region Block for the Detail view-->
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="1">
             <Grid.Style>
                 <Style TargetType="{x:Type Grid}">
                     <Setter Property="Visibility" Value="Visible" />
@@ -85,46 +82,51 @@
                     <StackPanel.Resources>
                         <Style TargetType="{x:Type Grid}">
                             <Setter Property="Height" Value="Auto" />
+                            <Style.Resources>
+                                <Style TargetType="controls:ToggleSwitch">
+                                    <Setter Property="Grid.Column" Value="1" />
+                                </Style>
+                                <Style TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
+                                    <Setter Property="Grid.Column" Value="1" />
+                                </Style>
+                            </Style.Resources>
                         </Style>
                     </StackPanel.Resources>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock Grid.Column="0">
+                        <TextBlock>
                             <Run Text="Name:" />
                         </TextBlock>
-                        <TextBox Grid.Column="1"
-                                 Text="{Binding SelectedItem.Name, ElementName=WorkflowListBox, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Text="{Binding SelectedItem.Name, ElementName=WorkflowListBox, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock Grid.Column="0">
+                        <TextBlock>
                             <Run Text="is enabled:" />
                         </TextBlock>
-                        <controls:ToggleSwitch Grid.Column="1"
-                                               IsChecked="{Binding SelectedItem.IsEnabled, ElementName=WorkflowListBox}" />
+                        <controls:ToggleSwitch IsChecked="{Binding SelectedItem.IsEnabled, ElementName=WorkflowListBox}" />
                     </Grid>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock Grid.Column="0">
+                        <TextBlock>
                             <Run Text="program name:" />
                         </TextBlock>
-                        <TextBox Grid.Column="1" Text="{Binding SelectedItem.ProgramName, ElementName=WorkflowListBox}" />
+                        <TextBox Text="{Binding SelectedItem.ProgramName, ElementName=WorkflowListBox}" />
                     </Grid>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock Grid.Column="0">
+                        <TextBlock>
                             <Run Text="arguments:" />
                         </TextBlock>
-                        <TextBox Grid.Column="1" Text="{Binding SelectedItem.Arguments, ElementName=WorkflowListBox}" />
+                        <TextBox Text="{Binding SelectedItem.Arguments, ElementName=WorkflowListBox}" />
                     </Grid>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock Grid.Column="0">
+                        <TextBlock>
                             <Run Text="keyword:" />
                         </TextBlock>
-                        <TextBox Grid.Column="1" Text="{Binding SelectedItem.Keyword, ElementName=WorkflowListBox}" />
+                        <TextBox Text="{Binding SelectedItem.Keyword, ElementName=WorkflowListBox}" />
                     </Grid>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock Grid.Column="0">
+                        <TextBlock>
                             <Run Text="Show Process Window:" />
                         </TextBlock>
-                        <controls:ToggleSwitch Grid.Column="1"
-                                               IsChecked="{Binding SelectedItem.ShowProcessWindow, ElementName=WorkflowListBox}" />
+                        <controls:ToggleSwitch IsChecked="{Binding SelectedItem.ShowProcessWindow, ElementName=WorkflowListBox}" />
                     </Grid>
                 </StackPanel>
             </GroupBox>

@@ -12,46 +12,54 @@
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Grid}">
                         <Setter Property="Height" Value="Auto" />
+                        <Style.Resources>
+                            <Style TargetType="controls:ToggleSwitch">
+                                <Setter Property="Grid.Column" Value="1" />
+                            </Style>
+                            <Style TargetType="controls:NumericUpDown">
+                                <Setter Property="Grid.Column" Value="1" />
+                            </Style>
+                            <Style TargetType="ComboBox" BasedOn="{StaticResource MetroComboBox}">
+                                <Setter Property="Grid.Column" Value="1" />
+                            </Style>
+                        </Style.Resources>
                     </Style>
                 </StackPanel.Resources>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock Grid.Column="0">
+                    <TextBlock>
                         <Run Text="Start with windows:" />
                     </TextBlock>
-                    <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=StartProgramOnStartup}" />
+                    <controls:ToggleSwitch IsChecked="{Binding Path=StartProgramOnStartup}" />
                 </Grid>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock Grid.Column="0">
+                    <TextBlock>
                         <Run Text="Count for displayed search results" />
                     </TextBlock>
-                    <controls:NumericUpDown Grid.Column="1"
-                                            Value="{Binding Path=MaxSearchResults, UpdateSourceTrigger=LostFocus}" />
+                    <controls:NumericUpDown Value="{Binding Path=MaxSearchResults, UpdateSourceTrigger=LostFocus}" />
                 </Grid>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock Grid.Column="0">
+                    <TextBlock>
                         <Run Text="Limit to start with searching" />
                     </TextBlock>
-                    <controls:NumericUpDown Grid.Column="1"
-                                            Value="{Binding Path=StartSearchMinTextLength, UpdateSourceTrigger=LostFocus}" />
+                    <controls:NumericUpDown Value="{Binding Path=StartSearchMinTextLength, UpdateSourceTrigger=LostFocus}" />
                 </Grid>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock Grid.Column="0">
+                    <TextBlock>
                         <Run Text="Window Accent Color" />
                     </TextBlock>
-                    <ComboBox x:Name="AccentColorComboBox" Grid.Column="1" Text="{Binding Path=WindowAccentColor}" />
+                    <ComboBox x:Name="AccentColorComboBox" Text="{Binding Path=WindowAccentColor}" />
                 </Grid>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock Grid.Column="0">
+                    <TextBlock>
                         <Run Text="BaseColor:" />
                     </TextBlock>
-                    <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=IsBaseLight}" OnLabel="light"
-                                           OffLabel="dark" />
+                    <controls:ToggleSwitch IsChecked="{Binding Path=IsBaseLight}" OnLabel="light" OffLabel="dark" />
                 </Grid>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock Grid.Column="0">
+                    <TextBlock>
                         <Run Text="Display file icons:" />
                     </TextBlock>
-                    <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=DisplayFileIcons}" />
+                    <controls:ToggleSwitch IsChecked="{Binding Path=DisplayFileIcons}" />
                 </Grid>
             </StackPanel>
         </GroupBox>

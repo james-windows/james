@@ -8,10 +8,10 @@
              mc:Ignorable="d">
     <Grid helper:GridHelper.ColumnDefinition="*|*" helper:GridHelper.RowDefinition="*">
         <!--#region Block for the Path list-->
-        <Grid Grid.Column="0" Grid.Row="0" helper:GridHelper.RowDefinition="*|a">
-            <GroupBox Header="Folders to be searched" Grid.Row="0">
+        <Grid helper:GridHelper.RowDefinition="*|a">
+            <GroupBox Header="Folders to be searched">
                 <Grid helper:GridHelper.RowDefinition="*|a">
-                    <ListBox Grid.Row="0" x:Name="PathListBox" Margin="20" HorizontalContentAlignment="Stretch"
+                    <ListBox x:Name="PathListBox" Margin="20" HorizontalContentAlignment="Stretch"
                              ItemsSource="{Binding Paths, IsAsync=True}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -59,8 +59,8 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     <Grid Grid.Row="1" helper:GridHelper.ColumnDefinition="*|*">
-                        <Button x:Name="AddFolderButton" Grid.Column="0" Content="Add Folder"
-                                Click="AddFolderButton_Click" Style="{DynamicResource SquareButtonStyle}" />
+                        <Button x:Name="AddFolderButton" Content="Add Folder" Click="AddFolderButton_Click"
+                                Style="{DynamicResource SquareButtonStyle}" />
                         <Button x:Name="RemoveFolderButton" Grid.Column="1" Content="Remove Folder"
                                 Click="RemoveFolderButton_Click" Style="{DynamicResource SquareButtonStyle}"
                                 IsEnabled="{Binding ElementName=PathListBox, Path=SelectedItems.Count}" />
@@ -76,7 +76,7 @@
         </Grid>
         <!--#endregion-->
         <!--#region Block for default configuration -->
-        <Grid x:Name="grid" Grid.Column="1" Grid.Row="0">
+        <Grid x:Name="grid" Grid.Column="1">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Hidden" />
@@ -89,14 +89,17 @@
             </Grid.Style>
             <GroupBox Header="Default Settings" VerticalContentAlignment="Stretch">
                 <Grid helper:GridHelper.ColumnDefinition="2*|*" helper:GridHelper.RowDefinition="50|*">
-                    <TextBlock Grid.Column="0" Grid.Row="0">
+                    <TextBlock>
                         <Run Text="Default folder priority:" />
                     </TextBlock>
-                    <controls:NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DefaultFolderPriority}" />
-                    <DataGrid ItemsSource="{Binding DefaultFileExtensions, IsAsync=True}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                    <controls:NumericUpDown Grid.Column="1" Value="{Binding DefaultFolderPriority}" />
+                    <DataGrid ItemsSource="{Binding DefaultFileExtensions, IsAsync=True}" Grid.Row="1"
+                              Grid.ColumnSpan="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto" />
-                            <controls:DataGridNumericUpDownColumn Header="Priority" Width="*" Binding="{Binding Priority}" Minimum="-1" Maximum="10000" />
+                            <controls:DataGridNumericUpDownColumn Header="Priority" Width="*"
+                                                                  Binding="{Binding Priority}" Minimum="-1"
+                                                                  Maximum="10000" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -104,7 +107,7 @@
         </Grid>
         <!--#endregion-->
         <!--#region Block for specific Path configuration -->
-        <Grid Grid.Column="1" Grid.Row="0">
+        <Grid Grid.Column="1">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Visible" />
@@ -118,24 +121,34 @@
             <GroupBox Header="{Binding ElementName=PathListBox, Path=SelectedValue.Location}"
                       VerticalContentAlignment="Stretch">
                 <StackPanel>
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Grid}">
+                            <Style.Resources>
+                                <Style TargetType="controls:ToggleSwitch">
+                                    <Setter Property="Grid.Column" Value="1" />
+                                </Style>
+                                <Style TargetType="controls:NumericUpDown">
+                                    <Setter Property="Grid.Column" Value="1" />
+                                </Style>
+                            </Style.Resources>
+                        </Style>
+                    </StackPanel.Resources>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock Grid.Column="0">is enabled:</TextBlock>
-                        <controls:ToggleSwitch Grid.Column="1"
-                                               IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}" />
+                        <TextBlock>is enabled:</TextBlock>
+                        <controls:ToggleSwitch
+                            IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}" />
                     </Grid>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock Grid.Column="0">default priority:</TextBlock>
-                        <controls:NumericUpDown Grid.Column="1"
-                                                Value="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}" />
+                        <TextBlock>default priority:</TextBlock>
+                        <controls:NumericUpDown Value="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}" />
                     </Grid>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock Grid.Column="0">
-                            <Run Text="priority of a folder:" />
-                        </TextBlock>
-                        <controls:NumericUpDown Grid.Column="1"
-                                                Value="{Binding ElementName=PathListBox, Path=SelectedItem.FolderPriority}" />
+                        <TextBlock>priority of a folder:</TextBlock>
+                        <controls:NumericUpDown
+                            Value="{Binding ElementName=PathListBox, Path=SelectedItem.FolderPriority}" />
                     </Grid>
-                    <DataGrid ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions, IsAsync=True}" >
+                    <DataGrid
+                        ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions, IsAsync=True}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto" />
                             <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority"
