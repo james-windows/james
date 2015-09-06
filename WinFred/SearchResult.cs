@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Media;
+using WinFred.HelperClasses;
 using WinFred.Search;
 
 namespace WinFred
@@ -12,7 +13,7 @@ namespace WinFred
         public int Priority { get; set; }
         public string Path { get; set; }
         public string Filename => Path.Substring(Path.LastIndexOf('\\') + 1);
-        public ImageSource Icon => null; //HelperClass.GetIcon(Path);
+        public ImageSource Icon => (Config.GetInstance().DisplayFileIcons)? GeneralHelper.GetIcon(Path): null;
         public int CompareTo(SearchResult other) => Priority - other.Priority;
 
         public void Open()

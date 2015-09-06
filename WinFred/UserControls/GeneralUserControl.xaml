@@ -47,6 +47,12 @@
                     <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=IsBaseLight}" OnLabel="light"
                                            OffLabel="dark" />
                 </Grid>
+                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
+                    <TextBlock Grid.Column="0">
+                        <Run Text="Display file icons:" />
+                    </TextBlock>
+                    <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding Path=DisplayFileIcons}" />
+                </Grid>
             </StackPanel>
         </GroupBox>
         <StackPanel Grid.Column="1">

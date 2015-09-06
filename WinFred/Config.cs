@@ -123,6 +123,7 @@ namespace WinFred
         private string _windowAccentColor = "Lime";
         private bool _isBaseLight = true;
         private bool _startProgramOnStartup;
+        public bool DisplayFileIcons { get; set; } = true;
 
         public bool StartProgramOnStartup
         {
