@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace WinFred.HelperClasses
+namespace James.HelperClasses
 {
     class GridHelper
     {

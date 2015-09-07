@@ -1,7 +1,7 @@
 ﻿using System;
 using Lucene.Net.Documents;
 
-namespace WinFred
+namespace James
 {
     public class Data
     {

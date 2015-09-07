@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using James.Enumerations;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using WinFred.Enumerations;
 
-namespace WinFred.UserControls
+namespace James.UserControls
 {
     /// <summary>
     ///     Interaction logic for GeneralUserControl.xaml

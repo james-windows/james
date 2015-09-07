@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using MahApps.Metro.Controls;
 
-namespace WinFred
+namespace James
 {
     /// <summary>
     ///     Interaction logic for WelcomeWindow.xaml

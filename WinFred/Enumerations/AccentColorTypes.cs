@@ -1,4 +1,4 @@
-﻿namespace WinFred.Enumerations
+﻿namespace James.Enumerations
 {
     public enum AccentColorTypes
     {

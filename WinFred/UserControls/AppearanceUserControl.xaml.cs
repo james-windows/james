@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace WinFred.UserControls
+namespace James.UserControls
 {
     /// <summary>
     ///     Interaction logic for CustomizeUserControl.xaml

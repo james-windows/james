@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
+using James.HelperClasses;
+using James.Search;
 using Microsoft.Win32;
-using WinFred.HelperClasses;
-using WinFred.Search;
-using Path = WinFred.Search.Path;
+using Path = James.Search.Path;
 
-namespace WinFred
+namespace James
 {
     public delegate void ChangedWindowAccentColorEventHandler(object sender, EventArgs e);
 
@@ -16,7 +16,7 @@ namespace WinFred
     {
         private Config()
         {
-            Paths = new ObservableCollection<Path>();
+            Paths = new ObservableCollection<Search.Path>();
             DefaultFileExtensions = new List<FileExtension>();
             Workflows = new ObservableCollection<Workflow>();
         }
@@ -81,7 +81,7 @@ namespace WinFred
         private static void InitConfig()
         {
             config = new Config();
-            config.Paths.Add(new Path {Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)});
+            config.Paths.Add(new Search.Path {Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)});
             LoadDefaultFileExtensions();
             config.Persist();
         }
@@ -114,7 +114,7 @@ namespace WinFred
 
         #region fields
 
-        public ObservableCollection<Path> Paths { get; set; }
+        public ObservableCollection<Search.Path> Paths { get; set; }
         public List<FileExtension> DefaultFileExtensions { get; set; }
         public ObservableCollection<Workflow> Workflows { get; set; }
 

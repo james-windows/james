@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace WinFred
+namespace James
 {
     public class HotKey : IDisposable
     {

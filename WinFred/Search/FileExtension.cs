@@ -1,7 +1,7 @@
 ﻿using System;
 using static System.String;
 
-namespace WinFred.Search
+namespace James.Search
 {
     public class FileExtension : IComparable<FileExtension>
     {

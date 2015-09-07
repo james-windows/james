@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using WinFred.Annotations;
+using James.Annotations;
 
-namespace WinFred.Search
+namespace James.Search
 {
     public class Path : INotifyPropertyChanged
     {

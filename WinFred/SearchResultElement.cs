@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using MahApps.Metro;
 
-namespace WinFred
+namespace James
 {
     internal class SearchResultElement : FrameworkElement
     {

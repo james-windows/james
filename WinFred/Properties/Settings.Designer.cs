@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WinFred.Properties
+namespace James.Properties
 {
 
 

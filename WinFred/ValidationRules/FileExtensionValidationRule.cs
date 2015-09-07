@@ -3,9 +3,9 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using WinFred.Search;
+using James.Search;
 
-namespace WinFred.ValidationRules
+namespace James.ValidationRules
 {
     public class FileExtensionValidationRule : ValidationRule
     {

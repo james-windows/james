@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using James.Search;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using WinFred.Search;
 using UserControl = System.Windows.Controls.UserControl;
 
-namespace WinFred.UserControls
+namespace James.UserControls
 {
     /// <summary>
     ///     Interaction logic for SearchUserControl.xaml

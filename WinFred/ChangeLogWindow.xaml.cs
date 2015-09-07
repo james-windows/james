@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MahApps.Metro.Controls;
 
-namespace WinFred
+namespace James
 {
     /// <summary>
     ///     Interaction logic for ChangelogWindow.xaml

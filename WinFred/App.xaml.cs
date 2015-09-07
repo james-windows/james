@@ -3,7 +3,7 @@ using System.Windows;
 using Microsoft.Win32.TaskScheduler;
 using Squirrel;
 
-namespace WinFred
+namespace James
 {
     /// <summary>
     ///     Interaction logic for App.xaml

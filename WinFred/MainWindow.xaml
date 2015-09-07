@@ -1,9 +1,9 @@
-﻿<Window x:Class="WinFred.MainWindow"
+﻿<Window x:Class="James.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:userControls="clr-namespace:WinFred.UserControls"
-        xmlns:helper="clr-namespace:WinFred.HelperClasses"
-        Title="MainWindow" Width="700" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
+        xmlns:userControls="clr-namespace:James.UserControls"
+        xmlns:helper="clr-namespace:James.HelperClasses" Width="700" WindowStartupLocation="CenterScreen" 
+        ResizeMode="NoResize" WindowStyle="None"
         Opacity="0.9" SizeToContent="Height" ShowInTaskbar="False" Loaded="Window_Loaded"
         Deactivated="Window_Deactivated" BorderBrush="#FF777777" BorderThickness="1">
     <Grid Loaded="Grid_Loaded"  helper:GridHelper.RowDefinition="100|a|a">

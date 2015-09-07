@@ -4,17 +4,17 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using James.Search.IndexGeneration;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
-using WinFred.Search.IndexGeneration;
 using LuceneDirectory = Lucene.Net.Store.Directory;
 using Version = Lucene.Net.Util.Version;
 
-namespace WinFred.Search
+namespace James.Search
 {
     internal class SearchEngine
     {

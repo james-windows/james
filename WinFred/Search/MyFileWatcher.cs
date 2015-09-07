@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace WinFred.Search
+namespace James.Search
 {
     internal class MyFileWatcher
     {

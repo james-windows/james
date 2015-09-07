@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Media;
-using WinFred.HelperClasses;
-using WinFred.Search;
+using James.HelperClasses;
+using James.Search;
 
-namespace WinFred
+namespace James
 {
     public class SearchResult : IComparable<SearchResult>
     {

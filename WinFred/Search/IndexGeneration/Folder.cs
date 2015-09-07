@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Lucene.Net.Documents;
 
-namespace WinFred.Search.IndexGeneration
+namespace James.Search.IndexGeneration
 {
     internal class Folder
     {

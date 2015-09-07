@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WinFred.Search;
+using James.Search;
 
-namespace WinFred.UserControls
+namespace James.UserControls
 {
     /// <summary>
     ///     Interaction logic for SearchResultUserControl.xaml

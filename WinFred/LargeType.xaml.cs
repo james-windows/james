@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace WinFred
+namespace James
 {
     /// <summary>
     ///     Interaction logic for LargeType.xaml
