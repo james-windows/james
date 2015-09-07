@@ -5,7 +5,7 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       mc:Ignorable="d" EnableDWMDropShadow="True"
-                      Title="Welcome" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+                      Title="Welcome" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="Resources/logo2.png">
     <Grid>
         <controls:FlipView IsBannerEnabled="False" Margin="10" Width="600" Height="500" MouseOverGlowEnabled="False" >
             <controls:FlipView.Items>
@@ -13,7 +13,7 @@
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32">Welcome!</TextBlock>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="26">Thank you for choosing:</TextBlock>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="40">James</TextBlock>
-                    <Rectangle Width="200" Height="200" Fill="Red" Margin="0,0,0,100"></Rectangle>
+                    <Image Source="Resources/logo.png" Width="200" />
                     <TextBlock HorizontalAlignment="Center" FontSize="21">Now we will give you a brief demo how to use James!</TextBlock>
                 </StackPanel>
                 <StackPanel Width="600" Height="500">
