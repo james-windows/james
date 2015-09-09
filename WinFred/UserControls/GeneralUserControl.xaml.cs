@@ -23,7 +23,7 @@ namespace James.UserControls
 
         private async void UninstallProgram(object sender, RoutedEventArgs e)
         {
-            UpdateManager manager = new UpdateManager("http://moserm.tk/Releases");
+            UpdateManager manager = new UpdateManager(Config.GetInstance().ReleaseUrl);
             await manager.FullUninstall();
             Environment.Exit(0);
         }
