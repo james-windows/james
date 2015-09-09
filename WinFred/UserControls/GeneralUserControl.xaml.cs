@@ -49,5 +49,10 @@ namespace James.UserControls
                 DataContext = Config.GetInstance();
             }
         }
+
+        private void LaunchWelcomeWindow(object sender, RoutedEventArgs e)
+        {
+            new WelcomeWindow(false).Show();
+        }
     }
 }

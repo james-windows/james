@@ -74,6 +74,7 @@
             <GroupBox Header="Program">
                 <WrapPanel>
                     <Button Content="Uninstall Program" Style="{DynamicResource SquareButtonStyle}" Click="UninstallProgram" Width="175" Margin="2" />
+                    <Button Content="Launch WelcomeWindow" Style="{DynamicResource SquareButtonStyle}" Click="LaunchWelcomeWindow" Width="175" Margin="2" />
                     <Button Content="Check for Updates" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False" Width="175" Margin="2" />
                     <Button Content="Close Program" Style="{DynamicResource SquareButtonStyle}" Click="CloseProgram" Width="175" Margin="2" />
                 </WrapPanel>
