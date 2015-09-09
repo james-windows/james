@@ -45,6 +45,11 @@ namespace James
             {
                 ts.RootFolder.DeleteTask("James");
             }
+            using (UpdateManager updateManager = new UpdateManager(Config.GetInstance().ReleaseUrl))
+            {
+                updateManager.RemoveShortcutsForExecutable("James.exe", ShortcutLocation.Desktop);
+                updateManager.RemoveShortcutsForExecutable("James.exe", ShortcutLocation.StartMenu);
+            }
         }
 
         private static void AddAutoUpdateTask()
@@ -62,6 +67,11 @@ namespace James
         private static void OnFirstRun()
         {
             _showTheWelcomeWizard = true;
+            using (UpdateManager updateManager = new UpdateManager(Config.GetInstance().ReleaseUrl))
+            {
+                updateManager.CreateShortcutsForExecutable("James.exe", ShortcutLocation.Desktop, true);
+                updateManager.CreateShortcutsForExecutable("James.exe", ShortcutLocation.StartMenu, true);
+            }
             AddAutoUpdateTask();
         }
 

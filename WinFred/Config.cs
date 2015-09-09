@@ -142,7 +142,7 @@ namespace James
                     ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 if (value)
                 {
-                    registryKey?.SetValue("James", ConfigFolderLocation + "Update.exe --processStart James.exe");
+                    registryKey?.SetValue("James", "\"" + ConfigFolderLocation + "\\Update.exe\" --processStart James.exe");
                 }
                 else
                 {
