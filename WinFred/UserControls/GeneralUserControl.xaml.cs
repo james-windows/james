@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using James.Enumerations;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Squirrel;
 
 namespace James.UserControls
 {
@@ -20,9 +21,11 @@ namespace James.UserControls
             AccentColorComboBox.ItemsSource = Enum.GetNames(typeof (AccentColorTypes));
         }
 
-        private void UninstallProgram(object sender, RoutedEventArgs e)
+        private async void UninstallProgram(object sender, RoutedEventArgs e)
         {
-            Process.Start(Environment.SystemDirectory + @"\appwiz.cpl");
+            UpdateManager manager = new UpdateManager("http://moserm.tk/Releases");
+            await manager.FullUninstall();
+            Environment.Exit(0);
         }
 
         private void CloseProgram(object sender, RoutedEventArgs e)
