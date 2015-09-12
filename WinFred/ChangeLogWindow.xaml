@@ -5,7 +5,7 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:helper="clr-namespace:James.HelperClasses"
-                      mc:Ignorable="d" EnableDWMDropShadow="True"
+                      mc:Ignorable="d" BorderThickness="0" GlowBrush="Black"
                       Title="Changelog" MinHeight="400" MinWidth="300" Width="400" Height="500"
                       WindowStartupLocation="CenterOwner" Loaded="ChangeLogWindow_OnLoaded" WindowStyle="ToolWindow"
                       ShowMinButton="False" ShowMaxRestoreButton="False">

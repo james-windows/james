@@ -4,7 +4,7 @@
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      mc:Ignorable="d" EnableDWMDropShadow="True"
+                      mc:Ignorable="d" BorderThickness="0" GlowBrush="Black"
                       Title="Welcome" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="Resources/logo2.png">
     <Grid>
         <controls:FlipView IsBannerEnabled="False" Margin="10" Width="600" Height="500" MouseOverGlowEnabled="False" >
