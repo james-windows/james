@@ -10,6 +10,9 @@ namespace James
     internal class SearchResultElement : FrameworkElement
     {
         public const int ROW_HEIGHT = 50;
+        private const int SMALL_FONT_SIZE = 10;
+        private const int LARGE_FONT_SIZE = 18;
+        private const int ELEMENT_WIDTH = 700;
         private readonly VisualCollection _children;
         private List<SearchResult> _searchResults;
 
@@ -51,7 +54,7 @@ namespace James
             var drawingVisual = new DrawingVisual();
             using (var ctx = drawingVisual.RenderOpen())
             {
-                var rect = new Rect(new Point(0, index*ROW_HEIGHT), new Size(700, ROW_HEIGHT));
+                var rect = new Rect(new Point(0, index*ROW_HEIGHT), new Size(ELEMENT_WIDTH, ROW_HEIGHT));
                 ctx.DrawRectangle(FocusBackgroundBrush, null, rect);
             }
             _children.Add(drawingVisual);
@@ -62,7 +65,7 @@ namespace James
             var drawingVisual = new DrawingVisual();
             using (var ctx = drawingVisual.RenderOpen())
             {
-                var rect = new Rect(new Point(0, 0), new Size(700, _searchResults.Count*ROW_HEIGHT));
+                var rect = new Rect(new Point(0, 0), new Size(ELEMENT_WIDTH, _searchResults.Count*ROW_HEIGHT));
                 ctx.DrawRectangle(Brushes.Transparent, null, rect);
             }
             _children.Add(drawingVisual);
@@ -74,10 +77,10 @@ namespace James
             using (var ctx = drawingVisual.RenderOpen())
             {
                 var isFocused = index == CurrentFocus;
-                ctx.DrawText(CreateText(sr.Filename, 18, isFocused), new Point(50, index*ROW_HEIGHT));
-                ctx.DrawText(CreateText(sr.Path, 10, isFocused), new Point(50, index*ROW_HEIGHT + 25));
-                ctx.DrawText(CreateText(sr.Priority.ToString(), 10, isFocused), new Point(5, index*ROW_HEIGHT));
-                ctx.DrawImage(sr.Icon, new Rect(10, 10 + index*ROW_HEIGHT, 32, 32));
+                ctx.DrawText(CreateText(sr.Filename, LARGE_FONT_SIZE, isFocused), new Point(50, index*ROW_HEIGHT));
+                ctx.DrawText(CreateText(sr.Path, SMALL_FONT_SIZE, isFocused), new Point(50, index*ROW_HEIGHT + 25));
+                ctx.DrawText(CreateText(sr.Priority.ToString(), SMALL_FONT_SIZE, isFocused), new Point(5, index*ROW_HEIGHT));
+                ctx.DrawImage(sr.Icon, new Rect(SMALL_FONT_SIZE, SMALL_FONT_SIZE + index*ROW_HEIGHT, 32, 32));
             }
             _children.Add(drawingVisual);
         }
@@ -90,7 +93,7 @@ namespace James
                 FlowDirection.LeftToRight,
                 new Typeface("Verdana"),
                 fontSize,
-                GetBrush(focused)) {MaxTextWidth = 700 - 30};
+                GetBrush(focused)) {MaxTextWidth = ELEMENT_WIDTH - 30};
             return formattedText;
         }
 
