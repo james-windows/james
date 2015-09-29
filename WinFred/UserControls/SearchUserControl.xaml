@@ -92,7 +92,7 @@
                     <TextBlock>
                         <Run Text="Default folder priority:" />
                     </TextBlock>
-                    <controls:NumericUpDown Grid.Column="1" Value="{Binding DefaultFolderPriority}" />
+                    <controls:NumericUpDown Grid.Column="1" Value="{Binding DefaultFolderPriority}" Height="30"/>
                     <DataGrid ItemsSource="{Binding DefaultFileExtensions, IsAsync=True}" Grid.Row="1"
                               Grid.ColumnSpan="2">
                         <DataGrid.Columns>
