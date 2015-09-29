@@ -44,12 +44,12 @@ namespace James.Search.IndexGeneration
             var data = new List<SearchResult>();
             foreach (var filePath in Directory.GetFiles(currentPath))
             {
-                data.AddRange(GetFileIfItShouldBeTraced(filePath));
+                data.AddRange(GetFileIfItShouldBeIndexed(filePath));
             }
             return data;
         }
 
-        private IEnumerable<SearchResult> GetFileIfItShouldBeTraced(string filePath)
+        private IEnumerable<SearchResult> GetFileIfItShouldBeIndexed(string filePath)
         {
             var data = new List<SearchResult>();
             var priority = _folder.GetFilePriority(filePath);
