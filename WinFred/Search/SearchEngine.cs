@@ -1,36 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using James.Search.IndexGeneration;
-using Lucene.Net.Analysis;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Documents;
-using Lucene.Net.Index;
-using Lucene.Net.Search;
-using Lucene.Net.Store;
-using LuceneDirectory = Lucene.Net.Store.Directory;
-using Version = Lucene.Net.Util.Version;
 
 namespace James.Search
 {
     internal class SearchEngine
     {
         public delegate void ChangedBuildingIndexProgressEventHandler(object sender, ProgressChangedEventArgs e);
-
+        
         private static SearchEngine _searchEngine;
         private static readonly object SingeltonLock = new object();
-        private readonly Analyzer _analyzer;
-        private readonly LuceneDirectory _index;
-        private readonly Sort _sort;
+        private readonly SearchEngineWrapper.SearchEngineWrapper _searchEngineWrapper;
 
         private SearchEngine()
         {
-            _index = FSDirectory.Open(Config.GetInstance().ConfigFolderLocation + "\\Index");
-            _analyzer = new StandardAnalyzer(Version.LUCENE_30);
-            _sort = new Sort(new SortField("Priority", SortField.INT, true));
+            _searchEngineWrapper = new SearchEngineWrapper.SearchEngineWrapper(Config.GetInstance().ConfigFolderLocation + "\\files.txt");
         }
 
         public event ChangedBuildingIndexProgressEventHandler ChangedBuildingIndexProgress;
@@ -46,12 +33,12 @@ namespace James.Search
         public void BuildIndex()
         {
             var data = GetFilesToBeIndexed();
-            WriteFileToIndex(data);
+            WriteFilesToIndex(data);
         }
 
-        private static List<Document> GetFilesToBeIndexed()
+        private static List<SearchResult> GetFilesToBeIndexed()
         {
-            var data = new List<Document>();
+            var data = new List<SearchResult>();
             Parallel.ForEach(Config.GetInstance().Paths.Where(path => path.IsEnabled), currentPath =>
             {
                 var currentFolder = new Folder(currentPath);
@@ -60,20 +47,16 @@ namespace James.Search
             return data;
         }
 
-        private void WriteFileToIndex(IReadOnlyList<Document> data)
+        private void WriteFilesToIndex(IReadOnlyList<SearchResult> data)
         {
             var lastProgress = -1;
-            using (var writer = new IndexWriter(_index, _analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
+            for (var i = 0; i < data.Count; i++)
             {
-                for (var i = 0; i < data.Count; i++)
-                {
-                    ChangeProgress(i, data.Count, ref lastProgress);
-                    writer.AddDocument(data[i]);
-                }
-                ChangedBuildingIndexProgress?.Invoke(this, new ProgressChangedEventArgs(100, null));
-                writer.Optimize();
-                writer.Commit();
+                ChangeProgress(i, data.Count, ref lastProgress);
+                AddFile(data[i]);
             }
+            ChangedBuildingIndexProgress?.Invoke(this, new ProgressChangedEventArgs(100, null));
+            _searchEngineWrapper.Save(Config.GetInstance().ConfigFolderLocation + "\\files.txt");
         }
 
         private void ChangeProgress(int position, int total, ref int lastProgress)
@@ -87,143 +70,43 @@ namespace James.Search
 
         private static int CalcProgress(int position, int total) => (int) (((double) position) / total * 100);
 
-        public void AddFile(Data data)
+        public void AddFile(SearchResult file)
         {
-            try
-            {
-                using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
-                {
-                    writer.AddDocument(data.GetDocument());
-                    writer.Optimize();
-                    writer.Commit();
-                }
-            }
-            catch (FileNotFoundException)
-            {
-            }
+            _searchEngineWrapper.Insert(file.Path, file.Priority);
         }
 
         internal void RenameFile(string oldPath, string newPath)
         {
-            try
-            {
-                using (var reader = IndexReader.Open(_index, true))
-                {
-                    Query query = new PrefixQuery(new Term("Path", oldPath.ToLower()));
-                    using (Searcher searcher = new IndexSearcher(reader))
-                    {
-                        var res = searcher.Search(query, new QueryWrapperFilter(query), 10, _sort).ScoreDocs;
-                        if (res.Length != 0)
-                        {
-                            var scoreDoc = res[0];
-                            var doc = searcher.Doc(scoreDoc.Doc);
-                            var item = new SearchResult
-                            {
-                                Id = doc.Get("Id"),
-                                Priority = Convert.ToInt32(doc.Get("Priority")),
-                                Path = newPath
-                            };
-                            IncrementPriority(item);
-                        }
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-            }
+            
         }
 
-        public List<SearchResult> Query(string str)
+        public List<SearchResult> Query(string search)
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(str) || str.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
-                    return new List<SearchResult>();
-                Query query = new PrefixQuery(new Term("FileName", str.ToLower().Trim()));
-                using (var reader = IndexReader.Open(_index, true))
-                {
-                    using (Searcher searcher = new IndexSearcher(reader))
-                    {
-                        var docs = searcher.Search(query, new QueryWrapperFilter(query),
-                            Config.GetInstance().MaxSearchResults, _sort);
-                        return docs.ScoreDocs.Select(scoreDoc => searcher.Doc(scoreDoc.Doc))
-                            .Select(doc => new SearchResult
-                            {
-                                Id = doc.Get("Id"),
-                                Priority = Convert.ToInt32(doc.Get("Priority")),
-                                Path = doc.Get("Path")
-                            }).ToList();
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
+            if (string.IsNullOrWhiteSpace(search) || search.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
                 return new List<SearchResult>();
-            }
+#if DEBUG
+            DateTime tmp = DateTime.Now;
+            _searchEngineWrapper.Find(search);
+            Console.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
+#else
+            _searchEngineWrapper.Find(search);
+#endif
+            return _searchEngineWrapper.searchResults.Select(item => new SearchResult() {Path = item.path + item.name}).ToList();
         }
 
         public void DeleteFile(string path)
         {
-            try
-            {
-                using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
-                {
-                    Query query = new PrefixQuery(new Term("Path", path.ToLower()));
-                    writer.DeleteDocuments(query);
-                    writer.Optimize();
-                    writer.Commit();
-                }
-            }
-            catch (FileNotFoundException)
-            {
-            }
+            _searchEngineWrapper.Remove(path);
         }
 
         public void IncrementPriority(SearchResult result)
         {
-            try
-            {
-                var data = new Data(result.Path) {Id = result.Id, Priority = Math.Abs(result.Priority) + 5};
-                using (var writer = new IndexWriter(_index, _analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
-                {
-                    writer.UpdateDocument(new Term("Id", result.Id), data.GetDocument());
-                    writer.Optimize();
-                    writer.Commit();
-                }
-            }
-            catch (FileNotFoundException)
-            {
-            }
+           IncrementPriority(result.Path);
         }
         
         public void IncrementPriority(string path)
         {
-            try
-            {
-                using (var reader = IndexReader.Open(_index, true))
-                {
-                    Query query = new PrefixQuery(new Term("Path", path.ToLower()));
-                    using (Searcher searcher = new IndexSearcher(reader))
-                    {
-                        var res = searcher.Search(query, new QueryWrapperFilter(query), 10, _sort).ScoreDocs;
-                        if (res.Length != 0)
-                        {
-                            var scoreDoc = res[0];
-                            var doc = searcher.Doc(scoreDoc.Doc);
-                            var item = new SearchResult
-                            {
-                                Id = doc.Get("Id"),
-                                Priority = Convert.ToInt32(doc.Get("Priority")) + 5,
-                                Path = doc.Get("Path")
-                            };
-                            IncrementPriority(item);
-                        }
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-            }
+            _searchEngineWrapper.AddPriority(path, 5);
         }
     }
 }

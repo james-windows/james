@@ -14,9 +14,9 @@ namespace James.Search.IndexGeneration
             _folder = folder;
         }
 
-        internal IEnumerable<Document> GetItemsToBeIndexed(string currentPath = "")
+        internal IEnumerable<SearchResult> GetItemsToBeIndexed(string currentPath = "")
         {
-            var data = new List<Document>();
+            var data = new List<SearchResult>();
             try
             {
                 data.AddRange(GetItemsInCurrentScope(_folder.Location + currentPath));
@@ -28,17 +28,20 @@ namespace James.Search.IndexGeneration
             catch (UnauthorizedAccessException)
             {
             }
-            data.Add(
-                (new Data(_folder.Location + currentPath)
+            if (_folder.IndexFolders && data.Count > 0)
+            {
+                data.Add(new SearchResult()
                 {
+                    Path = _folder.Location + currentPath,
                     Priority = Config.GetInstance().DefaultFolderPriority + _folder.Priority
-                }).GetDocument());
+                });
+            }
             return data;
         }
 
-        private IEnumerable<Document> GetItemsInCurrentScope(string currentPath)
+        private IEnumerable<SearchResult> GetItemsInCurrentScope(string currentPath)
         {
-            var data = new List<Document>();
+            var data = new List<SearchResult>();
             foreach (var filePath in Directory.GetFiles(currentPath))
             {
                 data.AddRange(GetFileIfItShouldBeTraced(filePath));
@@ -46,13 +49,13 @@ namespace James.Search.IndexGeneration
             return data;
         }
 
-        private IEnumerable<Document> GetFileIfItShouldBeTraced(string filePath)
+        private IEnumerable<SearchResult> GetFileIfItShouldBeTraced(string filePath)
         {
-            var data = new List<Document>();
+            var data = new List<SearchResult>();
             var priority = _folder.GetFilePriority(filePath);
             if (priority > 0)
             {
-                data.Add((new Data(filePath, priority)).GetDocument());
+                data.Add(new SearchResult(){Path = filePath, Priority = priority});
             }
             return data;
         }

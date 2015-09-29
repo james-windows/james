@@ -28,8 +28,8 @@ namespace James.Search
 
         public string Location { get; set; }
         public int Priority { get; set; }
+        public bool IndexFolders { get; set; } = true;
         public List<FileExtension> FileExtensions { get; set; }
-        public int FolderPriority { get; set; } = 0;
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -43,30 +43,27 @@ namespace James.Search
 
         public int GetFilePriority(string filePath)
         {
-            var fileExtension = CalculatePriorityByFileExtensions(filePath, FileExtensions);
-            var defaultFileExtension = CalculatePriorityByFileExtensions(filePath,
-                Config.GetInstance().DefaultFileExtensions);
-
-            if (fileExtension < -1 && defaultFileExtension < -1)
+            var priority = CalculatePriorityByFileExtensions(filePath, Config.GetInstance().DefaultFileExtensions);
+            if (priority == -1)
             {
                 return -1;
             }
-            return Math.Max(fileExtension, defaultFileExtension) + Priority;
+            return priority + Priority;;
         }
 
-        private static int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> fileExtensions)
+        private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> defaultFileExtensions)
         {
-            var indexOfSearchedItem = fileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-            var priority = 0;
-            if (indexOfSearchedItem < 0)
+            var indexOfSearchedItem = FileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
+            if (indexOfSearchedItem >= 0)
             {
-                priority = -2;
+                return FileExtensions[indexOfSearchedItem].Priority;
             }
-            else if (indexOfSearchedItem >= 0)
+            indexOfSearchedItem = defaultFileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
+            if (indexOfSearchedItem >= 0)
             {
-                priority = fileExtensions[indexOfSearchedItem].Priority;
+                return defaultFileExtensions[indexOfSearchedItem].Priority;
             }
-            return priority;
+            return -1;
         }
     }
 }

@@ -143,9 +143,9 @@
                         <controls:NumericUpDown Value="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}" />
                     </Grid>
                     <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>priority of a folder:</TextBlock>
-                        <controls:NumericUpDown
-                            Value="{Binding ElementName=PathListBox, Path=SelectedItem.FolderPriority}" />
+                        <TextBlock>Insert folders:</TextBlock>
+                        <controls:ToggleSwitch
+                            IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IndexFolders}" />
                     </Grid>
                     <DataGrid
                         ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions, IsAsync=True}">

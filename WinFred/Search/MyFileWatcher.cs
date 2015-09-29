@@ -42,7 +42,7 @@ namespace James.Search
             var priority = currentPath.GetFilePriority(e.FullPath);
             if (priority >= 0)
             {
-                SearchEngine.GetInstance().AddFile(new Data(e.FullPath, priority));
+                SearchEngine.GetInstance().AddFile(new SearchResult() {Path = e.FullPath, Priority = priority});
             }
         }
 

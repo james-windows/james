@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{866C2201-6D6C-4FB9-888F-6FC11ED8D554}</ProjectGuid>
+    <ProjectGuid>{35113677-1683-4425-AC56-382321C7C9E6}</ProjectGuid>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>SearchEngineWrapper</RootNamespace>
