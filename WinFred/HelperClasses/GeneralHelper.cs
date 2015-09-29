@@ -80,6 +80,9 @@ namespace James.HelperClasses
             return html.ToString();
         }
 
+        [DllImport("shell32.dll")]
+        static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, int nIconIndex);
+
         public static ImageSource GetIcon(string strPath)
         {
             
@@ -92,12 +95,5 @@ namespace James.HelperClasses
             }
             return null;
         }
-
-        #region essential for GetIcon()
-
-        [DllImport("shell32.dll")]
-        static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, int nIconIndex);
-
-        #endregion
     }
 }
