@@ -123,7 +123,7 @@ namespace James
 
         public int DefaultFolderPriority { get; set; } = 80;
         public int MaxSearchResults { get; set; } = 8;
-        public int StartSearchMinTextLength { get; set; } = 3;
+        public int StartSearchMinTextLength { get; set; } = 1;
 
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
 
