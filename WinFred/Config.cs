@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Reflection;
 using James.HelperClasses;
 using James.Search;
 using Microsoft.Win32;
-using Path = James.Search.Path;
 
 namespace James
 {
