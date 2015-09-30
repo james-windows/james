@@ -61,6 +61,15 @@
                     </TextBlock>
                     <controls:ToggleSwitch IsChecked="{Binding Path=DisplayFileIcons}" />
                 </Grid>
+                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
+                    <TextBlock>
+                        <Run Text="LargType opacity:" />
+                    </TextBlock>
+                    <Grid helper:GridHelper.ColumnDefinition="*|30" Grid.Column="1">
+                        <Slider Value="{Binding Path=LargeTypeOpacity}" Maximum="1" Minimum="0.1" LargeChange="0.1" TickFrequency="0.05" IsSnapToTickEnabled="True" Style="{DynamicResource FlatSlider}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=LargeTypeOpacity}" Padding="5,0,0,0" />
+                    </Grid>
+                </Grid>
             </StackPanel>
         </GroupBox>
         <StackPanel Grid.Column="1">

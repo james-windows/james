@@ -16,6 +16,7 @@ namespace James
             Width = SystemParameters.PrimaryScreenWidth;
             Height = SystemParameters.PrimaryScreenHeight;
             TextBlock.Text = message;
+            DataContext = Config.GetInstance();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
