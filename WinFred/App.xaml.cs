@@ -25,7 +25,6 @@ namespace James
         protected override void OnStartup(StartupEventArgs e)
         {
             Config.GetInstance().WindowChangedAccentColor += App_WindowChangedAccentColor;
-            Search.SearchEngine.GetInstance();
             SetStyleAccents();
             base.OnStartup(e);
             SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
@@ -36,6 +35,7 @@ namespace James
             else
             {
                 new MainWindow().Show();
+                Search.SearchEngine.GetInstance();
                 //MyFileWatcher.GetInstance();
             }
         }
