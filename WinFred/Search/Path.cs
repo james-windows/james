@@ -47,7 +47,7 @@ namespace James.Search
             {
                 return -1;
             }
-            return priority + Priority;;
+            return priority + Priority;
         }
 
         private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> defaultFileExtensions)
