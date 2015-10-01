@@ -57,7 +57,7 @@ namespace James.Search
             return -1;
         }
 
-        public IEnumerable<SearchResult> GetItemsToBeIndexed(String currentPath ="")
+        public IEnumerable<SearchResult> GetItemsToBeIndexed(string currentPath = "")
         {
             var data = new List<SearchResult>();
             try
@@ -73,7 +73,7 @@ namespace James.Search
             }
             if (IndexFolders && data.Count > 0)
             {
-                data.Add(new SearchResult()
+                data.Add(new SearchResult
                 {
                     Path = Location + currentPath,
                     Priority = Config.GetInstance().DefaultFolderPriority + Priority
@@ -98,7 +98,7 @@ namespace James.Search
             var priority = GetFilePriority(filePath);
             if (priority > 0)
             {
-                data.Add(new SearchResult() { Path = filePath, Priority = priority });
+                data.Add(new SearchResult {Path = filePath, Priority = priority});
             }
             return data;
         }
@@ -110,7 +110,7 @@ namespace James.Search
             {
                 return -1;
             }
-            return priority + Priority; ;
+            return priority + Priority;
         }
     }
 }
