@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using James.Annotations;
@@ -40,16 +42,6 @@ namespace James.Search
 
         public override string ToString() => Location + " :" + Priority;
 
-        public int GetFilePriority(string filePath)
-        {
-            var priority = CalculatePriorityByFileExtensions(filePath, Config.GetInstance().DefaultFileExtensions);
-            if (priority == -1)
-            {
-                return -1;
-            }
-            return priority + Priority;;
-        }
-
         private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> defaultFileExtensions)
         {
             var indexOfSearchedItem = FileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
@@ -63,6 +55,62 @@ namespace James.Search
                 return defaultFileExtensions[indexOfSearchedItem].Priority;
             }
             return -1;
+        }
+
+        public IEnumerable<SearchResult> GetItemsToBeIndexed(String currentPath ="")
+        {
+            var data = new List<SearchResult>();
+            try
+            {
+                data.AddRange(GetItemsInCurrentScope(Location + currentPath));
+                foreach (var directory in Directory.GetDirectories(Location + currentPath))
+                {
+                    data.AddRange(GetItemsToBeIndexed(directory.Replace(Location, "")));
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+            }
+            if (IndexFolders && data.Count > 0)
+            {
+                data.Add(new SearchResult()
+                {
+                    Path = Location + currentPath,
+                    Priority = Config.GetInstance().DefaultFolderPriority + Priority
+                });
+            }
+            return data;
+        }
+
+        private IEnumerable<SearchResult> GetItemsInCurrentScope(string currentPath)
+        {
+            var data = new List<SearchResult>();
+            foreach (var filePath in Directory.GetFiles(currentPath))
+            {
+                data.AddRange(GetFileIfItShouldBeIndexed(filePath));
+            }
+            return data;
+        }
+
+        private IEnumerable<SearchResult> GetFileIfItShouldBeIndexed(string filePath)
+        {
+            var data = new List<SearchResult>();
+            var priority = GetFilePriority(filePath);
+            if (priority > 0)
+            {
+                data.Add(new SearchResult() { Path = filePath, Priority = priority });
+            }
+            return data;
+        }
+
+        public int GetFilePriority(string filePath)
+        {
+            var priority = CalculatePriorityByFileExtensions(filePath, Config.GetInstance().DefaultFileExtensions);
+            if (priority == -1)
+            {
+                return -1;
+            }
+            return priority + Priority; ;
         }
     }
 }

@@ -204,7 +204,6 @@
     <Compile Include="Config.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\FileExtension.cs" />
-    <Compile Include="Search\IndexGeneration\Folder.cs" />
     <Compile Include="Search\MyFileWatcher.cs" />
     <Compile Include="Search\Path.cs" />
     <Compile Include="Search\SearchEngine.cs" />

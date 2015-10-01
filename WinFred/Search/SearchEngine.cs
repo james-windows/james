@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using James.Search.IndexGeneration;
 
 namespace James.Search
 {
@@ -41,8 +40,7 @@ namespace James.Search
             var data = new List<SearchResult>();
             Parallel.ForEach(Config.GetInstance().Paths.Where(path => path.IsEnabled), currentPath =>
             {
-                var currentFolder = new Folder(currentPath);
-                data.AddRange(currentFolder.GetItemsToBeIndexed());
+                data.AddRange(currentPath.GetItemsToBeIndexed());
             });
             return data;
         }

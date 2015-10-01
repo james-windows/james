@@ -28,6 +28,7 @@ namespace James
             SetStyleAccents();
             base.OnStartup(e);
             SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
+            Search.SearchEngine.GetInstance();
             if (_showTheWelcomeWizard)
             {
                 new WelcomeWindow().Show();
@@ -35,7 +36,6 @@ namespace James
             else
             {
                 new MainWindow().Show();
-                Search.SearchEngine.GetInstance();
                 //MyFileWatcher.GetInstance();
             }
         }
