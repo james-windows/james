@@ -75,7 +75,7 @@ namespace James.Search
 
         internal void RenameFile(string oldPath, string newPath)
         {
-            
+            _searchEngineWrapper.Rename(oldPath, newPath);
         }
 
         public List<SearchResult> Query(string search)

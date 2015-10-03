@@ -7,7 +7,6 @@ using namespace System;
 using namespace System::Collections::Generic;
 
 namespace SearchEngineWrapper {
-
 	public ref struct SearchResult {
 		String^ name;
 		String^ path;
@@ -27,13 +26,15 @@ namespace SearchEngineWrapper {
 
 		void AddPriority(System::String ^ path, int delta);
 
+		void Rename(String ^ oldPath, String ^ newPath);
+
 		void Find(System::String^ file);
+
+		char * ConvertToChar(System::String ^ text);
 
 		List<SearchResult^>^ searchResults;
 
 	private:
 		SearchEngine *searchEngine;
-
-		char * ConvertToChar(System::String^ text);
 	};
 }
