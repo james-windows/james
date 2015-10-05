@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace James.Search
 {
@@ -14,9 +15,25 @@ namespace James.Search
         private static readonly object SingeltonLock = new object();
         private readonly SearchEngineWrapper.SearchEngineWrapper _searchEngineWrapper;
 
+        private readonly Timer timer;
         private SearchEngine()
         {
             _searchEngineWrapper = new SearchEngineWrapper.SearchEngineWrapper(Config.GetInstance().ConfigFolderLocation + "\\files.txt");
+            timer = new Timer(1000 * 60 * 5)
+            {
+                AutoReset = true,
+                Enabled = true
+            };
+            timer.Elapsed += Timer_Elapsed;
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+
+#if DEBUG
+            Console.WriteLine("Triggerd Event for backup SearchEngine");
+#endif
+            _searchEngineWrapper.Save();
         }
 
         public event ChangedBuildingIndexProgressEventHandler ChangedBuildingIndexProgress;
@@ -54,7 +71,7 @@ namespace James.Search
                 AddFile(data[i]);
             }
             ChangedBuildingIndexProgress?.Invoke(this, new ProgressChangedEventArgs(100, null));
-            _searchEngineWrapper.Save(Config.GetInstance().ConfigFolderLocation + "\\files.txt");
+            _searchEngineWrapper.Save();
         }
 
         private void ChangeProgress(int position, int total, ref int lastProgress)
