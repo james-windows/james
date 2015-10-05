@@ -9,12 +9,13 @@ using namespace System::Net;
 
 SearchEngineWrapper::SearchEngineWrapper::SearchEngineWrapper(String^ indexFile)
 {
+	this->indexFile = indexFile;
 	searchEngine = SearchEngine::load(ConvertToChar(indexFile));
 	searchResults = gcnew List<SearchResult^>();
 }
 
-void SearchEngineWrapper::SearchEngineWrapper::Save(String^ indexFile) {
-	searchEngine->save(ConvertToChar(indexFile));
+void SearchEngineWrapper::SearchEngineWrapper::Save() {
+	searchEngine->save(ConvertToChar(this->indexFile));
 }
 
 void SearchEngineWrapper::SearchEngineWrapper::Remove(String^ path) {

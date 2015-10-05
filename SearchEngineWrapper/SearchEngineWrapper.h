@@ -18,7 +18,7 @@ namespace SearchEngineWrapper {
 
 		SearchEngineWrapper(System::String ^ indexFile);
 
-		void Save(System::String^ filename);
+		void Save();
 
 		void Remove(System::String ^ path);
 
@@ -35,6 +35,8 @@ namespace SearchEngineWrapper {
 		List<SearchResult^>^ searchResults;
 
 	private:
+		String^ indexFile;
+
 		SearchEngine *searchEngine;
 	};
 }
