@@ -1,16 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
-using James.HelperClasses;
-using James.Search;
-using James.Workflows;
 
 namespace James
 {
@@ -19,7 +11,8 @@ namespace James
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool showLargeType = false;
+        private bool showLargeType;
+
         public MainWindow(bool showOnStartup = false)
         {
             if (!showOnStartup)
@@ -94,7 +87,7 @@ namespace James
                     break;
             }
             if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) &&
-                     SearchTextBox.Text.Length > 0)
+                SearchTextBox.Text.Length > 0)
             {
                 DisplayLargeType(SearchTextBox.Text);
             }
@@ -127,6 +120,7 @@ namespace James
                 OnHotKeyHandler(null);
             }
         }
+
         #endregion
     }
 }
