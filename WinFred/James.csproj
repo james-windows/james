@@ -177,6 +177,7 @@
     <Compile Include="Enumerations\AccentColorTypes.cs" />
     <Compile Include="HelperClasses\GeneralHelper.cs" />
     <Compile Include="HelperClasses\GridHelper.cs" />
+    <Compile Include="PartialConfigClasses\LargeTypeConfig.cs" />
     <Compile Include="PartialConfigClasses\MainWindowConfig.cs" />
     <Compile Include="SearchResultElement.cs" />
     <Compile Include="UserControls\AboutUserControl.xaml.cs">

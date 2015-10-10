@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:userControls="clr-namespace:James.UserControls"
         xmlns:helper="clr-namespace:James.HelperClasses" Width="700" WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize" WindowStyle="None"
-        Opacity="0.9" SizeToContent="Height" ShowInTaskbar="False" Loaded="Window_Loaded"
-        Deactivated="Window_Deactivated" BorderBrush="#FF777777" BorderThickness="1">
+        ResizeMode="NoResize" WindowStyle="None" Opacity="0.9" SizeToContent="Height"
+        ShowInTaskbar="False" Loaded="Window_Loaded" Deactivated="Window_Deactivated"
+        BorderBrush="#FF777777" BorderThickness="1">
     <Grid helper:GridHelper.RowDefinition="100|a|a">
         <TextBox Grid.Row="0" x:Name="SearchTextBox" Margin="0" TextWrapping="Wrap" HorizontalAlignment="Stretch"
                  VerticalAlignment="Top" FontSize="55" VerticalContentAlignment="Center" Padding="10,0,10,10"

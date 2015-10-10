@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using James.Search;
 using Microsoft.Win32.TaskScheduler;
 using Squirrel;
 
@@ -28,7 +29,7 @@ namespace James
             SetStyleAccents();
             base.OnStartup(e);
             SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
-            Search.SearchEngine.GetInstance();
+            SearchEngine.GetInstance();
             if (_showTheWelcomeWizard)
             {
                 new WelcomeWindow().Show();
@@ -46,7 +47,7 @@ namespace James
             {
                 ts.RootFolder.DeleteTask("James");
             }
-            using (UpdateManager updateManager = new UpdateManager(Config.GetInstance().ReleaseUrl))
+            using (var updateManager = new UpdateManager(Config.GetInstance().ReleaseUrl))
             {
                 updateManager.RemoveShortcutsForExecutable("James.exe", ShortcutLocation.Desktop);
                 updateManager.RemoveShortcutsForExecutable("James.exe", ShortcutLocation.StartMenu);
@@ -60,7 +61,8 @@ namespace James
                 var td = ts.NewTask();
                 td.RegistrationInfo.Description = "Calls the updater for James once a day";
                 td.Triggers.Add(new DailyTrigger {DaysInterval = 1});
-                td.Actions.Add(new ExecAction(Config.GetInstance().ConfigFolderLocation + "\\Update.exe", "--update " + Config.GetInstance().ReleaseUrl, null));
+                td.Actions.Add(new ExecAction(Config.GetInstance().ConfigFolderLocation + "\\Update.exe",
+                    "--update " + Config.GetInstance().ReleaseUrl, null));
                 ts.RootFolder.RegisterTaskDefinition(@"James", td);
             }
         }
@@ -68,7 +70,7 @@ namespace James
         private static void OnFirstRun()
         {
             _showTheWelcomeWizard = true;
-            using (UpdateManager updateManager = new UpdateManager(Config.GetInstance().ReleaseUrl))
+            using (var updateManager = new UpdateManager(Config.GetInstance().ReleaseUrl))
             {
                 updateManager.CreateShortcutsForExecutable("James.exe", ShortcutLocation.Desktop, true);
                 updateManager.CreateShortcutsForExecutable("James.exe", ShortcutLocation.StartMenu, true);

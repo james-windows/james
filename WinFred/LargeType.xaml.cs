@@ -14,10 +14,15 @@ namespace James
         private LargeType()
         {
             InitializeComponent();
-            WindowState = WindowState.Maximized;
             Width = SystemParameters.PrimaryScreenWidth;
             Height = SystemParameters.PrimaryScreenHeight;
             DataContext = Config.GetInstance();
+            KeyUp += LargeType_KeyUp;
+        }
+
+        private void LargeType_KeyUp(object sender, KeyEventArgs e)
+        {
+            KeyDown += Window_KeyDown;
         }
 
         public string Message
@@ -34,12 +39,13 @@ namespace James
             }
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        public void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyboardDevice.IsKeyDown(Key.Escape))
+            if (e.KeyboardDevice.IsKeyDown(Key.Escape) || (Keyboard.IsKeyDown(Key.L) && Keyboard.IsKeyDown(Key.LeftAlt)))
             {
                 Message = "";
                 Hide();
+                KeyDown -= Window_KeyDown;
             }
         }
     }

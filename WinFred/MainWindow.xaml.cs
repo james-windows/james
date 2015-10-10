@@ -32,7 +32,7 @@ namespace James
 
         private void LargeType_Deactivated(object sender, EventArgs e)
         {
-            if (!Keyboard.IsKeyDown(Key.Escape))
+            if (!Keyboard.IsKeyDown(Key.Escape) && !Keyboard.IsKeyDown(Key.L) && !Keyboard.IsKeyDown(Key.LeftAlt))
             {
                 HideWindow();
             }
@@ -87,7 +87,7 @@ namespace James
                     break;
             }
             if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) &&
-                SearchTextBox.Text.Length > 0)
+                SearchTextBox.Text.Trim().Length > 0)
             {
                 DisplayLargeType(SearchTextBox.Text);
             }
@@ -102,7 +102,9 @@ namespace James
         {
             LargeType.GetInstance().Message = message;
             showLargeType = true;
+            LargeType.GetInstance().KeyDown -= LargeType.GetInstance().Window_KeyDown;
             LargeType.GetInstance().Hide();
+            LargeType.GetInstance().KeyDown -= LargeType.GetInstance().Window_KeyDown;
             LargeType.GetInstance().Show();
             LargeType.GetInstance().Activate();
         }
