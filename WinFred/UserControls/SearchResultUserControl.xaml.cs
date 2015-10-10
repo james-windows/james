@@ -55,10 +55,10 @@ namespace James.UserControls
         public void Search(string str)
         {
             _searchResults = SearchEngine.GetInstance().Query(str);
-            WorkflowManager.GetInstance(this).CancelWorkflows();
+            WorkflowManager.GetInstance().CancelWorkflows();
             if (str.Length >= Config.GetInstance().StartSearchMinTextLength)
             {
-                _searchResults.InsertRange(0, WorkflowManager.GetInstance(this).GetKeywordTriggers(str));
+                _searchResults.InsertRange(0, WorkflowManager.GetInstance().GetKeywordTriggers(str));
             }
             _searchResults = _searchResults.Take(10).ToList();
             FocusedIndex = 0;

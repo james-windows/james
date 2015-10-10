@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace James
@@ -28,7 +29,7 @@ namespace James
         public string Message
         {
             get { return TextBlock.Text; }
-            set { TextBlock.Text = value; }
+            private set{ TextBlock.Text = value; }
         }
 
         public static LargeType GetInstance()
@@ -41,12 +42,37 @@ namespace James
 
         public void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyboardDevice.IsKeyDown(Key.Escape) || (Keyboard.IsKeyDown(Key.L) && Keyboard.IsKeyDown(Key.LeftAlt)))
+            if (e == null || e.KeyboardDevice.IsKeyDown(Key.Escape) || (Keyboard.IsKeyDown(Key.L) && Keyboard.IsKeyDown(Key.LeftAlt)))
             {
                 Message = "";
                 Hide();
                 KeyDown -= Window_KeyDown;
             }
+        }
+
+        public void DisplayMessage(string message)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(() => DisplayMessage(message)));
+                return;
+            }
+            Message = message;
+            KeyDown -= Window_KeyDown;
+            Hide();
+            KeyDown -= Window_KeyDown;
+            Show();
+            Activate();
+        }
+
+        public void ChangeMessage(string message)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(() => ChangeMessage(message)));
+                return;
+            }
+            Message = message;
         }
     }
 }

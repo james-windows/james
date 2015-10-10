@@ -11,9 +11,8 @@ namespace James.Workflows
         private static WorkflowManager _workflowManager;
         private static readonly object SingeltonLock = new object();
 
-        private WorkflowManager(SearchResultUserControl searchResultUserControl)
+        private WorkflowManager()
         {
-            ParentSearchResultUserControl = searchResultUserControl;
             //Workflow tmp = new Workflow("Timer") {Author = "Michael Moser", Subtitle = "Zeigt die aktuelle Uhrzeit an..."};
             //tmp.Outputs.Add(new LargeTypeOutput());
             //tmp.Actions.Add(new BasicAction($@"{Config.GetInstance().ConfigFolderLocation}\workflows\{tmp.Title}\timer.exe") {ParentWorkflow = tmp});
@@ -37,16 +36,14 @@ namespace James.Workflows
             //PersistWorkflows();
         }
 
-        public SearchResultUserControl ParentSearchResultUserControl { get; set; }
-
         public List<Workflow> Workflows { get; set; } = new List<Workflow>();
         public List<KeywordTrigger> KeywordTriggers { get; set; } = new List<KeywordTrigger>();
 
-        public static WorkflowManager GetInstance(SearchResultUserControl searchResultUserControl)
+        public static WorkflowManager GetInstance()
         {
             lock (SingeltonLock)
             {
-                return _workflowManager ?? (_workflowManager = new WorkflowManager(searchResultUserControl));
+                return _workflowManager ?? (_workflowManager = new WorkflowManager());
             }
         }
 

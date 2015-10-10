@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using James.Workflows;
 
 namespace James
 {
@@ -11,9 +12,20 @@ namespace James
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool showLargeType;
+        private bool _showLargeType;
 
-        public MainWindow(bool showOnStartup = false)
+        private static MainWindow _mainWindow;
+        private static readonly object SingeltonLock = new object();
+
+        public static MainWindow GetInstance(bool showOnStartup = false)
+        {
+            lock (SingeltonLock)
+            {
+                return _mainWindow ?? (_mainWindow = new MainWindow(showOnStartup));
+            }
+        }
+
+        public MainWindow(bool showOnStartup)
         {
             if (!showOnStartup)
             {
@@ -27,11 +39,12 @@ namespace James
 
         private void LargeType_Activated(object sender, EventArgs e)
         {
-            showLargeType = false;
+            _showLargeType = false;
         }
 
         private void LargeType_Deactivated(object sender, EventArgs e)
         {
+            WorkflowManager.GetInstance().CancelWorkflows();
             if (!Keyboard.IsKeyDown(Key.Escape) && !Keyboard.IsKeyDown(Key.L) && !Keyboard.IsKeyDown(Key.LeftAlt))
             {
                 HideWindow();
@@ -98,15 +111,10 @@ namespace James
             }
         }
 
-        private void DisplayLargeType(string message)
+        public void DisplayLargeType(string message)
         {
-            LargeType.GetInstance().Message = message;
-            showLargeType = true;
-            LargeType.GetInstance().KeyDown -= LargeType.GetInstance().Window_KeyDown;
-            LargeType.GetInstance().Hide();
-            LargeType.GetInstance().KeyDown -= LargeType.GetInstance().Window_KeyDown;
-            LargeType.GetInstance().Show();
-            LargeType.GetInstance().Activate();
+            _showLargeType = true;
+            LargeType.GetInstance().DisplayMessage(message);
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -117,7 +125,7 @@ namespace James
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            if (!showLargeType)
+            if (!_showLargeType)
             {
                 OnHotKeyHandler(null);
             }

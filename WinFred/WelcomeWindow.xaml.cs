@@ -20,8 +20,7 @@ namespace James
         {
             if (_launchMainWindowAtEnd)
             {
-                var window = new MainWindow(true);
-                window.Show();
+                MainWindow.GetInstance(true).Show();
             }
             Close();
         }

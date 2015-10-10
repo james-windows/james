@@ -36,7 +36,7 @@ namespace James
             }
             else
             {
-                new MainWindow().Show();
+                James.MainWindow.GetInstance().Show();
                 //MyFileWatcher.GetInstance();
             }
         }

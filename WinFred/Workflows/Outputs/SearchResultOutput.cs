@@ -12,7 +12,7 @@ namespace James.Workflows.Outputs
             {
                 new SearchResult {Path = ParentWorkflow.Subtitle, Filename = output}
             };
-            WorkflowManager.GetInstance(null).ParentSearchResultUserControl.WorkflowOutput(searchResults);
+            MainWindow.GetInstance().searchResultControl.WorkflowOutput(searchResults);
         }
     }
 }
