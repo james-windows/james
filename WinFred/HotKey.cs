@@ -11,7 +11,7 @@ namespace James
         public const int WmHotKey = 0x0312;
         private static Dictionary<int, HotKey> _dictHotKeyToCalBackProc;
         private bool _disposed;
-        
+
         public HotKey(Key k, KeyModifier keyModifiers, Action<HotKey> action, bool register = true)
         {
             Key = k;
@@ -27,7 +27,7 @@ namespace James
         public KeyModifier KeyModifiers { get; }
         public Action<HotKey> Action { get; }
         public int Id { get; set; }
-        
+
         public void Dispose()
         {
             Dispose(true);
@@ -53,7 +53,7 @@ namespace James
             _dictHotKeyToCalBackProc.Add(Id, this);
             return result;
         }
-        
+
         public void Unregister()
         {
             HotKey hotKey;
@@ -62,7 +62,7 @@ namespace James
                 UnregisterHotKey(IntPtr.Zero, Id);
             }
         }
-        
+
         private static void ComponentDispatcherThreadFilterMessage(ref MSG msg, ref bool handled)
         {
             if (!handled)
@@ -88,7 +88,7 @@ namespace James
             }
         }
     }
-    
+
     [Flags]
     public enum KeyModifier
     {

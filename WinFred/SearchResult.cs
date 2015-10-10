@@ -4,33 +4,30 @@ using System.IO;
 using System.Windows.Media;
 using James.HelperClasses;
 using James.Search;
-using James.Workflows.Interfaces;
 using James.Workflows.Triggers;
 
 namespace James
 {
     public class SearchResult : IComparable<SearchResult>
     {
+        private string _path;
         public string Id { get; set; }
         public int Priority { get; set; }
-        private string _path;
         public string Filename { get; set; }
         public ImageSource Icon => (Config.GetInstance().DisplayFileIcons) ? GeneralHelper.GetIcon(Path) : null;
-        public int CompareTo(SearchResult other) => Priority - other.Priority;
         public BasicTrigger WorkflowTrigger { get; set; }
 
         public string Path
         {
-            get
-            {
-                return _path;
-            }
+            get { return _path; }
             set
             {
                 _path = value;
                 Filename = value.Substring(Path.LastIndexOf('\\') + 1);
             }
         }
+
+        public int CompareTo(SearchResult other) => Priority - other.Priority;
 
         public void Open()
         {

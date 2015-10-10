@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace James.UserControls
@@ -12,18 +11,18 @@ namespace James.UserControls
         public AboutUserControl()
         {
             InitializeComponent();
-            #if !DEBUG 
+#if !DEBUG 
                 if(AppDomain.CurrentDomain.BaseDirectory.Split('-').Length == 2)
                     Version = "v" + AppDomain.CurrentDomain.BaseDirectory.Split('-')[1].Replace("\\","");
             #endif
             versionLabel.Content = Version;
         }
 
-        public string Version { get; private set;  } = "v0.1.1";
+        public string Version { get; } = "v0.1.1";
 
         private void DisplayChangelog(object sender, RoutedEventArgs e)
         {
-            var changelogWindow = new ChangelogWindow() {Owner = Window.GetWindow(this)};
+            var changelogWindow = new ChangelogWindow {Owner = Window.GetWindow(this)};
             changelogWindow.ShowDialog();
         }
     }

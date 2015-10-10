@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using James.Enumerations;
@@ -23,7 +22,7 @@ namespace James.UserControls
 
         private async void UninstallProgram(object sender, RoutedEventArgs e)
         {
-            UpdateManager manager = new UpdateManager(Config.GetInstance().ReleaseUrl);
+            var manager = new UpdateManager(Config.GetInstance().ReleaseUrl);
             await manager.FullUninstall();
             Environment.Exit(0);
         }
@@ -35,7 +34,7 @@ namespace James.UserControls
 
         private async void ResetConfig(object sender, RoutedEventArgs e)
         {
-            var parentWindow = (MetroWindow)Window.GetWindow(this);
+            var parentWindow = (MetroWindow) Window.GetWindow(this);
             var setting = new MetroDialogSettings
             {
                 NegativeButtonText = "Cancel",

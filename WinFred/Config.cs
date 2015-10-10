@@ -5,6 +5,7 @@ using System.IO;
 using James.HelperClasses;
 using James.Search;
 using Microsoft.Win32;
+using Path = James.Search.Path;
 
 namespace James
 {
@@ -14,7 +15,7 @@ namespace James
     {
         private Config()
         {
-            Paths = new ObservableCollection<Search.Path>();
+            Paths = new ObservableCollection<Path>();
             DefaultFileExtensions = new List<FileExtension>();
             Workflows = new ObservableCollection<Workflow>();
         }
@@ -78,7 +79,7 @@ namespace James
         private static void InitConfig()
         {
             config = new Config();
-            config.Paths.Add(new Search.Path {Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)});
+            config.Paths.Add(new Path {Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)});
             LoadDefaultFileExtensions();
             config.Persist();
         }
@@ -111,12 +112,13 @@ namespace James
 
         #region fields
 
-        public ObservableCollection<Search.Path> Paths { get; set; }
+        public ObservableCollection<Path> Paths { get; set; }
         public List<FileExtension> DefaultFileExtensions { get; set; }
         public ObservableCollection<Workflow> Workflows { get; set; }
 
         public string ConfigFolderLocation { get; set; } =
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+
         public string ReleaseUrl { get; set; } = @"http://www.moserm.tk/Releases";
 
         public int DefaultFolderPriority { get; set; } = 80;
@@ -140,7 +142,8 @@ namespace James
                     ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 if (value)
                 {
-                    registryKey?.SetValue("James", "\"" + ConfigFolderLocation + "\\Update.exe\" --processStart James.exe");
+                    registryKey?.SetValue("James",
+                        "\"" + ConfigFolderLocation + "\\Update.exe\" --processStart James.exe");
                 }
                 else
                 {

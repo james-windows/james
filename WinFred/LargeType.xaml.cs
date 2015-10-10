@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 namespace James
@@ -11,19 +10,6 @@ namespace James
     {
         private static LargeType _largeType;
         private static readonly object SingeltonLock = new object();
-        public static LargeType GetInstance()
-        {
-            lock (SingeltonLock)
-            {
-                return _largeType ?? (_largeType = new LargeType());
-            }
-        }
-
-        public string Message
-        {
-            get { return TextBlock.Text; }
-            set { TextBlock.Text = value; }
-        }
 
         private LargeType()
         {
@@ -34,11 +20,25 @@ namespace James
             DataContext = Config.GetInstance();
         }
 
+        public string Message
+        {
+            get { return TextBlock.Text; }
+            set { TextBlock.Text = value; }
+        }
+
+        public static LargeType GetInstance()
+        {
+            lock (SingeltonLock)
+            {
+                return _largeType ?? (_largeType = new LargeType());
+            }
+        }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyboardDevice.IsKeyDown(Key.Escape) /*||
-                (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))*/)
+            if (e.KeyboardDevice.IsKeyDown(Key.Escape))
             {
+                Message = "";
                 Hide();
             }
         }

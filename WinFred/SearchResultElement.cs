@@ -79,7 +79,8 @@ namespace James
                 var isFocused = index == CurrentFocus;
                 ctx.DrawText(CreateText(sr.Filename, LARGE_FONT_SIZE, isFocused), new Point(50, index*ROW_HEIGHT));
                 ctx.DrawText(CreateText(sr.Path, SMALL_FONT_SIZE, isFocused), new Point(50, index*ROW_HEIGHT + 25));
-                ctx.DrawText(CreateText(sr.Priority.ToString(), SMALL_FONT_SIZE, isFocused), new Point(5, index*ROW_HEIGHT));
+                ctx.DrawText(CreateText(sr.Priority.ToString(), SMALL_FONT_SIZE, isFocused),
+                    new Point(5, index*ROW_HEIGHT));
                 ctx.DrawImage(sr.Icon, new Rect(SMALL_FONT_SIZE, SMALL_FONT_SIZE + index*ROW_HEIGHT, 32, 32));
             }
             _children.Add(drawingVisual);

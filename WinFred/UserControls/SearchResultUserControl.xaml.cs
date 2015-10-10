@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using James.Search;
 using James.Workflows;
+
 namespace James.UserControls
 {
     /// <summary>
@@ -16,10 +16,6 @@ namespace James.UserControls
     {
         private readonly SearchResultElement _searchResultElement;
         private List<SearchResult> _searchResults;
-        public MainWindow GetParentWindow()
-        {
-            return Dispatcher.Invoke(() => (MainWindow) Window.GetWindow(this));
-        }
 
         public SearchResultUserControl()
         {
@@ -34,6 +30,11 @@ namespace James.UserControls
         }
 
         public int FocusedIndex { get; private set; }
+
+        public MainWindow GetParentWindow()
+        {
+            return Dispatcher.Invoke(() => (MainWindow) Window.GetWindow(this));
+        }
 
         private void MouseClick(object sender, MouseButtonEventArgs e)
         {
@@ -73,7 +74,8 @@ namespace James.UserControls
             {
                 _searchResultElement.DrawItems(_searchResults, 0);
                 Dispatcher.BeginInvoke(
-                (Action)(() => { _searchResultElement.Height = _searchResults.Count * SearchResultElement.ROW_HEIGHT; }));
+                    (Action)
+                        (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.ROW_HEIGHT; }));
             });
         }
 

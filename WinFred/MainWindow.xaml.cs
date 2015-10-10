@@ -96,17 +96,22 @@ namespace James
             if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) &&
                      SearchTextBox.Text.Length > 0)
             {
-                LargeType.GetInstance().Message = SearchTextBox.Text;
-                showLargeType = true;
-                LargeType.GetInstance().Hide();
-                LargeType.GetInstance().Show();
-                LargeType.GetInstance().Activate();
+                DisplayLargeType(SearchTextBox.Text);
             }
             else if (e.KeyboardDevice.IsKeyDown(Key.S) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))
             {
                 new OptionWindow().Show();
                 HideWindow();
             }
+        }
+
+        private void DisplayLargeType(string message)
+        {
+            LargeType.GetInstance().Message = message;
+            showLargeType = true;
+            LargeType.GetInstance().Hide();
+            LargeType.GetInstance().Show();
+            LargeType.GetInstance().Activate();
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)

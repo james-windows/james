@@ -12,10 +12,6 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using James.Workflows;
-using James.Workflows.Actions;
-using James.Workflows.Interfaces;
-using James.Workflows.Outputs;
-using James.Workflows.Triggers;
 
 namespace James.HelperClasses
 {
@@ -39,14 +35,15 @@ namespace James.HelperClasses
                 throw new Exception("An error occurred", ex);
             }
         }
+
         public static string SerializeWorkflow(Workflow workflow)
         {
-            MemoryStream ms = new MemoryStream();
-            DataContractSerializer ser = new DataContractSerializer(typeof(Workflow));
+            var ms = new MemoryStream();
+            var ser = new DataContractSerializer(typeof (Workflow));
             ms.Position = 0;
             ser.WriteObject(ms, workflow);
             ms.Position = 0;
-            string output =  new StreamReader(ms).ReadToEnd();
+            var output = new StreamReader(ms).ReadToEnd();
             return XDocument.Parse(output).ToString();
         }
 
@@ -68,17 +65,17 @@ namespace James.HelperClasses
         {
             using (Stream stream = new MemoryStream())
             {
-                byte[] data = Encoding.UTF8.GetBytes(File.ReadAllText(path));
+                var data = Encoding.UTF8.GetBytes(File.ReadAllText(path));
                 stream.Write(data, 0, data.Length);
                 stream.Position = 0;
-                DataContractSerializer deserializer = new DataContractSerializer(typeof(Workflow));
-                return (Workflow)deserializer.ReadObject(stream);
+                var deserializer = new DataContractSerializer(typeof (Workflow));
+                return (Workflow) deserializer.ReadObject(stream);
             }
         }
 
         public static ImageSource ToImageSource(this Icon icon)
         {
-            DateTime tmp = DateTime.Now;
+            var tmp = DateTime.Now;
             ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(
                 icon.Handle,
                 Int32Rect.Empty,
@@ -88,12 +85,11 @@ namespace James.HelperClasses
         }
 
         [DllImport("shell32.dll")]
-        static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, int nIconIndex);
+        private static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, int nIconIndex);
 
         public static ImageSource GetIcon(string strPath)
         {
-            
-            IntPtr hIcon = IntPtr.Zero;
+            var hIcon = IntPtr.Zero;
             hIcon = ExtractIcon(IntPtr.Zero, strPath, 0);
             if (hIcon.ToInt32() != 0)
             {

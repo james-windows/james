@@ -27,13 +27,14 @@ namespace James.ValidationRules
             return ValidationResult.ValidResult;
         }
     }
+
     public class FileExtensionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string)
             {
-                var extension = (string)value;
+                var extension = (string) value;
                 if (!extension.Contains("."))
                 {
                     return true;

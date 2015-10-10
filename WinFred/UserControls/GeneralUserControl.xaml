@@ -41,7 +41,8 @@
                     <TextBlock>
                         <Run Text="Limit to start with searching" />
                     </TextBlock>
-                    <controls:NumericUpDown Value="{Binding Path=StartSearchMinTextLength, UpdateSourceTrigger=LostFocus}" />
+                    <controls:NumericUpDown
+                        Value="{Binding Path=StartSearchMinTextLength, UpdateSourceTrigger=LostFocus}" />
                 </Grid>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock>
@@ -66,7 +67,8 @@
                         <Run Text="LargType opacity:" />
                     </TextBlock>
                     <Grid helper:GridHelper.ColumnDefinition="*|30" Grid.Column="1">
-                        <Slider Value="{Binding Path=LargeTypeOpacity}" Maximum="1" Minimum="0.1" LargeChange="0.1" TickFrequency="0.05" IsSnapToTickEnabled="True" Style="{DynamicResource FlatSlider}"/>
+                        <Slider Value="{Binding Path=LargeTypeOpacity}" Maximum="1" Minimum="0.1" LargeChange="0.1"
+                                TickFrequency="0.05" IsSnapToTickEnabled="True" Style="{DynamicResource FlatSlider}" />
                         <TextBlock Grid.Column="1" Text="{Binding Path=LargeTypeOpacity}" Padding="5,0,0,0" />
                     </Grid>
                 </Grid>
@@ -75,17 +77,24 @@
         <StackPanel Grid.Column="1">
             <GroupBox Header="Import / Export">
                 <WrapPanel>
-                    <Button Content="Export Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False" Width="175" Margin="2" />
-                    <Button Content="Import Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False" Width="175" Margin="2" />
-                    <Button Content="Reset Config" Style="{DynamicResource SquareButtonStyle}" Width="175" Margin="2" Click="ResetConfig"/>
+                    <Button Content="Export Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False"
+                            Width="175" Margin="2" />
+                    <Button Content="Import Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False"
+                            Width="175" Margin="2" />
+                    <Button Content="Reset Config" Style="{DynamicResource SquareButtonStyle}" Width="175" Margin="2"
+                            Click="ResetConfig" />
                 </WrapPanel>
             </GroupBox>
             <GroupBox Header="Program">
                 <WrapPanel>
-                    <Button Content="Uninstall Program" Style="{DynamicResource SquareButtonStyle}" Click="UninstallProgram" Width="175" Margin="2" />
-                    <Button Content="Launch WelcomeWindow" Style="{DynamicResource SquareButtonStyle}" Click="LaunchWelcomeWindow" Width="175" Margin="2" />
-                    <Button Content="Check for Updates" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False" Width="175" Margin="2" />
-                    <Button Content="Close Program" Style="{DynamicResource SquareButtonStyle}" Click="CloseProgram" Width="175" Margin="2" />
+                    <Button Content="Uninstall Program" Style="{DynamicResource SquareButtonStyle}"
+                            Click="UninstallProgram" Width="175" Margin="2" />
+                    <Button Content="Launch WelcomeWindow" Style="{DynamicResource SquareButtonStyle}"
+                            Click="LaunchWelcomeWindow" Width="175" Margin="2" />
+                    <Button Content="Check for Updates" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False"
+                            Width="175" Margin="2" />
+                    <Button Content="Close Program" Style="{DynamicResource SquareButtonStyle}" Click="CloseProgram"
+                            Width="175" Margin="2" />
                 </WrapPanel>
             </GroupBox>
         </StackPanel>

@@ -1,25 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using James.Workflows.Interfaces;
 using James.Workflows.Outputs;
 
 namespace James.Workflows.Actions
 {
     [DataContract]
-    public class BasicAction: RunnableWorkflowComponent
+    public class BasicAction : RunnableWorkflowComponent
     {
-        [DataMember]
-        public List<BasicOutput> Displayables { get; set; } = new List<BasicOutput>();
-
-        [DataMember]
-        public string ExecutablePath { get; set; } 
-
         public BasicAction(string executablePath)
         {
             ExecutablePath = executablePath;
@@ -27,12 +15,17 @@ namespace James.Workflows.Actions
 
         private BasicAction()
         {
-            
         }
+
+        [DataMember]
+        public List<BasicOutput> Displayables { get; set; } = new List<BasicOutput>();
+
+        [DataMember]
+        public string ExecutablePath { get; set; }
 
         public void Display(string output)
         {
-            foreach (BasicOutput item in Displayables)
+            foreach (var item in Displayables)
             {
                 item.Display(output);
             }

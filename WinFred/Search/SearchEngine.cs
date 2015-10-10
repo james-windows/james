@@ -10,16 +10,18 @@ namespace James.Search
     internal class SearchEngine
     {
         public delegate void ChangedBuildingIndexProgressEventHandler(object sender, ProgressChangedEventArgs e);
-        
+
         private static SearchEngine _searchEngine;
         private static readonly object SingeltonLock = new object();
         private readonly SearchEngineWrapper.SearchEngineWrapper _searchEngineWrapper;
 
         private readonly Timer timer;
+
         private SearchEngine()
         {
-            _searchEngineWrapper = new SearchEngineWrapper.SearchEngineWrapper(Config.GetInstance().ConfigFolderLocation + "\\files.txt");
-            timer = new Timer(1000 * 60 * 5)
+            _searchEngineWrapper =
+                new SearchEngineWrapper.SearchEngineWrapper(Config.GetInstance().ConfigFolderLocation + "\\files.txt");
+            timer = new Timer(1000*60*5)
             {
                 AutoReset = true,
                 Enabled = true
@@ -29,7 +31,6 @@ namespace James.Search
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-
 #if DEBUG
             Console.WriteLine("Triggerd Event for backup SearchEngine");
 #endif
@@ -55,10 +56,8 @@ namespace James.Search
         private static List<SearchResult> GetFilesToBeIndexed()
         {
             var data = new List<SearchResult>();
-            Parallel.ForEach(Config.GetInstance().Paths.Where(path => path.IsEnabled), currentPath =>
-            {
-                data.AddRange(currentPath.GetItemsToBeIndexed());
-            });
+            Parallel.ForEach(Config.GetInstance().Paths.Where(path => path.IsEnabled),
+                currentPath => { data.AddRange(currentPath.GetItemsToBeIndexed()); });
             return data;
         }
 
@@ -83,7 +82,7 @@ namespace James.Search
             }
         }
 
-        private static int CalcProgress(int position, int total) => (int) (((double) position) / total * 100);
+        private static int CalcProgress(int position, int total) => (int) (((double) position)/total*100);
 
         public void AddFile(SearchResult file)
         {
@@ -102,13 +101,15 @@ namespace James.Search
                 return new List<SearchResult>();
             }
 #if DEBUG
-            DateTime tmp = DateTime.Now;
+            var tmp = DateTime.Now;
             _searchEngineWrapper.Find(search);
             Console.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
 #else
             _searchEngineWrapper.Find(search);
 #endif
-            return _searchEngineWrapper.searchResults.Select(item => new SearchResult() {Path = item.path + item.name}).ToList();
+            return
+                _searchEngineWrapper.searchResults.Select(item => new SearchResult {Path = item.path + item.name})
+                    .ToList();
         }
 
         public void DeleteFile(string path)
@@ -118,9 +119,9 @@ namespace James.Search
 
         public void IncrementPriority(SearchResult result)
         {
-           IncrementPriority(result.Path);
+            IncrementPriority(result.Path);
         }
-        
+
         public void IncrementPriority(string path)
         {
             _searchEngineWrapper.AddPriority(path, 5);
