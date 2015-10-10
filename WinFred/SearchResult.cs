@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows.Media;
 using James.HelperClasses;
 using James.Search;
+using James.Workflows.Interfaces;
+using James.Workflows.Triggers;
 
 namespace James
 {
@@ -11,20 +13,45 @@ namespace James
     {
         public string Id { get; set; }
         public int Priority { get; set; }
-        public string Path { get; set; }
-        public string Filename => Path.Substring(Path.LastIndexOf('\\') + 1);
-        public ImageSource Icon => (Config.GetInstance().DisplayFileIcons)? GeneralHelper.GetIcon(Path): null;
+        private string _path;
+        public string Filename { get; set; }
+        public ImageSource Icon => (Config.GetInstance().DisplayFileIcons) ? GeneralHelper.GetIcon(Path) : null;
         public int CompareTo(SearchResult other) => Priority - other.Priority;
+        public BasicTrigger WorkflowTrigger { get; set; }
+
+        public string Path
+        {
+            get
+            {
+                return _path;
+            }
+            set
+            {
+                _path = value;
+                Filename = value.Substring(Path.LastIndexOf('\\') + 1);
+            }
+        }
 
         public void Open()
         {
-            Process.Start(Path);
-            SearchEngine.GetInstance().IncrementPriority(this);
+            if (WorkflowTrigger != null)
+            {
+                WorkflowTrigger.TriggerRunables();
+            }
+            else
+            {
+                Process.Start(Path);
+                SearchEngine.GetInstance().IncrementPriority(this);
+            }
         }
 
         public void OpenFolder()
         {
-            if (Directory.Exists(Path))
+            if (WorkflowTrigger != null)
+            {
+                WorkflowTrigger.TriggerRunables();
+            }
+            else if (Directory.Exists(Path))
             {
                 Open();
             }

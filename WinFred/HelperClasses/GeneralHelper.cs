@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Windows;
 using System.Windows.Interop;
@@ -10,6 +11,11 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using James.Workflows;
+using James.Workflows.Actions;
+using James.Workflows.Interfaces;
+using James.Workflows.Outputs;
+using James.Workflows.Triggers;
 
 namespace James.HelperClasses
 {
@@ -17,10 +23,6 @@ namespace James.HelperClasses
     {
         public static string Serialize<T>(this T value)
         {
-            if (value == null)
-            {
-                return string.Empty;
-            }
             try
             {
                 var xmlserializer = new XmlSerializer(typeof (T));
@@ -37,8 +39,18 @@ namespace James.HelperClasses
                 throw new Exception("An error occurred", ex);
             }
         }
+        public static string SerializeWorkflow(Workflow workflow)
+        {
+            MemoryStream ms = new MemoryStream();
+            DataContractSerializer ser = new DataContractSerializer(typeof(Workflow));
+            ms.Position = 0;
+            ser.WriteObject(ms, workflow);
+            ms.Position = 0;
+            string output =  new StreamReader(ms).ReadToEnd();
+            return XDocument.Parse(output).ToString();
+        }
 
-        public static T Derialize<T>(string path)
+        public static T Deserialize<T>(string path)
         {
             try
             {
@@ -52,6 +64,18 @@ namespace James.HelperClasses
             }
         }
 
+        public static Workflow DeserializeWorkflow(string path)
+        {
+            using (Stream stream = new MemoryStream())
+            {
+                byte[] data = Encoding.UTF8.GetBytes(File.ReadAllText(path));
+                stream.Write(data, 0, data.Length);
+                stream.Position = 0;
+                DataContractSerializer deserializer = new DataContractSerializer(typeof(Workflow));
+                return (Workflow)deserializer.ReadObject(stream);
+            }
+        }
+
         public static ImageSource ToImageSource(this Icon icon)
         {
             DateTime tmp = DateTime.Now;
@@ -61,23 +85,6 @@ namespace James.HelperClasses
                 BitmapSizeOptions.FromEmptyOptions());
             Console.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
             return imageSource;
-        }
-
-        public static string BuildHtml(string htmlFromWorkflow)
-        {
-            var html = new StringBuilder(@"<!DOCTYPE html>
-                    <html>
-                    <head>
-                        <meta charset=""utf-8"" />
-                        <link rel=""stylesheet"" 
-                          type=""text/css"" 
-                          href=""http://holdirbootstrap.de/dist/css/bootstrap.min.css"" />
-                    </head>
-                    <body style=""-webkit-user-select: none;"">");
-
-            html.Append(htmlFromWorkflow);
-            html.Append("</body></html>");
-            return html.ToString();
         }
 
         [DllImport("shell32.dll")]

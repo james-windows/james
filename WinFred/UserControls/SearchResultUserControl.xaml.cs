@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using James.Search;
-
+using James.Workflows;
 namespace James.UserControls
 {
     /// <summary>
@@ -14,6 +16,10 @@ namespace James.UserControls
     {
         private readonly SearchResultElement _searchResultElement;
         private List<SearchResult> _searchResults;
+        public MainWindow GetParentWindow()
+        {
+            return Dispatcher.Invoke(() => (MainWindow) Window.GetWindow(this));
+        }
 
         public SearchResultUserControl()
         {
@@ -48,10 +54,27 @@ namespace James.UserControls
         public void Search(string str)
         {
             _searchResults = SearchEngine.GetInstance().Query(str);
+            WorkflowManager.GetInstance(this).CancelWorkflows();
+            if (str.Length >= Config.GetInstance().StartSearchMinTextLength)
+            {
+                _searchResults.InsertRange(0, WorkflowManager.GetInstance(this).GetKeywordTriggers(str));
+            }
+            _searchResults = _searchResults.Take(10).ToList();
             FocusedIndex = 0;
             _searchResultElement.DrawItems(_searchResults, FocusedIndex);
             Dispatcher.BeginInvoke(
                 (Action) (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.ROW_HEIGHT; }));
+        }
+
+        public void WorkflowOutput(List<SearchResult> searchResults)
+        {
+            _searchResults = searchResults;
+            Dispatcher.Invoke(() =>
+            {
+                _searchResultElement.DrawItems(_searchResults, 0);
+                Dispatcher.BeginInvoke(
+                (Action)(() => { _searchResultElement.Height = _searchResults.Count * SearchResultElement.ROW_HEIGHT; }));
+            });
         }
 
         public void MoveUp()

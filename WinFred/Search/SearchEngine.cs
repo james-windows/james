@@ -97,8 +97,10 @@ namespace James.Search
 
         public List<SearchResult> Query(string search)
         {
-            if (string.IsNullOrWhiteSpace(search) || search.Trim().Length < Config.GetInstance().StartSearchMinTextLength)
+            if (search.Length < Config.GetInstance().StartSearchMinTextLength)
+            {
                 return new List<SearchResult>();
+            }
 #if DEBUG
             DateTime tmp = DateTime.Now;
             _searchEngineWrapper.Find(search);

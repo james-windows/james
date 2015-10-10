@@ -9,22 +9,37 @@ namespace James
     /// </summary>
     public partial class LargeType : Window
     {
-        public LargeType(string message)
+        private static LargeType _largeType;
+        private static readonly object SingeltonLock = new object();
+        public static LargeType GetInstance()
+        {
+            lock (SingeltonLock)
+            {
+                return _largeType ?? (_largeType = new LargeType());
+            }
+        }
+
+        public string Message
+        {
+            get { return TextBlock.Text; }
+            set { TextBlock.Text = value; }
+        }
+
+        private LargeType()
         {
             InitializeComponent();
             WindowState = WindowState.Maximized;
             Width = SystemParameters.PrimaryScreenWidth;
             Height = SystemParameters.PrimaryScreenHeight;
-            TextBlock.Text = message;
             DataContext = Config.GetInstance();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyboardDevice.IsKeyDown(Key.Escape) ||
-                (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt)))
+            if (e.KeyboardDevice.IsKeyDown(Key.Escape) /*||
+                (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))*/)
             {
-                Close();
+                Hide();
             }
         }
     }

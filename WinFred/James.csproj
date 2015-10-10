@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>James</RootNamespace>
     <AssemblyName>James</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -17,6 +17,8 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,13 +31,11 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -128,9 +128,9 @@
       <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SearchEngineWrapper, Version=1.0.5747.36362, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="SearchEngineWrapper, Version=1.0.5756.37872, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Debug\SearchEngineWrapper.dll</HintPath>
+      <HintPath>..\x64\Debug\SearchEngineWrapper.dll</HintPath>
     </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
@@ -144,6 +144,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="system.windows.controls.ribbon" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity">
@@ -176,6 +177,7 @@
     <Compile Include="Enumerations\AccentColorTypes.cs" />
     <Compile Include="HelperClasses\GeneralHelper.cs" />
     <Compile Include="HelperClasses\GridHelper.cs" />
+    <Compile Include="PartialConfigClasses\MainWindowConfig.cs" />
     <Compile Include="SearchResultElement.cs" />
     <Compile Include="UserControls\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>
@@ -213,6 +215,19 @@
     <Compile Include="WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Workflows\Actions\BasicAction.cs" />
+    <Compile Include="Workflows\Interfaces\ICrossPlatform.cs" />
+    <Compile Include="Workflows\Interfaces\ISurviveable.cs" />
+    <Compile Include="Workflows\Outputs\BasicOutput.cs" />
+    <Compile Include="Workflows\Outputs\LargeTypeOutput.cs" />
+    <Compile Include="Workflows\Outputs\SearchResultOutput.cs" />
+    <Compile Include="Workflows\RunnableWorkflowComponent.cs" />
+    <Compile Include="Workflows\Triggers\BasicTrigger.cs" />
+    <Compile Include="Workflows\Triggers\IntervalTrigger.cs" />
+    <Compile Include="Workflows\Triggers\KeywordTrigger.cs" />
+    <Compile Include="Workflows\Workflow.cs" />
+    <Compile Include="Workflows\WorkflowComponent.cs" />
+    <Compile Include="Workflows\WorkflowManager.cs" />
     <Page Include="ChangelogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -327,6 +342,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

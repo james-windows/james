@@ -64,7 +64,7 @@ namespace James
                     {
                         var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
                         Directory.CreateDirectory(path);
-                        config = GeneralHelper.Derialize<Config>(path + "\\config.xml");
+                        config = GeneralHelper.Deserialize<Config>(path + "\\config.xml");
                     }
                     catch (Exception)
                     {
