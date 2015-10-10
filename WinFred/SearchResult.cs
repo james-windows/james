@@ -27,13 +27,15 @@ namespace James
             }
         }
 
+        public string WorkflowArguments { get; set; }
+
         public int CompareTo(SearchResult other) => Priority - other.Priority;
 
         public void Open()
         {
             if (WorkflowTrigger != null)
             {
-                WorkflowTrigger.TriggerRunables();
+                WorkflowTrigger.TriggerRunables(WorkflowArguments);
             }
             else
             {
@@ -46,7 +48,7 @@ namespace James
         {
             if (WorkflowTrigger != null)
             {
-                WorkflowTrigger.TriggerRunables();
+                WorkflowTrigger.TriggerRunables(WorkflowArguments);
             }
             else if (Directory.Exists(Path))
             {

@@ -23,6 +23,9 @@ namespace James.Workflows.Actions
         [DataMember]
         public string ExecutablePath { get; set; }
 
+        [DataMember]
+        public string ExecutableArguments { get; set; } = "";
+
         public void Display(string output)
         {
             foreach (var item in Displayables)
@@ -31,14 +34,14 @@ namespace James.Workflows.Actions
             }
         }
 
-        public override void Run()
+        public override void Run(string output = "")
         {
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = ExecutablePath,
-                    Arguments = "",
+                    Arguments = ExecutableArguments + output,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true

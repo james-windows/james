@@ -30,7 +30,7 @@ namespace James.Workflows.Triggers
             TriggerRunables();
         }
 
-        public override void Run()
+        public override void Run(string argument = "")
         {
             if (_timer == null)
             {

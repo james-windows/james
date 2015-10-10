@@ -26,7 +26,6 @@ namespace James.Workflows
         [DataMember(Order = 4)]
         public string IconPath { get; set; }
 
-        [DataMember(Order = 1)]
         public string Title { get; set; }
 
         [DataMember(Order = 2)]

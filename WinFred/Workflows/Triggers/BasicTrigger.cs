@@ -19,12 +19,12 @@ namespace James.Workflows.Triggers
         [DataMember]
         public List<RunnableWorkflowComponent> Runnables { get; set; } = new List<RunnableWorkflowComponent>();
 
-        public void TriggerRunables()
+        public void TriggerRunables(string arguments = "")
         {
             Console.WriteLine($"{ParentWorkflow.Title} - Event got triggerd");
             foreach (var item in Runnables)
             {
-                item.Run();
+                item.Run(arguments);
             }
         }
     }

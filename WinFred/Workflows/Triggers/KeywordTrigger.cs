@@ -16,7 +16,7 @@ namespace James.Workflows.Triggers
         [DataMember]
         public string Keyword { get; set; }
 
-        public override void Run()
+        public override void Run(string argument = "")
         {
             TriggerRunables();
         }

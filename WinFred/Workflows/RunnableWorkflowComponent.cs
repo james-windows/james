@@ -15,6 +15,6 @@ namespace James.Workflows
         {
         }
 
-        public abstract void Run();
+        public abstract void Run(string argument = "");
     }
 }

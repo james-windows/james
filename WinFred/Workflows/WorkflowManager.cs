@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using James.HelperClasses;
 using James.UserControls;
+using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 
 namespace James.Workflows
@@ -13,21 +15,11 @@ namespace James.Workflows
 
         private WorkflowManager()
         {
-            //Workflow tmp = new Workflow("Timer") {Author = "Michael Moser", Subtitle = "Zeigt die aktuelle Uhrzeit an..."};
-            //tmp.Outputs.Add(new LargeTypeOutput());
-            //tmp.Actions.Add(new BasicAction($@"{Config.GetInstance().ConfigFolderLocation}\workflows\{tmp.Title}\timer.exe") {ParentWorkflow = tmp});
-            //tmp.Actions.First().Displayables.Add(tmp.Outputs.First());
-            //KeywordTrigger keywordTriggers = new KeywordTrigger(tmp) {Keyword = "time"};
-            //IntervalTrigger intervalTrigger = new IntervalTrigger(tmp) {Interval = 1000};
-            //tmp.Triggers.Add(keywordTriggers);
-            //keywordTriggers.Runnables.Add(intervalTrigger);
-            //tmp.Triggers.Add(intervalTrigger);
-            //intervalTrigger.Runnables.Add(tmp.Actions.First());
-            //Workflows.Add(tmp);
-
-            Workflows.Add(
-                GeneralHelper.DeserializeWorkflow(
-                    $@"{Config.GetInstance().ConfigFolderLocation}\workflows\Timer\config.xml"));
+            foreach (string path in Directory.GetDirectories(Config.GetInstance().ConfigFolderLocation + "\\workflows"))
+            {
+                Workflows.Add(GeneralHelper.DeserializeWorkflow(path + "\\config.xml"));
+                Workflows.Last().Title = path.Split('\\').Last();
+            }
 
             foreach (var workflow in Workflows)
             {
@@ -50,14 +42,15 @@ namespace James.Workflows
         public IEnumerable<SearchResult> GetKeywordTriggers(string input)
         {
             return
-                KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input))
+                KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input.Split(' ')[0]))
                     .Select(
                         trigger =>
                             new SearchResult
                             {
                                 Path = trigger.ParentWorkflow.Subtitle,
                                 Filename = trigger.ParentWorkflow.Title,
-                                WorkflowTrigger = trigger
+                                WorkflowTrigger = trigger,
+                                WorkflowArguments = input.Replace(input.Split(' ')[0], "").Trim()
                             });
         }
 

@@ -221,6 +221,7 @@
     <Compile Include="Workflows\Interfaces\ISurviveable.cs" />
     <Compile Include="Workflows\Outputs\BasicOutput.cs" />
     <Compile Include="Workflows\Outputs\LargeTypeOutput.cs" />
+    <Compile Include="Workflows\Outputs\NotificationOutput.cs" />
     <Compile Include="Workflows\Outputs\SearchResultOutput.cs" />
     <Compile Include="Workflows\RunnableWorkflowComponent.cs" />
     <Compile Include="Workflows\Triggers\BasicTrigger.cs" />
