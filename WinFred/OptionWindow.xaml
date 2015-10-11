@@ -8,8 +8,7 @@
                       BorderThickness="0" GlowBrush="Black" Closing="MetroWindow_Closing" Icon="Resources/logo2.png">
     <Grid>
         <TabControl>
-            <TabItem>
-                <TabItem.Header>General</TabItem.Header>
+            <TabItem Header="General">
                 <Grid>
                     <optionControls:GeneralUserControl />
                 </Grid>
