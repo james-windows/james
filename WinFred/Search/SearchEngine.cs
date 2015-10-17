@@ -20,7 +20,7 @@ namespace James.Search
         private SearchEngine()
         {
             _searchEngineWrapper =
-                new SearchEngineWrapper.SearchEngineWrapper(Config.GetInstance().ConfigFolderLocation + "\\files.txt");
+                new SearchEngineWrapper.SearchEngineWrapper(Config.Instance.ConfigFolderLocation + "\\files.txt");
             timer = new Timer(1000*60*5)
             {
                 AutoReset = true,
@@ -56,7 +56,7 @@ namespace James.Search
         private static List<SearchResult> GetFilesToBeIndexed()
         {
             var data = new List<SearchResult>();
-            Parallel.ForEach(Config.GetInstance().Paths.Where(path => path.IsEnabled),
+            Parallel.ForEach(Config.Instance.Paths.Where(path => path.IsEnabled),
                 currentPath => { data.AddRange(currentPath.GetItemsToBeIndexed()); });
             return data;
         }
@@ -96,7 +96,7 @@ namespace James.Search
 
         public List<SearchResult> Query(string search)
         {
-            if (search.Length < Config.GetInstance().StartSearchMinTextLength)
+            if (search.Length < Config.Instance.StartSearchMinTextLength)
             {
                 return new List<SearchResult>();
             }

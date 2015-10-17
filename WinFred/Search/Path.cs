@@ -65,7 +65,10 @@ namespace James.Search
                 data.AddRange(GetItemsInCurrentScope(Location + currentPath));
                 foreach (var directory in Directory.GetDirectories(Location + currentPath))
                 {
-                    data.AddRange(GetItemsToBeIndexed(directory.Replace(Location, "")));
+                    if (Config.Instance.ExcludedFolders.Count(s => directory.Contains("\\"+ s)) == 0)
+                    {
+                        data.AddRange(GetItemsToBeIndexed(directory.Replace(Location, "")));
+                    }
                 }
             }
             catch (UnauthorizedAccessException)
@@ -76,7 +79,7 @@ namespace James.Search
                 data.Add(new SearchResult
                 {
                     Path = Location + currentPath,
-                    Priority = Config.GetInstance().DefaultFolderPriority + Priority
+                    Priority = Config.Instance.DefaultFolderPriority + Priority
                 });
             }
             return data;
@@ -105,7 +108,7 @@ namespace James.Search
 
         public int GetFilePriority(string filePath)
         {
-            var priority = CalculatePriorityByFileExtensions(filePath, Config.GetInstance().DefaultFileExtensions);
+            var priority = CalculatePriorityByFileExtensions(filePath, Config.Instance.DefaultFileExtensions);
             if (priority == -1)
             {
                 return -1;

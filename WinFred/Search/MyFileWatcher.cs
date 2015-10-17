@@ -13,7 +13,7 @@ namespace James.Search
 
         private MyFileWatcher()
         {
-            _paths = Config.GetInstance().Paths.ToArray();
+            _paths = Config.Instance.Paths.ToArray();
             var fileSystemWatchers = new LinkedList<FileSystemWatcher>();
             foreach (var path in _paths)
             {

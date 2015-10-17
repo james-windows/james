@@ -3,8 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d">
-    <Grid>
-        <Label Content="Settings for chaning the style of the search" />
+             xmlns:helperClasses="clr-namespace:James.HelperClasses"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" Loaded="UserControl_Loaded">
+    <Grid helperClasses:GridHelper.ColumnDefinition="*|*">
+        <GroupBox Header="Basic Appearance Settings">
+            <StackPanel Style="{StaticResource GridSettingStyle}">
+                <Grid helperClasses:GridHelper.ColumnDefinition="2*|1*">
+                    <TextBlock>
+                            <Run Text="Window Accent Color" />
+                    </TextBlock>
+                    <ComboBox x:Name="AccentColorComboBox" Text="{Binding Path=WindowAccentColor}" />
+                </Grid>
+                <Grid helperClasses:GridHelper.ColumnDefinition="2*|1*">
+                    <TextBlock>
+                            <Run Text="BaseColor:" />
+                    </TextBlock>
+                    <controls:ToggleSwitch IsChecked="{Binding Path=IsBaseLight}" OnLabel="light" OffLabel="dark" />
+                </Grid>
+                <Grid helperClasses:GridHelper.ColumnDefinition="2*|1*">
+                    <TextBlock>
+                            <Run Text="Display file icons:" />
+                    </TextBlock>
+                    <controls:ToggleSwitch IsChecked="{Binding Path=DisplayFileIcons}" />
+                </Grid>
+                <Grid helperClasses:GridHelper.ColumnDefinition="2*|1*">
+                    <TextBlock>
+                            <Run Text="LargType opacity:" />
+                    </TextBlock>
+                    <Grid helperClasses:GridHelper.ColumnDefinition="*|30" Grid.Column="1">
+                        <Slider Value="{Binding Path=LargeTypeOpacity}" Maximum="1" Minimum="0.1" LargeChange="0.1"
+                                    TickFrequency="0.05" IsSnapToTickEnabled="True" Style="{DynamicResource FlatSlider}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Path=LargeTypeOpacity}" Padding="5,0,0,0" />
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </UserControl>

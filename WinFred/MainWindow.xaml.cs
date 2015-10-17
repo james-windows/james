@@ -33,8 +33,8 @@ namespace James
             }
             InitializeComponent();
             new HotKey(Key.Space, KeyModifier.Alt, OnHotKeyHandler);
-            LargeType.GetInstance().Deactivated += LargeType_Deactivated;
-            LargeType.GetInstance().Activated += LargeType_Activated;
+            LargeType.Instance.Deactivated += LargeType_Deactivated;
+            LargeType.Instance.Activated += LargeType_Activated;
         }
 
         private void LargeType_Activated(object sender, EventArgs e)
@@ -44,7 +44,7 @@ namespace James
 
         private void LargeType_Deactivated(object sender, EventArgs e)
         {
-            WorkflowManager.GetInstance().CancelWorkflows();
+            WorkflowManager.Instance.CancelWorkflows();
             if (!Keyboard.IsKeyDown(Key.Escape) && !Keyboard.IsKeyDown(Key.L) && !Keyboard.IsKeyDown(Key.LeftAlt))
             {
                 HideWindow();
@@ -74,7 +74,7 @@ namespace James
 
         private void HideWindow()
         {
-            LargeType.GetInstance().Hide();
+            LargeType.Instance.Hide();
             SearchTextBox.Text = "";
             Hide();
         }
@@ -92,6 +92,7 @@ namespace James
                     searchResultControl.MoveUp();
                     break;
                 case Key.Enter:
+                    WorkflowManager.Instance.CancelWorkflows();
                     searchResultControl.Open(e);
                     break;
                 case Key.Escape:
@@ -114,7 +115,7 @@ namespace James
         public void DisplayLargeType(string message)
         {
             _showLargeType = true;
-            LargeType.GetInstance().DisplayMessage(message);
+            LargeType.Instance.DisplayMessage(message);
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)

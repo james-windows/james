@@ -16,13 +16,11 @@ namespace James.UserControls
         public GeneralUserControl()
         {
             InitializeComponent();
-            DataContext = Config.GetInstance();
-            AccentColorComboBox.ItemsSource = Enum.GetNames(typeof (AccentColorTypes));
         }
 
         private async void UninstallProgram(object sender, RoutedEventArgs e)
         {
-            var manager = new UpdateManager(Config.GetInstance().ReleaseUrl);
+            var manager = new UpdateManager(Config.Instance.ReleaseUrl);
             await manager.FullUninstall();
             Environment.Exit(0);
         }
@@ -47,14 +45,19 @@ namespace James.UserControls
                         MessageDialogStyle.AffirmativeAndNegative, setting);
             if (MessageDialogResult.Affirmative == result)
             {
-                Config.GetInstance().ResetConfig();
-                DataContext = Config.GetInstance();
+                Config.Instance.ResetConfig();
+                DataContext = Config.Instance;
             }
         }
 
         private void LaunchWelcomeWindow(object sender, RoutedEventArgs e)
         {
             new WelcomeWindow(false).Show();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataContext = Config.Instance;
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
+using James.Annotations;
 using James.HelperClasses;
 using James.Search;
 using Microsoft.Win32;
@@ -18,6 +21,7 @@ namespace James
             Paths = new ObservableCollection<Path>();
             DefaultFileExtensions = new List<FileExtension>();
             Workflows = new ObservableCollection<Workflow>();
+            ExcludedFolders = new ObservableCollection<string>();
         }
 
         public static void LoadDefaultFileExtensions()
@@ -46,54 +50,57 @@ namespace James
                 new FileExtension("xmcd", 39),
                 new FileExtension("mcdx", 40)
             };
-            config.DefaultFileExtensions.AddRange(tmp);
-            config.DefaultFileExtensions.Sort();
+            _config.DefaultFileExtensions.AddRange(tmp);
+            _config.DefaultFileExtensions.Sort();
         }
 
         #region singleton
 
-        public static Config config; //todo test if private is possible
+        private static Config _config; //todo test if private is possible
         private static readonly object SingeltonLock = new object();
 
-        public static Config GetInstance()
+        public static Config Instance
         {
-            lock (SingeltonLock)
-            {
-                if (config == null)
+            get
+            { 
+                lock (SingeltonLock)
                 {
-                    try
+                    if (_config == null)
                     {
-                        var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
-                        Directory.CreateDirectory(path);
-                        config = GeneralHelper.Deserialize<Config>(path + "\\config.xml");
+                        try
+                        {
+                            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+                            Directory.CreateDirectory(path);
+                            _config = GeneralHelper.Deserialize<Config>(path + "\\config.xml");
+                        }
+                        catch (Exception)
+                        {
+                            InitConfig();
+                        }
                     }
-                    catch (Exception)
-                    {
-                        InitConfig();
-                    }
+                    return _config;
                 }
-                return config;
             }
         }
 
         private static void InitConfig()
         {
-            config = new Config();
-            config.Paths.Add(new Path {Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)});
+            _config = new Config();
+            _config.Paths.Add(new Path {Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)});
             LoadDefaultFileExtensions();
-            config.Persist();
+            _config.Persist();
         }
 
         public void Persist()
         {
-            lock (config)
+            lock (_config)
             {
                 DefaultFileExtensions.Sort();
                 foreach (var item in Paths)
                 {
                     item.FileExtensions.Sort();
                 }
-                File.WriteAllText(config.ConfigFolderLocation + "\\config.xml", config.Serialize());
+                File.WriteAllText(_config.ConfigFolderLocation + "\\config.xml", _config.Serialize());
             }
         }
 
@@ -115,6 +122,7 @@ namespace James
         public ObservableCollection<Path> Paths { get; set; }
         public List<FileExtension> DefaultFileExtensions { get; set; }
         public ObservableCollection<Workflow> Workflows { get; set; }
+        public ObservableCollection<string> ExcludedFolders { get; set; }
 
         public string ConfigFolderLocation { get; set; } =
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
@@ -123,7 +131,9 @@ namespace James
 
         public int DefaultFolderPriority { get; set; } = 80;
         public int MaxSearchResults { get; set; } = 8;
+
         public int StartSearchMinTextLength { get; set; } = 1;
+
         public double LargeTypeOpacity { get; set; } = 0.75;
 
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;

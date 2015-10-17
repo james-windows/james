@@ -7,24 +7,25 @@ namespace James.Workflows.Outputs
     [DataContract]
     public class LargeTypeOutput : BasicOutput, ISurviveable
     {
-        private bool firstRun { get; set; } = true;
+        private bool FirstRun { get; set; } = true;
         public override void Display(string output)
         {
-            if (firstRun)
+            if (FirstRun)
             {
-                firstRun = false;
+                FirstRun = false;
                 MainWindow.GetInstance().DisplayLargeType(output);
             }
             else
             {
-                LargeType.GetInstance().ChangeMessage(output);
+                LargeType.Instance.ChangeMessage(output);
             }
         }
 
+        public override string GetSummary() => $"Displays the response in LargeType";
+
         public void Cancel()
         {
-            //LargeType.GetInstance().Window_KeyDown(this, null);
-            firstRun = true;
+            FirstRun = true;
         }
     }
 }

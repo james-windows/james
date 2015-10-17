@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="James.WorkflowEditor.WorkflowComponentUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:James.WorkflowEditor"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="100">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Edit" Click="EditComponent"/>
+            <MenuItem Header="Remove" Click="RemoveComponent"/>
+            <Separator/>
+            <MenuItem Header="Open Workflow Folder" Click="OpenWorkflowFolder"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <Grid x:Name="grid" Height="50" Width="100">
+            <Ellipse x:Name="rightAnchor" Width="10" Height="10" Fill="White" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Ellipse x:Name="leftAnchor" Width="10" Height="10" Fill="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Grid Background="LightGray" HorizontalAlignment="Center" Width="90">
+                <StackPanel VerticalAlignment="Center" MaxWidth="90">
+                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontSize="9" Foreground="#FF333333"/>
+                    <TextBlock Text="{Binding Summary}" HorizontalAlignment="Center" FontSize="7" Foreground="#FF777777" TextWrapping="Wrap" TextAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+</UserControl>

@@ -17,7 +17,7 @@ namespace James
             InitializeComponent();
             Width = SystemParameters.PrimaryScreenWidth;
             Height = SystemParameters.PrimaryScreenHeight;
-            DataContext = Config.GetInstance();
+            DataContext = Config.Instance;
             KeyUp += LargeType_KeyUp;
         }
 
@@ -29,14 +29,17 @@ namespace James
         public string Message
         {
             get { return TextBlock.Text; }
-            private set{ TextBlock.Text = value; }
+            private set { TextBlock.Text = value; }
         }
 
-        public static LargeType GetInstance()
+        public static LargeType Instance
         {
-            lock (SingeltonLock)
-            {
-                return _largeType ?? (_largeType = new LargeType());
+            get
+            { 
+                lock (SingeltonLock)
+                {
+                    return _largeType ?? (_largeType = new LargeType());
+                }
             }
         }
 

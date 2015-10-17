@@ -17,8 +17,11 @@ namespace James.Workflows.Triggers
         {
         }
 
+        public override string GetSummary() => $"Triggers every {Interval} ms";
+
         [DataMember]
-        public int Interval { get; set; }
+        [ComponentField("Sets the interval between every tick [ms]")]
+        public int Interval { get; set; } = 5000;
 
         public void Cancel()
         {

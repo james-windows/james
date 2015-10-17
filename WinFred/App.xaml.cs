@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using James.Search;
 using Microsoft.Win32.TaskScheduler;
@@ -16,18 +17,34 @@ namespace James
         private static void SetStyleAccents()
         {
             var accentColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/" +
-                              Config.GetInstance().WindowAccentColor + ".xaml";
+                              Config.Instance.WindowAccentColor + ".xaml";
             (((App) Current).Resources).MergedDictionaries[5].Source = new Uri(accentColor);
-            var baseColor = Config.GetInstance().IsBaseLight ? "BaseLight" : "BaseDark";
+            var baseColor = Config.Instance.IsBaseLight ? "BaseLight" : "BaseDark";
             baseColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/" + baseColor + ".xaml";
             (((App) Current).Resources).MergedDictionaries[4].Source = new Uri(baseColor);
         }
 
+        private static Mutex mutex;
+        [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
-            Config.GetInstance().WindowChangedAccentColor += App_WindowChangedAccentColor;
+            bool createdNew = true;
+            mutex = new Mutex(true, "James", out createdNew);
+            if (createdNew)
+            {
+                StartProgram();
+                base.OnStartup(e);
+            }
+            else
+            {
+                Environment.Exit(1);
+            }
+        }
+
+        private void StartProgram()
+        {
+            Config.Instance.WindowChangedAccentColor += App_WindowChangedAccentColor;
             SetStyleAccents();
-            base.OnStartup(e);
             SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
             SearchEngine.GetInstance();
             if (_showTheWelcomeWizard)
@@ -37,7 +54,7 @@ namespace James
             else
             {
                 James.MainWindow.GetInstance().Show();
-                //MyFileWatcher.GetInstance();
+                //MyFileWatcher.Instance();
             }
         }
 
@@ -47,7 +64,7 @@ namespace James
             {
                 ts.RootFolder.DeleteTask("James");
             }
-            using (var updateManager = new UpdateManager(Config.GetInstance().ReleaseUrl))
+            using (var updateManager = new UpdateManager(Config.Instance.ReleaseUrl))
             {
                 updateManager.RemoveShortcutsForExecutable("James.exe", ShortcutLocation.Desktop);
                 updateManager.RemoveShortcutsForExecutable("James.exe", ShortcutLocation.StartMenu);
@@ -61,8 +78,8 @@ namespace James
                 var td = ts.NewTask();
                 td.RegistrationInfo.Description = "Calls the updater for James once a day";
                 td.Triggers.Add(new DailyTrigger {DaysInterval = 1});
-                td.Actions.Add(new ExecAction(Config.GetInstance().ConfigFolderLocation + "\\Update.exe",
-                    "--update " + Config.GetInstance().ReleaseUrl, null));
+                td.Actions.Add(new ExecAction(Config.Instance.ConfigFolderLocation + "\\Update.exe",
+                    "--update " + Config.Instance.ReleaseUrl, null));
                 ts.RootFolder.RegisterTaskDefinition(@"James", td);
             }
         }
@@ -70,7 +87,7 @@ namespace James
         private static void OnFirstRun()
         {
             _showTheWelcomeWizard = true;
-            using (var updateManager = new UpdateManager(Config.GetInstance().ReleaseUrl))
+            using (var updateManager = new UpdateManager(Config.Instance.ReleaseUrl))
             {
                 updateManager.CreateShortcutsForExecutable("James.exe", ShortcutLocation.Desktop, true);
                 updateManager.CreateShortcutsForExecutable("James.exe", ShortcutLocation.StartMenu, true);

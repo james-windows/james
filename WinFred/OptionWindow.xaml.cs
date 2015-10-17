@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Threading;
 using System.Windows;
+using James.Workflows;
 using MahApps.Metro.Controls;
 
 namespace James
@@ -18,7 +19,7 @@ namespace James
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
-            Config.GetInstance().Persist();
+            Config.Instance.Persist();
         }
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)

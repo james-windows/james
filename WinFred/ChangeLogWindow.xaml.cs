@@ -32,7 +32,7 @@ namespace James
         {
             using (var webClient = new WebClient())
             {
-                return await webClient.DownloadStringTaskAsync(Config.GetInstance().ReleaseUrl + @"/changelog.txt");
+                return await webClient.DownloadStringTaskAsync(Config.Instance.ReleaseUrl + @"/changelog.txt");
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using James.HelperClasses;
@@ -15,7 +16,7 @@ namespace James.Workflows
 
         private WorkflowManager()
         {
-            foreach (string path in Directory.GetDirectories(Config.GetInstance().ConfigFolderLocation + "\\workflows"))
+            foreach (string path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
             {
                 Workflows.Add(GeneralHelper.DeserializeWorkflow(path + "\\config.xml"));
                 Workflows.Last().Title = path.Split('\\').Last();
@@ -28,14 +29,17 @@ namespace James.Workflows
             //PersistWorkflows();
         }
 
-        public List<Workflow> Workflows { get; set; } = new List<Workflow>();
+        public ObservableCollection<Workflow> Workflows { get; set; } = new ObservableCollection<Workflow>();
         public List<KeywordTrigger> KeywordTriggers { get; set; } = new List<KeywordTrigger>();
 
-        public static WorkflowManager GetInstance()
+        public static WorkflowManager Instance
         {
-            lock (SingeltonLock)
+            get
             {
-                return _workflowManager ?? (_workflowManager = new WorkflowManager());
+                lock (SingeltonLock)
+                {
+                    return _workflowManager ?? (_workflowManager = new WorkflowManager());
+                }
             }
         }
 
@@ -54,8 +58,14 @@ namespace James.Workflows
                             });
         }
 
-        public void PersistWorkflows() => Workflows.ForEach(workflow => workflow.Persist());
+        public void PersistWorkflows() => Workflows.ToList().ForEach(workflow => workflow.Persist());
 
-        public void CancelWorkflows() => Workflows.ForEach(workflow => workflow.Cancel());
+        public void CancelWorkflows() => Workflows.ToList().ForEach(workflow => workflow.Cancel());
+
+        public void Remove(Workflow item)
+        {
+            item.Remove();
+            Workflows.Remove(item);
+        }
     }
 }

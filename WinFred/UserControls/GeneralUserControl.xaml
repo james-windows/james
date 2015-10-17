@@ -5,26 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              xmlns:helper="clr-namespace:James.HelperClasses"
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
-    <Grid helper:GridHelper.ColumnDefinition="*|*">
-        <GroupBox Header="General Settings" Grid.Column="0">
-            <StackPanel>
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type Grid}">
-                        <Setter Property="Height" Value="Auto" />
-                        <Style.Resources>
-                            <Style TargetType="controls:ToggleSwitch">
-                                <Setter Property="Grid.Column" Value="1" />
-                            </Style>
-                            <Style TargetType="controls:NumericUpDown">
-                                <Setter Property="Grid.Column" Value="1" />
-                            </Style>
-                            <Style TargetType="ComboBox" BasedOn="{StaticResource MetroComboBox}">
-                                <Setter Property="Grid.Column" Value="1" />
-                            </Style>
-                        </Style.Resources>
-                    </Style>
-                </StackPanel.Resources>
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" Loaded="UserControl_Loaded">
+    <Grid helper:GridHelper.ColumnDefinition="*|*" helper:GridHelper.RowDefinition="*|a|a">
+        <GroupBox Header="General Settings">
+            <StackPanel Style="{StaticResource GridSettingStyle}">
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock>
                         <Run Text="Start with windows:" />
@@ -35,68 +19,43 @@
                     <TextBlock>
                         <Run Text="Count for displayed search results" />
                     </TextBlock>
-                    <controls:NumericUpDown Value="{Binding Path=MaxSearchResults, UpdateSourceTrigger=LostFocus}" />
+                    <controls:NumericUpDown Value="{Binding MaxSearchResults}" Minimum="1" Maximum="20"/>
                 </Grid>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock>
                         <Run Text="Limit to start with searching" />
                     </TextBlock>
                     <controls:NumericUpDown
-                        Value="{Binding Path=StartSearchMinTextLength, UpdateSourceTrigger=LostFocus}" />
-                </Grid>
-                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock>
-                        <Run Text="Window Accent Color" />
-                    </TextBlock>
-                    <ComboBox x:Name="AccentColorComboBox" Text="{Binding Path=WindowAccentColor}" />
-                </Grid>
-                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock>
-                        <Run Text="BaseColor:" />
-                    </TextBlock>
-                    <controls:ToggleSwitch IsChecked="{Binding Path=IsBaseLight}" OnLabel="light" OffLabel="dark" />
-                </Grid>
-                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock>
-                        <Run Text="Display file icons:" />
-                    </TextBlock>
-                    <controls:ToggleSwitch IsChecked="{Binding Path=DisplayFileIcons}" />
-                </Grid>
-                <Grid helper:GridHelper.ColumnDefinition="2*|1*">
-                    <TextBlock>
-                        <Run Text="LargType opacity:" />
-                    </TextBlock>
-                    <Grid helper:GridHelper.ColumnDefinition="*|30" Grid.Column="1">
-                        <Slider Value="{Binding Path=LargeTypeOpacity}" Maximum="1" Minimum="0.1" LargeChange="0.1"
-                                TickFrequency="0.05" IsSnapToTickEnabled="True" Style="{DynamicResource FlatSlider}" />
-                        <TextBlock Grid.Column="1" Text="{Binding Path=LargeTypeOpacity}" Padding="5,0,0,0" />
-                    </Grid>
+                        Value="{Binding Path=StartSearchMinTextLength, ValidatesOnExceptions=True}" Minimum="1"/>
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <StackPanel Grid.Column="1">
-            <GroupBox Header="Import / Export">
-                <WrapPanel>
-                    <Button Content="Export Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False"
-                            Width="175" Margin="2" />
-                    <Button Content="Import Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False"
-                            Width="175" Margin="2" />
-                    <Button Content="Reset Config" Style="{DynamicResource SquareButtonStyle}" Width="175" Margin="2"
-                            Click="ResetConfig" />
-                </WrapPanel>
-            </GroupBox>
-            <GroupBox Header="Program">
-                <WrapPanel>
-                    <Button Content="Uninstall Program" Style="{DynamicResource SquareButtonStyle}"
-                            Click="UninstallProgram" Width="175" Margin="2" />
-                    <Button Content="Launch WelcomeWindow" Style="{DynamicResource SquareButtonStyle}"
-                            Click="LaunchWelcomeWindow" Width="175" Margin="2" />
-                    <Button Content="Check for Updates" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False"
-                            Width="175" Margin="2" />
-                    <Button Content="Close Program" Style="{DynamicResource SquareButtonStyle}" Click="CloseProgram"
-                            Width="175" Margin="2" />
-                </WrapPanel>
-            </GroupBox>
+        <GroupBox Header="Import / Export" Grid.Row="1">
+            <WrapPanel>
+                <Button Content="Export Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False"
+                        Width="175" Margin="2" />
+                <Button Content="Import Config" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False"
+                        Width="175" Margin="2" />
+                <Button Content="Reset Config" Style="{DynamicResource SquareButtonStyle}" Width="175" Margin="2"
+                        Click="ResetConfig" />
+            </WrapPanel>
+        </GroupBox>
+        <GroupBox Header="Program" Grid.Row="2">
+            <WrapPanel>
+                <Button Content="Uninstall Program" Style="{DynamicResource SquareButtonStyle}"
+                        Click="UninstallProgram" Width="175" Margin="2" />
+                <Button Content="Launch WelcomeWindow" Style="{DynamicResource SquareButtonStyle}"
+                        Click="LaunchWelcomeWindow" Width="175" Margin="2" />
+                <Button Content="Check for Updates" Style="{DynamicResource SquareButtonStyle}" IsEnabled="False"
+                        Width="175" Margin="2" />
+                <Button Content="Close Program" Style="{DynamicResource SquareButtonStyle}" Click="CloseProgram"
+                        Width="175" Margin="2" />
+            </WrapPanel>
+        </GroupBox>
+        <StackPanel Grid.Column="1" Grid.RowSpan="3">
+            <TextBlock FontSize="24" TextAlignment="Center" Margin="0,20,0,10" >James Settings</TextBlock>
+            <Image Source="../Resources/logo.png" Width="200" Margin="75,0,20,0" />
+            <TextBlock Foreground="#ffaaaaaa" FontSize="12" TextWrapping="Wrap" Margin="0,30,0,0" >Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy, sed diam voluptua. At vero eos et rebum. Stet clita kasd gubergren, no sea tum dolor sit amet. Lm dolor sit amet, consetetur sadipscing elitr, sed dia erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>

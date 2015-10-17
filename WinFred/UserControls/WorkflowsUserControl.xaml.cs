@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
-using James.Search;
+using James.Workflows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Workflow = James.Workflows.Workflow;
 
 namespace James.UserControls
 {
@@ -14,7 +16,7 @@ namespace James.UserControls
         public WorkflowsUserControl()
         {
             InitializeComponent();
-            DataContext = Config.GetInstance();
+            DataContext = WorkflowManager.Instance;
         }
 
         private void ChangeStatusMenuItem_Click(object sender, RoutedEventArgs e)
@@ -22,7 +24,7 @@ namespace James.UserControls
             ((Workflow) WorkflowListBox.SelectedItem).IsEnabled = !((Workflow) WorkflowListBox.SelectedItem).IsEnabled;
         }
 
-        private async void DeletePathMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void DeleteWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
             var setting = new MetroDialogSettings
@@ -36,21 +38,19 @@ namespace James.UserControls
                         MessageDialogStyle.AffirmativeAndNegative, setting);
             if (MessageDialogResult.Affirmative == result)
             {
-                Config.GetInstance().Workflows.Remove(((Workflow) WorkflowListBox.SelectedItem));
+                WorkflowManager.Instance.Remove((Workflow) WorkflowListBox.SelectedItem);
             }
         }
 
         private async void AddWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
-            var name =
-                await
-                    parentWindow.ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
+            var name = await parentWindow.ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
             if (name != null)
             {
-                var wf = new Workflow {Name = name, IsEnabled = false};
-                Config.GetInstance().Workflows.Add(wf);
-                WorkflowListBox.SelectedIndex = Config.GetInstance().Workflows.Count - 1;
+                var wf = new Workflow(name) {IsEnabled = true};
+                WorkflowManager.Instance.Workflows.Add(wf);
+                WorkflowListBox.SelectedIndex = WorkflowManager.Instance.Workflows.Count - 1;
             }
         }
     }

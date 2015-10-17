@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:helper="clr-namespace:James.HelperClasses"
+             xmlns:workflowEditor="clr-namespace:James.WorkflowEditor"
              mc:Ignorable="d">
-    <Grid helper:GridHelper.ColumnDefinition="*|*">
+    <Grid helper:GridHelper.ColumnDefinition="200|*">
         <!--#region Block for the Workflows list -->
         <GroupBox Header="Workflows">
             <Grid helper:GridHelper.RowDefinition="*|a">
-                <ListBox x:Name="WorkflowListBox" Margin="20" HorizontalContentAlignment="Stretch"
+                <ListBox x:Name="WorkflowListBox" HorizontalContentAlignment="Stretch"
                          ItemsSource="{Binding Workflows, IsAsync=True}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -30,7 +31,7 @@
                                                 </Style>
                                             </MenuItem.Style>
                                         </MenuItem>
-                                        <MenuItem x:Name="DeletePathMenuItem" Click="DeletePathMenuItem_Click">
+                                        <MenuItem x:Name="DeletePathMenuItem" Click="DeleteWorkflowButton_Click">
                                             <MenuItem.Style>
                                                 <Style TargetType="{x:Type MenuItem}">
                                                     <Setter Property="Header" Value="Delete" />
@@ -40,7 +41,7 @@
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                                 <!--#endregion-->
-                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch"
+                                <TextBlock Text="{Binding Title}" HorizontalAlignment="Stretch"
                                            ContextMenuService.ShowOnDisabled="True">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
@@ -56,86 +57,20 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Grid Grid.Row="1" helper:GridHelper.ColumnDefinition="*|*">
+                <Grid Grid.Row="1" helper:GridHelper.RowDefinition="a|a">
                     <Button x:Name="AddWorkflowButton" Content="Add Workflow"
                             Style="{DynamicResource SquareButtonStyle}" Click="AddWorkflowButton_Click" />
-                    <Button x:Name="RemoveWorkflowButton" Grid.Column="1" Content="Remove Workflow"
+                    <Button x:Name="RemoveWorkflowButton" Grid.Row="1" Content="Remove Workflow"
                             Style="{DynamicResource SquareButtonStyle}"
                             IsEnabled="{Binding SelectedItems.Count, ElementName=WorkflowListBox}"
-                            Click="DeletePathMenuItem_Click" />
+                            Click="DeleteWorkflowButton_Click" />
                 </Grid>
             </Grid>
         </GroupBox>
         <!--#endregion-->
         <!--#region Block for the Detail view-->
         <Grid Grid.Column="1">
-            <Grid.Style>
-                <Style TargetType="{x:Type Grid}">
-                    <Setter Property="Visibility" Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=WorkflowListBox}" Value="-1">
-                            <Setter Property="Visibility" Value="Hidden" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-            <GroupBox Header="{Binding SelectedValue.Name, ElementName=WorkflowListBox}"
-                      VerticalContentAlignment="Stretch">
-                <StackPanel>
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type Grid}">
-                            <Setter Property="Height" Value="Auto" />
-                            <Style.Resources>
-                                <Style TargetType="controls:ToggleSwitch">
-                                    <Setter Property="Grid.Column" Value="1" />
-                                </Style>
-                                <Style TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
-                                    <Setter Property="Grid.Column" Value="1" />
-                                </Style>
-                            </Style.Resources>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>
-                            <Run Text="Name:" />
-                        </TextBlock>
-                        <TextBox
-                            Text="{Binding SelectedItem.Name, ElementName=WorkflowListBox, UpdateSourceTrigger=PropertyChanged}" />
-                    </Grid>
-                    <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>
-                            <Run Text="is enabled:" />
-                        </TextBlock>
-                        <controls:ToggleSwitch
-                            IsChecked="{Binding SelectedItem.IsEnabled, ElementName=WorkflowListBox}" />
-                    </Grid>
-                    <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>
-                            <Run Text="program name:" />
-                        </TextBlock>
-                        <TextBox Text="{Binding SelectedItem.ProgramName, ElementName=WorkflowListBox}" />
-                    </Grid>
-                    <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>
-                            <Run Text="arguments:" />
-                        </TextBlock>
-                        <TextBox Text="{Binding SelectedItem.Arguments, ElementName=WorkflowListBox}" />
-                    </Grid>
-                    <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>
-                            <Run Text="keyword:" />
-                        </TextBlock>
-                        <TextBox Text="{Binding SelectedItem.Keyword, ElementName=WorkflowListBox}" />
-                    </Grid>
-                    <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>
-                            <Run Text="Show Process Window:" />
-                        </TextBlock>
-                        <controls:ToggleSwitch
-                            IsChecked="{Binding SelectedItem.ShowProcessWindow, ElementName=WorkflowListBox}" />
-                    </Grid>
-                </StackPanel>
-            </GroupBox>
+            <workflowEditor:WorkflowEditorUserControl DataContext="{Binding ElementName=WorkflowListBox, Path=SelectedValue}" />
         </Grid>
         <!--#endregion-->
     </Grid>

@@ -100,6 +100,10 @@
       <HintPath>..\packages\DeltaCompressionDotNet.2.0.0.0-rc1\lib\net20\DeltaCompressionDotNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.1.0.0-ALPHA011\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\squirrel.windows.1.0.2\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
@@ -198,6 +202,19 @@
     <Compile Include="UserControls\UsageUserControl.xaml.cs">
       <DependentUpon>UsageUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WorkflowEditor\ComponentPropertyUserControl.xaml.cs">
+      <DependentUpon>ComponentPropertyUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowEditor\ComponentWindow.xaml.cs">
+      <DependentUpon>ComponentWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowEditor\CustomLine.cs" />
+    <Compile Include="WorkflowEditor\WorkflowComponentUserControl.xaml.cs">
+      <DependentUpon>WorkflowComponentUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowEditor\WorkflowEditorUserControl.xaml.cs">
+      <DependentUpon>WorkflowEditorUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\WorkflowsUserControl.xaml.cs">
       <DependentUpon>WorkflowsUserControl.xaml</DependentUpon>
     </Compile>
@@ -217,6 +234,7 @@
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workflows\Actions\BasicAction.cs" />
+    <Compile Include="Workflows\ComponentFieldAttribute.cs" />
     <Compile Include="Workflows\Interfaces\ICrossPlatform.cs" />
     <Compile Include="Workflows\Interfaces\ISurviveable.cs" />
     <Compile Include="Workflows\Outputs\BasicOutput.cs" />
@@ -275,6 +293,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\UsageUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WorkflowEditor\ComponentPropertyUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WorkflowEditor\ComponentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WorkflowEditor\WorkflowComponentUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WorkflowEditor\WorkflowEditorUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -344,7 +378,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\workflow-bg.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -20,7 +21,8 @@ namespace James.Workflows
         public Workflow(string title)
         {
             Title = title;
-            Directory.CreateDirectory(Config.GetInstance().ConfigFolderLocation + "\\workflows\\" + title);
+            Directory.CreateDirectory(Path);
+            Persist();
         }
 
         [DataMember(Order = 4)]
@@ -38,7 +40,7 @@ namespace James.Workflows
         public string Version { get; set; } = "0.1";
 
         [DataMember(Order = 6)]
-        public bool IsEnabled { get; set; }
+        public bool IsEnabled { get; set; } = true;
 
         [DataMember(Order = 7)]
         public List<BasicTrigger> Triggers { get; set; } = new List<BasicTrigger>();
@@ -49,6 +51,8 @@ namespace James.Workflows
         [DataMember(Order = 9)]
         public List<BasicOutput> Outputs { get; set; } = new List<BasicOutput>();
 
+        private string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Title;
+
         public void Cancel()
         {
             Triggers.OfType<ISurviveable>().ToList().ForEach(surviveable => surviveable.Cancel());
@@ -56,10 +60,65 @@ namespace James.Workflows
             Outputs.OfType<ISurviveable>().ToList().ForEach(surviveable => surviveable.Cancel());
         }
 
-        public void Persist()
+        public void Persist() => File.WriteAllText(Path + "\\config.xml", GeneralHelper.SerializeWorkflow(this));
+
+        public void AddComponent(WorkflowComponent instance)
         {
-            var path = Config.GetInstance().ConfigFolderLocation + "\\workflows\\" + Title + "\\config.xml";
-            File.WriteAllText(path, GeneralHelper.SerializeWorkflow(this));
+            var trigger = instance as BasicTrigger;
+            if (trigger != null)
+            {
+                trigger.ParentWorkflow = this;
+                Triggers.Add(trigger);
+            }
+            var action = instance as BasicAction;
+            if (action != null)
+            {
+                action.ParentWorkflow = this;
+                Actions.Add(action);
+            }
+            var output = instance as BasicOutput;
+            if (output != null)
+            {
+                output.ParentWorkflow = this;
+                Outputs.Add(output);
+            }
         }
+
+        public void RemoveComponent(WorkflowComponent component)
+        {
+            var basicTrigger = component as BasicTrigger;
+            if (basicTrigger != null)
+            {
+                foreach (var trigger in Triggers)
+                {
+                    trigger.Runnables.Remove(basicTrigger);
+                }
+                Triggers.Remove(basicTrigger);
+            }
+
+            var basicAction = component as BasicAction;
+            if (basicAction != null)
+            {
+                foreach (var trigger in Triggers)
+                {
+                    trigger.Runnables.Remove(basicAction);
+                }
+                Actions.Remove(basicAction);
+            }
+
+            var basicOutput = component as BasicOutput;
+            if (basicOutput != null)
+            {
+                foreach (var action in Actions)
+                {
+                    action.Displayables.Remove(basicOutput);
+                }
+                Outputs.Remove(basicOutput);
+            }
+        }
+
+        public void OpenFolder() => Process.Start(Path);
+
+        public void Remove() => Directory.Delete(Path, true);
     }
 }

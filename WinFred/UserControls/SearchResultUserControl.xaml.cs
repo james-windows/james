@@ -31,11 +31,6 @@ namespace James.UserControls
 
         public int FocusedIndex { get; private set; }
 
-        public MainWindow GetParentWindow()
-        {
-            return Dispatcher.Invoke(() => (MainWindow) Window.GetWindow(this));
-        }
-
         private void MouseClick(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
@@ -55,10 +50,10 @@ namespace James.UserControls
         public void Search(string str)
         {
             _searchResults = SearchEngine.GetInstance().Query(str);
-            WorkflowManager.GetInstance().CancelWorkflows();
-            if (str.Length >= Config.GetInstance().StartSearchMinTextLength)
+            WorkflowManager.Instance.CancelWorkflows();
+            if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength,1))
             {
-                _searchResults.InsertRange(0, WorkflowManager.GetInstance().GetKeywordTriggers(str));
+                _searchResults.InsertRange(0, WorkflowManager.Instance.GetKeywordTriggers(str));
             }
             _searchResults = _searchResults.Take(10).ToList();
             FocusedIndex = 0;

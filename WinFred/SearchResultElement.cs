@@ -18,7 +18,7 @@ namespace James
 
         public SearchResultElement()
         {
-            Config.GetInstance().WindowChangedAccentColor += UpdateAccentColor;
+            Config.Instance.WindowChangedAccentColor += UpdateAccentColor;
             _children = new VisualCollection(this);
             UpdateAccentColor(this, null);
         }
@@ -39,7 +39,7 @@ namespace James
             Dispatcher.BeginInvoke((Action) (() =>
             {
                 _children.Clear();
-                CreateBackground();
+                //CreateBackground();
                 FocusIndex(focusedIndex);
                 for (var i = 0; i < searchResults.Count; i++)
                 {
@@ -66,7 +66,7 @@ namespace James
             using (var ctx = drawingVisual.RenderOpen())
             {
                 var rect = new Rect(new Point(0, 0), new Size(ELEMENT_WIDTH, _searchResults.Count*ROW_HEIGHT));
-                ctx.DrawRectangle(Brushes.Transparent, null, rect);
+                ctx.DrawRectangle(new SolidColorBrush(Color.FromArgb(0xB2, 0xCC, 0xCC, 0xCC)), null, rect);
             }
             _children.Add(drawingVisual);
         }
@@ -101,7 +101,7 @@ namespace James
         private Brush GetBrush(bool focused)
         {
             Brush tmpBrush = Brushes.Black;
-            if (!Config.GetInstance().IsBaseLight)
+            if (!Config.Instance.IsBaseLight)
             {
                 tmpBrush = Brushes.White;
             }

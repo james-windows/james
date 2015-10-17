@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 using James.Workflows.Outputs;
 
@@ -13,7 +14,7 @@ namespace James.Workflows.Actions
             ExecutablePath = executablePath;
         }
 
-        private BasicAction()
+        public BasicAction()
         {
         }
 
@@ -21,9 +22,11 @@ namespace James.Workflows.Actions
         public List<BasicOutput> Displayables { get; set; } = new List<BasicOutput>();
 
         [DataMember]
-        public string ExecutablePath { get; set; }
+        [ComponentField("The program to execute", true)]
+        public string ExecutablePath { get; set; } = "";
 
         [DataMember]
+        [ComponentField("Arguments for the program")]
         public string ExecutableArguments { get; set; } = "";
 
         public void Display(string output)
@@ -33,6 +36,8 @@ namespace James.Workflows.Actions
                 item.Display(output);
             }
         }
+
+        public override string GetSummary() => $"Runs {ExecutablePath.Split('\\').Last()}";
 
         public override void Run(string output = "")
         {

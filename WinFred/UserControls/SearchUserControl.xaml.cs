@@ -19,7 +19,6 @@ namespace James.UserControls
         public SearchUserControl()
         {
             InitializeComponent();
-            DataContext = Config.GetInstance();
         }
 
         private async void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
@@ -67,8 +66,8 @@ namespace James.UserControls
             dialog.ShowDialog();
             if (dialog.SelectedPath != "")
             {
-                Config.GetInstance().Paths.Add(new Path {Location = dialog.SelectedPath});
-                Config.GetInstance().Persist();
+                Config.Instance.Paths.Add(new Path {Location = dialog.SelectedPath});
+                Config.Instance.Persist();
             }
         }
 
@@ -86,14 +85,19 @@ namespace James.UserControls
                         MessageDialogStyle.AffirmativeAndNegative, setting);
             if (MessageDialogResult.Affirmative == result)
             {
-                Config.GetInstance().Paths.Remove((Path) PathListBox.SelectedItem);
-                Config.GetInstance().Persist();
+                Config.Instance.Paths.Remove((Path) PathListBox.SelectedItem);
+                Config.Instance.Persist();
             }
         }
 
         private void ChangeStatusMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ((Path) PathListBox.SelectedItem).IsEnabled = !((Path) PathListBox.SelectedItem).IsEnabled;
+        }
+
+        private void SearchUserControl_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            DataContext = Config.Instance;
         }
     }
 }

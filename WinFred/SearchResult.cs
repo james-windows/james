@@ -14,7 +14,7 @@ namespace James
         public string Id { get; set; }
         public int Priority { get; set; }
         public string Filename { get; set; }
-        public ImageSource Icon => (Config.GetInstance().DisplayFileIcons) ? GeneralHelper.GetIcon(Path) : null;
+        public ImageSource Icon => (Config.Instance.DisplayFileIcons) ? GeneralHelper.GetIcon(Path) : null;
         public BasicTrigger WorkflowTrigger { get; set; }
 
         public string Path

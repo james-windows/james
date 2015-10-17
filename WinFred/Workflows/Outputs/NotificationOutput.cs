@@ -16,10 +16,14 @@ namespace James.Workflows.Outputs
     class NotificationOutput : BasicOutput, ISurviveable
     {
         public NotifyIcon LastIcon { get; set; } = null;
+
         [DataMember]
+        [ComponentField("Timeout between each tick [ms]")]
         public int Timeout { get; set; } = 5000;
         [DataMember]
         public bool CancelNotifyIcon { get; set; } = true;
+
+        public override string GetSummary() => $"Displays notification for {Timeout} ms";
 
         public override void Display(string output)
         {

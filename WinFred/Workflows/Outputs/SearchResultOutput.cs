@@ -14,5 +14,7 @@ namespace James.Workflows.Outputs
             };
             MainWindow.GetInstance().searchResultControl.WorkflowOutput(searchResults);
         }
+
+        public override string GetSummary() => $"Displays the response in SearchResultList";
     }
 }
