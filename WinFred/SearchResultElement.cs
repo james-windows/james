@@ -39,7 +39,6 @@ namespace James
             Dispatcher.BeginInvoke((Action) (() =>
             {
                 _children.Clear();
-                //CreateBackground();
                 FocusIndex(focusedIndex);
                 for (var i = 0; i < searchResults.Count; i++)
                 {
@@ -56,17 +55,6 @@ namespace James
             {
                 var rect = new Rect(new Point(0, index*ROW_HEIGHT), new Size(ELEMENT_WIDTH, ROW_HEIGHT));
                 ctx.DrawRectangle(FocusBackgroundBrush, null, rect);
-            }
-            _children.Add(drawingVisual);
-        }
-
-        private void CreateBackground()
-        {
-            var drawingVisual = new DrawingVisual();
-            using (var ctx = drawingVisual.RenderOpen())
-            {
-                var rect = new Rect(new Point(0, 0), new Size(ELEMENT_WIDTH, _searchResults.Count*ROW_HEIGHT));
-                ctx.DrawRectangle(new SolidColorBrush(Color.FromArgb(0xB2, 0xCC, 0xCC, 0xCC)), null, rect);
             }
             _children.Add(drawingVisual);
         }
@@ -101,13 +89,13 @@ namespace James
         private Brush GetBrush(bool focused)
         {
             Brush tmpBrush = Brushes.Black;
-            if (!Config.Instance.IsBaseLight)
-            {
-                tmpBrush = Brushes.White;
-            }
             if (focused)
             {
                 tmpBrush = FocusForegroundBrush;
+            }
+            else if (!Config.Instance.IsBaseLight)
+            {
+                tmpBrush = Brushes.White;
             }
             return tmpBrush;
         }
