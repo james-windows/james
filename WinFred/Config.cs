@@ -20,7 +20,6 @@ namespace James
         {
             Paths = new ObservableCollection<Path>();
             DefaultFileExtensions = new List<FileExtension>();
-            Workflows = new ObservableCollection<Workflow>();
             ExcludedFolders = new ObservableCollection<string>();
         }
 
@@ -121,7 +120,6 @@ namespace James
 
         public ObservableCollection<Path> Paths { get; set; }
         public List<FileExtension> DefaultFileExtensions { get; set; }
-        public ObservableCollection<Workflow> Workflows { get; set; }
         public ObservableCollection<string> ExcludedFolders { get; set; }
 
         public string ConfigFolderLocation { get; set; } =
