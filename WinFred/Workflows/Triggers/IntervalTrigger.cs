@@ -17,21 +17,15 @@ namespace James.Workflows.Triggers
         {
         }
 
-        public override string GetSummary() => $"Triggers every {Interval} ms";
-
         [DataMember]
         [ComponentField("Sets the interval between every tick [ms]")]
         public int Interval { get; set; } = 5000;
 
-        public void Cancel()
-        {
-            _timer?.Stop();
-        }
+        public void Cancel() => _timer?.Stop();
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            TriggerRunables();
-        }
+        public override string GetSummary() => $"Triggers every {Interval} ms";
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e) => TriggerRunables();
 
         public override void Run(string argument = "")
         {

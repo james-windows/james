@@ -29,13 +29,7 @@ namespace James.Workflows.Actions
         [ComponentField("Arguments for the program")]
         public string ExecutableArguments { get; set; } = "";
 
-        public void Display(string output)
-        {
-            foreach (var item in Displayables)
-            {
-                item.Display(output);
-            }
-        }
+        private void Display(string output) => Displayables.ForEach(basicOutput => basicOutput.Display(output));
 
         public override string GetSummary() => $"Runs {ExecutablePath.Split('\\').Last()}";
 

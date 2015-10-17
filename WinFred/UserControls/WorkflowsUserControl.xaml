@@ -70,7 +70,8 @@
         <!--#endregion-->
         <!--#region Block for the Detail view-->
         <Grid Grid.Column="1">
-            <workflowEditor:WorkflowEditorUserControl DataContext="{Binding ElementName=WorkflowListBox, Path=SelectedValue}" />
+            <workflowEditor:WorkflowEditorUserControl
+                DataContext="{Binding ElementName=WorkflowListBox, Path=SelectedValue}" />
         </Grid>
         <!--#endregion-->
     </Grid>

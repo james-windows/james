@@ -14,6 +14,8 @@ namespace James
     {
         private static bool _showTheWelcomeWizard;
 
+        private static Mutex mutex;
+
         private static void SetStyleAccents()
         {
             var accentColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/" +
@@ -24,11 +26,10 @@ namespace James
             (((App) Current).Resources).MergedDictionaries[4].Source = new Uri(baseColor);
         }
 
-        private static Mutex mutex;
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
-            bool createdNew = true;
+            var createdNew = true;
             mutex = new Mutex(true, "James", out createdNew);
             if (createdNew)
             {

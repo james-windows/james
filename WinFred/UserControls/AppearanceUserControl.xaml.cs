@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using James.Enumerations;
 
@@ -14,9 +15,9 @@ namespace James.UserControls
             InitializeComponent();
         }
 
-        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            AccentColorComboBox.ItemsSource = Enum.GetNames(typeof(AccentColorTypes));
+            AccentColorComboBox.ItemsSource = Enum.GetNames(typeof (AccentColorTypes));
             DataContext = Config.Instance;
         }
     }

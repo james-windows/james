@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using System.Windows.Input;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Outputs
@@ -8,6 +7,9 @@ namespace James.Workflows.Outputs
     public class LargeTypeOutput : BasicOutput, ISurviveable
     {
         private bool FirstRun { get; set; } = true;
+
+        public void Cancel() => FirstRun = true;
+
         public override void Display(string output)
         {
             if (FirstRun)
@@ -22,10 +24,5 @@ namespace James.Workflows.Outputs
         }
 
         public override string GetSummary() => $"Displays the response in LargeType";
-
-        public void Cancel()
-        {
-            FirstRun = true;
-        }
     }
 }

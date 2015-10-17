@@ -1,10 +1,8 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using James.Workflows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Workflow = James.Workflows.Workflow;
 
 namespace James.UserControls
 {
@@ -45,7 +43,9 @@ namespace James.UserControls
         private async void AddWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
-            var name = await parentWindow.ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
+            var name =
+                await
+                    parentWindow.ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
             if (name != null)
             {
                 var wf = new Workflow(name) {IsEnabled = true};

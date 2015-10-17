@@ -1,61 +1,45 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using James.Workflows;
 using MahApps.Metro.Controls;
-using Microsoft.Win32.TaskScheduler;
 
 namespace James.WorkflowEditor
 {
     /// <summary>
-    /// Interaction logic for ComponentWindow.xaml
+    ///     Interaction logic for ComponentWindow.xaml
     /// </summary>
     public partial class ComponentWindow : MetroWindow
     {
-        private WorkflowComponent component;
+        private readonly WorkflowComponent _component;
+
         public ComponentWindow(WorkflowComponent component)
         {
             InitializeComponent();
-            this.component = component;
+            this._component = component;
             DataContext = component;
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Type type = component.GetType();
-            PropertyInfo[] propertyInfos = type.GetProperties();
-            foreach (PropertyInfo prop in propertyInfos)
+            foreach (var prop in _component.GetType().GetProperties())
             {
-                object[] attrs = prop.GetCustomAttributes(true);
-                foreach (object attr in attrs)
+                var attrs = prop.GetCustomAttributes(true);
+                foreach (var componentFieldAttribute in attrs.OfType<ComponentFieldAttribute>())
                 {
-                    ComponentFieldAttribute componentFieldAttribute = attr as ComponentFieldAttribute;
-                    if (componentFieldAttribute != null)
-                    {
-                        propertyPanel.Children.Add(componentFieldAttribute.GetElement(prop, component));   
-                    }
+                    propertyPanel.Children.Add(componentFieldAttribute.GetElement(prop, _component));
                 }
             }
         }
 
-        private void DiscardChanges(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        private void DiscardChanges(object sender, RoutedEventArgs e) => Close();
 
-        private void OpenWorkflowDirectory(object sender, RoutedEventArgs e)
-        {
-            component.ParentWorkflow.OpenFolder();
-        }
+        private void OpenWorkflowDirectory(object sender, RoutedEventArgs e) => _component.ParentWorkflow.OpenFolder();
 
         private void SaveChanges(object sender, RoutedEventArgs e)
         {
-            foreach (ComponentPropertyUserControl componentPropertyUserControl in propertyPanel.Children.Cast<ComponentPropertyUserControl>())
+            foreach (var result in propertyPanel.Children.Cast<ComponentPropertyUserControl>())
             {
-                componentPropertyUserControl.WriteToWorkflowComponent();
+                result.WriteToWorkflowComponent();
             }
             Close();
         }

@@ -65,7 +65,7 @@ namespace James.Search
                 data.AddRange(GetItemsInCurrentScope(Location + currentPath));
                 foreach (var directory in Directory.GetDirectories(Location + currentPath))
                 {
-                    if (Config.Instance.ExcludedFolders.Count(s => directory.Contains("\\"+ s)) == 0)
+                    if (Config.Instance.ExcludedFolders.Count(s => directory.Contains("\\" + s)) == 0)
                     {
                         data.AddRange(GetItemsToBeIndexed(directory.Replace(Location, "")));
                     }

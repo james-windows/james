@@ -12,18 +12,9 @@ namespace James
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _showLargeType;
-
         private static MainWindow _mainWindow;
         private static readonly object SingeltonLock = new object();
-
-        public static MainWindow GetInstance(bool showOnStartup = false)
-        {
-            lock (SingeltonLock)
-            {
-                return _mainWindow ?? (_mainWindow = new MainWindow(showOnStartup));
-            }
-        }
+        private bool _showLargeType;
 
         public MainWindow(bool showOnStartup)
         {
@@ -35,6 +26,14 @@ namespace James
             new HotKey(Key.Space, KeyModifier.Alt, OnHotKeyHandler);
             LargeType.Instance.Deactivated += LargeType_Deactivated;
             LargeType.Instance.Activated += LargeType_Activated;
+        }
+
+        public static MainWindow GetInstance(bool showOnStartup = false)
+        {
+            lock (SingeltonLock)
+            {
+                return _mainWindow ?? (_mainWindow = new MainWindow(showOnStartup));
+            }
         }
 
         private void LargeType_Activated(object sender, EventArgs e)

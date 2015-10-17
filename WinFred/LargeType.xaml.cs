@@ -21,11 +21,6 @@ namespace James
             KeyUp += LargeType_KeyUp;
         }
 
-        private void LargeType_KeyUp(object sender, KeyEventArgs e)
-        {
-            KeyDown += Window_KeyDown;
-        }
-
         public string Message
         {
             get { return TextBlock.Text; }
@@ -35,7 +30,7 @@ namespace James
         public static LargeType Instance
         {
             get
-            { 
+            {
                 lock (SingeltonLock)
                 {
                     return _largeType ?? (_largeType = new LargeType());
@@ -43,9 +38,15 @@ namespace James
             }
         }
 
+        private void LargeType_KeyUp(object sender, KeyEventArgs e)
+        {
+            KeyDown += Window_KeyDown;
+        }
+
         public void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e == null || e.KeyboardDevice.IsKeyDown(Key.Escape) || (Keyboard.IsKeyDown(Key.L) && Keyboard.IsKeyDown(Key.LeftAlt)))
+            if (e == null || e.KeyboardDevice.IsKeyDown(Key.Escape) ||
+                (Keyboard.IsKeyDown(Key.L) && Keyboard.IsKeyDown(Key.LeftAlt)))
             {
                 Message = "";
                 Hide();

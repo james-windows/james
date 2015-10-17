@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Threading;
 using System.Windows;
-using James.Workflows;
 using MahApps.Metro.Controls;
 
 namespace James

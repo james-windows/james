@@ -19,14 +19,14 @@
                     <TextBlock>
                         <Run Text="Count for displayed search results" />
                     </TextBlock>
-                    <controls:NumericUpDown Value="{Binding MaxSearchResults}" Minimum="1" Maximum="20"/>
+                    <controls:NumericUpDown Value="{Binding MaxSearchResults}" Minimum="1" Maximum="20" />
                 </Grid>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock>
                         <Run Text="Limit to start with searching" />
                     </TextBlock>
                     <controls:NumericUpDown
-                        Value="{Binding Path=StartSearchMinTextLength, ValidatesOnExceptions=True}" Minimum="1"/>
+                        Value="{Binding Path=StartSearchMinTextLength, ValidatesOnExceptions=True}" Minimum="1" />
                 </Grid>
             </StackPanel>
         </GroupBox>
@@ -53,9 +53,9 @@
             </WrapPanel>
         </GroupBox>
         <StackPanel Grid.Column="1" Grid.RowSpan="3">
-            <TextBlock FontSize="24" TextAlignment="Center" Margin="0,20,0,10" >James Settings</TextBlock>
+            <TextBlock FontSize="24" TextAlignment="Center" Margin="0,20,0,10">James Settings</TextBlock>
             <Image Source="../Resources/logo.png" Width="200" Margin="75,0,20,0" />
-            <TextBlock Foreground="#ffaaaaaa" FontSize="12" TextWrapping="Wrap" Margin="0,30,0,0" >Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy, sed diam voluptua. At vero eos et rebum. Stet clita kasd gubergren, no sea tum dolor sit amet. Lm dolor sit amet, consetetur sadipscing elitr, sed dia erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</TextBlock>
+            <TextBlock Foreground="#ffaaaaaa" FontSize="12" TextWrapping="Wrap" Margin="0,30,0,0">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy, sed diam voluptua. At vero eos et rebum. Stet clita kasd gubergren, no sea tum dolor sit amet. Lm dolor sit amet, consetetur sadipscing elitr, sed dia erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>

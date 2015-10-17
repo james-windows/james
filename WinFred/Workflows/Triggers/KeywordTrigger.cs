@@ -19,9 +19,6 @@ namespace James.Workflows.Triggers
 
         public override string GetSummary() => $"Triggers for \"{Keyword}\"";
 
-        public override void Run(string argument = "")
-        {
-            TriggerRunables();
-        }
+        public override void Run(string argument = "") => TriggerRunables(argument);
     }
 }

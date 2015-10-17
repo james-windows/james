@@ -22,10 +22,7 @@ namespace James.Workflows.Triggers
         public void TriggerRunables(string arguments = "")
         {
             Console.WriteLine($"{ParentWorkflow.Title} - Event got triggerd");
-            foreach (var item in Runnables)
-            {
-                item.Run(arguments);
-            }
+            Runnables.ForEach(component => component.Run(arguments));
         }
     }
 }

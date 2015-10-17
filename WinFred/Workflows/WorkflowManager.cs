@@ -3,8 +3,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using James.HelperClasses;
-using James.UserControls;
-using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 
 namespace James.Workflows
@@ -16,7 +14,7 @@ namespace James.Workflows
 
         private WorkflowManager()
         {
-            foreach (string path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
+            foreach (var path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
             {
                 Workflows.Add(GeneralHelper.DeserializeWorkflow(path + "\\config.xml"));
                 Workflows.Last().Title = path.Split('\\').Last();
@@ -26,7 +24,6 @@ namespace James.Workflows
             {
                 KeywordTriggers.AddRange(workflow.Triggers.OfType<KeywordTrigger>());
             }
-            //PersistWorkflows();
         }
 
         public ObservableCollection<Workflow> Workflows { get; set; } = new ObservableCollection<Workflow>();

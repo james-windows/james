@@ -51,7 +51,7 @@ namespace James.UserControls
         {
             _searchResults = SearchEngine.GetInstance().Query(str);
             WorkflowManager.Instance.CancelWorkflows();
-            if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength,1))
+            if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength, 1))
             {
                 _searchResults.InsertRange(0, WorkflowManager.Instance.GetKeywordTriggers(str));
             }

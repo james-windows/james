@@ -5,7 +5,6 @@ using James.Workflows;
 using James.Workflows.Actions;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
-using Brushes = System.Windows.Media.Brushes;
 
 namespace James.WorkflowEditor
 {
@@ -28,7 +27,6 @@ namespace James.WorkflowEditor
 
         public CustomLine()
         {
-                
         }
 
         public WorkflowComponent Source { get; set; }
@@ -45,12 +43,12 @@ namespace James.WorkflowEditor
         {
             if (Source is BasicTrigger)
             {
-                ((BasicTrigger)Source).Runnables.Remove(
-                    (RunnableWorkflowComponent)Destination);
+                ((BasicTrigger) Source).Runnables.Remove(
+                    (RunnableWorkflowComponent) Destination);
             }
             if (Source is BasicAction)
             {
-                ((BasicAction)Source).Displayables.Remove((BasicOutput)Destination);
+                ((BasicAction) Source).Displayables.Remove((BasicOutput) Destination);
             }
         }
     }

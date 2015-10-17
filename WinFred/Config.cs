@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
-using James.Annotations;
 using James.HelperClasses;
 using James.Search;
 using Microsoft.Win32;
@@ -55,20 +52,21 @@ namespace James
 
         #region singleton
 
-        private static Config _config; //todo test if private is possible
+        private static Config _config;
         private static readonly object SingeltonLock = new object();
 
         public static Config Instance
         {
             get
-            { 
+            {
                 lock (SingeltonLock)
                 {
                     if (_config == null)
                     {
                         try
                         {
-                            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+                            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
+                                       "\\James";
                             Directory.CreateDirectory(path);
                             _config = GeneralHelper.Deserialize<Config>(path + "\\config.xml");
                         }

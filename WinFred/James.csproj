@@ -227,7 +227,6 @@
     <Compile Include="Search\MyFileWatcher.cs" />
     <Compile Include="Search\Path.cs" />
     <Compile Include="Search\SearchEngine.cs" />
-    <Compile Include="Search\Workflow.cs" />
     <Compile Include="SearchResult.cs" />
     <Compile Include="ValidationRules\FileExtensionValidationRule.cs" />
     <Compile Include="WelcomeWindow.xaml.cs">
