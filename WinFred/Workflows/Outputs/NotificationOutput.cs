@@ -12,8 +12,8 @@ namespace James.Workflows.Outputs
         public NotifyIcon LastIcon { get; set; }
 
         [DataMember]
-        [ComponentField("Timeout between each tick [ms]")]
-        public int Timeout { get; set; } = 5000;
+        [ComponentField("Period for displaying notification [ms]")]
+        public int Timeperiod { get; set; } = 5000;
 
         [DataMember]
         public bool CancelNotifyIcon { get; set; } = true;
@@ -27,7 +27,7 @@ namespace James.Workflows.Outputs
             }
         }
 
-        public override string GetSummary() => $"Displays notification for {Timeout} ms";
+        public override string GetSummary() => $"Displays notification for {Timeperiod} ms";
 
         public override void Display(string output)
         {
@@ -39,7 +39,7 @@ namespace James.Workflows.Outputs
                 BalloonTipTitle = "James-Workflow: " + ParentWorkflow.Title,
                 Visible = true
             };
-            icon.ShowBalloonTip(Timeout);
+            icon.ShowBalloonTip(Timeperiod);
             LastIcon?.Dispose();
             LastIcon = icon;
         }
