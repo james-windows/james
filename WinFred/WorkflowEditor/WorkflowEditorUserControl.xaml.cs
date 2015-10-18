@@ -63,7 +63,6 @@ namespace James.WorkflowEditor
             if (e.ClickCount == 2)
             {
                 tmp.OpenComponent();
-                DrawCanvas(this, null);
                 return;
             }
 

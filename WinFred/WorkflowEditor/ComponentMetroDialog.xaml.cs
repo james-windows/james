@@ -2,25 +2,26 @@
 using System.Windows;
 using James.Workflows;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace James.WorkflowEditor
 {
     /// <summary>
-    ///     Interaction logic for ComponentWindow.xaml
+    /// Interaction logic for ComponentMetroDialog.xaml
     /// </summary>
-    public partial class ComponentWindow : MetroWindow
+    public partial class ComponentMetroDialog : BaseMetroDialog
     {
         private readonly WorkflowComponent _component;
 
-        public ComponentWindow(WorkflowComponent component)
+        public ComponentMetroDialog(WorkflowComponent component)
         {
             InitializeComponent();
             this._component = component;
-            DataContext = component;
         }
 
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        private void BaseMetroDialog_Loaded(object sender, RoutedEventArgs e)
         {
+            DataContext = _component;
             foreach (var prop in _component.GetType().GetProperties())
             {
                 var attrs = prop.GetCustomAttributes(true);
@@ -42,6 +43,13 @@ namespace James.WorkflowEditor
                 result.WriteToWorkflowComponent();
             }
             Close();
+        }
+
+        private void Close()
+        {
+            _component.ParentWorkflow.Persist();
+            var window = (MetroWindow)Window.GetWindow(this);
+            window.HideMetroDialogAsync(this);
         }
     }
 }

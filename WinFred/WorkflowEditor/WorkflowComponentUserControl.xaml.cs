@@ -1,7 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using James.Workflows;
 using James.Workflows.Outputs;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace James.WorkflowEditor
 {
@@ -11,6 +15,11 @@ namespace James.WorkflowEditor
     public partial class WorkflowComponentUserControl : UserControl
     {
         public delegate void ComponentUpdateHandler(object sender);
+
+        public WorkflowComponentUserControl()
+        {
+            InitializeComponent();
+        }
 
         public WorkflowComponentUserControl(WorkflowComponent workflowComponent)
         {
@@ -31,13 +40,19 @@ namespace James.WorkflowEditor
             OnUpdate?.Invoke(this);
         }
 
-        public void OpenComponent()
+        public void OpenComponent(object sender = null, RoutedEventArgs e = null)
         {
-            var window = new ComponentWindow((WorkflowComponent) DataContext) {Owner = Window.GetWindow(this)};
-            window.ShowDialog();
+            ComponentMetroDialog dialog = new ComponentMetroDialog((WorkflowComponent)DataContext);
+            var window = Window.GetWindow(this);
+            ((MetroWindow) window)?.ShowMetroDialogAsync(dialog);
+
+            dialog.Unloaded += Dialog_Unloaded;
         }
 
-        private void EditComponent(object sender, RoutedEventArgs e) => OpenComponent();
+        private void Dialog_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SummaryTextBlock.Text = ((WorkflowComponent)DataContext).Summary;
+        }
 
         private void OpenWorkflowFolder(object sender, RoutedEventArgs e)
             => ((WorkflowComponent)DataContext).ParentWorkflow.OpenFolder();

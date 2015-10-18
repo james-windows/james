@@ -202,11 +202,11 @@
     <Compile Include="UserControls\UsageUserControl.xaml.cs">
       <DependentUpon>UsageUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WorkflowEditor\ComponentMetroDialog.xaml.cs">
+      <DependentUpon>ComponentMetroDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WorkflowEditor\ComponentPropertyUserControl.xaml.cs">
       <DependentUpon>ComponentPropertyUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WorkflowEditor\ComponentWindow.xaml.cs">
-      <DependentUpon>ComponentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WorkflowEditor\CustomLine.cs" />
     <Compile Include="WorkflowEditor\WorkflowComponentUserControl.xaml.cs">
@@ -295,11 +295,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WorkflowEditor\ComponentPropertyUserControl.xaml">
+    <Page Include="WorkflowEditor\ComponentMetroDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WorkflowEditor\ComponentWindow.xaml">
+    <Page Include="WorkflowEditor\ComponentPropertyUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

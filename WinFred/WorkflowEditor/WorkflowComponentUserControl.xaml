@@ -8,7 +8,7 @@
              d:DesignHeight="50" d:DesignWidth="100">
     <UserControl.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Edit" Click="EditComponent" />
+            <MenuItem Header="Edit" Click="OpenComponent" />
             <MenuItem Header="Remove" Click="RemoveComponent" />
             <Separator />
             <MenuItem Header="Open Workflow Folder" Click="OpenWorkflowFolder" />
@@ -22,7 +22,7 @@
         <Grid Background="LightGray" HorizontalAlignment="Center" Width="90">
             <StackPanel VerticalAlignment="Center" MaxWidth="90">
                 <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontSize="9" Foreground="#FF333333" />
-                <TextBlock Text="{Binding Summary}" HorizontalAlignment="Center" FontSize="7" Foreground="#FF777777"
+                <TextBlock x:Name="SummaryTextBlock"  Text="{Binding Summary}" HorizontalAlignment="Center" FontSize="7" Foreground="#FF777777"
                            TextWrapping="Wrap" TextAlignment="Center" />
             </StackPanel>
         </Grid>
