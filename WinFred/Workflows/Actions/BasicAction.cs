@@ -35,11 +35,16 @@ namespace James.Workflows.Actions
 
         public override void Run(string output = "")
         {
+            string path = ExecutablePath;
+            if (path[1] != ':')
+            {
+                path = ParentWorkflow.Path +  "\\" + path;
+            }
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = ExecutablePath,
+                    FileName = path,
                     Arguments = ExecutableArguments + output,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,

@@ -51,7 +51,7 @@ namespace James.Workflows
         [DataMember(Order = 9)]
         public List<BasicOutput> Outputs { get; set; } = new List<BasicOutput>();
 
-        private string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Title;
+        public string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Title;
 
         public void Cancel()
         {
