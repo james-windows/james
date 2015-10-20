@@ -8,7 +8,7 @@ namespace James.Search
     {
         private static readonly object SingeltonLock = new object();
 
-        private static MyFileWatcher _watcher;
+        private static MyFileWatcher _instance;
         private readonly Path[] _paths;
 
         private MyFileWatcher()
@@ -27,11 +27,14 @@ namespace James.Search
             }
         }
 
-        public static MyFileWatcher GetInstance()
+        public MyFileWatcher Instance
         {
-            lock (SingeltonLock)
-            {
-                return _watcher ?? (_watcher = new MyFileWatcher());
+            get
+            { 
+                lock (SingeltonLock)
+                {
+                    return _instance ?? (_instance = new MyFileWatcher());
+                }
             }
         }
 

@@ -14,7 +14,7 @@ namespace James
     {
         private static bool _showTheWelcomeWizard;
 
-        private static Mutex mutex;
+        private static Mutex _mutex;
 
         private static void SetStyleAccents()
         {
@@ -30,7 +30,7 @@ namespace James
         protected override void OnStartup(StartupEventArgs e)
         {
             var createdNew = true;
-            mutex = new Mutex(true, "James", out createdNew);
+            _mutex = new Mutex(true, "James", out createdNew);
             if (createdNew)
             {
                 StartProgram();
@@ -42,7 +42,7 @@ namespace James
             }
         }
 
-        private void StartProgram()
+        private static void StartProgram()
         {
             Config.Instance.WindowChangedAccentColor += App_WindowChangedAccentColor;
             SetStyleAccents();
@@ -55,7 +55,7 @@ namespace James
             else
             {
                 James.MainWindow.GetInstance().Show();
-                //MyFileWatcher.Instance();
+                //var watcher = MyFileWatcher.Instance;
             }
         }
 
