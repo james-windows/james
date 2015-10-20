@@ -27,7 +27,7 @@ namespace James.Search
             }
         }
 
-        public MyFileWatcher Instance
+        public static MyFileWatcher Instance
         {
             get
             { 
