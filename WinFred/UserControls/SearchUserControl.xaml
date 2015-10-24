@@ -7,9 +7,24 @@
         <!--#region Block for the Path list-->
         <Grid helper:GridHelper.RowDefinition="*|a">
             <GroupBox Header="Folders to be searched">
-                <Grid helper:GridHelper.RowDefinition="*|a">
-                    <ListBox x:Name="PathListBox" Margin="20" HorizontalContentAlignment="Stretch"
-                             ItemsSource="{Binding Paths, IsAsync=True}">
+                <Grid helper:GridHelper.RowDefinition="a|*|a">
+                    <StackPanel Margin="20,20,20,0">
+                        <Button Content="Default Settings" Click="DeselectPath" BorderBrush="{x:Null}" FontWeight="Bold" HorizontalContentAlignment="Left">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=PathListBox, Path=SelectedIndex}" Value="-1">
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                    <ListBox x:Name="PathListBox" Margin="20,0,20,20" HorizontalContentAlignment="Stretch"
+                             ItemsSource="{Binding Paths, IsAsync=True}" Grid.Row="1">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -55,7 +70,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Grid Grid.Row="1" helper:GridHelper.ColumnDefinition="*|*">
+                    <Grid Grid.Row="2" helper:GridHelper.ColumnDefinition="*|*">
                         <Button x:Name="AddFolderButton" Content="Add Folder" Click="AddFolderButton_Click"
                                 Style="{DynamicResource SquareButtonStyle}" />
                         <Button x:Name="RemoveFolderButton" Grid.Column="1" Content="Remove Folder"

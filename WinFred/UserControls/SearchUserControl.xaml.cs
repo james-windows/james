@@ -99,5 +99,7 @@ namespace James.UserControls
         {
             DataContext = Config.Instance;
         }
+
+        private void DeselectPath(object sender, RoutedEventArgs e) => PathListBox.UnselectAll();
     }
 }
