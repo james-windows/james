@@ -117,42 +117,44 @@
             </Grid.Style>
             <GroupBox Header="{Binding ElementName=PathListBox, Path=SelectedValue.Location}"
                       VerticalContentAlignment="Stretch">
-                <StackPanel>
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type Grid}">
-                            <Style.Resources>
-                                <Style TargetType="controls:ToggleSwitch">
-                                    <Setter Property="Grid.Column" Value="1" />
-                                </Style>
-                                <Style TargetType="controls:NumericUpDown">
-                                    <Setter Property="Grid.Column" Value="1" />
-                                </Style>
-                            </Style.Resources>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>is enabled:</TextBlock>
-                        <controls:ToggleSwitch
-                            IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}" />
-                    </Grid>
-                    <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>default priority:</TextBlock>
-                        <controls:NumericUpDown Value="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}" />
-                    </Grid>
-                    <Grid helper:GridHelper.ColumnDefinition="*|*">
-                        <TextBlock>Insert folders:</TextBlock>
-                        <controls:ToggleSwitch
-                            IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IndexFolders}" />
-                    </Grid>
-                    <DataGrid
-                        ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions, IsAsync=True}">
+                <Grid helper:GridHelper.RowDefinition="a|*">
+                    <StackPanel>
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Grid}">
+                                <Style.Resources>
+                                    <Style TargetType="controls:ToggleSwitch">
+                                        <Setter Property="Grid.Column" Value="1" />
+                                    </Style>
+                                    <Style TargetType="controls:NumericUpDown">
+                                        <Setter Property="Grid.Column" Value="1" />
+                                    </Style>
+                                </Style.Resources>
+                            </Style>
+                        </StackPanel.Resources>
+                        <Grid helper:GridHelper.ColumnDefinition="*|*">
+                            <TextBlock>is enabled:</TextBlock>
+                            <controls:ToggleSwitch
+                                IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}" />
+                        </Grid>
+                        <Grid helper:GridHelper.ColumnDefinition="*|*">
+                            <TextBlock>default priority:</TextBlock>
+                            <controls:NumericUpDown Value="{Binding ElementName=PathListBox, Path=SelectedItem.Priority}" />
+                        </Grid>
+                        <Grid helper:GridHelper.ColumnDefinition="*|*">
+                            <TextBlock>Insert folders:</TextBlock>
+                            <controls:ToggleSwitch
+                                IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IndexFolders}" />
+                        </Grid>
+                    </StackPanel>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding ElementName=PathListBox, Path=SelectedItem.FileExtensions, IsAsync=True}"
+                              VerticalScrollBarVisibility="Visible">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto" />
                             <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority"
-                                                                  Width="*" />
+                                                                      Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </GroupBox>
         </Grid>
         <!--#endregion-->
