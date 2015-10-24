@@ -60,12 +60,6 @@ namespace James.WorkflowEditor
         private void StartDragging(object sender, MouseButtonEventArgs e)
         {
             var tmp = (WorkflowComponentUserControl) sender;
-            if (e.ClickCount == 2)
-            {
-                tmp.OpenComponent();
-                return;
-            }
-
             if (tmp.DataContext is BasicOutput)
             {
                 return;
