@@ -6,7 +6,7 @@
              xmlns:helper="clr-namespace:James.HelperClasses"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" Loaded="FillContextMenu">
-    <Grid MouseLeftButtonUp="FinishDragging" helper:GridHelper.RowDefinition="a|*">
+    <Grid MouseLeftButtonUp="FinishDragging" MouseLeave="UIElement_OnMouseLeave" helper:GridHelper.RowDefinition="a|*">
         <Grid.Background>
             <ImageBrush ImageSource="D:\WinFred\Project\winfred\WinFred\Resources\workflow-bg.jpg" TileMode="FlipY"
                         Stretch="Uniform" AlignmentY="Top" Viewport="0,0,128,128" ViewportUnits="Absolute" />

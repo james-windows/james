@@ -116,7 +116,7 @@ namespace James.WorkflowEditor
             }
         }
 
-        private void FinishDragging(object sender, MouseButtonEventArgs e)
+        private void FinishDragging(object sender = null, MouseButtonEventArgs e = null)
         {
             if (_currLine != null)
             {
@@ -133,6 +133,8 @@ namespace James.WorkflowEditor
                 DrawCanvas(this, null);
             }
         }
+
+        private void UIElement_OnMouseLeave(object sender, MouseEventArgs e) => FinishDragging();
 
         private static bool IsAllowed(WorkflowComponent source, WorkflowComponent destination)
         {
