@@ -108,6 +108,14 @@ namespace James.Search
 
         public int GetFilePriority(string filePath)
         {
+            if (Directory.Exists(filePath))
+            {
+                if (this.IndexFolders)
+                {
+                    return Priority + Config.Instance.DefaultFolderPriority;
+                }
+                return -1;
+            }
             var priority = CalculatePriorityByFileExtensions(filePath, Config.Instance.DefaultFileExtensions);
             if (priority == -1)
             {
