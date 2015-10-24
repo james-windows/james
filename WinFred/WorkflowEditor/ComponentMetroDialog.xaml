@@ -7,9 +7,9 @@
              xmlns:helper="clr-namespace:James.HelperClasses"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Loaded="BaseMetroDialog_Loaded">
-    <Grid helper:GridHelper.RowDefinition="50|*|a" Margin="20">
+    <Grid helper:GridHelper.RowDefinition="a|*|a" Margin="20">
         <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource GrayBrush5}">
-            <StackPanel>
+            <StackPanel Margin="0,0,0,20">
                 <Grid helper:GridHelper.ColumnDefinition="70|*">
                     <TextBlock Foreground="#ff777777" Text="Type:" />
                     <TextBlock Grid.Column="1" Foreground="#ff333333" FontSize="16" FontWeight="Bold" Text="{Binding Name}" />
@@ -17,6 +17,10 @@
                 <Grid helper:GridHelper.ColumnDefinition="70|*">
                     <TextBlock Foreground="#ff777777" Text="Summary:" />
                     <TextBlock Grid.Column="1" Foreground="#ff555555" FontSize="14" Text="{Binding Summary}" />
+                </Grid>
+                <Grid helper:GridHelper.ColumnDefinition="70|*">
+                    <TextBlock Foreground="#ff777777" Text="Description:" />
+                    <TextBlock Grid.Column="1" Foreground="#ff555555" FontSize="12" Text="{Binding Description}" TextWrapping="Wrap"/>
                 </Grid>
             </StackPanel>
         </Border>
