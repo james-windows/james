@@ -131,6 +131,13 @@ namespace James
             }
         }
 
+        private void OpenSettings(object sender, RoutedEventArgs e)
+        {
+            new OptionWindow().Show();
+            HideWindow();
+        }
+
+        private void CloseApplication(object sender, RoutedEventArgs e) => Environment.Exit(1);
         #endregion
     }
 }

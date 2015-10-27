@@ -24,10 +24,7 @@ namespace James.UserControls
             Environment.Exit(0);
         }
 
-        private void CloseProgram(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
-        }
+        private void CloseProgram(object sender, RoutedEventArgs e) => Environment.Exit(0);
 
         private async void ResetConfig(object sender, RoutedEventArgs e)
         {
@@ -49,14 +46,8 @@ namespace James.UserControls
             }
         }
 
-        private void LaunchWelcomeWindow(object sender, RoutedEventArgs e)
-        {
-            new WelcomeWindow(false).Show();
-        }
+        private void LaunchWelcomeWindow(object sender, RoutedEventArgs e) => new WelcomeWindow(false).Show();
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            DataContext = Config.Instance;
-        }
+        private void UserControl_Loaded(object sender, RoutedEventArgs e) => DataContext = Config.Instance;
     }
 }
