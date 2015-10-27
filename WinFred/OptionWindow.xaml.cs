@@ -16,7 +16,6 @@ namespace James
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
         }
 
-
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
             AboutFlyout.IsOpen = !AboutFlyout.IsOpen;

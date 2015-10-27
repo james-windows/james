@@ -12,6 +12,16 @@ namespace James.Search
     {
         private bool _isEnabled = true;
         private bool _isDefaultConfigurationEnabled = true;
+        public string Location { get; set; }
+        public int Priority { get; set; }
+        public bool IndexFolders { get; set; } = true;
+        public List<FileExtension> FileExtensions { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Path()
+        {
+            FileExtensions = new List<FileExtension>();
+        }
 
         public bool IsDefaultConfigurationEnabled
         {
@@ -21,11 +31,6 @@ namespace James.Search
                 _isDefaultConfigurationEnabled = value;
                 OnPropertyChanged(nameof(IsDefaultConfigurationEnabled));
             }
-        }
-
-        public Path()
-        {
-            FileExtensions = new List<FileExtension>();
         }
 
         public bool IsEnabled
@@ -38,12 +43,6 @@ namespace James.Search
             }
         }
 
-        public string Location { get; set; }
-        public int Priority { get; set; }
-        public bool IndexFolders { get; set; } = true;
-        public List<FileExtension> FileExtensions { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -53,6 +52,11 @@ namespace James.Search
 
         public override string ToString() => Location + " :" + Priority;
 
+        /// <summary>
+        /// recursively goes through the folder and returns all items which sould be indexed.
+        /// </summary>
+        /// <param name="currentPath"></param>
+        /// <returns></returns>
         public IEnumerable<SearchResult> GetItemsToBeIndexed(string currentPath = "")
         {
             var data = new List<SearchResult>();
@@ -83,59 +87,64 @@ namespace James.Search
 
         private IEnumerable<SearchResult> GetItemsInCurrentScope(string currentPath)
         {
-            var data = new List<SearchResult>();
-            foreach (var filePath in Directory.GetFiles(currentPath))
-            {
-                data.AddRange(GetFileIfItShouldBeIndexed(filePath));
-            }
-            return data;
+            return Directory.GetFiles(currentPath).Select(GetItemIfItShouldBeIndexed).Where(file => file != null).ToList();
         }
 
-        private IEnumerable<SearchResult> GetFileIfItShouldBeIndexed(string filePath)
+        private SearchResult GetItemIfItShouldBeIndexed(string filePath)
         {
-            var data = new List<SearchResult>();
-            var priority = GetFilePriority(filePath);
-            if (priority > 0)
-            {
-                data.Add(new SearchResult {Path = filePath, Priority = priority});
-            }
-            return data;
+            var priority = GetPathPriority(filePath);
+            return GetPathPriority(filePath) > 0 ? new SearchResult {Path = filePath, Priority = priority} : null;
         }
 
-        public int GetFilePriority(string filePath)
+        /// <summary>
+        /// Calculates the priority of a given path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public int GetPathPriority(string path)
         {
-            if (Directory.Exists(filePath))
+            if (Directory.Exists(path))
             {
-                if (this.IndexFolders)
+                if (IndexFolders)
                 {
                     return Priority + Config.Instance.DefaultFolderPriority;
                 }
                 return -1;
             }
-            var priority = CalculatePriorityByFileExtensions(filePath, Config.Instance.DefaultFileExtensions);
-            if (priority == -1)
+            var priority = CalculatePriorityByFileExtensions(path);
+            if (priority < 0)
             {
                 return -1;
             }
             return priority + Priority;
         }
 
-        private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> defaultFileExtensions)
+        /// <summary>
+        /// Calculates the priority for a given file. If priority smaller than 0 it shouldn't be indexed.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns>priority</returns>
+        private int CalculatePriorityByFileExtensions(string filePath)
         {
-            var indexOfSearchedItem = FileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-            if (indexOfSearchedItem >= 0)
+            string fileExtension = filePath.Split('.').Last();
+            int priority = GetPriorityByGivenFileExtensions(fileExtension, FileExtensions);
+            if (priority == int.MinValue && IsDefaultConfigurationEnabled)
             {
-                return FileExtensions[indexOfSearchedItem].Priority;
+                priority = GetPriorityByGivenFileExtensions(fileExtension, Config.Instance.DefaultFileExtensions);
             }
-            if (IsDefaultConfigurationEnabled)
-            {
-                indexOfSearchedItem = defaultFileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-                if (indexOfSearchedItem >= 0)
-                {
-                    return defaultFileExtensions[indexOfSearchedItem].Priority;
-                }
-            }
-            return -1;
+            return priority;
+        }
+
+        /// <summary>
+        /// Returns the Priority of the file using the given fileExtensions list. If now suitable FileExtension was found int.MinValue will be returned.
+        /// </summary>
+        /// <param name="fileExtension">FileExtension of the File</param>
+        /// <param name="fileExtnesions">List of FileExtensions</param>
+        /// <returns></returns>
+        private static int GetPriorityByGivenFileExtensions(string fileExtension, List<FileExtension> fileExtnesions)
+        {
+            var indexOfSearchedItem = fileExtnesions.BinarySearch(new FileExtension(fileExtension, 0));
+            return indexOfSearchedItem < 0 ? int.MinValue : fileExtnesions[indexOfSearchedItem].Priority;
         }
     }
 }

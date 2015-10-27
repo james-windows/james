@@ -4,39 +4,38 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using James.Properties;
 
 namespace James.Search
 {
     internal class SearchEngine
     {
-        public delegate void ChangedBuildingIndexProgressEventHandler(object sender, ProgressChangedEventArgs e);
-
         private static SearchEngine _searchEngine;
         private static readonly object SingeltonLock = new object();
         private readonly SearchEngineWrapper.SearchEngineWrapper _searchEngineWrapper;
-
-        private readonly Timer timer;
+        private readonly Timer _timer;
 
         private SearchEngine()
         {
             _searchEngineWrapper =
                 new SearchEngineWrapper.SearchEngineWrapper(Config.Instance.ConfigFolderLocation + "\\files.txt");
-            timer = new Timer(1000*60*5)
+            _timer = new Timer(1000*60*5)
             {
                 AutoReset = true,
                 Enabled = true
             };
-            timer.Elapsed += Timer_Elapsed;
+            _timer.Elapsed += Timer_Elapsed;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
 #if DEBUG
-            Console.WriteLine("Triggerd Event for backup SearchEngine");
+            Console.WriteLine(Resources.SearchEngine_SearchEngineBackup_Notification);
 #endif
             _searchEngineWrapper.Save();
         }
 
+        public delegate void ChangedBuildingIndexProgressEventHandler(object sender, ProgressChangedEventArgs e);
         public event ChangedBuildingIndexProgressEventHandler ChangedBuildingIndexProgress;
 
         public static SearchEngine GetInstance()
@@ -84,15 +83,15 @@ namespace James.Search
 
         private static int CalcProgress(int position, int total) => (int) (((double) position)/total*100);
 
-        public void AddFile(SearchResult file)
-        {
-            _searchEngineWrapper.Insert(file.Path, file.Priority);
-        }
+        public void AddFile(SearchResult file) => _searchEngineWrapper.Insert(file.Path, file.Priority);
 
-        internal void RenameFile(string oldPath, string newPath)
-        {
-            _searchEngineWrapper.Rename(oldPath, newPath);
-        }
+        internal void RenameFile(string oldPath, string newPath) => _searchEngineWrapper.Rename(oldPath, newPath);
+
+        public void DeleteFile(string path) => _searchEngineWrapper.Remove(path);
+
+        public void IncrementPriority(SearchResult result) => IncrementPriority(result.Path);
+
+        public void IncrementPriority(string path) => _searchEngineWrapper.AddPriority(path, 5);
 
         public List<SearchResult> Query(string search)
         {
@@ -110,21 +109,6 @@ namespace James.Search
             return
                 _searchEngineWrapper.searchResults.Select(item => new SearchResult {Path = item.path + item.name})
                     .ToList();
-        }
-
-        public void DeleteFile(string path)
-        {
-            _searchEngineWrapper.Remove(path);
-        }
-
-        public void IncrementPriority(SearchResult result)
-        {
-            IncrementPriority(result.Path);
-        }
-
-        public void IncrementPriority(string path)
-        {
-            _searchEngineWrapper.AddPriority(path, 5);
         }
     }
 }

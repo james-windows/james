@@ -59,5 +59,14 @@ namespace James.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Triggered Event for backup SearchEngine.
+        /// </summary>
+        internal static string SearchEngine_SearchEngineBackup_Notification {
+            get {
+                return ResourceManager.GetString("SearchEngine_SearchEngineBackup_Notification", resourceCulture);
+            }
+        }
     }
 }

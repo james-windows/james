@@ -42,7 +42,7 @@ namespace James.Search
         {
             var watcher = sender as FileSystemWatcher;
             var currentPath = _paths.First(path => path.Location == watcher?.Path);
-            var priority = currentPath.GetFilePriority(e.FullPath);
+            var priority = currentPath.GetPathPriority(e.FullPath);
             if (priority >= 0)
             {
                 SearchEngine.GetInstance().AddFile(new SearchResult {Path = e.FullPath, Priority = priority});
@@ -58,7 +58,7 @@ namespace James.Search
         {
             var watcher = sender as FileSystemWatcher;
             var currentPath = _paths.First(path => path.Location == watcher?.Path);
-            var priority = currentPath.GetFilePriority(e.FullPath);
+            var priority = currentPath.GetPathPriority(e.FullPath);
             if (priority >= 0)
             {
                 SearchEngine.GetInstance().RenameFile(e.OldFullPath, e.FullPath);
