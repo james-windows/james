@@ -120,6 +120,9 @@
   <data name="BasicTrigger_EventGotTriggered_Notification" xml:space="preserve">
     <value>- Event got triggerd</value>
   </data>
+  <data name="CustomLine_RightClickToRemoveLine" xml:space="preserve">
+    <value>right click to remove</value>
+  </data>
   <data name="SearchEngine_SearchEngineBackup_Notification" xml:space="preserve">
     <value>Triggered Event for backup SearchEngine</value>
   </data>

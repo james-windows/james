@@ -70,6 +70,15 @@ namespace James.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to right click to remove.
+        /// </summary>
+        internal static string CustomLine_RightClickToRemoveLine {
+            get {
+                return ResourceManager.GetString("CustomLine_RightClickToRemoveLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Triggered Event for backup SearchEngine.
         /// </summary>
         internal static string SearchEngine_SearchEngineBackup_Notification {
