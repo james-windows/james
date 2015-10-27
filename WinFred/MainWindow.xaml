@@ -19,7 +19,7 @@
                     <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
                     <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
                     <Separator/>
-                    <MenuItem Header="Settings" Click="OpenSettings"/>
+                    <MenuItem Header="Settings" Click="OpenSettings" />
                     <Separator/>
                     <MenuItem Header="Quit" Click="CloseApplication"/>
                 </ContextMenu>
