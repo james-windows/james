@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using James.Properties;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Triggers
@@ -21,7 +22,7 @@ namespace James.Workflows.Triggers
 
         public void TriggerRunables(string arguments = "")
         {
-            Console.WriteLine($"{ParentWorkflow.Title} - Event got triggerd");
+            Console.WriteLine(ParentWorkflow.Title + Resources.BasicTrigger_EventGotTriggered_Notification);
             Runnables.ForEach(component => component.Run(arguments));
         }
     }

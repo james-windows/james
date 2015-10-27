@@ -61,6 +61,15 @@ namespace James.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to - Event got triggerd.
+        /// </summary>
+        internal static string BasicTrigger_EventGotTriggered_Notification {
+            get {
+                return ResourceManager.GetString("BasicTrigger_EventGotTriggered_Notification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Triggered Event for backup SearchEngine.
         /// </summary>
         internal static string SearchEngine_SearchEngineBackup_Notification {
