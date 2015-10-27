@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using James.Properties;
 using James.Workflows;
 using James.Workflows.Actions;
 using James.Workflows.Outputs;
@@ -18,7 +19,7 @@ namespace James.WorkflowEditor
                 Y1 = source.Y,
                 Stroke = Brushes.White,
                 StrokeThickness = 10,
-                ToolTip = "right click to remove",
+                ToolTip = Resources.CustomLine_RightClickToRemoveLine,
                 StrokeStartLineCap = PenLineCap.Round,
                 StrokeEndLineCap = PenLineCap.Round
             };
@@ -41,15 +42,10 @@ namespace James.WorkflowEditor
 
         public void DeleteConnection()
         {
-            if (Source is BasicTrigger)
-            {
-                ((BasicTrigger) Source).Runnables.Remove(
-                    (RunnableWorkflowComponent) Destination);
-            }
-            if (Source is BasicAction)
-            {
-                ((BasicAction) Source).Displayables.Remove((BasicOutput) Destination);
-            }
+            var trigger = Source as BasicTrigger;
+            trigger?.Runnables.Remove((RunnableWorkflowComponent) Destination);
+            var action = Source as BasicAction;
+            action?.Displayables.Remove((BasicOutput) Destination);
         }
     }
 }
