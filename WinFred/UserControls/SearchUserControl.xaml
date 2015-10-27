@@ -143,6 +143,9 @@
                                     <Style TargetType="controls:NumericUpDown">
                                         <Setter Property="Grid.Column" Value="1" />
                                     </Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                    </Style>
                                 </Style.Resources>
                             </Style>
                         </StackPanel.Resources>
@@ -150,6 +153,11 @@
                             <TextBlock>is enabled:</TextBlock>
                             <controls:ToggleSwitch
                                 IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsEnabled}" />
+                        </Grid>
+                        <Grid helper:GridHelper.ColumnDefinition="*|*">
+                            <TextBlock>default configuration:</TextBlock>
+                            <controls:ToggleSwitch 
+                                IsChecked="{Binding ElementName=PathListBox, Path=SelectedItem.IsDefaultConfigurationEnabled}" OnLabel="enabled" OffLabel="disabled"/>
                         </Grid>
                         <Grid helper:GridHelper.ColumnDefinition="*|*">
                             <TextBlock>default priority:</TextBlock>

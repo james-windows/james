@@ -11,6 +11,17 @@ namespace James.Search
     public class Path : INotifyPropertyChanged
     {
         private bool _isEnabled = true;
+        private bool _isDefaultConfigurationEnabled = true;
+
+        public bool IsDefaultConfigurationEnabled
+        {
+            get { return _isDefaultConfigurationEnabled; }
+            set
+            {
+                _isDefaultConfigurationEnabled = value;
+                OnPropertyChanged(nameof(IsDefaultConfigurationEnabled));
+            }
+        }
 
         public Path()
         {
@@ -23,7 +34,7 @@ namespace James.Search
             set
             {
                 _isEnabled = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsEnabled));
             }
         }
 
@@ -41,21 +52,6 @@ namespace James.Search
         }
 
         public override string ToString() => Location + " :" + Priority;
-
-        private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> defaultFileExtensions)
-        {
-            var indexOfSearchedItem = FileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-            if (indexOfSearchedItem >= 0)
-            {
-                return FileExtensions[indexOfSearchedItem].Priority;
-            }
-            indexOfSearchedItem = defaultFileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
-            if (indexOfSearchedItem >= 0)
-            {
-                return defaultFileExtensions[indexOfSearchedItem].Priority;
-            }
-            return -1;
-        }
 
         public IEnumerable<SearchResult> GetItemsToBeIndexed(string currentPath = "")
         {
@@ -122,6 +118,24 @@ namespace James.Search
                 return -1;
             }
             return priority + Priority;
+        }
+
+        private int CalculatePriorityByFileExtensions(string filePath, List<FileExtension> defaultFileExtensions)
+        {
+            var indexOfSearchedItem = FileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
+            if (indexOfSearchedItem >= 0)
+            {
+                return FileExtensions[indexOfSearchedItem].Priority;
+            }
+            if (IsDefaultConfigurationEnabled)
+            {
+                indexOfSearchedItem = defaultFileExtensions.BinarySearch(new FileExtension(filePath.Split('.').Last(), 0));
+                if (indexOfSearchedItem >= 0)
+                {
+                    return defaultFileExtensions[indexOfSearchedItem].Priority;
+                }
+            }
+            return -1;
         }
     }
 }
