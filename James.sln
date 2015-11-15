@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SearchEngine", "SearchEngin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SearchEngineWrapper", "SearchEngineWrapper\SearchEngineWrapper.vcxproj", "{35113677-1683-4425-AC56-382321C7C9E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "James.Test", "James.Test\James.Test.csproj", "{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,26 @@ Global
 		{35113677-1683-4425-AC56-382321C7C9E6}.Release|x64.Build.0 = Release|x64
 		{35113677-1683-4425-AC56-382321C7C9E6}.Release|x86.ActiveCfg = Release|Win32
 		{35113677-1683-4425-AC56-382321C7C9E6}.Release|x86.Build.0 = Release|Win32
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|Win32.Build.0 = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|x64.Build.0 = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Debug|x86.Build.0 = Debug|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|Win32.ActiveCfg = Release|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|Win32.Build.0 = Release|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|x64.ActiveCfg = Release|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|x64.Build.0 = Release|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|x86.ActiveCfg = Release|Any CPU
+		{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
