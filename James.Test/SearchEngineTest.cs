@@ -75,7 +75,7 @@ namespace James.Test
             SearchEngine.Instance.AddFile(testPath);
             testPath.Priority = 10;
             SearchEngine.Instance.AddFile(testPath);
-            var query = SearchEngine.Instance.Query("first"); //definitionssache
+            var query = SearchEngine.Instance.Query("first");
             Assert.IsTrue(query.Count == 1, "One result should be returned!");
             Assert.IsTrue(query[0].Path == testPath.Path, "Both paths should match!");
             Assert.IsTrue(query[0].Priority == testPath.Priority, "Path should be overriden by the higher priority!");
