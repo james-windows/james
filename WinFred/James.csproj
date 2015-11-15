@@ -132,7 +132,7 @@
       <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SearchEngineWrapper, Version=1.0.5756.37872, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="SearchEngineWrapper, Version=1.0.5797.33838, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\x64\Debug\SearchEngineWrapper.dll</HintPath>
     </Reference>
