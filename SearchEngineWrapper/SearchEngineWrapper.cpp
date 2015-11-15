@@ -19,43 +19,31 @@ void SearchEngineWrapper::SearchEngineWrapper::Save() {
 }
 
 void SearchEngineWrapper::SearchEngineWrapper::Remove(String^ path) {
-	int lastSeparator = path->LastIndexOf('\\');
-	char* argumentPath = ConvertToChar(path->Substring(0, lastSeparator + 1));
-	char* argumentName = ConvertToChar(path->Substring(lastSeparator + 1)->ToLower());
-	searchEngine->remove(argumentPath, argumentName);
+	searchEngine->remove(ConvertToChar(path));
 }
 
 void SearchEngineWrapper::SearchEngineWrapper::Insert(String^ path, int priority) {
-	searchEngine->insert(ConvertToChar(path), ConvertToChar(path->ToLower()), priority);
+	searchEngine->insert(ConvertToChar(path), priority);
 }
 
 void SearchEngineWrapper::SearchEngineWrapper::AddPriority(String^ path, int delta) {
-	int lastSeparator = path->LastIndexOf('\\');
-	char* argumentPath = ConvertToChar(path->Substring(0, lastSeparator + 1));
-	char* argumentName = ConvertToChar(path->Substring(lastSeparator + 1)->ToLower());
-	searchEngine->addPriority(argumentPath, argumentName, delta);
+	searchEngine->addPriority(ConvertToChar(path), delta);
 }
 
 void SearchEngineWrapper::SearchEngineWrapper::Rename(String^ oPath, String^ nPath) {
-	int lastSeparator = oPath->LastIndexOf('\\');
-	char* oldPath = ConvertToChar(oPath->Substring(0, lastSeparator + 1));
-	char* oldName = ConvertToChar(oPath->Substring(lastSeparator + 1)->ToLower());
-	
-	lastSeparator = nPath->LastIndexOf('\\');
-	char* newName = ConvertToChar(nPath->Substring(lastSeparator + 1)->ToLower());
-	searchEngine->rename(oldPath, oldName, ConvertToChar(nPath), newName);
+	searchEngine->rename(ConvertToChar(oPath), ConvertToChar(nPath));
 }
 
 void SearchEngineWrapper::SearchEngineWrapper::Find(String^ file) {	
-	const array<const char*, 2> *res = searchEngine->find(ConvertToChar(file->ToLower()));
+	const pair<const char*, int> *res = searchEngine->find(ConvertToChar(file->ToLower()));
+	//const array<const char*, 2> *res = searchEngine->find(ConvertToChar(file->ToLower()));
 	searchResults->Clear();
-	for (int i = 0; res[i][0]; i++)
+	for (int i = 0; res[i].first; i++)
 	{
 		SearchResult^ tmp = gcnew SearchResult;
-		tmp->path = gcnew String(res[i][0]);
+		tmp->path = gcnew String(res[i].first);
 		tmp->path = WebUtility::HtmlDecode(tmp->path);
-		tmp->name = gcnew String(res[i][1]);
-		tmp->name = WebUtility::HtmlDecode(tmp->name);
+		tmp->priority = res[i].second;
 		searchResults->Add(tmp);
 	}
 }

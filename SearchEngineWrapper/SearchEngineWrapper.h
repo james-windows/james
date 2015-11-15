@@ -8,8 +8,8 @@ using namespace System::Collections::Generic;
 
 namespace SearchEngineWrapper {
 	public ref struct SearchResult {
-		String^ name;
 		String^ path;
+		int priority;
 	};
 
 	public ref class SearchEngineWrapper
