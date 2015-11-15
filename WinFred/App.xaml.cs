@@ -47,7 +47,7 @@ namespace James
             Config.Instance.WindowChangedAccentColor += App_WindowChangedAccentColor;
             SetStyleAccents();
             SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
-            SearchEngine.GetInstance();
+            var instance = SearchEngine.Instance;
             if (_showTheWelcomeWizard)
             {
                 new WelcomeWindow().Show();

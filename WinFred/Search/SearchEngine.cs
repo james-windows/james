@@ -8,7 +8,7 @@ using James.Properties;
 
 namespace James.Search
 {
-    internal class SearchEngine
+    public class SearchEngine
     {
         private static SearchEngine _searchEngine;
         private static readonly object SingeltonLock = new object();
@@ -27,6 +27,17 @@ namespace James.Search
             _timer.Elapsed += Timer_Elapsed;
         }
 
+        public static SearchEngine Instance
+        {
+            get
+            {
+                lock (SingeltonLock)
+                {
+                    return _searchEngine ?? (_searchEngine = new SearchEngine());
+                }
+            }
+        }
+
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
 #if DEBUG
@@ -37,14 +48,6 @@ namespace James.Search
 
         public delegate void ChangedBuildingIndexProgressEventHandler(object sender, ProgressChangedEventArgs e);
         public event ChangedBuildingIndexProgressEventHandler ChangedBuildingIndexProgress;
-
-        public static SearchEngine GetInstance()
-        {
-            lock (SingeltonLock)
-            {
-                return _searchEngine ?? (_searchEngine = new SearchEngine());
-            }
-        }
 
         public void BuildIndex()
         {
@@ -85,13 +88,13 @@ namespace James.Search
 
         public void AddFile(SearchResult file) => _searchEngineWrapper.Insert(file.Path, file.Priority);
 
-        internal void RenameFile(string oldPath, string newPath) => _searchEngineWrapper.Rename(oldPath, newPath);
+        public void RenameFile(string oldPath, string newPath) => _searchEngineWrapper.Rename(oldPath, newPath);
 
         public void DeleteFile(string path) => _searchEngineWrapper.Remove(path);
 
         public void IncrementPriority(SearchResult result) => IncrementPriority(result.Path);
 
-        public void IncrementPriority(string path) => _searchEngineWrapper.AddPriority(path, 5);
+        public void IncrementPriority(string path, int priority = 5) => _searchEngineWrapper.AddPriority(path, priority);
 
         public List<SearchResult> Query(string search)
         {
@@ -107,7 +110,7 @@ namespace James.Search
             _searchEngineWrapper.Find(search);
 #endif
             return
-                _searchEngineWrapper.searchResults.Select(item => new SearchResult {Path = item.path + item.name})
+                _searchEngineWrapper.searchResults.Select(item => new SearchResult {Path = item.path, Priority = item.priority})
                     .ToList();
         }
     }

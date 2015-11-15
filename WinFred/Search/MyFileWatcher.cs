@@ -45,13 +45,13 @@ namespace James.Search
             var priority = currentPath.GetPathPriority(e.FullPath);
             if (priority >= 0)
             {
-                SearchEngine.GetInstance().AddFile(new SearchResult {Path = e.FullPath, Priority = priority});
+                SearchEngine.Instance.AddFile(new SearchResult {Path = e.FullPath, Priority = priority});
             }
         }
 
         private static void File_Deleted(object sender, FileSystemEventArgs e)
         {
-            SearchEngine.GetInstance().DeleteFile(e.FullPath);
+            SearchEngine.Instance.DeleteFile(e.FullPath);
         }
 
         private void File_Renamed(object sender, RenamedEventArgs e)
@@ -61,13 +61,13 @@ namespace James.Search
             var priority = currentPath.GetPathPriority(e.FullPath);
             if (priority >= 0)
             {
-                SearchEngine.GetInstance().RenameFile(e.OldFullPath, e.FullPath);
+                SearchEngine.Instance.RenameFile(e.OldFullPath, e.FullPath);
             }
         }
 
         private static void File_Changed(object sender, FileSystemEventArgs e)
         {
-            SearchEngine.GetInstance().IncrementPriority(e.FullPath);
+            SearchEngine.Instance.IncrementPriority(e.FullPath);
         }
     }
 }

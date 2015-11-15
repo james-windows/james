@@ -43,10 +43,10 @@ namespace James.UserControls
         private async void BuildIndexInTheBg()
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
-            SearchEngine.GetInstance().ChangedBuildingIndexProgress += ChangedBuildingIndexProgress;
+            SearchEngine.Instance.ChangedBuildingIndexProgress += ChangedBuildingIndexProgress;
             _controller = await parentWindow.ShowProgressAsync("Building index...", "Browsing through your files...");
             _controller.SetIndeterminate();
-            var tmp = new Task(() => SearchEngine.GetInstance().BuildIndex());
+            var tmp = new Task(() => SearchEngine.Instance.BuildIndex());
             tmp.Start();
         }
 

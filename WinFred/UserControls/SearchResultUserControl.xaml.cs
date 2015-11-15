@@ -36,7 +36,7 @@ namespace James.UserControls
             e.Handled = true;
             var window = Window.GetWindow(this);
             window?.Hide();
-            var index = (int) (e.GetPosition(this).Y/SearchResultElement.ROW_HEIGHT);
+            var index = (int) (e.GetPosition(this).Y/SearchResultElement.RowHeight);
             if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
             {
                 _searchResults[index].OpenFolder();
@@ -49,7 +49,7 @@ namespace James.UserControls
 
         public void Search(string str)
         {
-            _searchResults = SearchEngine.GetInstance().Query(str);
+            _searchResults = SearchEngine.Instance.Query(str);
             WorkflowManager.Instance.CancelWorkflows();
             if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength, 1))
             {
@@ -59,7 +59,7 @@ namespace James.UserControls
             FocusedIndex = 0;
             _searchResultElement.DrawItems(_searchResults, FocusedIndex);
             Dispatcher.BeginInvoke(
-                (Action) (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.ROW_HEIGHT; }));
+                (Action) (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.RowHeight; }));
         }
 
         public void WorkflowOutput(List<SearchResult> searchResults)
@@ -70,7 +70,7 @@ namespace James.UserControls
                 _searchResultElement.DrawItems(_searchResults, 0);
                 Dispatcher.BeginInvoke(
                     (Action)
-                        (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.ROW_HEIGHT; }));
+                        (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.RowHeight; }));
             });
         }
 
