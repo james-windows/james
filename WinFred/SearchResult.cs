@@ -40,7 +40,7 @@ namespace James
             else
             {
                 Process.Start(Path);
-                SearchEngine.GetInstance().IncrementPriority(this);
+                SearchEngine.Instance.IncrementPriority(this);
             }
         }
 
@@ -57,8 +57,10 @@ namespace James
             else
             {
                 Process.Start(Path.Substring(0, Path.LastIndexOf('\\')));
-                SearchEngine.GetInstance().IncrementPriority(this);
+                SearchEngine.Instance.IncrementPriority(this);
             }
         }
+
+        public override string ToString() => Path + ", " + Priority;
     }
 }
