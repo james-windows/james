@@ -99,6 +99,17 @@ namespace James
                     SearchTextBox.Text = "";
                     break;
             }
+            if (e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) || e.KeyboardDevice.IsKeyDown(Key.RightCtrl))
+            {
+                if (e.KeyboardDevice.IsKeyDown(Key.Up))
+                {
+                    searchResultControl.IncreasePriority();
+                }
+                else if (e.KeyboardDevice.IsKeyDown(Key.Down))
+                {
+                    searchResultControl.DecreasePriority();
+                }
+            }
             if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) &&
                 SearchTextBox.Text.Trim().Length > 0)
             {

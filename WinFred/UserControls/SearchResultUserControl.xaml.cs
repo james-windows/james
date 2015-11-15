@@ -16,6 +16,7 @@ namespace James.UserControls
     {
         private readonly SearchResultElement _searchResultElement;
         private List<SearchResult> _searchResults;
+        private string _lastSearch = "";
 
         public SearchResultUserControl()
         {
@@ -47,19 +48,33 @@ namespace James.UserControls
             }
         }
 
-        public void Search(string str)
+        public void Search(string str, SearchResult focusedItem = null)
         {
+            _lastSearch = str;
             _searchResults = SearchEngine.Instance.Query(str);
             WorkflowManager.Instance.CancelWorkflows();
             if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength, 1))
             {
                 _searchResults.InsertRange(0, WorkflowManager.Instance.GetKeywordTriggers(str));
             }
+            FocusedIndex = (focusedItem != null) ? CalcFocusedItem(focusedItem):0;
+
             _searchResults = _searchResults.Take(10).ToList();
-            FocusedIndex = 0;
             _searchResultElement.DrawItems(_searchResults, FocusedIndex);
             Dispatcher.BeginInvoke(
                 (Action) (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.RowHeight; }));
+        }
+
+        public int CalcFocusedItem(SearchResult focusedItem)
+        {
+            for (int i = 0; i < _searchResults.Count; i++)
+            {
+                if (_searchResults[i].Path == focusedItem.Path)
+                {
+                    return i;
+                }
+            }
+            return 0;
         }
 
         public void WorkflowOutput(List<SearchResult> searchResults)
@@ -95,17 +110,45 @@ namespace James.UserControls
         public void Open(KeyEventArgs e)
         {
             e.Handled = true;
-            if (_searchResultElement.CurrentFocus >= 0 && _searchResultElement.CurrentFocus < _searchResults.Count)
+            int index = _searchResultElement.CurrentFocus;
+            if (index >= 0 && index < _searchResults.Count)
             {
                 if (e.KeyboardDevice.IsKeyDown(Key.LeftShift) || e.KeyboardDevice.IsKeyDown(Key.RightShift))
                 {
-                    _searchResults[_searchResultElement.CurrentFocus].OpenFolder();
+                    _searchResults[index].OpenFolder();
                 }
                 else
                 {
-                    _searchResults[_searchResultElement.CurrentFocus].Open();
+                    _searchResults[index].Open();
                 }
             }
+        }
+
+        public void IncreasePriority()
+        {
+            int index = _searchResultElement.CurrentFocus;
+            if (index > 0 && index < _searchResults.Count)
+            {
+                int diff = _searchResults[index - 1].Priority - _searchResults[index].Priority + 1;
+                ChangePriority(diff, index);
+            }
+        }
+
+        public void DecreasePriority()
+        {
+            int index = _searchResultElement.CurrentFocus;
+            if (index >= 0 && index < _searchResults.Count - 1)
+            {
+                int diff = _searchResults[index].Priority - _searchResults[index + 1].Priority + 1;
+                ChangePriority(-diff, index);
+            }
+        }
+
+        public void ChangePriority(int diff, int index)
+        {
+            SearchEngine.Instance.IncrementPriority(_searchResults[index].Path, diff);
+
+            Search(_lastSearch, _searchResults[index]);
         }
     }
 }
