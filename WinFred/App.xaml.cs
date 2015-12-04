@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using James.Search;
+using James.Workflows;
 using Microsoft.Win32.TaskScheduler;
 using Squirrel;
 
@@ -47,7 +48,6 @@ namespace James
             Config.Instance.WindowChangedAccentColor += App_WindowChangedAccentColor;
             SetStyleAccents();
             SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
-            var instance = SearchEngine.Instance;
             if (_showTheWelcomeWizard)
             {
                 new WelcomeWindow().Show();
@@ -55,8 +55,15 @@ namespace James
             else
             {
                 James.MainWindow.GetInstance().Show();
-                //var watcher = MyFileWatcher.Instance;
+                InitializeSingeltons();
             }
+        }
+
+        private static void InitializeSingeltons()
+        {
+            var instance = SearchEngine.Instance;
+            var watcher = MyFileWatcher.Instance;
+            var workflowManager = WorkflowManager.Instance;
         }
 
         private static void OnAppUninstall(Version version)
