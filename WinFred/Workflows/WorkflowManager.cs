@@ -14,6 +14,10 @@ namespace James.Workflows
 
         private WorkflowManager()
         {
+            if (!Directory.Exists(Config.Instance.ConfigFolderLocation + "\\workflows"))
+            {
+                Directory.CreateDirectory(Config.Instance.ConfigFolderLocation + "\\workflows");
+            }
             foreach (var path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
             {
                 Workflows.Add(GeneralHelper.DeserializeWorkflow(path + "\\config.xml"));
