@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300" Loaded="FillContextMenu">
     <Grid MouseLeftButtonUp="FinishDragging" MouseLeave="UIElement_OnMouseLeave" helper:GridHelper.RowDefinition="a|*">
         <Grid.Background>
-            <ImageBrush ImageSource="D:\WinFred\Project\winfred\WinFred\Resources\workflow-bg.jpg" TileMode="FlipY"
+            <ImageBrush ImageSource="..\Resources\workflow-bg.jpg" TileMode="FlipY"
                         Stretch="Uniform" AlignmentY="Top" Viewport="0,0,128,128" ViewportUnits="Absolute" />
         </Grid.Background>
         <Grid>
