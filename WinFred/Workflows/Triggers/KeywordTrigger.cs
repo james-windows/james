@@ -15,7 +15,7 @@ namespace James.Workflows.Triggers
 
         [DataMember]
         [ComponentField("Listens for this keyword to trigger")]
-        public string Keyword { get; set; }
+        public string Keyword { get; set; } = "";
 
         public override string GetSummary() => $"Triggers for \"{Keyword}\"";
 
