@@ -216,3 +216,4 @@ Session.vim
 ### own edit ###
 nuget.exe
 SearchEngine/
+*.opendb
