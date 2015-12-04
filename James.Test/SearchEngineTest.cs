@@ -138,6 +138,27 @@ namespace James.Test
             CompareSearchResults(query, secondQuery);
         }
 
+        [TestMethod]
+        public void CheckPriorityAfterRename()
+        {
+            PrepareTest();
+
+            InsertManyTest();
+            SearchEngine.Instance.IncrementPriority("C:\\User\\Moser\\Desktop\\firstExe.exe", 10);
+            var query = SearchEngine.Instance.Query("first");
+            SearchEngine.Instance.RenameFile(@"C:\User\Moser\Desktop", @"C:\User\Moser\Documents");
+            query =
+                query.Select(
+                    result =>
+                        new SearchResult()
+                        {
+                            Path = result.Path.Replace("Desktop", "Documents"),
+                            Priority = result.Priority
+                        }).ToList();
+
+            var secondQuery = SearchEngine.Instance.Query("first");
+            CompareSearchResults(query, secondQuery);
+        }
         #endregion
 
         #region AddPriority
