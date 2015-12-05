@@ -212,7 +212,7 @@ namespace James.Test
         {
             InsertManyTest();
             var query = SearchEngine.Instance.Query("f");
-            SearchEngine.Instance.DeleteFile(query[0].Path);
+            SearchEngine.Instance.DeletePath(query[0].Path);
             var secondQuery = SearchEngine.Instance.Query("f");
 
             query.RemoveAt(0);
@@ -224,7 +224,7 @@ namespace James.Test
         {
             InsertManyTest();
             var query = SearchEngine.Instance.Query("f");
-            SearchEngine.Instance.DeleteFile(query[0].Path + "something");
+            SearchEngine.Instance.DeletePath(query[0].Path + "something");
             var secondQuery = SearchEngine.Instance.Query("f");
             CompareSearchResults(query, secondQuery);
         }

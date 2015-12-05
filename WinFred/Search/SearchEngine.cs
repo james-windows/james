@@ -90,7 +90,9 @@ namespace James.Search
 
         public void RenameFile(string oldPath, string newPath) => _searchEngineWrapper.Rename(oldPath, newPath);
 
-        public void DeleteFile(string path) => _searchEngineWrapper.Remove(path);
+        public void DeletePath(string path) => _searchEngineWrapper.Remove(path);
+
+        public void DeletePathRecursive(string path) => _searchEngineWrapper.RemoveRecursive(path);
 
         public void IncrementPriority(SearchResult result) => IncrementPriority(result.Path);
 
