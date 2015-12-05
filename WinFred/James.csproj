@@ -184,6 +184,7 @@
     <Compile Include="PartialConfigClasses\LargeTypeConfig.cs" />
     <Compile Include="PartialConfigClasses\MainWindowConfig.cs" />
     <Compile Include="SearchResultElement.cs" />
+    <Compile Include="Search\DeleteEvent.cs" />
     <Compile Include="UserControls\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>
     </Compile>

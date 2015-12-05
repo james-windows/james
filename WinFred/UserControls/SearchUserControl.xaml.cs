@@ -66,8 +66,10 @@ namespace James.UserControls
             dialog.ShowDialog();
             if (dialog.SelectedPath != "")
             {
-                Config.Instance.Paths.Add(new Path {Location = dialog.SelectedPath});
+                Path newPath = new Path {Location = dialog.SelectedPath};
+                Config.Instance.Paths.Add(newPath);
                 Config.Instance.Persist();
+                MyFileWatcher.Instance.AddPath(newPath);
             }
         }
 
@@ -85,8 +87,10 @@ namespace James.UserControls
                         MessageDialogStyle.AffirmativeAndNegative, setting);
             if (MessageDialogResult.Affirmative == result)
             {
-                Config.Instance.Paths.Remove((Path) PathListBox.SelectedItem);
+                var oldPath = (Path) PathListBox.SelectedItem;
+                Config.Instance.Paths.Remove(oldPath);
                 Config.Instance.Persist();
+                MyFileWatcher.Instance.RemovePath(oldPath);
             }
         }
 

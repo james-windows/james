@@ -1,30 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using Microsoft.Win32.TaskScheduler;
+using Task = System.Threading.Tasks.Task;
 
 namespace James.Search
 {
     internal class MyFileWatcher
     {
         private static readonly object SingeltonLock = new object();
+        private static readonly object DeleteEventsLock = new object();
 
         private static MyFileWatcher _instance;
-        private readonly Path[] _paths;
+        private const int MaxMoveDelay = 50;
+        private readonly List<Path> _paths = new List<Path>();
+        private readonly List<FileSystemWatcher> _fileSystemWatchers = new List<FileSystemWatcher>();
+        private static readonly Queue<DeleteEvent> DeleteEvents  = new Queue<DeleteEvent>();
 
         private MyFileWatcher()
         {
-            _paths = Config.Instance.Paths.ToArray();
-            var fileSystemWatchers = new LinkedList<FileSystemWatcher>();
-            foreach (var path in _paths)
-            {
-                var watcher = new FileSystemWatcher(path.Location) {IncludeSubdirectories = true};
-                watcher.Created += File_Created;
-                watcher.Deleted += File_Deleted;
-                watcher.Renamed += File_Renamed;
-                watcher.Changed += File_Changed;
-                fileSystemWatchers.AddLast(watcher);
-                watcher.EnableRaisingEvents = true;
-            }
+            var paths = Config.Instance.Paths.ToList();
+            paths.Where(path => path.IsEnabled).ToList().ForEach(AddPath);
         }
 
         public static MyFileWatcher Instance
@@ -40,22 +39,69 @@ namespace James.Search
 
         private void File_Created(object sender, FileSystemEventArgs e)
         {
-            var watcher = sender as FileSystemWatcher;
-            var currentPath = _paths.First(path => path.Location == watcher?.Path);
-            var priority = currentPath.GetPathPriority(e.FullPath);
-            if (priority >= 0)
+            string newName = e.Name.Split('\\').Last();
+            int count;
+            string name;
+            lock (DeleteEventsLock)
             {
-                SearchEngine.Instance.AddFile(new SearchResult {Path = e.FullPath, Priority = priority});
+                count = DeleteEvents.Count;
+                name = DeleteEvents.Peek().Name;
+            }
+            if (count > 0 && name == newName)
+            {
+                string oldPath;
+                lock (DeleteEventsLock)
+                {
+                    oldPath = DeleteEvents.Dequeue().Path;
+                }
+                Console.WriteLine($"moved {e.FullPath} | old: {oldPath}");
+                SearchEngine.Instance.RenameFile(oldPath, e.FullPath);
+            }
+            else
+            {
+                Console.WriteLine($"created {e.FullPath}");
+                var watcher = sender as FileSystemWatcher;
+                var currentPath = _paths.First(path => path.Location == watcher?.Path);
+                var priority = currentPath.GetPathPriority(e.FullPath);
+                if (priority >= 0)
+                {
+                    SearchEngine.Instance.AddFile(new SearchResult { Path = e.FullPath, Priority = priority });
+                }
             }
         }
 
         private static void File_Deleted(object sender, FileSystemEventArgs e)
         {
-            SearchEngine.Instance.DeleteFile(e.FullPath);
+            lock (DeleteEventsLock)
+            {
+                DeleteEvents.Enqueue(new DeleteEvent() { Date = DateTime.Now, Path = e.FullPath, Name = e.FullPath.Split('\\').Last()});
+            }
+            Task.Run(() =>
+            {
+                Thread.Sleep(MaxMoveDelay);
+                lock (DeleteEventsLock)
+                {
+                    DeleteFileLazy();
+                }
+            });
+            Console.WriteLine($"deleted {e.FullPath}");
+            SearchEngine.Instance.DeletePath(e.FullPath);
+        }
+
+        private static void DeleteFileLazy()
+        {
+            DateTime now = DateTime.Now;
+            while (DeleteEvents.Count > 0 && (now - DeleteEvents.Peek().Date).TotalMilliseconds > MaxMoveDelay)
+            {
+                string path = DeleteEvents.Dequeue().Path;
+                Console.WriteLine($"lazy deleted {path}");
+                SearchEngine.Instance.DeletePathRecursive(path);
+            }
         }
 
         private void File_Renamed(object sender, RenamedEventArgs e)
         {
+            Console.WriteLine($"renamed {e.FullPath} | old: {e.OldFullPath}");
             var watcher = sender as FileSystemWatcher;
             var currentPath = _paths.First(path => path.Location == watcher?.Path);
             var priority = currentPath.GetPathPriority(e.FullPath);
@@ -65,9 +111,40 @@ namespace James.Search
             }
         }
 
-        private static void File_Changed(object sender, FileSystemEventArgs e)
+        /// <summary>
+        /// Destroys the filewatcher listening to that path as well removes it from the path list.
+        /// </summary>
+        /// <param name="path"></param>
+        public void RemovePath(Path path)
         {
-            SearchEngine.Instance.IncrementPriority(e.FullPath);
+            _paths.Remove(path);
+            var watcher = _fileSystemWatchers.First(item => item.Path == path.Location);
+            watcher.Dispose();
+            _fileSystemWatchers.Remove(watcher);
+        }
+
+        /// <summary>
+        /// Adds the given path to the list as well as created a new filewatcher for this path.
+        /// </summary>
+        /// <param name="path"></param>
+        public void AddPath(Path path)
+        {
+            _paths.Add(path);
+            _fileSystemWatchers.Add(CreateFileSystemWatcher(path));
+        }
+
+        /// <summary>
+        /// Creates a FileSystemWatcher for the given path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private FileSystemWatcher CreateFileSystemWatcher(Path path)
+        {
+            var watcher = new FileSystemWatcher(path.Location) { IncludeSubdirectories = true, EnableRaisingEvents = true };
+            watcher.Created += File_Created;
+            watcher.Deleted += File_Deleted;
+            watcher.Renamed += File_Renamed;
+            return watcher;
         }
     }
 }
