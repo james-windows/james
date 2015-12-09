@@ -5,6 +5,7 @@ using James.Search;
 using James.Workflows;
 using Microsoft.Win32.TaskScheduler;
 using Squirrel;
+using Task = System.Threading.Tasks.Task;
 
 namespace James
 {
@@ -55,7 +56,7 @@ namespace James
             else
             {
                 James.MainWindow.GetInstance().Show();
-                InitializeSingeltons();
+                Task.Run(() => InitializeSingeltons());
             }
         }
 
