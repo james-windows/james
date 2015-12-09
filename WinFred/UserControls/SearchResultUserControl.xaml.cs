@@ -15,8 +15,8 @@ namespace James.UserControls
     public partial class SearchResultUserControl : UserControl
     {
         private readonly SearchResultElement _searchResultElement;
-        private List<SearchResult> _searchResults;
         private string _lastSearch = "";
+        private List<SearchResult> _searchResults;
 
         public SearchResultUserControl()
         {
@@ -57,7 +57,7 @@ namespace James.UserControls
             {
                 _searchResults.InsertRange(0, WorkflowManager.Instance.GetKeywordTriggers(str));
             }
-            FocusedIndex = (focusedItem != null) ? CalcFocusedItem(focusedItem):0;
+            FocusedIndex = (focusedItem != null) ? CalcFocusedItem(focusedItem) : 0;
 
             _searchResults = _searchResults.Take(10).ToList();
             _searchResultElement.DrawItems(_searchResults, FocusedIndex);
@@ -67,7 +67,7 @@ namespace James.UserControls
 
         public int CalcFocusedItem(SearchResult focusedItem)
         {
-            for (int i = 0; i < _searchResults.Count; i++)
+            for (var i = 0; i < _searchResults.Count; i++)
             {
                 if (_searchResults[i].Path == focusedItem.Path)
                 {
@@ -110,7 +110,7 @@ namespace James.UserControls
         public void Open(KeyEventArgs e)
         {
             e.Handled = true;
-            int index = _searchResultElement.CurrentFocus;
+            var index = _searchResultElement.CurrentFocus;
             if (index >= 0 && index < _searchResults.Count)
             {
                 if (e.KeyboardDevice.IsKeyDown(Key.LeftShift) || e.KeyboardDevice.IsKeyDown(Key.RightShift))
@@ -126,20 +126,20 @@ namespace James.UserControls
 
         public void IncreasePriority()
         {
-            int index = _searchResultElement.CurrentFocus;
+            var index = _searchResultElement.CurrentFocus;
             if (index > 0 && index < _searchResults.Count)
             {
-                int diff = _searchResults[index - 1].Priority - _searchResults[index].Priority + 1;
+                var diff = _searchResults[index - 1].Priority - _searchResults[index].Priority + 1;
                 ChangePriority(diff, index);
             }
         }
 
         public void DecreasePriority()
         {
-            int index = _searchResultElement.CurrentFocus;
+            var index = _searchResultElement.CurrentFocus;
             if (index >= 0 && index < _searchResults.Count - 1)
             {
-                int diff = _searchResults[index].Priority - _searchResults[index + 1].Priority + 1;
+                var diff = _searchResults[index].Priority - _searchResults[index + 1].Priority + 1;
                 ChangePriority(-diff, index);
             }
         }

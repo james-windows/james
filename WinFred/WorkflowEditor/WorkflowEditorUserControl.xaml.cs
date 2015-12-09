@@ -159,9 +159,11 @@ namespace James.WorkflowEditor
                 ((BasicAction) source).Displayables.Add((BasicOutput) destination);
             }
         }
+
         #endregion
 
         #region drawing Workflow
+
         private void WorkflowEditorUserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (DataContext != null)
@@ -251,9 +253,11 @@ namespace James.WorkflowEditor
                 editorCanvas.Children.Add(item);
             }
         }
+
         #endregion
 
         #region Add Component
+
         private void OpenContextMenu(object sender, RoutedEventArgs e)
         {
             var tmp = (Button) sender;
@@ -277,6 +281,7 @@ namespace James.WorkflowEditor
             workflow.AddComponent(instance);
             DrawCanvas(this, null);
         }
+
         #endregion
     }
 }

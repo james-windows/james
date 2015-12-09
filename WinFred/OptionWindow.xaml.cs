@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using MahApps.Metro.Controls;
 
 namespace James
@@ -21,7 +22,7 @@ namespace James
             AboutFlyout.IsOpen = !AboutFlyout.IsOpen;
         }
 
-        private void TabChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) => Config.Instance.Persist();
+        private void TabChanged(object sender, SelectionChangedEventArgs e) => Config.Instance.Persist();
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e) => Config.Instance.Persist();
     }

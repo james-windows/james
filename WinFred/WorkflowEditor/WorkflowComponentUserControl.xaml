@@ -22,7 +22,8 @@
         <Grid Background="LightGray" HorizontalAlignment="Center" Width="90">
             <StackPanel VerticalAlignment="Center" MaxWidth="90">
                 <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontSize="9" Foreground="#FF333333" />
-                <TextBlock x:Name="SummaryTextBlock"  Text="{Binding Summary}" HorizontalAlignment="Center" FontSize="7" Foreground="#FF777777"
+                <TextBlock x:Name="SummaryTextBlock" Text="{Binding Summary}" HorizontalAlignment="Center" FontSize="7"
+                           Foreground="#FF777777"
                            TextWrapping="Wrap" TextAlignment="Center" />
             </StackPanel>
         </Grid>

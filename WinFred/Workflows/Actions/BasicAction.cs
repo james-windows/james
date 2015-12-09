@@ -35,10 +35,10 @@ namespace James.Workflows.Actions
 
         public override void Run(string output = "")
         {
-            string path = ExecutablePath;
+            var path = ExecutablePath;
             if (path[1] != ':')
             {
-                path = ParentWorkflow.Path +  "\\" + path;
+                path = ParentWorkflow.Path + "\\" + path;
             }
             var proc = new Process
             {

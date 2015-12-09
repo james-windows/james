@@ -63,7 +63,7 @@ namespace James.Search
             return data;
         }
 
-        private void WriteFilesToIndex(IReadOnlyList<SearchResult> data)
+        public void WriteFilesToIndex(IReadOnlyList<SearchResult> data)
         {
             var lastProgress = -1;
             for (var i = 0; i < data.Count; i++)

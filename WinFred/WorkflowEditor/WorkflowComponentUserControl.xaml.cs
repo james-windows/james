@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using James.Workflows;
 using James.Workflows.Outputs;
@@ -42,7 +40,7 @@ namespace James.WorkflowEditor
 
         public void OpenComponent(object sender = null, RoutedEventArgs e = null)
         {
-            ComponentMetroDialog dialog = new ComponentMetroDialog((WorkflowComponent)DataContext);
+            var dialog = new ComponentMetroDialog((WorkflowComponent) DataContext);
             var window = Window.GetWindow(this);
             ((MetroWindow) window)?.ShowMetroDialogAsync(dialog);
 
@@ -51,10 +49,10 @@ namespace James.WorkflowEditor
 
         private void Dialog_Unloaded(object sender, RoutedEventArgs e)
         {
-            SummaryTextBlock.Text = ((WorkflowComponent)DataContext).Summary;
+            SummaryTextBlock.Text = ((WorkflowComponent) DataContext).Summary;
         }
 
         private void OpenWorkflowFolder(object sender, RoutedEventArgs e)
-            => ((WorkflowComponent)DataContext).ParentWorkflow.OpenFolder();
+            => ((WorkflowComponent) DataContext).ParentWorkflow.OpenFolder();
     }
 }

@@ -10,18 +10,18 @@ namespace James.Search
 {
     public class Path : INotifyPropertyChanged
     {
-        private bool _isEnabled = true;
         private bool _isDefaultConfigurationEnabled = true;
-        public string Location { get; set; }
-        public int Priority { get; set; }
-        public bool IndexFolders { get; set; } = true;
-        public List<FileExtension> FileExtensions { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
+        private bool _isEnabled = true;
 
         public Path()
         {
             FileExtensions = new List<FileExtension>();
         }
+
+        public string Location { get; set; }
+        public int Priority { get; set; }
+        public bool IndexFolders { get; set; } = true;
+        public List<FileExtension> FileExtensions { get; set; }
 
         public bool IsDefaultConfigurationEnabled
         {
@@ -43,6 +43,8 @@ namespace James.Search
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -53,7 +55,7 @@ namespace James.Search
         public override string ToString() => Location + " :" + Priority;
 
         /// <summary>
-        /// recursively goes through the folder and returns all items which sould be indexed.
+        ///     recursively goes through the folder and returns all items which sould be indexed.
         /// </summary>
         /// <param name="currentPath"></param>
         /// <returns></returns>
@@ -87,7 +89,8 @@ namespace James.Search
 
         private IEnumerable<SearchResult> GetItemsInCurrentScope(string currentPath)
         {
-            return Directory.GetFiles(currentPath).Select(GetItemIfItShouldBeIndexed).Where(file => file != null).ToList();
+            return
+                Directory.GetFiles(currentPath).Select(GetItemIfItShouldBeIndexed).Where(file => file != null).ToList();
         }
 
         private SearchResult GetItemIfItShouldBeIndexed(string filePath)
@@ -97,7 +100,7 @@ namespace James.Search
         }
 
         /// <summary>
-        /// Calculates the priority of a given path
+        ///     Calculates the priority of a given path
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -120,14 +123,14 @@ namespace James.Search
         }
 
         /// <summary>
-        /// Calculates the priority for a given file. If priority smaller than 0 it shouldn't be indexed.
+        ///     Calculates the priority for a given file. If priority smaller than 0 it shouldn't be indexed.
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns>priority</returns>
         private int CalculatePriorityByFileExtensions(string filePath)
         {
-            string fileExtension = filePath.Split('.').Last();
-            int priority = GetPriorityByGivenFileExtensions(fileExtension, FileExtensions);
+            var fileExtension = filePath.Split('.').Last();
+            var priority = GetPriorityByGivenFileExtensions(fileExtension, FileExtensions);
             if (priority == int.MinValue && IsDefaultConfigurationEnabled)
             {
                 priority = GetPriorityByGivenFileExtensions(fileExtension, Config.Instance.DefaultFileExtensions);
@@ -136,7 +139,8 @@ namespace James.Search
         }
 
         /// <summary>
-        /// Returns the Priority of the file using the given fileExtensions list. If now suitable FileExtension was found int.MinValue will be returned.
+        ///     Returns the Priority of the file using the given fileExtensions list. If now suitable FileExtension was found
+        ///     int.MinValue will be returned.
         /// </summary>
         /// <param name="fileExtension">FileExtension of the File</param>
         /// <param name="fileExtnesions">List of FileExtensions</param>

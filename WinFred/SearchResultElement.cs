@@ -59,17 +59,17 @@ namespace James
             _children.Add(drawingVisual);
         }
 
-        private void DrawItemAtPos(SearchResult sr, int index)
+        private void DrawItemAtPos(SearchResult searchResult, int index)
         {
             var drawingVisual = new DrawingVisual();
             using (var ctx = drawingVisual.RenderOpen())
             {
                 var isFocused = index == CurrentFocus;
-                ctx.DrawText(CreateText(sr.Filename, LargeFontSize, isFocused), new Point(50, index*RowHeight));
-                ctx.DrawText(CreateText(sr.Path, SmallFontSize, isFocused), new Point(50, index*RowHeight + 25));
-                ctx.DrawText(CreateText(sr.Priority.ToString(), SmallFontSize, isFocused),
+                ctx.DrawText(CreateText(searchResult.Filename, LargeFontSize, isFocused), new Point(50, index*RowHeight));
+                ctx.DrawText(CreateText(searchResult.Path, SmallFontSize, isFocused), new Point(50, index*RowHeight + 25));
+                ctx.DrawText(CreateText(searchResult.Priority.ToString(), SmallFontSize, isFocused),
                     new Point(5, index*RowHeight));
-                ctx.DrawImage(sr.Icon, new Rect(SmallFontSize, SmallFontSize + index*RowHeight, 32, 32));
+                ctx.DrawImage(searchResult.Icon, new Rect(SmallFontSize, SmallFontSize + index*RowHeight, 32, 32));
             }
             _children.Add(drawingVisual);
         }

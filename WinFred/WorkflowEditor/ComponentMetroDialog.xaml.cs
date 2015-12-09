@@ -7,7 +7,7 @@ using MahApps.Metro.Controls.Dialogs;
 namespace James.WorkflowEditor
 {
     /// <summary>
-    /// Interaction logic for ComponentMetroDialog.xaml
+    ///     Interaction logic for ComponentMetroDialog.xaml
     /// </summary>
     public partial class ComponentMetroDialog : BaseMetroDialog
     {
@@ -16,7 +16,7 @@ namespace James.WorkflowEditor
         public ComponentMetroDialog(WorkflowComponent component)
         {
             InitializeComponent();
-            this._component = component;
+            _component = component;
         }
 
         private void BaseMetroDialog_Loaded(object sender, RoutedEventArgs e)
@@ -48,7 +48,7 @@ namespace James.WorkflowEditor
         private void Close()
         {
             _component.ParentWorkflow.Persist();
-            var window = (MetroWindow)Window.GetWindow(this);
+            var window = (MetroWindow) Window.GetWindow(this);
             window.HideMetroDialogAsync(this);
         }
     }
