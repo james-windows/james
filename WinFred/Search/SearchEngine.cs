@@ -10,6 +10,8 @@ namespace James.Search
 {
     public class SearchEngine
     {
+        public delegate void ChangedBuildingIndexProgressEventHandler(object sender, ProgressChangedEventArgs e);
+
         private static SearchEngine _searchEngine;
         private static readonly object SingeltonLock = new object();
         private readonly SearchEngineWrapper.SearchEngineWrapper _searchEngineWrapper;
@@ -46,7 +48,6 @@ namespace James.Search
             _searchEngineWrapper.Save();
         }
 
-        public delegate void ChangedBuildingIndexProgressEventHandler(object sender, ProgressChangedEventArgs e);
         public event ChangedBuildingIndexProgressEventHandler ChangedBuildingIndexProgress;
 
         public void BuildIndex()
@@ -112,7 +113,8 @@ namespace James.Search
             _searchEngineWrapper.Find(search);
 #endif
             return
-                _searchEngineWrapper.searchResults.Select(item => new SearchResult {Path = item.path, Priority = item.priority})
+                _searchEngineWrapper.searchResults.Select(
+                    item => new SearchResult {Path = item.path, Priority = item.priority})
                     .ToList();
         }
     }

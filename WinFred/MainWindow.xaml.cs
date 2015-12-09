@@ -149,6 +149,7 @@ namespace James
         }
 
         private void CloseApplication(object sender, RoutedEventArgs e) => Environment.Exit(1);
+
         #endregion
     }
 }

@@ -66,7 +66,7 @@ namespace James.UserControls
             dialog.ShowDialog();
             if (dialog.SelectedPath != "")
             {
-                Path newPath = new Path {Location = dialog.SelectedPath};
+                var newPath = new Path {Location = dialog.SelectedPath};
                 Config.Instance.Paths.Add(newPath);
                 Config.Instance.Persist();
                 MyFileWatcher.Instance.AddPath(newPath);
