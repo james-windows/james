@@ -132,7 +132,7 @@
       <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SearchEngineWrapper, Version=1.0.5797.33838, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="SearchEngineWrapper, Version=1.0.5821.36031, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\x64\Debug\SearchEngineWrapper.dll</HintPath>
     </Reference>
@@ -194,10 +194,19 @@
     <Compile Include="UserControls\GeneralUserControl.xaml.cs">
       <DependentUpon>GeneralUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\SearchConfiguration\DefaultConfiguration.xaml.cs">
+      <DependentUpon>DefaultConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SearchConfiguration\ExcludedFolders.xaml.cs">
+      <DependentUpon>ExcludedFolders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SearchConfiguration\PathConfiguration.xaml.cs">
+      <DependentUpon>PathConfiguration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SearchResultUserControl.xaml.cs">
       <DependentUpon>SearchResultUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SearchUserControl.xaml.cs">
+    <Compile Include="UserControls\SearchConfiguration\SearchUserControl.xaml.cs">
       <DependentUpon>SearchUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UsageUserControl.xaml.cs">
@@ -284,11 +293,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\SearchConfiguration\DefaultConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SearchConfiguration\ExcludedFolders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SearchConfiguration\PathConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SearchResultUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\SearchUserControl.xaml">
+    <Page Include="UserControls\SearchConfiguration\SearchUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

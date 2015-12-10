@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="James.UserControls.SearchConfiguration.SearchUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:helper="clr-namespace:James.HelperClasses"
+             xmlns:searchConfiguration="clr-namespace:James.UserControls.SearchConfiguration"
+             Loaded="SearchUserControl_OnLoaded">
+    <UserControl.Resources>
+        <DataTemplate x:Key="CustomPathDataTemplate">
+            <Grid>
+                <TextBlock Text="{Binding Path=Location}" HorizontalAlignment="Stretch"
+                                                   ContextMenuService.ShowOnDisabled="True">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                                    <Setter Property="Foreground" Value="DarkGray" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <!--#region Context Menu-->
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="ChangeStatusMenuItem" Click="ChangeStatusMenuItem_Click">
+                            <MenuItem.Style>
+                                <Style TargetType="MenuItem">
+                                    <Setter Property="Header" Value="Disable" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsEnabled}"
+                                                                             Value="False">
+                                            <Setter Property="Header" Value="Enable" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </MenuItem.Style>
+                        </MenuItem>
+                        <MenuItem x:Name="DeletePathMenuItem" Click="RemoveFolderButton_Click">
+                            <MenuItem.Style>
+                                <Style TargetType="MenuItem">
+                                    <Setter Property="Header" Value="Delete" />
+                                </Style>
+                            </MenuItem.Style>
+                        </MenuItem>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+                <!--#endregion-->
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid helper:GridHelper.ColumnDefinition="*|*">
+        <Grid helper:GridHelper.RowDefinition="*|a">
+            <!--#region Block for the Path list-->
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" MinHeight="150" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="*" MinHeight="150" />
+                </Grid.RowDefinitions>
+                <GroupBox Header="Folders to be searched">
+                    <Grid helper:GridHelper.RowDefinition="a|*|a">
+                        <StackPanel Margin="5,5,5,0">
+                            <Button Content="Default Settings" Click="DeselectPath" BorderBrush="{x:Null}"
+                                    FontWeight="Bold" HorizontalContentAlignment="Left">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="White" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=PathListBox, Path=SelectedIndex}"
+                                                         Value="-1">
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+                        <ListBox x:Name="PathListBox" Margin="5,0,5,5" HorizontalContentAlignment="Stretch"
+                                 ItemsSource="{Binding Paths, IsAsync=True}" Grid.Row="1" ItemTemplate="{StaticResource CustomPathDataTemplate}">
+                        </ListBox>
+                        <Grid Grid.Row="2" helper:GridHelper.ColumnDefinition="*|*">
+                            <Button x:Name="AddFolderButton" Content="Add Folder" Click="AddFolderButton_Click"
+                                    Style="{DynamicResource SquareButtonStyle}" />
+                            <Button x:Name="RemoveFolderButton" Grid.Column="1" Content="Remove Folder"
+                                    Click="RemoveFolderButton_Click" Style="{DynamicResource SquareButtonStyle}"
+                                    IsEnabled="{Binding ElementName=PathListBox, Path=SelectedItems.Count}" />
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
+                <searchConfiguration:ExcludedFolders Grid.Row="2"></searchConfiguration:ExcludedFolders>
+            </Grid>
+            <!--#endregion-->
+        </Grid>
+        <Grid Grid.Column="1" helper:GridHelper.RowDefinition="*|a">
+            <GroupBox Header="Index Settings" Grid.Row="1">
+                <StackPanel>
+                    <Button x:Name="RebuildIndexButton" Content="Rebuild Index" Click="RebuildIndexButton_Click"
+                            Style="{DynamicResource SquareButtonStyle}" />
+                </StackPanel>
+            </GroupBox>
+            <!--#region Block for default configuration -->
+            <Grid Grid.Row="0">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Hidden" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=PathListBox, Path=SelectedIndex}" Value="-1">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <searchConfiguration:DefaultConfiguration />
+            </Grid>
+            <!--#endregion-->
+            <!--#region Block for specific Path configuration -->
+            <Grid Grid.Row="0">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=PathListBox, Path=SelectedIndex}" Value="-1">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <searchConfiguration:PathConfiguration DataContext="{Binding ElementName=PathListBox, Path=SelectedItem}"></searchConfiguration:PathConfiguration>
+            </Grid>
+            <!--#endregion-->
+        </Grid>
+    </Grid>
+</UserControl>

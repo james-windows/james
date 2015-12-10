@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,7 +8,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using UserControl = System.Windows.Controls.UserControl;
 
-namespace James.UserControls
+namespace James.UserControls.SearchConfiguration
 {
     /// <summary>
     ///     Interaction logic for SearchUserControl.xaml
@@ -107,18 +106,5 @@ namespace James.UserControls
         }
 
         private void DeselectPath(object sender, RoutedEventArgs e) => PathListBox.UnselectAll();
-
-        private async void AddExcludedFolderButton_Click(object sender, RoutedEventArgs e)
-        {
-            var parentWindow = (MetroWindow)Window.GetWindow(this);
-            var result =
-                await parentWindow.ShowInputAsync("Add excluded folder", "Which folders should be excluded?");
-            Config.Instance.ExcludedFolders.Add(result.Trim());
-        }
-
-        private void RemoveExcludedFolderButton_Click(object sender, RoutedEventArgs e)
-        {
-            Config.Instance.ExcludedFolders.Remove(IgnoredFolderListBox.SelectedItem as string);
-        }
     }
 }

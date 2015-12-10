@@ -43,13 +43,6 @@
                             </Style>
                         </Style.Resources>
                     </Style>
-                    <!--<Style TargetType="Grid">
-                        <Style.Resources>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                            </Style>
-                        </Style.Resources>
-                    </Style>-->
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

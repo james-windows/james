@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="James.UserControls.SearchConfiguration.DefaultConfiguration"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:helperClasses="clr-namespace:James.HelperClasses"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <GroupBox Header="Default Settings" VerticalContentAlignment="Stretch">
+        <Grid helperClasses:GridHelper.ColumnDefinition="2*|*" helperClasses:GridHelper.RowDefinition="50|*">
+            <TextBlock>
+                <Run Text="Default folder priority:" />
+            </TextBlock>
+            <controls:NumericUpDown Grid.Column="1" Value="{Binding DefaultFolderPriority}" Height="30" />
+            <DataGrid ItemsSource="{Binding DefaultFileExtensions, IsAsync=True}" Grid.Row="1"
+                              Grid.ColumnSpan="2">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto" />
+                    <controls:DataGridNumericUpDownColumn Header="Priority" Width="*"
+                                                                  Binding="{Binding Priority}" Minimum="-1"
+                                                                  Maximum="10000" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </GroupBox>
+</UserControl>
