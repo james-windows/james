@@ -52,9 +52,9 @@ namespace James.Workflows
                         trigger =>
                             new SearchResult
                             {
+                                WorkflowTrigger = trigger,
                                 Path = trigger.ParentWorkflow.Subtitle,
                                 Filename = trigger.ParentWorkflow.Title,
-                                WorkflowTrigger = trigger,
                                 WorkflowArguments = input.Replace(input.Split(' ')[0], "").Trim()
                             });
         }

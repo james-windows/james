@@ -34,7 +34,7 @@ namespace James.Workflows
         public string Subtitle { get; set; }
 
         [DataMember(Order = 3)]
-        public string Author { get; set; }
+        public string Author { get; set; } = System.Security.Principal.WindowsIdentity.GetCurrent()?.Name;
 
         [DataMember(Order = 5)]
         public string Version { get; set; } = "0.1";

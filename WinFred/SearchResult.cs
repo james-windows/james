@@ -23,7 +23,10 @@ namespace James
             set
             {
                 _path = value;
-                Filename = value.Substring(Path.LastIndexOf('\\') + 1);
+                if (WorkflowTrigger == null)
+                {
+                    Filename = value.Substring(Path.LastIndexOf('\\') + 1);
+                }
             }
         }
 

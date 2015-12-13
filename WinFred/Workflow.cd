@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="James.Workflows.Workflow">
+    <Position X="1.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAAAAAAAYAAIIEIAwAEABAIAGAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Workflows\Workflow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="James.Workflows.Actions.BasicAction">
+    <Position X="15.5" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAACAAQAAAAAAAAgAAAAABAAAAAI=</HashCode>
+      <FileName>Workflows\Actions\BasicAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="James.Workflows.Outputs.BasicOutput">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Workflows\Outputs\BasicOutput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="James.Workflows.Outputs.LargeTypeOutput">
+    <Position X="5.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAACAAQAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Workflows\Outputs\LargeTypeOutput.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="James.Workflows.Outputs.NotificationOutput">
+    <Position X="3.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAQAgCAAQAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Workflows\Outputs\NotificationOutput.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="James.Workflows.Outputs.SearchResultOutput">
+    <Position X="7.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Workflows\Outputs\SearchResultOutput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="James.Workflows.Triggers.BasicTrigger">
+    <Position X="11.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEAAAAAAAAAA=</HashCode>
+      <FileName>Workflows\Triggers\BasicTrigger.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="James.Workflows.Triggers.IntervalTrigger">
+    <Position X="12.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAgAAAAAICAAAAAAAAAAAAAAABAAAAAAAI=</HashCode>
+      <FileName>Workflows\Triggers\IntervalTrigger.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="James.Workflows.Triggers.KeywordTrigger">
+    <Position X="10.25" Y="8" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAQAAAAAAAAAAAAI=</HashCode>
+      <FileName>Workflows\Triggers\KeywordTrigger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="James.Workflows.RunnableWorkflowComponent">
+    <Position X="12.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Workflows\RunnableWorkflowComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="James.Workflows.WorkflowComponent">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAIAAAAAgAAAAIACAAAQAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Workflows\WorkflowComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="James.Workflows.Interfaces.ICrossPlatform">
+    <Position X="4.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Workflows\Interfaces\ICrossPlatform.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="James.Workflows.Interfaces.ISurviveable">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Workflows\Interfaces\ISurviveable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
