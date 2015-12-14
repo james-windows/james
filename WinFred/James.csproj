@@ -181,8 +181,12 @@
     <Compile Include="Enumerations\AccentColorTypes.cs" />
     <Compile Include="HelperClasses\GeneralHelper.cs" />
     <Compile Include="HelperClasses\GridHelper.cs" />
+    <Compile Include="HelperClasses\KeyboardHelper.cs" />
+    <Compile Include="HelperClasses\PathHelper.cs" />
     <Compile Include="PartialConfigClasses\LargeTypeConfig.cs" />
     <Compile Include="PartialConfigClasses\MainWindowConfig.cs" />
+    <Compile Include="ResultItems\SearchResultItem.cs" />
+    <Compile Include="ResultItems\WorkflowResultItem.cs" />
     <Compile Include="SearchResultElement.cs" />
     <Compile Include="Search\DeleteEvent.cs" />
     <Compile Include="UserControls\AboutUserControl.xaml.cs">
@@ -237,7 +241,7 @@
     <Compile Include="Search\MyFileWatcher.cs" />
     <Compile Include="Search\Path.cs" />
     <Compile Include="Search\SearchEngine.cs" />
-    <Compile Include="SearchResult.cs" />
+    <Compile Include="ResultItems\ResultItem.cs" />
     <Compile Include="ValidationRules\FileExtensionValidationRule.cs" />
     <Compile Include="WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using James.HelperClasses;
+using James.ResultItems;
 using James.Workflows.Triggers;
 
 namespace James.Workflows
@@ -44,17 +45,17 @@ namespace James.Workflows
             }
         }
 
-        public IEnumerable<SearchResult> GetKeywordTriggers(string input)
+        public IEnumerable<ResultItem> GetKeywordTriggers(string input)
         {
             return
                 KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input.Split(' ')[0]))
                     .Select(
                         trigger =>
-                            new SearchResult
+                            new WorkflowResultItem
                             {
                                 WorkflowTrigger = trigger,
-                                Path = trigger.ParentWorkflow.Subtitle,
-                                Filename = trigger.ParentWorkflow.Title,
+                                Subtitle = trigger.ParentWorkflow.Subtitle,
+                                Title = trigger.ParentWorkflow.Title,
                                 WorkflowArguments = input.Replace(input.Split(' ')[0], "").Trim()
                             });
         }

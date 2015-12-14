@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using James.ResultItems;
 
 namespace James.Workflows.Outputs
 {
@@ -8,9 +9,9 @@ namespace James.Workflows.Outputs
     {
         public override void Display(string output)
         {
-            var searchResults = new List<SearchResult>
+            var searchResults = new List<ResultItem>
             {
-                new SearchResult {Path = ParentWorkflow.Subtitle, Filename = output}
+                new WorkflowResultItem {Subtitle = ParentWorkflow.Subtitle, Title = output}
             };
             MainWindow.GetInstance().searchResultControl.WorkflowOutput(searchResults);
         }

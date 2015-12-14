@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using James.ResultItems;
 using MahApps.Metro;
 
 namespace James
@@ -14,7 +15,7 @@ namespace James
         private const int LargeFontSize = 18;
         private const int ElementWidth = 700;
         private readonly VisualCollection _children;
-        private List<SearchResult> _searchResults;
+        private List<ResultItem> _searchResults;
 
         public SearchResultElement()
         {
@@ -33,7 +34,7 @@ namespace James
             FocusForegroundBrush = (Brush) ThemeManager.GetResourceFromAppStyle(null, "IdealForegroundColorBrush");
         }
 
-        public void DrawItems(List<SearchResult> searchResults, int focusedIndex)
+        public void DrawItems(List<ResultItem> searchResults, int focusedIndex)
         {
             _searchResults = searchResults;
             Dispatcher.BeginInvoke((Action) (() =>
@@ -59,18 +60,18 @@ namespace James
             _children.Add(drawingVisual);
         }
 
-        private void DrawItemAtPos(SearchResult searchResult, int index)
+        private void DrawItemAtPos(ResultItem resultItem, int index)
         {
             var drawingVisual = new DrawingVisual();
             using (var ctx = drawingVisual.RenderOpen())
             {
                 var isFocused = index == CurrentFocus;
-                ctx.DrawText(CreateText(searchResult.Filename, LargeFontSize, isFocused), new Point(50, index*RowHeight));
-                ctx.DrawText(CreateText(searchResult.Path, SmallFontSize, isFocused),
+                ctx.DrawText(CreateText(resultItem.Title, LargeFontSize, isFocused), new Point(50, index*RowHeight));
+                ctx.DrawText(CreateText(resultItem.Subtitle, SmallFontSize, isFocused),
                     new Point(50, index*RowHeight + 25));
-                ctx.DrawText(CreateText(searchResult.Priority.ToString(), SmallFontSize, isFocused),
+                ctx.DrawText(CreateText(resultItem.Priority.ToString(), SmallFontSize, isFocused),
                     new Point(5, index*RowHeight));
-                ctx.DrawImage(searchResult.Icon, new Rect(SmallFontSize, SmallFontSize + index*RowHeight, 32, 32));
+                ctx.DrawImage(resultItem.Icon, new Rect(SmallFontSize, SmallFontSize + index*RowHeight, 32, 32));
             }
             _children.Add(drawingVisual);
         }

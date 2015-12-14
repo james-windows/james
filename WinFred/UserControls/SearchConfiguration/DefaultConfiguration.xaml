@@ -14,7 +14,7 @@
             </TextBlock>
             <controls:NumericUpDown Grid.Column="1" Value="{Binding DefaultFolderPriority}" Height="30" />
             <DataGrid ItemsSource="{Binding DefaultFileExtensions, IsAsync=True}" Grid.Row="1"
-                              Grid.ColumnSpan="2">
+                              Grid.ColumnSpan="2" Style="{StaticResource ExtensionsGrid}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto" />
                     <controls:DataGridNumericUpDownColumn Header="Priority" Width="*"

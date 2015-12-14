@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -55,7 +56,11 @@ namespace James.UserControls.SearchConfiguration
         {
             if (e.ProgressPercentage == 100)
             {
-                _controller.CloseAsync();
+                try
+                {
+                    _controller.CloseAsync();
+                }
+                catch (Exception){}
             }
             _controller.SetProgress(e.ProgressPercentage/100.0);
             _controller.SetMessage(e.ProgressPercentage + "% of the files already added!");

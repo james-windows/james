@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using James.Annotations;
+using James.ResultItems;
 
 namespace James.Search
 {
@@ -59,9 +61,9 @@ namespace James.Search
         /// </summary>
         /// <param name="currentPath"></param>
         /// <returns></returns>
-        public IEnumerable<SearchResult> GetItemsToBeIndexed(string currentPath = "")
+        public IEnumerable<ResultItem> GetItemsToBeIndexed(string currentPath = "")
         {
-            var data = new List<SearchResult>();
+            var data = new List<ResultItem>();
             try
             {
                 data.AddRange(GetItemsInCurrentScope(Location + currentPath));
@@ -78,25 +80,27 @@ namespace James.Search
             }
             if (IndexFolders && data.Count > 0)
             {
-                data.Add(new SearchResult
+                string folderPath = Location + currentPath;
+                data.Add(new SearchResultItem
                 {
-                    Path = Location + currentPath,
+                    Subtitle = folderPath,
+                    Title = folderPath.Split('\\').Last(),
                     Priority = Config.Instance.DefaultFolderPriority + Priority
                 });
             }
             return data;
         }
 
-        private IEnumerable<SearchResult> GetItemsInCurrentScope(string currentPath)
+        private IEnumerable<ResultItem> GetItemsInCurrentScope(string currentPath)
         {
             return
                 Directory.GetFiles(currentPath).Select(GetItemIfItShouldBeIndexed).Where(file => file != null).ToList();
         }
 
-        private SearchResult GetItemIfItShouldBeIndexed(string filePath)
+        private ResultItem GetItemIfItShouldBeIndexed(string filePath)
         {
             var priority = GetPathPriority(filePath);
-            return GetPathPriority(filePath) > 0 ? new SearchResult {Path = filePath, Priority = priority} : null;
+            return GetPathPriority(filePath) > 0 ? new SearchResultItem(filePath, priority) : null;
         }
 
         /// <summary>

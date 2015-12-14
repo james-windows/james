@@ -25,6 +25,6 @@
                 </ContextMenu>
             </TextBox.ContextMenu>
         </TextBox>
-        <userControls:SearchResultUserControl x:Name="searchResultControl" Grid.Row="2" Foreground="{x:Null}" />
+        <userControls:SearchResultUserControl Grid.Row="2" x:Name="searchResultControl" Foreground="{x:Null}" />
     </Grid>
 </Window>

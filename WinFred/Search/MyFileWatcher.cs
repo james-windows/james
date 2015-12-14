@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using James.HelperClasses;
+using James.ResultItems;
 
 namespace James.Search
 {
@@ -52,7 +54,7 @@ namespace James.Search
                 var priority = currentPath.GetPathPriority(e.FullPath);
                 if (priority >= 0)
                 {
-                    SearchEngine.Instance.AddFile(new SearchResult {Path = e.FullPath, Priority = priority});
+                    SearchEngine.Instance.AddFile(new SearchResultItem {Subtitle = e.FullPath, Title = e.Name,Priority = priority});
                 }
             }
             if (Directory.Exists(e.FullPath))

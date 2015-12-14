@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using James.Properties;
+using James.ResultItems;
 
 namespace James.Search
 {
@@ -56,15 +57,15 @@ namespace James.Search
             WriteFilesToIndex(data);
         }
 
-        private static List<SearchResult> GetFilesToBeIndexed()
+        private static List<ResultItem> GetFilesToBeIndexed()
         {
-            var data = new List<SearchResult>();
+            var data = new List<ResultItem>();
             Parallel.ForEach(Config.Instance.Paths.Where(path => path.IsEnabled),
                 currentPath => { data.AddRange(currentPath.GetItemsToBeIndexed()); });
             return data;
         }
 
-        public void WriteFilesToIndex(IReadOnlyList<SearchResult> data)
+        public void WriteFilesToIndex(IReadOnlyList<ResultItem> data)
         {
             var lastProgress = -1;
             for (var i = 0; i < data.Count; i++)
@@ -87,7 +88,7 @@ namespace James.Search
 
         private static int CalcProgress(int position, int total) => (int) (((double) position)/total*100);
 
-        public void AddFile(SearchResult file) => _searchEngineWrapper.Insert(file.Path, file.Priority);
+        public void AddFile(ResultItem file) => _searchEngineWrapper.Insert(file.Subtitle, file.Priority);
 
         public void RenameFile(string oldPath, string newPath) => _searchEngineWrapper.Rename(oldPath, newPath);
 
@@ -95,15 +96,15 @@ namespace James.Search
 
         public void DeletePathRecursive(string path) => _searchEngineWrapper.RemoveRecursive(path);
 
-        public void IncrementPriority(SearchResult result) => IncrementPriority(result.Path);
+        public void IncrementPriority(ResultItem resultItem) => IncrementPriority(resultItem.Subtitle);
 
         public void IncrementPriority(string path, int priority = 5) => _searchEngineWrapper.AddPriority(path, priority);
 
-        public List<SearchResult> Query(string search)
+        public List<ResultItem> Query(string search)
         {
             if (search.Length < Config.Instance.StartSearchMinTextLength)
             {
-                return new List<SearchResult>();
+                return new List<ResultItem>();
             }
 #if DEBUG
             var tmp = DateTime.Now;
@@ -114,8 +115,9 @@ namespace James.Search
 #endif
             return
                 _searchEngineWrapper.searchResults.Select(
-                    item => new SearchResult {Path = item.path, Priority = item.priority})
-                    .ToList();
+                    item => new SearchResultItem(item.path, item.priority))
+                    .ToList()
+                    .ConvertAll(input => (ResultItem) input);
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using James.HelperClasses;
+using James.ResultItems;
 using James.Search;
 using James.Workflows;
 
@@ -16,7 +18,7 @@ namespace James.UserControls
     {
         private readonly SearchResultElement _searchResultElement;
         private string _lastSearch = "";
-        private List<SearchResult> _searchResults;
+        private List<ResultItem> _results;
 
         public SearchResultUserControl()
         {
@@ -38,38 +40,34 @@ namespace James.UserControls
             var window = Window.GetWindow(this);
             window?.Hide();
             var index = (int) (e.GetPosition(this).Y/SearchResultElement.RowHeight);
-            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+            _results[index].Open(null);
+        }
+
+        public void Search(string str, ResultItem focusedItem = null)
+        {
+            lock (this)
             {
-                _searchResults[index].OpenFolder();
-            }
-            else
-            {
-                _searchResults[index].Open();
+                _lastSearch = str;
+                _results = SearchEngine.Instance.Query(str);
+                WorkflowManager.Instance.CancelWorkflows();
+                if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength, 1))
+                {
+                    _results.InsertRange(0, WorkflowManager.Instance.GetKeywordTriggers(str));
+                }
+                FocusedIndex = (focusedItem != null) ? CalcFocusedItem(focusedItem) : 0;
+
+                _results = _results.Take(10).ToList();
+                _searchResultElement.DrawItems(_results, FocusedIndex);
+                Dispatcher.BeginInvoke(
+                    (Action)(() => { _searchResultElement.Height = _results.Count * SearchResultElement.RowHeight; }));
             }
         }
 
-        public void Search(string str, SearchResult focusedItem = null)
+        public int CalcFocusedItem(ResultItem focusedItem)
         {
-            _lastSearch = str;
-            _searchResults = SearchEngine.Instance.Query(str);
-            WorkflowManager.Instance.CancelWorkflows();
-            if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength, 1))
+            for (var i = 0; i < _results.Count; i++)
             {
-                _searchResults.InsertRange(0, WorkflowManager.Instance.GetKeywordTriggers(str));
-            }
-            FocusedIndex = (focusedItem != null) ? CalcFocusedItem(focusedItem) : 0;
-
-            _searchResults = _searchResults.Take(10).ToList();
-            _searchResultElement.DrawItems(_searchResults, FocusedIndex);
-            Dispatcher.BeginInvoke(
-                (Action) (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.RowHeight; }));
-        }
-
-        public int CalcFocusedItem(SearchResult focusedItem)
-        {
-            for (var i = 0; i < _searchResults.Count; i++)
-            {
-                if (_searchResults[i].Path == focusedItem.Path)
+                if (_results[i].Subtitle == focusedItem.Subtitle)
                 {
                     return i;
                 }
@@ -77,15 +75,15 @@ namespace James.UserControls
             return 0;
         }
 
-        public void WorkflowOutput(List<SearchResult> searchResults)
+        public void WorkflowOutput(List<ResultItem> searchResults)
         {
-            _searchResults = searchResults;
+            _results = searchResults;
             Dispatcher.Invoke(() =>
             {
-                _searchResultElement.DrawItems(_searchResults, 0);
+                _searchResultElement.DrawItems(_results, 0);
                 Dispatcher.BeginInvoke(
                     (Action)
-                        (() => { _searchResultElement.Height = _searchResults.Count*SearchResultElement.RowHeight; }));
+                        (() => { _searchResultElement.Height = _results.Count*SearchResultElement.RowHeight; }));
             });
         }
 
@@ -94,16 +92,16 @@ namespace James.UserControls
             if (FocusedIndex > 0)
             {
                 FocusedIndex--;
-                _searchResultElement.DrawItems(_searchResults, FocusedIndex);
+                _searchResultElement.DrawItems(_results, FocusedIndex);
             }
         }
 
         public void MoveDown()
         {
-            if (FocusedIndex < _searchResults.Count - 1)
+            if (FocusedIndex < _results.Count - 1)
             {
                 FocusedIndex++;
-                _searchResultElement.DrawItems(_searchResults, FocusedIndex);
+                _searchResultElement.DrawItems(_results, FocusedIndex);
             }
         }
 
@@ -111,25 +109,18 @@ namespace James.UserControls
         {
             e.Handled = true;
             var index = _searchResultElement.CurrentFocus;
-            if (index >= 0 && index < _searchResults.Count)
+            if (index >= 0 && index < _results.Count)
             {
-                if (e.KeyboardDevice.IsKeyDown(Key.LeftShift) || e.KeyboardDevice.IsKeyDown(Key.RightShift))
-                {
-                    _searchResults[index].OpenFolder();
-                }
-                else
-                {
-                    _searchResults[index].Open();
-                }
+                _results[index].Open(e);
             }
         }
 
         public void IncreasePriority()
         {
             var index = _searchResultElement.CurrentFocus;
-            if (index > 0 && index < _searchResults.Count)
+            if (index > 0 && index < _results.Count)
             {
-                var diff = _searchResults[index - 1].Priority - _searchResults[index].Priority + 1;
+                var diff = _results[index - 1].Priority - _results[index].Priority + 1;
                 ChangePriority(diff, index);
             }
         }
@@ -137,18 +128,18 @@ namespace James.UserControls
         public void DecreasePriority()
         {
             var index = _searchResultElement.CurrentFocus;
-            if (index >= 0 && index < _searchResults.Count - 1)
+            if (index >= 0 && index < _results.Count - 1)
             {
-                var diff = _searchResults[index].Priority - _searchResults[index + 1].Priority + 1;
+                var diff = _results[index].Priority - _results[index + 1].Priority + 1;
                 ChangePriority(-diff, index);
             }
         }
 
         public void ChangePriority(int diff, int index)
         {
-            SearchEngine.Instance.IncrementPriority(_searchResults[index].Path, diff);
+            SearchEngine.Instance.IncrementPriority(_results[index].Subtitle, diff);
 
-            Search(_lastSearch, _searchResults[index]);
+            Search(_lastSearch, _results[index]);
         }
     }
 }
