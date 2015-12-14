@@ -254,6 +254,7 @@
     <Compile Include="Workflows\Triggers\BasicTrigger.cs" />
     <Compile Include="Workflows\Triggers\IntervalTrigger.cs" />
     <Compile Include="Workflows\Triggers\KeywordTrigger.cs" />
+    <Compile Include="Workflows\Triggers\TimeoutTrigger.cs" />
     <Compile Include="Workflows\Workflow.cs" />
     <Compile Include="Workflows\WorkflowComponent.cs" />
     <Compile Include="Workflows\WorkflowManager.cs" />

@@ -6,7 +6,7 @@ using James.Workflows.Interfaces;
 
 namespace James.Workflows.Triggers
 {
-    [DataContract, KnownType(typeof (KeywordTrigger)), KnownType(typeof (IntervalTrigger))]
+    [DataContract, KnownType(typeof (KeywordTrigger)), KnownType(typeof (IntervalTrigger)), KnownType(typeof (TimeoutTrigger))]
     public abstract class BasicTrigger : RunnableWorkflowComponent, ICrossPlatform
     {
         protected BasicTrigger()
