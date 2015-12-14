@@ -185,6 +185,7 @@
     <Compile Include="HelperClasses\PathHelper.cs" />
     <Compile Include="PartialConfigClasses\LargeTypeConfig.cs" />
     <Compile Include="PartialConfigClasses\MainWindowConfig.cs" />
+    <Compile Include="ResultItems\BasicResultItem.cs" />
     <Compile Include="ResultItems\SearchResultItem.cs" />
     <Compile Include="ResultItems\WorkflowResultItem.cs" />
     <Compile Include="SearchResultElement.cs" />
@@ -253,7 +254,7 @@
     <Compile Include="Workflows\Outputs\BasicOutput.cs" />
     <Compile Include="Workflows\Outputs\LargeTypeOutput.cs" />
     <Compile Include="Workflows\Outputs\NotificationOutput.cs" />
-    <Compile Include="Workflows\Outputs\SearchResultOutput.cs" />
+    <Compile Include="Workflows\Outputs\BasicResultOutput.cs" />
     <Compile Include="Workflows\RunnableWorkflowComponent.cs" />
     <Compile Include="Workflows\Triggers\BasicTrigger.cs" />
     <Compile Include="Workflows\Triggers\IntervalTrigger.cs" />

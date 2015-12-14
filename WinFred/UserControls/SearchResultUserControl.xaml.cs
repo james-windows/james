@@ -36,11 +36,14 @@ namespace James.UserControls
 
         private void MouseClick(object sender, MouseButtonEventArgs e)
         {
-            e.Handled = true;
-            var window = Window.GetWindow(this);
-            window?.Hide();
-            var index = (int) (e.GetPosition(this).Y/SearchResultElement.RowHeight);
-            _results[index].Open(null);
+            lock (this)
+            {
+                e.Handled = true;
+                var window = Window.GetWindow(this);
+                window?.Hide();
+                var index = (int) (e.GetPosition(this).Y/SearchResultElement.RowHeight);
+                _results[index].Open(null);
+            }
         }
 
         public void Search(string str, ResultItem focusedItem = null)

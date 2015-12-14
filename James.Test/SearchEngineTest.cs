@@ -18,7 +18,7 @@ namespace James.Test
             Config.Instance.ConfigFolderLocation = "";
         }
 
-        public void CompareSearchResults(List<SearchResultItem> one, List<SearchResultItem> two)
+        public void CompareSearchResults(List<ResultItem> one, List<ResultItem> two)
         {
             Assert.IsTrue(one.Count == two.Count, "Length of the two lists should be equal");
             for (int i = 0; i < one.Count; i++)
@@ -87,14 +87,14 @@ namespace James.Test
         {
             PrepareTest();
             var searchResults = GenerateSearchResults();
-            foreach (ResultItem item in searchResults)
+            foreach (var item in searchResults)
             {
                 SearchEngine.Instance.AddFile(item);
             }
             var query = SearchEngine.Instance.Query("f");
             var search =
                 searchResults.Where(result => result.Subtitle.Split('\\').Last().StartsWith("f"))
-                    .OrderBy(result => -result.Priority).ToList();
+                    .OrderBy(result => -result.Priority).ToList().ConvertAll(input => (ResultItem)input); ;
 
             CompareSearchResults(query, search);
         }
@@ -133,7 +133,7 @@ namespace James.Test
                         {
                             Subtitle = result.Subtitle.Replace("Desktop", "Documents"),
                             Priority = result.Priority
-                        }).ToList();
+                        }).ToList().ConvertAll(input => (ResultItem)input);
 
             var secondQuery = SearchEngine.Instance.Query("first");
             CompareSearchResults(query, secondQuery);
@@ -155,7 +155,7 @@ namespace James.Test
                         {
                             Subtitle = result.Subtitle.Replace("Desktop", "Documents"),
                             Priority = result.Priority
-                        }).ToList();
+                        }).ToList().ConvertAll(input => (ResultItem)input);
 
             var secondQuery = SearchEngine.Instance.Query("first");
             CompareSearchResults(query, secondQuery);

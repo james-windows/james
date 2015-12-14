@@ -5,15 +5,15 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                    Source="/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/baselight.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Lime.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
+                    Source="/MahApps.Metro;component/Styles/Accents/baselight.xaml" />
+                <ResourceDictionary Source="/MahApps.Metro;component/Styles/Accents/Lime.xaml" />
+                <ResourceDictionary Source="/MahApps.Metro;component/Styles/FlatSlider.xaml" />
                 <ResourceDictionary>
                     <Style TargetType="DataGrid" BasedOn="{StaticResource MetroDataGrid}">
                         <Setter Property="SelectionUnit" Value="FullRow" />

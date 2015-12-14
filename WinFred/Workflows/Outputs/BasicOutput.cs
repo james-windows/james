@@ -2,7 +2,7 @@
 
 namespace James.Workflows.Outputs
 {
-    [DataContract, KnownType(typeof (LargeTypeOutput)), KnownType(typeof (SearchResultOutput)),
+    [DataContract, KnownType(typeof (LargeTypeOutput)), KnownType(typeof (BasicResultOutput)),
      KnownType(typeof (NotificationOutput))]
     public abstract class BasicOutput : WorkflowComponent
     {

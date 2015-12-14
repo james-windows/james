@@ -5,15 +5,15 @@ using James.ResultItems;
 namespace James.Workflows.Outputs
 {
     [DataContract]
-    public class SearchResultOutput : BasicOutput
+    public class BasicResultOutput : BasicOutput
     {
         public override void Display(string output)
         {
-            var searchResults = new List<ResultItem>
+            var outputResults = new List<ResultItem>
             {
-                new WorkflowResultItem {Subtitle = ParentWorkflow.Subtitle, Title = output}
+                new BasicResultItem() {Subtitle = ParentWorkflow.Subtitle, Title = output}
             };
-            MainWindow.GetInstance().searchResultControl.WorkflowOutput(searchResults);
+            MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
         }
 
         public override string GetSummary() => $"Displays the response in SearchResultList";
