@@ -23,6 +23,12 @@
                 </Grid>
                 <Grid helperClasses:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock>
+                        <Run Text="Always clear SearchWindow:" />
+                    </TextBlock>
+                    <controls:ToggleSwitch IsChecked="{Binding Path=AlwaysClearLastInput}" OnLabel="enabled" OffLabel="disabled" />
+                </Grid>
+                <Grid helperClasses:GridHelper.ColumnDefinition="2*|1*">
+                    <TextBlock>
                         <Run Text="Display file icons:" />
                     </TextBlock>
                     <controls:ToggleSwitch IsChecked="{Binding Path=DisplayFileIcons}" />

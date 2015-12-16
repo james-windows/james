@@ -64,7 +64,11 @@ namespace James
             }
             else
             {
-                SearchTextBox.Text = "";
+                if (Config.Instance.AlwaysClearLastInput)
+                {
+                    SearchTextBox.Text = "";
+                }
+                SearchTextBox.SelectAll();
                 Show();
                 Activate();
                 SearchTextBox.Focus();
@@ -74,7 +78,10 @@ namespace James
         private void HideWindow()
         {
             LargeType.Instance.Hide();
-            SearchTextBox.Text = "";
+            if (Config.Instance.AlwaysClearLastInput)
+            {
+                SearchTextBox.Text = "";
+            }
             Hide();
         }
 
@@ -96,7 +103,10 @@ namespace James
                     break;
                 case Key.Escape:
                     Hide();
-                    SearchTextBox.Text = "";
+                    if (Config.Instance.AlwaysClearLastInput)
+                    {
+                        SearchTextBox.Text = "";
+                    }
                     break;
             }
             if (e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) || e.KeyboardDevice.IsKeyDown(Key.RightCtrl))
