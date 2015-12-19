@@ -69,28 +69,40 @@ namespace James.Search
                 data.AddRange(GetItemsInCurrentScope(Location + currentPath));
                 foreach (var directory in Directory.GetDirectories(Location + currentPath))
                 {
-                    if (Config.Instance.ExcludedFolders.Count(s => directory.Contains("\\" + s)) == 0)
+                    if (Config.Instance.ExcludedFolders.All(s => !directory.Contains("\\" + s)) && Config.Instance.Paths.All(path => path.Location != directory))
                     {
                         data.AddRange(GetItemsToBeIndexed(directory.Replace(Location, "")));
                     }
                 }
             }
-            catch (UnauthorizedAccessException)
-            {
-            }
+            catch (UnauthorizedAccessException){}
             if (IndexFolders && data.Count > 0)
             {
-                string folderPath = Location + currentPath;
-                data.Add(new SearchResultItem
-                {
-                    Subtitle = folderPath,
-                    Title = folderPath.Split('\\').Last(),
-                    Priority = Config.Instance.DefaultFolderPriority + Priority
-                });
+                data.Add(GenerateFolder(Location + currentPath));
             }
             return data;
         }
 
+        /// <summary>
+        /// Generates an ResultItem for the folder
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private ResultItem GenerateFolder(string path)
+        {
+            return new SearchResultItem
+            {
+                Subtitle = path,
+                Title = path.Split('\\').Last(),
+                Priority = Config.Instance.DefaultFolderPriority + Priority
+            };
+        }
+
+        /// <summary>
+        /// Returns all ResultItems of files which should be indexed
+        /// </summary>
+        /// <param name="currentPath"></param>
+        /// <returns></returns>
         private IEnumerable<ResultItem> GetItemsInCurrentScope(string currentPath)
         {
             return
@@ -100,24 +112,16 @@ namespace James.Search
         private ResultItem GetItemIfItShouldBeIndexed(string filePath)
         {
             var priority = GetPathPriority(filePath);
-            return GetPathPriority(filePath) > 0 ? new SearchResultItem(filePath, priority) : null;
+            return priority > 0 ? new SearchResultItem(filePath, priority) : null;
         }
 
         /// <summary>
-        ///     Calculates the priority of a given path
+        ///     Calculates the priority of a given file
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         public int GetPathPriority(string path)
         {
-            if (Directory.Exists(path))
-            {
-                if (IndexFolders)
-                {
-                    return Priority + Config.Instance.DefaultFolderPriority;
-                }
-                return -1;
-            }
             var priority = CalculatePriorityByFileExtensions(path);
             if (priority < 0)
             {

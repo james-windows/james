@@ -51,7 +51,7 @@ namespace James.Search
             else
             {
                 Console.WriteLine($"created {e.FullPath}");
-                var priority = currentPath.GetPathPriority(e.FullPath);
+                int priority = GetPathPriority(currentPath, e.FullPath);
                 if (priority >= 0)
                 {
                     SearchEngine.Instance.AddFile(new SearchResultItem {Subtitle = e.FullPath, Title = e.Name,Priority = priority});
@@ -116,7 +116,7 @@ namespace James.Search
             Console.WriteLine($"renamed {e.OldFullPath} to {e.FullPath}");
             var watcher = sender as FileSystemWatcher;
             var currentPath = _paths.First(path => path.Location == watcher?.Path);
-            var priority = currentPath.GetPathPriority(e.FullPath);
+            int priority = GetPathPriority(currentPath, e.FullPath);
             if (priority >= 0)
             {
                 SearchEngine.Instance.RenameFile(e.OldFullPath, e.FullPath);
@@ -161,6 +161,21 @@ namespace James.Search
             watcher.Deleted += File_Deleted;
             watcher.Renamed += File_Renamed;
             return watcher;
+        }
+
+        /// <summary>
+        ///     Calculates the priority of a given path
+        /// </summary>
+        /// <param name="searchScope"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private int GetPathPriority(Path searchScope, string path)
+        {
+            if (Directory.Exists(path) && searchScope.IndexFolders)
+            {
+                return searchScope.Priority + Config.Instance.DefaultFolderPriority;
+            }
+            return searchScope.GetPathPriority(path);
         }
     }
 }
