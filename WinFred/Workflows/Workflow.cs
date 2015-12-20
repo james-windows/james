@@ -60,26 +60,24 @@ namespace James.Workflows
             Outputs.OfType<ISurviveable>().ToList().ForEach(surviveable => surviveable.Cancel());
         }
 
-        public void Persist() => File.WriteAllText(Path + "\\config.xml", GeneralHelper.SerializeWorkflow(this));
+        public void Persist() => File.WriteAllText(Path + "\\config.json", this.Serialize());
 
         public void AddComponent(WorkflowComponent instance)
         {
+            instance.ParentWorkflow = this;
             var trigger = instance as BasicTrigger;
             if (trigger != null)
             {
-                trigger.ParentWorkflow = this;
                 Triggers.Add(trigger);
             }
             var action = instance as BasicAction;
             if (action != null)
             {
-                action.ParentWorkflow = this;
                 Actions.Add(action);
             }
             var output = instance as BasicOutput;
             if (output != null)
             {
-                output.ParentWorkflow = this;
                 Outputs.Add(output);
             }
         }
