@@ -151,12 +151,12 @@ namespace James.Search
         ///     int.MinValue will be returned.
         /// </summary>
         /// <param name="fileExtension">FileExtension of the File</param>
-        /// <param name="fileExtnesions">List of FileExtensions</param>
+        /// <param name="fileExtensions">List of FileExtensions</param>
         /// <returns></returns>
-        private static int GetPriorityByGivenFileExtensions(string fileExtension, List<FileExtension> fileExtnesions)
+        private static int GetPriorityByGivenFileExtensions(string fileExtension, List<FileExtension> fileExtensions)
         {
-            var indexOfSearchedItem = fileExtnesions.BinarySearch(new FileExtension(fileExtension, 0));
-            return indexOfSearchedItem < 0 ? int.MinValue : fileExtnesions[indexOfSearchedItem].Priority;
+            var indexOfSearchedItem = fileExtensions.FindIndex(x => x.Extension == fileExtension);
+            return indexOfSearchedItem < 0 ? int.MinValue : fileExtensions[indexOfSearchedItem].Priority;
         }
     }
 }

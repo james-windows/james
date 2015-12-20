@@ -46,8 +46,8 @@
             <DataGrid Grid.Row="1" ItemsSource="{Binding FileExtensions, IsAsync=True}"
                               VerticalScrollBarVisibility="Visible">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" />
-                    <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority" Width="*" />
+                    <DataGridTextColumn Binding="{Binding Key}" Header="Extension" />
+                    <controls:DataGridNumericUpDownColumn Binding="{Binding Value}" Header="Priority" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

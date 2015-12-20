@@ -47,7 +47,6 @@ namespace James
                 new FileExtension("mcdx", 40)
             };
             _config.DefaultFileExtensions.AddRange(tmp);
-            _config.DefaultFileExtensions.Sort();
         }
 
         #region singleton
@@ -92,11 +91,6 @@ namespace James
         {
             lock (_config)
             {
-                DefaultFileExtensions.Sort();
-                foreach (var item in Paths)
-                {
-                    item.FileExtensions.Sort();
-                }
                 File.WriteAllText(_config.ConfigFolderLocation + "\\config.xml", _config.Serialize());
             }
         }

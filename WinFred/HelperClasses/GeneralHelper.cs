@@ -8,10 +8,10 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 using James.Workflows;
+using Newtonsoft.Json;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace James.HelperClasses
 {
@@ -19,21 +19,7 @@ namespace James.HelperClasses
     {
         public static string Serialize<T>(this T value)
         {
-            try
-            {
-                var xmlserializer = new XmlSerializer(typeof (T));
-                var stringWriter = new StringWriter();
-                using (var writer = XmlWriter.Create(stringWriter))
-                {
-                    xmlserializer.Serialize(writer, value);
-                    var doc = XDocument.Parse(stringWriter.ToString());
-                    return doc.ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred", ex);
-            }
+            return JsonConvert.SerializeObject(value, Formatting.Indented);
         }
 
         public static string SerializeWorkflow(Workflow workflow)
@@ -49,16 +35,7 @@ namespace James.HelperClasses
 
         public static T Deserialize<T>(string path)
         {
-            try
-            {
-                var serializer = new XmlSerializer(typeof (T));
-                var result = (T) serializer.Deserialize(new StreamReader(path));
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred", ex);
-            }
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
         }
 
         public static Workflow DeserializeWorkflow(string path)

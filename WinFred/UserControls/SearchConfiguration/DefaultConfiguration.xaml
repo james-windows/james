@@ -16,9 +16,9 @@
             <DataGrid ItemsSource="{Binding DefaultFileExtensions, IsAsync=True}" Grid.Row="1"
                               Grid.ColumnSpan="2">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" Width="Auto" />
+                    <DataGridTextColumn Binding="{Binding Key}" Header="Extension" Width="Auto" />
                     <controls:DataGridNumericUpDownColumn Header="Priority" Width="*"
-                                                                  Binding="{Binding Priority}" Minimum="-1"
+                                                                  Binding="{Binding Value}" Minimum="-1"
                                                                   Maximum="10000" />
                 </DataGrid.Columns>
             </DataGrid>
