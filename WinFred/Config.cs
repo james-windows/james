@@ -67,7 +67,7 @@ namespace James
                             var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
                                        "\\James";
                             Directory.CreateDirectory(path);
-                            _config = GeneralHelper.Deserialize<Config>(path + "\\config.xml");
+                            _config = GeneralHelper.Deserialize<Config>(path + "\\config.json");
                         }
                         catch (Exception)
                         {
@@ -91,7 +91,7 @@ namespace James
         {
             lock (_config)
             {
-                File.WriteAllText(_config.ConfigFolderLocation + "\\config.xml", _config.Serialize());
+                File.WriteAllText(_config.ConfigFolderLocation + "\\config.json", _config.Serialize());
             }
         }
 
