@@ -23,6 +23,10 @@ namespace James.ResultItems
             Title = Directory.Exists(path) ? path.Split('\\').Last() : PathHelper.GetFilename(path);
         }
 
+        /// <summary>
+        /// Gets triggered if Enter is pressed or item got clicked
+        /// </summary>
+        /// <param name="e"></param>
         public override void Open(KeyEventArgs e)
         {
             if (e.KeyboardDevice.Modifiers == (ModifierKeys.Shift | ModifierKeys.Control))
@@ -66,6 +70,10 @@ namespace James.ResultItems
             }
         }
 
+        /// <summary>
+        /// Opens the explorer with the position of the file/folder.
+        /// Also selects the given item
+        /// </summary>
         private void OpenFolder()
         {
             Process.Start("explorer.exe", "/select," + Subtitle);
