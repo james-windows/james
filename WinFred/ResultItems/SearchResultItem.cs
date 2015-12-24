@@ -25,11 +25,11 @@ namespace James.ResultItems
 
         public override void Open(KeyEventArgs e)
         {
-            if (KeyboardHelper.IsShiftKeyDown(e) && KeyboardHelper.IsCtrlKeyDown(e))
+            if (e.KeyboardDevice.Modifiers == (ModifierKeys.Shift | ModifierKeys.Control))
             {
                 Open(Subtitle, !Directory.Exists(Subtitle));
             }
-            else if (KeyboardHelper.IsShiftKeyDown(e) || Directory.Exists(Subtitle))
+            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift || Directory.Exists(Subtitle))
             {
                 OpenFolder();
             }
