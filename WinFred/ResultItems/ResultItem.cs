@@ -14,34 +14,6 @@ namespace James.ResultItems
         public int CompareTo(ResultItem other) => Priority - other.Priority;
 
         public abstract void Open(KeyEventArgs e);
-        //{
-        //    if (WorkflowTrigger != null)
-        //    {
-        //        WorkflowTrigger.TriggerRunables(WorkflowArguments);
-        //    }
-        //    else
-        //    {
-        //        Process.Start(Path);
-        //        SearchEngine.Instance.IncrementPriority(this);
-        //    }
-        //}
-
-        //public void OpenFolder()
-        //{
-        //    if (WorkflowTrigger != null)
-        //    {
-        //        WorkflowTrigger.TriggerRunables(WorkflowArguments);
-        //    }
-        //    else if (Directory.Exists(Path))
-        //    {
-        //        Open();
-        //    }
-        //    else
-        //    {
-        //        Process.Start(Path.Substring(0, Path.LastIndexOf('\\')));
-        //        SearchEngine.Instance.IncrementPriority(this);
-        //    }
-        //}
 
         public override string ToString() => Title + ", " + Priority;
     }

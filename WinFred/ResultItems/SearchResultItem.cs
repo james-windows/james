@@ -31,12 +31,13 @@ namespace James.ResultItems
             }
             else if (KeyboardHelper.IsShiftKeyDown(e))
             {
-                Open(Directory.Exists(Subtitle) ? Subtitle : PathHelper.GetFoldername(Subtitle));
+                OpenFolder();
             }
             else
             {
                 Open(Subtitle);
             }
+            SearchEngine.Instance.IncrementPriority(this);
         }
 
         /// <summary>
@@ -63,7 +64,11 @@ namespace James.ResultItems
                 else
                     Console.WriteLine("other error occured: "+ ex.Message);
             }
-            SearchEngine.Instance.IncrementPriority(this);
+        }
+
+        private void OpenFolder()
+        {
+            Process.Start("explorer.exe", "/select," + Subtitle);
         }
     }
 }
