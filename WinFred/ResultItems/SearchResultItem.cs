@@ -29,7 +29,7 @@ namespace James.ResultItems
             {
                 Open(Subtitle, !Directory.Exists(Subtitle));
             }
-            else if (KeyboardHelper.IsShiftKeyDown(e))
+            else if (KeyboardHelper.IsShiftKeyDown(e) || Directory.Exists(Subtitle))
             {
                 OpenFolder();
             }
