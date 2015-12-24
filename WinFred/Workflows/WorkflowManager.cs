@@ -21,10 +21,16 @@ namespace James.Workflows
             }
             foreach (var path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
             {
+                //Workflows.Add(GeneralHelper.Deserialize<Workflow>(path + "\\config.json"));
                 Workflows.Add(GeneralHelper.DeserializeWorkflow(path + "\\config.xml"));
                 Workflows.Last().Title = path.Split('\\').Last();
             }
 
+            LoadKeywordTriggers();
+        }
+
+        private void LoadKeywordTriggers()
+        {
             foreach (var workflow in Workflows)
             {
                 KeywordTriggers.AddRange(workflow.Triggers.OfType<KeywordTrigger>());

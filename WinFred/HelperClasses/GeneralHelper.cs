@@ -19,7 +19,11 @@ namespace James.HelperClasses
     {
         public static string Serialize<T>(this T value)
         {
-            return JsonConvert.SerializeObject(value, Formatting.Indented);
+            return JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.All,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            });
         }
 
         public static string SerializeWorkflow(Workflow workflow)
@@ -35,7 +39,11 @@ namespace James.HelperClasses
 
         public static T Deserialize<T>(string path)
         {
-            return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(path), new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.All,
+                PreserveReferencesHandling = PreserveReferencesHandling.All
+            });
         }
 
         public static Workflow DeserializeWorkflow(string path)
