@@ -3,7 +3,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.Search;
 
@@ -16,11 +19,17 @@ namespace James.ResultItems
             
         }
 
+        public override ImageSource Icon
+            => _isDirectory? null: System.Drawing.Icon.ExtractAssociatedIcon(Subtitle).ToImageSource();
+
+        private readonly bool _isDirectory;
+
         public SearchResultItem(string path, int priority)
         {
             Subtitle = path;
             Priority = priority;
             Title = Directory.Exists(path) ? path.Split('\\').Last() : PathHelper.GetFilename(path);
+            _isDirectory = Directory.Exists(Subtitle);
         }
 
         /// <summary>
@@ -31,11 +40,15 @@ namespace James.ResultItems
         {
             if (e.KeyboardDevice.Modifiers == (ModifierKeys.Shift | ModifierKeys.Control))
             {
-                Open(Subtitle, !Directory.Exists(Subtitle));
+                Open(Subtitle, !_isDirectory);
             }
-            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift || Directory.Exists(Subtitle))
+            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift || _isDirectory)
             {
                 OpenFolder();
+            }
+            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Alt)
+            {
+                PathHelper.OpenPathPropertyWindow(Subtitle);
             }
             else
             {

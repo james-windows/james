@@ -9,7 +9,7 @@ namespace James.ResultItems
         public int Priority { get; set; }
         public string Title { get; set; }
         public string Subtitle { get; set; }
-        public ImageSource Icon { get; set; }
+        public virtual ImageSource Icon { get; set; }
 
         public int CompareTo(ResultItem other) => Priority - other.Priority;
 
