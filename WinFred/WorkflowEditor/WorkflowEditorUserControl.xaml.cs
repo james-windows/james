@@ -166,6 +166,8 @@ namespace James.WorkflowEditor
 
         private void WorkflowEditorUserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            _myLines.Clear();
+            editorCanvas.Children.Clear();
             if (DataContext != null)
             {
                 DrawCanvas(this, null);
