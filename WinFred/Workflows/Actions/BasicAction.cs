@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
+using James.Workflows.Interfaces;
 using James.Workflows.Outputs;
 
 namespace James.Workflows.Actions

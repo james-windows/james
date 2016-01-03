@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using James.Workflows.Interfaces;
 
 namespace James.Workflows.Triggers
 {
