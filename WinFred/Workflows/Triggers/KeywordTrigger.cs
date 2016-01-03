@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using James.Workflows.Interfaces;
 
 namespace James.Workflows.Triggers
 {
@@ -21,5 +20,7 @@ namespace James.Workflows.Triggers
         public override string GetSummary() => $"Triggers for \"{Keyword}\"";
 
         public override void Run(string argument = "") => TriggerRunables(argument);
+
+        public override bool IsAllowed(WorkflowComponent source) => false;
     }
 }

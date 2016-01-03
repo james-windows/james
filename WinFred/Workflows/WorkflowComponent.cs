@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows;
+using James.Properties;
 using James.Workflows.Outputs;
 
 namespace James.Workflows
@@ -27,8 +28,8 @@ namespace James.Workflows
 
         public abstract string GetSummary();
 
-        public string GetDescription()
-            =>
-                "A description for each Workflow component will be placed here soon! Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+        public virtual bool IsAllowed(WorkflowComponent source) => false;
+
+        public string GetDescription() => Resources.General_WorkflowComponent_Description;
     }
 }

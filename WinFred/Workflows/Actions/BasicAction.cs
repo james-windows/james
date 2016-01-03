@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using James.Workflows.Interfaces;
 using James.Workflows.Outputs;
+using James.Workflows.Triggers;
 
 namespace James.Workflows.Actions
 {
@@ -55,5 +56,7 @@ namespace James.Workflows.Actions
             proc.Start();
             Display(proc.StandardOutput.ReadToEnd());
         }
+
+        public override bool IsAllowed(WorkflowComponent source) => source is BasicTrigger;
     }
 }

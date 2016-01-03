@@ -72,6 +72,7 @@ namespace James.WorkflowEditor
                 MouseMove += MoveWhileDragging;
                 editorCanvas.Children.Add(_currLine.Line);
                 Mouse.OverrideCursor = Cursors.None;
+                editorCanvas.Children.OfType<WorkflowComponentUserControl>().ToList().ForEach(component => component.NewSource(tmp.DataContext as WorkflowComponent));
             }
             catch (Exception)
             {
@@ -87,9 +88,8 @@ namespace James.WorkflowEditor
                 if (CurrentHoveredWorkflowComponent != null)
                 {
                     var data = CurrentHoveredWorkflowComponent.DataContext;
-                    var component = data as WorkflowComponent;
-                    var destination = component;
-                    if (!IsAllowed(_currLine.Source, destination))
+                    var destination = data as WorkflowComponent;
+                    if (destination != null && !destination.IsAllowed(_currLine.Source))
                     {
                         Mouse.OverrideCursor = Cursors.No;
                     }
@@ -118,7 +118,7 @@ namespace James.WorkflowEditor
                 Mouse.OverrideCursor = null;
                 var curr = CurrentHoveredWorkflowComponent;
                 var context = curr?.DataContext as WorkflowComponent;
-                if (context != null && IsAllowed(_currLine.Source, context))
+                if (context != null && context.IsAllowed(_currLine.Source))
                 {
                     AddConnection(_currLine.Source, context);
                 }
@@ -129,23 +129,6 @@ namespace James.WorkflowEditor
         }
 
         private void UIElement_OnMouseLeave(object sender, MouseEventArgs e) => FinishDragging();
-
-        private static bool IsAllowed(WorkflowComponent source, WorkflowComponent destination)
-        {
-            if (source == destination)
-            {
-                return false;
-            }
-            if (destination is BasicOutput && !(source is BasicAction))
-            {
-                return false;
-            }
-            if (source is BasicAction && !(destination is BasicOutput))
-            {
-                return false;
-            }
-            return true;
-        }
 
         private static void AddConnection(WorkflowComponent source, WorkflowComponent destination)
         {

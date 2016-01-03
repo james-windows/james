@@ -54,5 +54,17 @@ namespace James.WorkflowEditor
 
         private void OpenWorkflowFolder(object sender, RoutedEventArgs e)
             => ((WorkflowComponent) DataContext).ParentWorkflow.OpenFolder();
+
+        public void NewSource(WorkflowComponent component)
+        {
+            if (component == null || !((WorkflowComponent)DataContext).IsAllowed(component))
+            {
+                leftAnchor.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                leftAnchor.Visibility = Visibility.Visible;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using James.Workflows.Actions;
 
 namespace James.Workflows.Outputs
 {
@@ -7,5 +8,7 @@ namespace James.Workflows.Outputs
     public abstract class BasicOutput : WorkflowComponent
     {
         public abstract void Display(string output);
+
+        public override bool IsAllowed(WorkflowComponent source) => source is BasicAction;
     }
 }

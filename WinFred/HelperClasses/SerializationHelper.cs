@@ -1,13 +1,6 @@
-using System;
-using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using James.Workflows;
 using Newtonsoft.Json;
@@ -15,7 +8,7 @@ using Formatting = Newtonsoft.Json.Formatting;
 
 namespace James.HelperClasses
 {
-    public static class GeneralHelper
+    public static class SerializationHelper
     {
         public static string Serialize<T>(this T value)
         {
@@ -56,17 +49,6 @@ namespace James.HelperClasses
                 var deserializer = new DataContractSerializer(typeof (Workflow));
                 return (Workflow) deserializer.ReadObject(stream);
             }
-        }
-
-        public static ImageSource ToImageSource(this Icon icon)
-        {
-            var tmp = DateTime.Now;
-            ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(
-                icon.Handle,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions());
-            Console.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
-            return imageSource;
         }
     }
 }

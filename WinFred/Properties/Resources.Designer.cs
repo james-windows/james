@@ -79,6 +79,15 @@ namespace James.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A description for each Workflow component will be placed here soon! Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet..
+        /// </summary>
+        internal static string General_WorkflowComponent_Description {
+            get {
+                return ResourceManager.GetString("General_WorkflowComponent_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Triggered Event for backup SearchEngine.
         /// </summary>
         internal static string SearchEngine_SearchEngineBackup_Notification {

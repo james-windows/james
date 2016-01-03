@@ -25,5 +25,7 @@ namespace James.Workflows.Triggers
             Console.WriteLine(ParentWorkflow.Title + Resources.BasicTrigger_EventGotTriggered_Notification);
             Runnables.ForEach(component => component.Run(arguments));
         }
+
+        public override bool IsAllowed(WorkflowComponent source) => source is BasicTrigger && source != this;
     }
 }

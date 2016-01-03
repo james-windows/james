@@ -60,7 +60,7 @@ namespace James.Workflows
             Outputs.OfType<ISurviveable>().ToList().ForEach(surviveable => surviveable.Cancel());
         }
 
-        public void Persist() => File.WriteAllText(Path + "\\config.xml", GeneralHelper.SerializeWorkflow(this));
+        public void Persist() => File.WriteAllText(Path + "\\config.xml", SerializationHelper.SerializeWorkflow(this));
 
         public void AddComponent(WorkflowComponent instance)
         {
