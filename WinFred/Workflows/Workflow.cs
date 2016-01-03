@@ -60,7 +60,7 @@ namespace James.Workflows
             Outputs.OfType<ISurviveable>().ToList().ForEach(surviveable => surviveable.Cancel());
         }
 
-        public void Persist() => File.WriteAllText(Path + "\\config.json", this.Serialize());
+        public void Persist() => File.WriteAllText(Path + "\\config.xml", GeneralHelper.SerializeWorkflow(this));
 
         public void AddComponent(WorkflowComponent instance)
         {
@@ -80,6 +80,7 @@ namespace James.Workflows
             {
                 Outputs.Add(output);
             }
+            WorkflowManager.Instance.LoadKeywordTriggers();
         }
 
         public void RemoveComponent(WorkflowComponent component)
@@ -113,6 +114,7 @@ namespace James.Workflows
                 }
                 Outputs.Remove(basicOutput);
             }
+            WorkflowManager.Instance.LoadKeywordTriggers();
         }
 
         public void OpenFolder() => Process.Start(Path);

@@ -29,11 +29,11 @@ namespace James.Workflows
             LoadKeywordTriggers();
         }
 
-        private void LoadKeywordTriggers()
+        public void LoadKeywordTriggers()
         {
             foreach (var workflow in Workflows)
             {
-                KeywordTriggers.AddRange(workflow.Triggers.OfType<KeywordTrigger>());
+                KeywordTriggers = workflow.Triggers.OfType<KeywordTrigger>().ToList();
             }
         }
 
