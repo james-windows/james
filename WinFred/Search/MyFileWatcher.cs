@@ -23,7 +23,7 @@ namespace James.Search
         private MyFileWatcher()
         {
             var paths = Config.Instance.Paths.ToList();
-            paths.Where(path => path.IsEnabled).ToList().ForEach(AddPath);
+            paths.Where(path => path.IsEnabled).ForEach(AddPath);
         }
 
         public static MyFileWatcher Instance

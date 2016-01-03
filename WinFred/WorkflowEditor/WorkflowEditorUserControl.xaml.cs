@@ -72,7 +72,7 @@ namespace James.WorkflowEditor
                 MouseMove += MoveWhileDragging;
                 editorCanvas.Children.Add(_currLine.Line);
                 Mouse.OverrideCursor = Cursors.None;
-                editorCanvas.Children.OfType<WorkflowComponentUserControl>().ToList().ForEach(component => component.NewSource(tmp.DataContext as WorkflowComponent));
+                editorCanvas.Children.OfType<WorkflowComponentUserControl>().ForEach(component => component.NewSource(tmp.DataContext as WorkflowComponent));
             }
             catch (Exception)
             {
