@@ -57,7 +57,7 @@ namespace James.WorkflowEditor
 
         public void NewSource(WorkflowComponent component)
         {
-            if (component == null || !((WorkflowComponent)DataContext).IsAllowed(component))
+            if (component == null || !((WorkflowComponent) DataContext).IsAllowed(component))
             {
                 leftAnchor.Visibility = Visibility.Hidden;
             }

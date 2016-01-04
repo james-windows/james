@@ -11,7 +11,7 @@ using James.Workflows.Triggers;
 
 namespace James.Workflows
 {
-    [DataContract(IsReference = true)]
+    [DataContract]
     public class Workflow
     {
         private Workflow()
@@ -26,12 +26,12 @@ namespace James.Workflows
         }
 
         [DataMember(Order = 4)]
-        public string IconPath { get; set; }
+        public string IconPath { get; set; } = "";
 
         public string Title { get; set; }
 
         [DataMember(Order = 2)]
-        public string Subtitle { get; set; }
+        public string Subtitle { get; set; } = "";
 
         [DataMember(Order = 3)]
         public string Author { get; set; } = System.Security.Principal.WindowsIdentity.GetCurrent()?.Name;
@@ -51,6 +51,7 @@ namespace James.Workflows
         [DataMember(Order = 9)]
         public List<BasicOutput> Outputs { get; set; } = new List<BasicOutput>();
 
+
         public string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Title;
 
         public void Cancel()
@@ -60,7 +61,7 @@ namespace James.Workflows
             Outputs.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
         }
 
-        public void Persist() => File.WriteAllText(Path + "\\config.xml", SerializationHelper.SerializeWorkflow(this));
+        public void Persist() => File.WriteAllText(Path + "\\config.json", this.Serialize());
 
         public void AddComponent(WorkflowComponent instance)
         {

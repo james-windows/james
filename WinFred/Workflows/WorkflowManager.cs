@@ -21,7 +21,7 @@ namespace James.Workflows
             }
             foreach (var path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
             {
-                Workflows.Add(SerializationHelper.DeserializeWorkflow(path + "\\config.xml"));
+                Workflows.Add(SerializationHelper.DeserializeWorkflow(path + "\\config.json"));
                 Workflows.Last().Title = path.Split('\\').Last();
             }
 
