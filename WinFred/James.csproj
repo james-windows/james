@@ -183,9 +183,9 @@
       <DependentUpon>ChangelogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enumerations\AccentColorTypes.cs" />
-    <Compile Include="HelperClasses\GeneralHelper.cs" />
+    <Compile Include="HelperClasses\CustomExtensionMethods.cs" />
+    <Compile Include="HelperClasses\SerializationHelper.cs" />
     <Compile Include="HelperClasses\GridHelper.cs" />
-    <Compile Include="HelperClasses\IconHelper.cs" />
     <Compile Include="HelperClasses\PathHelper.cs" />
     <Compile Include="PartialConfigClasses\LargeTypeConfig.cs" />
     <Compile Include="PartialConfigClasses\MainWindowConfig.cs" />
@@ -227,7 +227,7 @@
     <Compile Include="WorkflowEditor\ComponentPropertyUserControl.xaml.cs">
       <DependentUpon>ComponentPropertyUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WorkflowEditor\CustomLine.cs" />
+    <Compile Include="WorkflowEditor\CustomPath.cs" />
     <Compile Include="WorkflowEditor\WorkflowComponentUserControl.xaml.cs">
       <DependentUpon>WorkflowComponentUserControl.xaml</DependentUpon>
     </Compile>

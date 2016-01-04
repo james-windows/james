@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using James.HelperClasses;
 using James.Workflows;
 using James.Workflows.Actions;
 using James.Workflows.Outputs;
@@ -21,13 +22,13 @@ namespace James.WorkflowEditor
         private const int ComponentWidth = 120;
         private const int ComponentPadding = 10;
         private const int CircleRadius = 5;
-        private readonly List<CustomLine> _myLines;
-        private CustomLine _currLine;
+        private readonly List<CustomPath> _myLines;
+        private CustomPath _currPath;
 
         public WorkflowEditorUserControl()
         {
             InitializeComponent();
-            _myLines = new List<CustomLine>();
+            _myLines = new List<CustomPath>();
             DataContextChanged += WorkflowEditorUserControl_DataContextChanged;
         }
 
@@ -37,7 +38,7 @@ namespace James.WorkflowEditor
 
         private void DeleteConnection(object sender, MouseButtonEventArgs e)
         {
-            var myLine = _myLines.First(line => ReferenceEquals(line.Line, (Line) sender));
+            var myLine = _myLines.First(line => ReferenceEquals(line.Path, (Path) sender));
             myLine.DeleteConnection();
             DrawCanvas(this, null);
         }
@@ -67,10 +68,10 @@ namespace James.WorkflowEditor
             try
             {
                 var position = tmp.grid.Children[0].TransformToAncestor(editorCanvas).Transform(new Point(5, 5));
-                _currLine = new CustomLine((WorkflowComponent) tmp.DataContext, position);
-                _currLine.ChangeDestination(position);
+                _currPath = new CustomPath((WorkflowComponent) tmp.DataContext, position);
+                _currPath.ChangeDestination(position);
                 MouseMove += MoveWhileDragging;
-                editorCanvas.Children.Add(_currLine.Line);
+                editorCanvas.Children.Add(_currPath.Path);
                 Mouse.OverrideCursor = Cursors.None;
                 editorCanvas.Children.OfType<WorkflowComponentUserControl>().ForEach(component => component.NewSource(tmp.DataContext as WorkflowComponent));
             }
@@ -82,48 +83,38 @@ namespace James.WorkflowEditor
 
         private void MoveWhileDragging(object sender, MouseEventArgs e)
         {
-            if (_currLine != null)
+            if (_currPath != null)
             {
                 Mouse.OverrideCursor = null;
                 if (CurrentHoveredWorkflowComponent != null)
                 {
                     var data = CurrentHoveredWorkflowComponent.DataContext;
                     var destination = data as WorkflowComponent;
-                    if (destination != null && !destination.IsAllowed(_currLine.Source))
+                    if (destination != null && !destination.IsAllowed(_currPath.Source))
                     {
                         Mouse.OverrideCursor = Cursors.No;
                     }
                 }
-                //TODO cleaner effect by using the pythagoras
                 var point = e.GetPosition(editorCanvas);
-                point.X -= 5;
-                point.Y -= 5;
-                if (_currLine.Line.X1 > point.X)
-                {
-                    point.X += 10;
-                }
-                if (_currLine.Line.Y1 > point.Y)
-                {
-                    point.Y += 10;
-                }
-                _currLine.ChangeDestination(point);
+                point.X-=2;
+                _currPath.ChangeDestination(point);
             }
         }
 
         private void FinishDragging(object sender = null, MouseButtonEventArgs e = null)
         {
-            if (_currLine != null)
+            if (_currPath != null)
             {
                 MouseMove -= MoveWhileDragging;
                 Mouse.OverrideCursor = null;
                 var curr = CurrentHoveredWorkflowComponent;
                 var context = curr?.DataContext as WorkflowComponent;
-                if (context != null && context.IsAllowed(_currLine.Source))
+                if (context != null && context.IsAllowed(_currPath.Source))
                 {
-                    AddConnection(_currLine.Source, context);
+                    AddConnection(_currPath.Source, context);
                 }
-                editorCanvas.Children.Remove(_currLine.Line);
-                _currLine = null;
+                editorCanvas.Children.Remove(_currPath.Path);
+                _currPath = null;
                 DrawCanvas(this, null);
             }
         }
@@ -202,11 +193,10 @@ namespace James.WorkflowEditor
                         destination = new Point(ComponentWidth + ComponentPadding + CircleRadius,
                             ComponentHeight/2 + ComponentHeight*workflow.Actions.IndexOf(runnable as BasicAction));
                     }
-                    var line = new CustomLine(workflow.Triggers[i], source) {Destination = runnable};
-                    line.ChangeDestination(destination);
-                    line.Line.MouseRightButtonDown += DeleteConnection;
-                    editorCanvas.Children.Add(line.Line);
-                    _myLines.Add(line);
+                    var path = new CustomPath(workflow.Triggers[i], source, destination) {Destination = runnable};
+                    path.Path.MouseRightButtonDown += DeleteConnection;
+                    editorCanvas.Children.Add(path.Path);
+                    _myLines.Add(path);
                 }
             }
             for (var i = 0; i < workflow.Actions.Count; i++)
@@ -217,10 +207,10 @@ namespace James.WorkflowEditor
                 {
                     var destination = new Point(2*ComponentWidth + ComponentPadding + CircleRadius,
                         ComponentHeight/2 + ComponentHeight*workflow.Outputs.IndexOf(displayer));
-                    var line = new CustomLine(workflow.Actions[i], source) {Destination = displayer};
+                    var line = new CustomPath(workflow.Actions[i], source) {Destination = displayer};
                     line.ChangeDestination(destination);
-                    editorCanvas.Children.Add(line.Line);
-                    line.Line.MouseRightButtonDown += DeleteConnection;
+                    editorCanvas.Children.Add(line.Path);
+                    line.Path.MouseRightButtonDown += DeleteConnection;
                     _myLines.Add(line);
                 }
             }
