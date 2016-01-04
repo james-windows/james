@@ -21,8 +21,7 @@ namespace James.Workflows
             }
             foreach (var path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
             {
-                //Workflows.Add(GeneralHelper.Deserialize<Workflow>(path + "\\config.json"));
-                Workflows.Add(GeneralHelper.DeserializeWorkflow(path + "\\config.xml"));
+                Workflows.Add(SerializationHelper.DeserializeWorkflow(path + "\\config.xml"));
                 Workflows.Last().Title = path.Split('\\').Last();
             }
 
@@ -66,9 +65,9 @@ namespace James.Workflows
                             });
         }
 
-        public void PersistWorkflows() => Workflows.ToList().ForEach(workflow => workflow.Persist());
+        public void PersistWorkflows() => Workflows.ForEach(workflow => workflow.Persist());
 
-        public void CancelWorkflows() => Workflows.ToList().ForEach(workflow => workflow.Cancel());
+        public void CancelWorkflows() => Workflows.ForEach(workflow => workflow.Cancel());
 
         public void Remove(Workflow item)
         {

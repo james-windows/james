@@ -55,9 +55,9 @@ namespace James.Workflows
 
         public void Cancel()
         {
-            Triggers.OfType<ISurviveable>().ToList().ForEach(surviveable => surviveable.Cancel());
-            Actions.OfType<ISurviveable>().ToList().ForEach(surviveable => surviveable.Cancel());
-            Outputs.OfType<ISurviveable>().ToList().ForEach(surviveable => surviveable.Cancel());
+            Triggers.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
+            Actions.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
+            Outputs.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
         }
 
         public void Persist() => File.WriteAllText(Path + "\\config.xml", SerializationHelper.SerializeWorkflow(this));
