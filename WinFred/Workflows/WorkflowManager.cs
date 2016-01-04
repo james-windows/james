@@ -73,6 +73,7 @@ namespace James.Workflows
         {
             item.Remove();
             Workflows.Remove(item);
+            LoadKeywordTriggers();
         }
     }
 }
