@@ -69,6 +69,7 @@ namespace James.Workflows
             if (trigger != null)
             {
                 Triggers.Add(trigger);
+                WorkflowManager.Instance.LoadKeywordTriggers();
             }
             var action = instance as BasicAction;
             if (action != null)
@@ -80,7 +81,6 @@ namespace James.Workflows
             {
                 Outputs.Add(output);
             }
-            WorkflowManager.Instance.LoadKeywordTriggers();
         }
 
         public void RemoveComponent(WorkflowComponent component)
@@ -93,6 +93,7 @@ namespace James.Workflows
                     trigger.Runnables.Remove(basicTrigger);
                 }
                 Triggers.Remove(basicTrigger);
+                WorkflowManager.Instance.LoadKeywordTriggers();
             }
 
             var basicAction = component as BasicAction;
@@ -114,7 +115,6 @@ namespace James.Workflows
                 }
                 Outputs.Remove(basicOutput);
             }
-            WorkflowManager.Instance.LoadKeywordTriggers();
         }
 
         public void OpenFolder() => Process.Start(Path);
