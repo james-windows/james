@@ -27,7 +27,7 @@ namespace James.Workflows.Triggers
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e) => TriggerRunables();
 
-        public override void Run(string argument = "")
+        public override void Run(string arguments = "")
         {
             if (_timer == null)
             {

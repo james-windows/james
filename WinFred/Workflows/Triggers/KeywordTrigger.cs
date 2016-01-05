@@ -19,7 +19,7 @@ namespace James.Workflows.Triggers
 
         public override string GetSummary() => $"Triggers for \"{Keyword}\"";
 
-        public override void Run(string argument = "") => TriggerRunables(argument);
+        public override void Run(string arguments = "") => TriggerRunables(arguments);
 
         public override bool IsAllowed(WorkflowComponent source) => false;
     }

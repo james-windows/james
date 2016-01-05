@@ -25,17 +25,17 @@ namespace James.Workflows.Actions
 
         [DataMember]
         [ComponentField("The program to execute", true)]
-        public string ExecutablePath { get; set; } = "";
+        public virtual string ExecutablePath { get; set; } = "";
 
         [DataMember]
         [ComponentField("Arguments for the program")]
-        public string ExecutableArguments { get; set; } = "";
+        public virtual string ExecutableArguments { get; set; } = "";
 
-        private void Display(string output) => Displayables.ForEach(basicOutput => basicOutput.Display(output));
+        protected void Display(string output) => Displayables.ForEach(basicOutput => basicOutput.Display(output));
 
         public override string GetSummary() => $"Runs {ExecutablePath.Split('\\').Last()}";
 
-        public override void Run(string output = "")
+        public override void Run(string arguments = "")
         {
             var path = ExecutablePath;
             if (path[1] != ':')
@@ -47,7 +47,7 @@ namespace James.Workflows.Actions
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = path,
-                    Arguments = ExecutableArguments + output,
+                    Arguments = ExecutableArguments + arguments,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true

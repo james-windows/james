@@ -20,7 +20,7 @@ namespace James.Workflows.Triggers
 
         public override string GetSummary() => $"Timeouts for {Timeout} ms";
 
-        public override void Run(string argument = "")
+        public override void Run(string arguments = "")
         {
             System.Threading.Thread.Sleep(Timeout);
             TriggerRunables();

@@ -252,6 +252,7 @@
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workflows\Actions\BasicAction.cs" />
+    <Compile Include="Workflows\Actions\NodejsAction.cs" />
     <Compile Include="Workflows\ComponentFieldAttribute.cs" />
     <Compile Include="Workflows\Interfaces\ICrossPlatform.cs" />
     <Compile Include="Workflows\Interfaces\ISurviveable.cs" />
