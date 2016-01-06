@@ -41,7 +41,7 @@
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                                 <!--#endregion-->
-                                <TextBlock Text="{Binding Title}" HorizontalAlignment="Stretch"
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch"
                                            ContextMenuService.ShowOnDisabled="True">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">

@@ -18,9 +18,9 @@ namespace James.Workflows
         {
         }
 
-        public Workflow(string title)
+        public Workflow(string name)
         {
-            Title = title;
+            Name = name;
             Directory.CreateDirectory(Path);
             Persist();
         }
@@ -28,10 +28,7 @@ namespace James.Workflows
         [DataMember(Order = 4)]
         public string IconPath { get; set; } = "";
 
-        public string Title { get; set; }
-
-        [DataMember(Order = 2)]
-        public string Subtitle { get; set; } = "";
+        public string Name { get; set; }
 
         [DataMember(Order = 3)]
         public string Author { get; set; } = System.Security.Principal.WindowsIdentity.GetCurrent()?.Name;
@@ -52,7 +49,7 @@ namespace James.Workflows
         public List<BasicOutput> Outputs { get; set; } = new List<BasicOutput>();
 
 
-        public string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Title;
+        public string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Name;
 
         public void Cancel()
         {

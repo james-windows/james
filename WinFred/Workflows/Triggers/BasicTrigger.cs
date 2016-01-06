@@ -22,7 +22,7 @@ namespace James.Workflows.Triggers
 
         public void TriggerRunables(string arguments = "")
         {
-            Console.WriteLine(ParentWorkflow.Title + Resources.BasicTrigger_EventGotTriggered_Notification);
+            Console.WriteLine(ParentWorkflow.Name + Resources.BasicTrigger_EventGotTriggered_Notification);
             Runnables.ForEach(component => component.Run(arguments));
         }
 

@@ -11,7 +11,7 @@ namespace James.Workflows.Outputs
         {
             var outputResults = new List<ResultItem>
             {
-                new BasicResultItem() {Subtitle = ParentWorkflow.Subtitle, Title = output}
+                new BasicResultItem() {Subtitle = output, Title = ParentWorkflow.Name}
             };
             MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
         }

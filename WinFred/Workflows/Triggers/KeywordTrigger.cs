@@ -14,6 +14,10 @@ namespace James.Workflows.Triggers
         }
 
         [DataMember]
+        [ComponentField("Gets displayed with the SearchResults")]
+        public string Trigger { get; set; } = "";
+
+        [DataMember]
         [ComponentField("Listens for this keyword to trigger")]
         public string Keyword { get; set; } = "";
 

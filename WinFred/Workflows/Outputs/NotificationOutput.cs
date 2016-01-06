@@ -36,7 +36,7 @@ namespace James.Workflows.Outputs
                 Icon = Icon.ExtractAssociatedIcon(AppDomain.CurrentDomain.BaseDirectory + "James.exe"),
                 BalloonTipIcon = ToolTipIcon.Info,
                 BalloonTipText = output,
-                BalloonTipTitle = "James-Workflow: " + ParentWorkflow.Title,
+                BalloonTipTitle = "James-Workflow: " + ParentWorkflow.Name,
                 Visible = true
             };
             icon.ShowBalloonTip(Timeperiod);

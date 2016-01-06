@@ -22,7 +22,7 @@ namespace James.Workflows
             foreach (var path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
             {
                 Workflows.Add(SerializationHelper.DeserializeWorkflow(path + "\\config.json"));
-                Workflows.Last().Title = path.Split('\\').Last();
+                Workflows.Last().Name = path.Split('\\').Last();
             }
 
             LoadKeywordTriggers();
@@ -59,8 +59,8 @@ namespace James.Workflows
                             new WorkflowResultItem
                             {
                                 WorkflowTrigger = trigger,
-                                Subtitle = trigger.ParentWorkflow.Subtitle,
-                                Title = trigger.ParentWorkflow.Title,
+                                Subtitle = trigger.Trigger,
+                                Title = trigger.ParentWorkflow.Name,
                                 WorkflowArguments = input.Replace(input.Split(' ')[0], "").Trim()
                             });
         }
