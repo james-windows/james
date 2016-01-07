@@ -35,9 +35,7 @@ namespace James.HelperClasses
                 TypeNameHandling = TypeNameHandling.All,
                 PreserveReferencesHandling = PreserveReferencesHandling.All
             });
-            workflow.Triggers.ForEach(trigger => trigger.ParentWorkflow = workflow);
-            workflow.Actions.ForEach(action => action.ParentWorkflow = workflow);
-            workflow.Outputs.ForEach(output => output.ParentWorkflow = workflow);
+            workflow.Components.ForEach(component => component.ParentWorkflow = workflow);
             return workflow;
         }
     }

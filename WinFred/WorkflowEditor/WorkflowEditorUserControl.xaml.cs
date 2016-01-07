@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using James.HelperClasses;
@@ -31,8 +32,6 @@ namespace James.WorkflowEditor
             _myLines = new List<CustomPath>();
             DataContextChanged += WorkflowEditorUserControl_DataContextChanged;
         }
-
-        public Type[] Types { get; set; }
 
         private void Item_OnUpdate(object sender) => DrawCanvas(sender, null);
 
@@ -163,13 +162,13 @@ namespace James.WorkflowEditor
         private int DrawComponents(Workflow workflow)
         {
             var maxHeight = 0;
-            maxHeight = Math.Max(maxHeight, workflow.Triggers.Count*ComponentHeight);
+            maxHeight = Math.Max(maxHeight, workflow.Triggers.Count() * ComponentHeight);
             DrawComponents(workflow.Triggers.Cast<WorkflowComponent>().ToList(), 0);
 
-            maxHeight = Math.Max(maxHeight, workflow.Actions.Count*ComponentHeight);
+            maxHeight = Math.Max(maxHeight, workflow.Actions.Count * ComponentHeight);
             DrawComponents(workflow.Actions.Cast<WorkflowComponent>().ToList(), 1);
 
-            maxHeight = Math.Max(maxHeight, workflow.Outputs.Count*ComponentHeight);
+            maxHeight = Math.Max(maxHeight, workflow.Outputs.Count * ComponentHeight);
             DrawComponents(workflow.Outputs.Cast<WorkflowComponent>().ToList(), 2);
             return maxHeight;
         }
@@ -179,19 +178,19 @@ namespace James.WorkflowEditor
             for (var i = 0; i < workflow.Triggers.Count; i++)
             {
                 var source = new Point(ComponentWidth - ComponentPadding - CircleRadius,
-                    ComponentHeight/2 + ComponentHeight*i);
+                    ComponentHeight / 2 + ComponentHeight * i);
                 foreach (var runnable in workflow.Triggers[i].Runnables)
                 {
                     Point destination;
                     if (runnable is BasicTrigger)
                     {
                         destination = new Point(ComponentPadding + CircleRadius,
-                            ComponentHeight/2 + ComponentHeight*workflow.Triggers.IndexOf(runnable as BasicTrigger));
+                            ComponentHeight / 2 + ComponentHeight * workflow.Triggers.IndexOf(runnable as BasicTrigger));
                     }
                     else
                     {
                         destination = new Point(ComponentWidth + ComponentPadding + CircleRadius,
-                            ComponentHeight/2 + ComponentHeight*workflow.Actions.IndexOf(runnable as BasicAction));
+                            ComponentHeight / 2 + ComponentHeight*workflow.Actions.IndexOf(runnable as BasicAction));
                     }
                     var path = new CustomPath(workflow.Triggers[i], source, destination) {Destination = runnable};
                     path.Path.MouseRightButtonDown += DeleteConnection;
@@ -201,12 +200,12 @@ namespace James.WorkflowEditor
             }
             for (var i = 0; i < workflow.Actions.Count; i++)
             {
-                var source = new Point(2*ComponentWidth - ComponentPadding - CircleRadius,
-                    ComponentHeight/2 + ComponentHeight*i);
+                var source = new Point(2 * ComponentWidth - ComponentPadding - CircleRadius,
+                    ComponentHeight / 2 + ComponentHeight*i);
                 foreach (var displayer in workflow.Actions[i].Displayables)
                 {
-                    var destination = new Point(2*ComponentWidth + ComponentPadding + CircleRadius,
-                        ComponentHeight/2 + ComponentHeight*workflow.Outputs.IndexOf(displayer));
+                    var destination = new Point(2 * ComponentWidth + ComponentPadding + CircleRadius,
+                        ComponentHeight / 2 + ComponentHeight*workflow.Outputs.IndexOf(displayer));
                     var line = new CustomPath(workflow.Actions[i], source) {Destination = displayer};
                     line.ChangeDestination(destination);
                     editorCanvas.Children.Add(line.Path);
@@ -241,18 +240,30 @@ namespace James.WorkflowEditor
 
         private void FillContextMenu(object sender, RoutedEventArgs e)
         {
-            Types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+            var triggers = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
                 from assemblyType in domainAssembly.GetTypes()
-                where (typeof (WorkflowComponent).IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract)
+                where (typeof (BasicTrigger).IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract)
                 select assemblyType).ToArray();
-            AddButton.ItemsSource = Types;
+            TriggerContextMenu.ItemsSource = triggers;
+
+            var actions = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                from assemblyType in domainAssembly.GetTypes()
+                where (typeof(BasicAction).IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract)
+                select assemblyType).ToArray();
+            ActionContextMenu.ItemsSource = actions;
+
+            var outputs = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                from assemblyType in domainAssembly.GetTypes()
+                where (typeof(BasicOutput).IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract)
+                select assemblyType).ToArray();
+            OutputContextMenu.ItemsSource = outputs;
         }
 
         private void AddComponent(object sender, RoutedEventArgs e)
         {
-            var component = (Type) ((MenuItem) sender).DataContext;
-            var instance = (WorkflowComponent) Activator.CreateInstance(component);
-            var workflow = (Workflow) DataContext;
+            var component = (Type)((MenuItem)e.OriginalSource).DataContext;
+            var instance = (WorkflowComponent)Activator.CreateInstance(component);
+            var workflow = (Workflow)DataContext;
             workflow.AddComponent(instance);
             DrawCanvas(this, null);
         }

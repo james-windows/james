@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using James.Workflows.Triggers;
@@ -15,7 +12,14 @@ namespace James.ResultItems
 
         public override void Open(KeyEventArgs e)
         {
-            WorkflowTrigger.TriggerRunables(WorkflowArguments);
+            try
+            {
+                Task.Run(() => WorkflowTrigger.TriggerRunables(WorkflowArguments));
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Workflow execution triggerd an exception");
+            }
         }
     }
 }

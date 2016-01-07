@@ -40,22 +40,17 @@ namespace James.Workflows
         public bool IsEnabled { get; set; } = true;
 
         [DataMember(Order = 7)]
-        public List<BasicTrigger> Triggers { get; set; } = new List<BasicTrigger>();
+        public List<WorkflowComponent> Components { get; set; } = new List<WorkflowComponent>();
 
-        [DataMember(Order = 8)]
-        public List<BasicAction> Actions { get; set; } = new List<BasicAction>();
-
-        [DataMember(Order = 9)]
-        public List<BasicOutput> Outputs { get; set; } = new List<BasicOutput>();
-
+        public List<BasicTrigger> Triggers => Components.OfType<BasicTrigger>().ToList();
+        public List<BasicAction> Actions => Components.OfType<BasicAction>().ToList();
+        public List<BasicOutput> Outputs => Components.OfType<BasicOutput>().ToList();
 
         public string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Name;
 
         public void Cancel()
         {
-            Triggers.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
-            Actions.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
-            Outputs.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
+            Components.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
         }
 
         public void Persist() => File.WriteAllText(Path + "\\config.json", this.Serialize());
@@ -63,56 +58,16 @@ namespace James.Workflows
         public void AddComponent(WorkflowComponent instance)
         {
             instance.ParentWorkflow = this;
-            var trigger = instance as BasicTrigger;
-            if (trigger != null)
-            {
-                Triggers.Add(trigger);
-                WorkflowManager.Instance.LoadKeywordTriggers();
-            }
-            var action = instance as BasicAction;
-            if (action != null)
-            {
-                Actions.Add(action);
-            }
-            var output = instance as BasicOutput;
-            if (output != null)
-            {
-                Outputs.Add(output);
-            }
+            Components.Add(instance);
+            WorkflowManager.Instance.LoadKeywordTriggers();
         }
 
         public void RemoveComponent(WorkflowComponent component)
         {
-            var basicTrigger = component as BasicTrigger;
-            if (basicTrigger != null)
-            {
-                foreach (var trigger in Triggers)
-                {
-                    trigger.Runnables.Remove(basicTrigger);
-                }
-                Triggers.Remove(basicTrigger);
-                WorkflowManager.Instance.LoadKeywordTriggers();
-            }
+            Triggers.ForEach(trigger => trigger.Runnables.Remove(component as RunnableWorkflowComponent));
+            Actions.ForEach(action => action.Displayables.Remove(component as BasicOutput));
 
-            var basicAction = component as BasicAction;
-            if (basicAction != null)
-            {
-                foreach (var trigger in Triggers)
-                {
-                    trigger.Runnables.Remove(basicAction);
-                }
-                Actions.Remove(basicAction);
-            }
-
-            var basicOutput = component as BasicOutput;
-            if (basicOutput != null)
-            {
-                foreach (var action in Actions)
-                {
-                    action.Displayables.Remove(basicOutput);
-                }
-                Outputs.Remove(basicOutput);
-            }
+            Components.Remove(component);
         }
 
         public void OpenFolder() => Process.Start(Path);

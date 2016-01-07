@@ -23,13 +23,15 @@
                     </Style>
                 </Button.Style>
                 <Button.ContextMenu>
-                    <ContextMenu x:Name="AddButton">
-                        <ContextMenu.ItemContainerStyle>
+                    <ContextMenu x:Name="AddButton" MenuItem.Click="AddComponent">
+                        <MenuItem Header="Triggers" x:Name="TriggerContextMenu"/>
+                        <MenuItem Header="Actions" x:Name="ActionContextMenu"/>
+                        <MenuItem Header="Outputs" x:Name="OutputContextMenu"/>
+                        <ContextMenu.Resources>
                             <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
-                                <EventSetter Event="Click" Handler="AddComponent" />
                                 <Setter Property="Header" Value="{Binding Name, Mode=OneWay}" />
                             </Style>
-                        </ContextMenu.ItemContainerStyle>
+                        </ContextMenu.Resources>
                     </ContextMenu>
                 </Button.ContextMenu>
             </Button>

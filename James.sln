@@ -1,13 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "James", "WinFred\James.csproj", "{8E5DFE89-26D4-4E81-A6CA-338B4E8DED8A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{35113677-1683-4425-AC56-382321C7C9E6} = {35113677-1683-4425-AC56-382321C7C9E6}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SearchEngine", "SearchEngine\SearchEngine.vcxproj", "{D500AB99-1467-4C7F-A1DB-06BB5E6259C2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SearchEngineWrapper", "SearchEngineWrapper\SearchEngineWrapper.vcxproj", "{35113677-1683-4425-AC56-382321C7C9E6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D500AB99-1467-4C7F-A1DB-06BB5E6259C2} = {D500AB99-1467-4C7F-A1DB-06BB5E6259C2}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "James.Test", "James.Test\James.Test.csproj", "{89CCD60A-8AA5-40B8-9F38-43E5259BF15C}"
 EndProject
