@@ -21,8 +21,12 @@ namespace James.Workflows
             }
             foreach (var path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
             {
-                Workflows.Add(SerializationHelper.DeserializeWorkflow(path + "\\config.json"));
-                Workflows.Last().Name = path.Split('\\').Last();
+                string configPath = path + "\\config.json";
+                if (File.Exists(configPath))
+                {
+                    Workflows.Add(SerializationHelper.DeserializeWorkflow(configPath));
+                    Workflows.Last().Name = path.Split('\\').Last();
+                }
             }
 
             LoadKeywordTriggers();
