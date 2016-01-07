@@ -25,9 +25,6 @@ namespace James.Workflows
             Persist();
         }
 
-        [DataMember(Order = 4)]
-        public string IconPath { get; set; } = "";
-
         public string Name { get; set; }
 
         [DataMember(Order = 3)]
