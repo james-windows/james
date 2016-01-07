@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using James.HelperClasses;
@@ -66,13 +65,13 @@ namespace James.WorkflowEditor
             }
             try
             {
-                var position = tmp.grid.Children[0].TransformToAncestor(editorCanvas).Transform(new Point(5, 5));
+                var position = tmp.grid.Children[0].TransformToAncestor(editorCanvas).Transform(new Point(7, 5));
                 _currPath = new CustomPath((WorkflowComponent) tmp.DataContext, position);
                 _currPath.ChangeDestination(position);
                 MouseMove += MoveWhileDragging;
                 editorCanvas.Children.Add(_currPath.Path);
-                Mouse.OverrideCursor = Cursors.None;
                 editorCanvas.Children.OfType<WorkflowComponentUserControl>().ForEach(component => component.NewSource(tmp.DataContext as WorkflowComponent));
+                Mouse.OverrideCursor = Cursors.None;
             }
             catch (Exception)
             {
@@ -84,7 +83,7 @@ namespace James.WorkflowEditor
         {
             if (_currPath != null)
             {
-                Mouse.OverrideCursor = null;
+                Mouse.OverrideCursor = Cursors.None;
                 if (CurrentHoveredWorkflowComponent != null)
                 {
                     var data = CurrentHoveredWorkflowComponent.DataContext;
@@ -95,7 +94,6 @@ namespace James.WorkflowEditor
                     }
                 }
                 var point = e.GetPosition(editorCanvas);
-                point.X-=2;
                 _currPath.ChangeDestination(point);
             }
         }
@@ -120,6 +118,11 @@ namespace James.WorkflowEditor
 
         private void UIElement_OnMouseLeave(object sender, MouseEventArgs e) => FinishDragging();
 
+        /// <summary>
+        /// Adds the connection if it's not already existing
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
         private static void AddConnection(WorkflowComponent source, WorkflowComponent destination)
         {
             if (source is BasicTrigger &&
@@ -206,10 +209,10 @@ namespace James.WorkflowEditor
                 {
                     var destination = new Point(2 * ComponentWidth + ComponentPadding + CircleRadius,
                         ComponentHeight / 2 + ComponentHeight*workflow.Outputs.IndexOf(displayer));
-                    var line = new CustomPath(workflow.Actions[i], source) {Destination = displayer};
-                    line.ChangeDestination(destination);
-                    editorCanvas.Children.Add(line.Path);
+                    var line = new CustomPath(workflow.Actions[i], source, destination) {Destination = displayer};
+
                     line.Path.MouseRightButtonDown += DeleteConnection;
+                    editorCanvas.Children.Add(line.Path);
                     _myLines.Add(line);
                 }
             }

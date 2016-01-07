@@ -19,7 +19,18 @@ namespace James.Workflows
         }
 
         public FrameworkElement UiElement { get; set; }
-        public string Name => Regex.Replace(GetType().Name, "(?<=[a-z])([A-Z])", " $1", RegexOptions.Compiled);
+        public string Name
+        {
+            get
+            {
+                string name = Regex.Replace(GetType().Name, "(?<=[a-z])([A-Z])", " $1", RegexOptions.Compiled);
+                name = name.Replace("Trigger", "");
+                name = name.Replace("Action", "");
+                name = name.Replace("Output", "");
+                return name;
+            }
+        }
+
         public string Summary => GetSummary();
         public string Description => GetDescription();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using James.Properties;
@@ -8,6 +9,7 @@ using James.Workflows;
 using James.Workflows.Actions;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
+using MahApps.Metro;
 
 namespace James.WorkflowEditor
 {
@@ -32,6 +34,16 @@ namespace James.WorkflowEditor
             CreatePath();
             Source = sourceComponent;
             CalcPath(destionationPoint);
+            this.Path.MouseEnter += (sender, args) =>
+            {
+                Path.Stroke = (Brush)ThemeManager.GetResourceFromAppStyle(null, "AccentColorBrush");
+                Canvas.SetZIndex(Path, -1);
+            };
+            this.Path.MouseLeave += (sender, args) =>
+            {
+                Path.Stroke = Brushes.White;
+                Canvas.SetZIndex(Path, -2);
+            };
         }
 
         public WorkflowComponent Source { get; set; }
@@ -42,11 +54,11 @@ namespace James.WorkflowEditor
         {
             Path = new Path
             {
-                Stroke = Brushes.Black,
+                Stroke = Brushes.White,
                 StrokeThickness = 2,
                 ToolTip = Resources.CustomLine_RightClickToRemoveLine,
-                StrokeStartLineCap = PenLineCap.Round,
-                StrokeEndLineCap = PenLineCap.Round
+                StrokeStartLineCap = PenLineCap.Square,
+                StrokeEndLineCap = PenLineCap.Square
             };
         }
 
@@ -64,7 +76,7 @@ namespace James.WorkflowEditor
             if (destination.X > SourcePoint.X)
             {
                 radius = 15;
-                if (Math.Abs(destination.Y - SourcePoint.Y) < 5) // No curve necessary, straight line to component
+                if (Math.Abs(destination.Y - SourcePoint.Y) < 1) // No curve necessary, straight line to other component
                 {
                     segments.Add(new LineSegment(currPos, true));
                     segments.Add(new LineSegment(destination, true));
@@ -101,6 +113,7 @@ namespace James.WorkflowEditor
             var geo = new PathGeometry();
             geo.Figures.Add(new PathFigure(SourcePoint, segments, false));
             Path.Data = geo;
+            Canvas.SetZIndex(Path, -2);
         }
 
         /// <summary>
@@ -109,6 +122,9 @@ namespace James.WorkflowEditor
         /// <param name="destination"></param>
         public void ChangeDestination(Point destination)
         {
+            //Shorten vector by 2 px in length:
+            ShortenLengthOfVector(SourcePoint, ref destination, 2);
+
             var segments = new List<PathSegment>();
             var currPos = new Point(SourcePoint.X, SourcePoint.Y);
             segments.Add(new LineSegment(currPos, true));
@@ -116,6 +132,21 @@ namespace James.WorkflowEditor
             var geo = new PathGeometry();
             geo.Figures.Add(new PathFigure(SourcePoint, segments, false));
             Path.Data = geo;
+        }
+
+        /// <summary>
+        /// Shortens the distance of the vector from source to destination by a amount of lengthToShorten pixels.
+        /// </summary>
+        /// <param name="source">The starting point of the vector</param>
+        /// <param name="destination">The end point of the vector</param>
+        /// <param name="lengthToShorten">distance in px to shorten</param>
+        private void ShortenLengthOfVector(Point source, ref Point destination, int lengthToShorten)
+        {
+            double deltaX = destination.X - source.X;
+            double deltaY = destination.Y - source.Y;
+            double length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY); //pythagoras
+            destination.Y = deltaY * (length - lengthToShorten) / length + source.Y;
+            destination.X = deltaX * (length - lengthToShorten) / length + source.X;
         }
 
         /// <summary>

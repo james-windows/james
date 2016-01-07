@@ -8,6 +8,7 @@ using James.Workflows.Actions;
 using James.Workflows.Interfaces;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
+using Newtonsoft.Json;
 
 namespace James.Workflows
 {
@@ -29,9 +30,6 @@ namespace James.Workflows
 
         [DataMember(Order = 3)]
         public string Author { get; set; } = System.Security.Principal.WindowsIdentity.GetCurrent()?.Name;
-
-        [DataMember(Order = 5)]
-        public string Version { get; set; } = "0.1";
 
         [DataMember(Order = 6)]
         public bool IsEnabled { get; set; } = true;
