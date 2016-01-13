@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using James.HelperClasses;
 using James.ResultItems;
 using James.Workflows.Triggers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace James.Workflows
 {
@@ -24,8 +27,8 @@ namespace James.Workflows
                 string configPath = path + "\\config.json";
                 if (File.Exists(configPath))
                 {
-                    Workflows.Add(SerializationHelper.DeserializeWorkflow(configPath));
-                    Workflows.Last().Name = path.Split('\\').Last();
+                    dynamic item = JsonConvert.DeserializeObject(File.ReadAllText(configPath));
+                    Workflows.Add(new Workflow(item, path));
                 }
             }
 
@@ -60,12 +63,12 @@ namespace James.Workflows
                 KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input.Split(' ')[0]))
                     .Select(
                         trigger =>
-                            new WorkflowResultItem
+                            new MagicResultItem()
                             {
-                                WorkflowTrigger = trigger,
-                                Subtitle = trigger.Trigger,
+                                WorkflowComponent = trigger,
+                                Subtitle = trigger.Title,
                                 Title = trigger.ParentWorkflow.Name,
-                                WorkflowArguments = input.Replace(input.Split(' ')[0], "").Trim()
+                                WorkflowArguments = input.Split(' ')
                             });
         }
 

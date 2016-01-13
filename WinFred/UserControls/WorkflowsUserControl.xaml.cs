@@ -53,5 +53,10 @@ namespace James.UserControls
                 WorkflowListBox.SelectedIndex = WorkflowManager.Instance.Workflows.Count - 1;
             }
         }
+
+        private void OpenWorkflowFolder(object sender, RoutedEventArgs e)
+        {
+            ((Workflow)WorkflowListBox.SelectedItem).OpenFolder();
+        }
     }
 }

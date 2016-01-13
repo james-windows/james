@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using James.Workflows;
 
 namespace James.HelperClasses
 {
@@ -39,6 +41,32 @@ namespace James.HelperClasses
             {
                 action(item);
             }
+        }
+
+        /// <summary>
+        /// Returns the next component using the id
+        /// </summary>
+        /// <param name="workflowComponent">actual component</param>
+        /// <param name="id">identifies the connection</param>
+        /// <returns>next component</returns>
+        public static WorkflowComponent GetNext(this WorkflowComponent workflowComponent, int id)
+        {
+            return GetNext(workflowComponent.ParentWorkflow, id);
+        }
+
+        /// <summary>
+        /// Returns the next component using the id
+        /// </summary>
+        /// <param name="parent">workflow</param>
+        /// <param name="id">identifies the connection</param>
+        /// <returns>next component</returns>
+        public static WorkflowComponent GetNext(this Workflow parent, int id)
+        {
+            return parent.Components.First(component => component.Id == id);
+        }
+        public static int FindIndex<T>(this IEnumerable<T> items, Predicate<T> predicate)
+        {
+            return items.TakeWhile(item => !predicate(item)).Count();
         }
     }
 }

@@ -21,7 +21,7 @@
                                     <ContextMenu>
                                         <MenuItem x:Name="ChangeStatusMenuItem" Click="ChangeStatusMenuItem_Click">
                                             <MenuItem.Style>
-                                                <Style TargetType="{x:Type MenuItem}">
+                                                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
                                                     <Setter Property="Header" Value="Disable" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsEnabled}" Value="False">
@@ -31,13 +31,9 @@
                                                 </Style>
                                             </MenuItem.Style>
                                         </MenuItem>
-                                        <MenuItem x:Name="DeletePathMenuItem" Click="DeleteWorkflowButton_Click">
-                                            <MenuItem.Style>
-                                                <Style TargetType="{x:Type MenuItem}">
-                                                    <Setter Property="Header" Value="Delete" />
-                                                </Style>
-                                            </MenuItem.Style>
-                                        </MenuItem>
+                                        <MenuItem Click="DeleteWorkflowButton_Click" Header="Delete" Style="{StaticResource MetroMenuItem}"/>
+                                        <Separator/>
+                                        <MenuItem Click="OpenWorkflowFolder" Header="Open Workflowfolder" Style="{StaticResource MetroMenuItem}"/>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                                 <!--#endregion-->

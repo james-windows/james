@@ -59,7 +59,7 @@ namespace James.WorkflowEditor
         private void StartDragging(object sender, MouseButtonEventArgs e)
         {
             var tmp = (WorkflowComponentUserControl) sender;
-            if (tmp.DataContext is BasicOutput)
+            if (tmp.DataContext is BasicOutput && !(tmp.DataContext is MagicOutput))
             {
                 return;
             }
@@ -108,7 +108,7 @@ namespace James.WorkflowEditor
                 var context = curr?.DataContext as WorkflowComponent;
                 if (context != null && context.IsAllowed(_currPath.Source))
                 {
-                    AddConnection(_currPath.Source, context);
+                    AddConnection(_currPath.Source as WorkflowComponent, context);
                 }
                 editorCanvas.Children.Remove(_currPath.Path);
                 _currPath = null;
@@ -125,14 +125,9 @@ namespace James.WorkflowEditor
         /// <param name="destination"></param>
         private static void AddConnection(WorkflowComponent source, WorkflowComponent destination)
         {
-            if (source is BasicTrigger &&
-                ((BasicTrigger) source).Runnables.IndexOf((RunnableWorkflowComponent) destination) == -1)
+            if (!source.ConnectedTo.Contains(destination.Id))
             {
-                ((BasicTrigger) source).Runnables.Add((RunnableWorkflowComponent) destination);
-            }
-            if (source is BasicAction && ((BasicAction) source).Displayables.IndexOf((BasicOutput) destination) == -1)
-            {
-                ((BasicAction) source).Displayables.Add((BasicOutput) destination);
+                source.ConnectedTo.Add(destination.Id);
             }
         }
 
@@ -156,64 +151,45 @@ namespace James.WorkflowEditor
             editorCanvas.Children.Clear();
 
             var workflow = (Workflow) DataContext;
-            var maxHeight = DrawComponents(workflow);
+            var maxHeight = DrawComponents(workflow.Components);
 
             DrawConnections(workflow);
             editorCanvas.Height = maxHeight;
         }
 
-        private int DrawComponents(Workflow workflow)
+        private int DrawComponents(List<WorkflowComponent> components)
         {
-            var maxHeight = 0;
-            maxHeight = Math.Max(maxHeight, workflow.Triggers.Count() * ComponentHeight);
-            DrawComponents(workflow.Triggers.Cast<WorkflowComponent>().ToList(), 0);
-
-            maxHeight = Math.Max(maxHeight, workflow.Actions.Count * ComponentHeight);
-            DrawComponents(workflow.Actions.Cast<WorkflowComponent>().ToList(), 1);
-
-            maxHeight = Math.Max(maxHeight, workflow.Outputs.Count * ComponentHeight);
-            DrawComponents(workflow.Outputs.Cast<WorkflowComponent>().ToList(), 2);
+            int maxHeight = 0;
+            foreach(var component in components)
+            {
+                var item = new WorkflowComponentUserControl(component);
+                item.MouseLeftButtonDown += StartDragging;
+                item.OnUpdate += Item_OnUpdate;
+                Canvas.SetLeft(item, ComponentPadding + ComponentWidth * component.GetColumn());
+                Canvas.SetTop(item, ComponentPadding + ComponentHeight * component.GetRow());
+                maxHeight = Math.Max(ComponentHeight * (component.GetRow() + 1), maxHeight);
+                editorCanvas.Children.Add(item);
+            }
             return maxHeight;
         }
 
         private void DrawConnections(Workflow workflow)
         {
-            for (var i = 0; i < workflow.Triggers.Count; i++)
+            foreach (var item in workflow.Components)
             {
-                var source = new Point(ComponentWidth - ComponentPadding - CircleRadius,
-                    ComponentHeight / 2 + ComponentHeight * i);
-                foreach (var runnable in workflow.Triggers[i].Runnables)
+                var source = new Point(ComponentWidth * (item.GetColumn() + 1) - ComponentPadding,
+                    ComponentHeight / 2 + ComponentHeight * item.GetRow());
+
+                foreach (var id in item.ConnectedTo)
                 {
-                    Point destination;
-                    if (runnable is BasicTrigger)
-                    {
-                        destination = new Point(ComponentPadding + CircleRadius,
-                            ComponentHeight / 2 + ComponentHeight * workflow.Triggers.IndexOf(runnable as BasicTrigger));
-                    }
-                    else
-                    {
-                        destination = new Point(ComponentWidth + ComponentPadding + CircleRadius,
-                            ComponentHeight / 2 + ComponentHeight*workflow.Actions.IndexOf(runnable as BasicAction));
-                    }
-                    var path = new CustomPath(workflow.Triggers[i], source, destination) {Destination = runnable};
+                    WorkflowComponent nextComponent = workflow.GetNext(id);
+                    Point destination = new Point(ComponentPadding + CircleRadius + ComponentWidth * nextComponent.GetColumn(),
+                        ComponentHeight/2 + ComponentHeight*nextComponent.GetRow());
+
+                    var path = new CustomPath(item, source, destination) { Destination = nextComponent };
                     path.Path.MouseRightButtonDown += DeleteConnection;
                     editorCanvas.Children.Add(path.Path);
                     _myLines.Add(path);
-                }
-            }
-            for (var i = 0; i < workflow.Actions.Count; i++)
-            {
-                var source = new Point(2 * ComponentWidth - ComponentPadding - CircleRadius,
-                    ComponentHeight / 2 + ComponentHeight*i);
-                foreach (var displayer in workflow.Actions[i].Displayables)
-                {
-                    var destination = new Point(2 * ComponentWidth + ComponentPadding + CircleRadius,
-                        ComponentHeight / 2 + ComponentHeight*workflow.Outputs.IndexOf(displayer));
-                    var line = new CustomPath(workflow.Actions[i], source, destination) {Destination = displayer};
-
-                    line.Path.MouseRightButtonDown += DeleteConnection;
-                    editorCanvas.Children.Add(line.Path);
-                    _myLines.Add(line);
                 }
             }
         }

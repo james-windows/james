@@ -1,11 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Actions
 {
-    public class NodejsAction: BasicAction, ICrossPlatform
+    public class PythonAction : BasicAction, ICrossPlatform
     {
         [ComponentField("The Path of the script file")]
         public string Script { get; set; } = "";
@@ -13,7 +11,7 @@ namespace James.Workflows.Actions
         [ComponentField("Additional Arguments for the program")]
         public override string ExecutableArguments { get; set; } = "";
 
-        public override string ExecutablePath { get; set; } = @"C:\Users\moser\cmd\node.exe";
+        public override string ExecutablePath { get; set; } = @"C:\Portable\WinPython-64bit-3.4.3.7\python-3.4.3.amd64\python.exe";
 
         public override string GetSummary() => $"Runs {Script}";
 

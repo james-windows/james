@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.Serialization;
+using System.Linq;
 using System.Windows.Forms;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Outputs
 {
-    [DataContract]
     internal class NotificationOutput : BasicOutput, ISurviveable
     {
         public NotifyIcon LastIcon { get; set; }
 
-        [DataMember]
         [ComponentField("Period for displaying notification [ms]")]
         public int Timeperiod { get; set; } = 5000;
 
-        [DataMember]
         public bool CancelNotifyIcon { get; set; } = true;
 
         public void Cancel()
@@ -29,13 +26,13 @@ namespace James.Workflows.Outputs
 
         public override string GetSummary() => $"Displays notification for {Timeperiod} ms";
 
-        public override void Display(string output)
+        public override void Run(string[] output)
         {
             var icon = new NotifyIcon
             {
                 Icon = Icon.ExtractAssociatedIcon(AppDomain.CurrentDomain.BaseDirectory + "James.exe"),
                 BalloonTipIcon = ToolTipIcon.Info,
-                BalloonTipText = output,
+                BalloonTipText = string.Join(" ", output),
                 BalloonTipTitle = "James-Workflow: " + ParentWorkflow.Name,
                 Visible = true
             };

@@ -1,8 +1,5 @@
-﻿using System.Runtime.Serialization;
-
-namespace James.Workflows.Triggers
+﻿namespace James.Workflows.Triggers
 {
-    [DataContract]
     public class KeywordTrigger : BasicTrigger
     {
         public KeywordTrigger()
@@ -13,17 +10,15 @@ namespace James.Workflows.Triggers
         {
         }
 
-        [DataMember]
         [ComponentField("Gets displayed with the SearchResults")]
-        public string Trigger { get; set; } = "";
+        public string Title { get; set; } = "";
 
-        [DataMember]
         [ComponentField("Listens for this keyword to trigger")]
         public string Keyword { get; set; } = "";
 
         public override string GetSummary() => $"Triggers for \"{Keyword}\"";
 
-        public override void Run(string arguments = "") => TriggerRunables(arguments);
+        public override void Run(string[] arguments) => CallNext(arguments);
 
         public override bool IsAllowed(WorkflowComponent source) => false;
     }

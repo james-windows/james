@@ -9,7 +9,7 @@
             <Label>text for about</Label>
             <Label>James</Label>
             <Label x:Name="versionLabel" />
-            <Button Content="Display Changelog" Click="DisplayChangelog" Style="{DynamicResource SquareButtonStyle}" />
+            <Button Content="Run Changelog" Click="DisplayChangelog" Style="{DynamicResource SquareButtonStyle}" />
         </StackPanel>
     </Grid>
 </UserControl>

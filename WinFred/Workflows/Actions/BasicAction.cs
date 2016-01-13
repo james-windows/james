@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
-using James.Workflows.Interfaces;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 
 namespace James.Workflows.Actions
 {
-    [DataContract]
     public class BasicAction : RunnableWorkflowComponent
     {
         public BasicAction(string executablePath)
@@ -16,26 +12,20 @@ namespace James.Workflows.Actions
             ExecutablePath = executablePath;
         }
 
+        protected const char SEPARATOR = '\n';
         public BasicAction()
         {
         }
 
-        [DataMember]
-        public List<BasicOutput> Displayables { get; set; } = new List<BasicOutput>();
-
-        [DataMember]
         [ComponentField("The program to execute", true)]
         public virtual string ExecutablePath { get; set; } = "";
 
-        [DataMember]
         [ComponentField("Arguments for the program")]
         public virtual string ExecutableArguments { get; set; } = "";
 
-        protected void Display(string output) => Displayables.ForEach(basicOutput => basicOutput.Display(output));
-
         public override string GetSummary() => $"Runs {ExecutablePath.Split('\\').Last()}";
 
-        public override void Run(string arguments = "")
+        public override void Run(string[] arguments)
         {
             var path = ExecutablePath;
             if (path[1] != ':')
@@ -54,9 +44,12 @@ namespace James.Workflows.Actions
                 }
             };
             proc.Start();
-            Display(proc.StandardOutput.ReadToEnd());
+            CallNext(proc.StandardOutput.ReadToEnd().Split(SEPARATOR));
         }
 
-        public override bool IsAllowed(WorkflowComponent source) => source is BasicTrigger;
+        public override bool IsAllowed(WorkflowComponent source) => source is BasicTrigger || source is MagicOutput || source is BasicAction;
+        public override int GetColumn() => 1;
+
+        public override int GetRow() => ParentWorkflow.Actions.FindIndex(component => component.Id == Id);
     }
 }

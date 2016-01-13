@@ -20,7 +20,19 @@ namespace James.ResultItems
         }
 
         public override ImageSource Icon
-            => _isDirectory? null: System.Drawing.Icon.ExtractAssociatedIcon(Subtitle).ToImageSource();
+        {
+            get
+            {
+                try
+                {
+                    return _isDirectory ? null : System.Drawing.Icon.ExtractAssociatedIcon(Subtitle).ToImageSource();
+                }
+                catch (FileNotFoundException)
+                {
+                    return null;
+                }
+            }
+        }
 
         private readonly bool _isDirectory;
 

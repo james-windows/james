@@ -83,10 +83,11 @@ namespace James.WorkflowEditor
                 }
                 else
                 {
+                    radius = 12.5;
                     segments.Add(DrawCircleSector(ref currPos, radius, false, up, true));
                     currPos.Y = destination.Y + (up ? radius : -radius);
+                    segments.Add(new LineSegment(currPos, true));
                     segments.Add(DrawCircleSector(ref currPos, radius, false, up, false));
-                    segments.Add(new LineSegment(destination, true));
                 }
             }
             else
@@ -183,10 +184,8 @@ namespace James.WorkflowEditor
         /// </summary>
         public void DeleteConnection()
         {
-            var trigger = Source as BasicTrigger;
-            trigger?.Runnables.Remove((RunnableWorkflowComponent) Destination);
-            var action = Source as BasicAction;
-            action?.Displayables.Remove((BasicOutput) Destination);
+            var runnableWorkflowComponent = Source;
+            runnableWorkflowComponent?.ConnectedTo.Remove(Destination.Id);
         }
     }
 }

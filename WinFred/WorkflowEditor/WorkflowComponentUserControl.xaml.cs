@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using James.Workflows;
 using James.Workflows.Outputs;
@@ -23,7 +24,7 @@ namespace James.WorkflowEditor
         {
             InitializeComponent();
             DataContext = workflowComponent;
-            if (workflowComponent is BasicOutput)
+            if (workflowComponent is BasicOutput && !(workflowComponent is MagicOutput))
             {
                 rightAnchor.Visibility = Visibility.Hidden;
             }
@@ -57,7 +58,7 @@ namespace James.WorkflowEditor
 
         public void NewSource(WorkflowComponent component)
         {
-            if (component == null || !((WorkflowComponent) DataContext).IsAllowed(component))
+            if (component == null || !((WorkflowComponent) DataContext).IsAllowed(component) || component.ConnectedTo.Contains((DataContext as WorkflowComponent).Id))
             {
                 leftAnchor.Visibility = Visibility.Hidden;
             }

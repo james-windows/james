@@ -175,10 +175,6 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="XamlSpy, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bc9b0c37bf06c6a9, processorArchitecture=MSIL">
-      <HintPath>..\packages\XamlSpyLibs.3.0.1-preview\lib\net46\XamlSpy.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -195,9 +191,8 @@
     <Compile Include="HelperClasses\PathHelper.cs" />
     <Compile Include="PartialConfigClasses\LargeTypeConfig.cs" />
     <Compile Include="PartialConfigClasses\MainWindowConfig.cs" />
-    <Compile Include="ResultItems\BasicResultItem.cs" />
+    <Compile Include="ResultItems\MagicResultItem.cs" />
     <Compile Include="ResultItems\SearchResultItem.cs" />
-    <Compile Include="ResultItems\WorkflowResultItem.cs" />
     <Compile Include="SearchResultElement.cs" />
     <Compile Include="Search\DeleteEvent.cs" />
     <Compile Include="UserControls\AboutUserControl.xaml.cs">
@@ -259,18 +254,20 @@
     </Compile>
     <Compile Include="Workflows\Actions\BasicAction.cs" />
     <Compile Include="Workflows\Actions\NodejsAction.cs" />
+    <Compile Include="Workflows\Actions\PythonAction.cs" />
     <Compile Include="Workflows\ComponentFieldAttribute.cs" />
     <Compile Include="Workflows\Interfaces\ICrossPlatform.cs" />
     <Compile Include="Workflows\Interfaces\ISurviveable.cs" />
     <Compile Include="Workflows\Outputs\BasicOutput.cs" />
+    <Compile Include="Workflows\Outputs\ClipboardOutput.cs" />
     <Compile Include="Workflows\Outputs\LargeTypeOutput.cs" />
     <Compile Include="Workflows\Outputs\NotificationOutput.cs" />
-    <Compile Include="Workflows\Outputs\BasicResultOutput.cs" />
+    <Compile Include="Workflows\Outputs\MagicOutput.cs" />
+    <Compile Include="Workflows\Outputs\OpenOutput.cs" />
     <Compile Include="Workflows\RunnableWorkflowComponent.cs" />
     <Compile Include="Workflows\Triggers\BasicTrigger.cs" />
-    <Compile Include="Workflows\Triggers\IntervalTrigger.cs" />
     <Compile Include="Workflows\Triggers\KeywordTrigger.cs" />
-    <Compile Include="Workflows\Triggers\TimeoutTrigger.cs" />
+    <Compile Include="Workflows\Triggers\DelayAction.cs" />
     <Compile Include="Workflows\Workflow.cs" />
     <Compile Include="Workflows\WorkflowComponent.cs" />
     <Compile Include="Workflows\WorkflowManager.cs" />
@@ -290,7 +287,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HotKey.cs" />
+    <Compile Include="HelperClasses\HotKey.cs" />
     <Compile Include="LargeType.xaml.cs">
       <DependentUpon>LargeType.xaml</DependentUpon>
     </Compile>
@@ -422,13 +419,6 @@
     <Resource Include="Resources\workflow-bg.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\XamlSpy.3.0.1-preview\build\XamlSpy.targets" Condition="Exists('..\packages\XamlSpy.3.0.1-preview\build\XamlSpy.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\XamlSpy.3.0.1-preview\build\XamlSpy.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\XamlSpy.3.0.1-preview\build\XamlSpy.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

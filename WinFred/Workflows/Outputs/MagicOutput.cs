@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using James.ResultItems;
 
 namespace James.Workflows.Outputs
 {
-    [DataContract]
-    public class BasicResultOutput : BasicOutput
+    public class MagicOutput : BasicOutput
     {
-        public override void Display(string output)
+        public override void Run(string[] output)
         {
             var outputResults = new List<ResultItem>
             {
-                new BasicResultItem() {Subtitle = output, Title = ParentWorkflow.Name}
+                new MagicResultItem() {Subtitle = output[0], Title = ParentWorkflow.Name, WorkflowComponent = this}
             };
             MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
         }

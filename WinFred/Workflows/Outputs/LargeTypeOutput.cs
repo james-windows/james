@@ -1,25 +1,23 @@
-﻿using System.Runtime.Serialization;
-using James.Workflows.Interfaces;
+﻿using James.Workflows.Interfaces;
 
 namespace James.Workflows.Outputs
 {
-    [DataContract]
     public class LargeTypeOutput : BasicOutput, ISurviveable
     {
         private bool FirstRun { get; set; } = true;
 
         public void Cancel() => FirstRun = true;
 
-        public override void Display(string output)
+        public override void Run(string[] output)
         {
             if (FirstRun)
             {
                 FirstRun = false;
-                MainWindow.GetInstance().DisplayLargeType(output);
+                MainWindow.GetInstance().DisplayLargeType(string.Join(" ", output));
             }
             else
             {
-                LargeType.Instance.ChangeMessage(output);
+                LargeType.Instance.ChangeMessage(string.Join(" ", output));
             }
         }
 
