@@ -144,5 +144,11 @@ namespace James.UserControls
 
             Search(_lastSearch, _results[index]);
         }
+
+        public string AutoComplete()
+        {
+            var index = _searchResultElement.CurrentFocus;
+            return _results[index].AutoComplete();
+        }
     }
 }

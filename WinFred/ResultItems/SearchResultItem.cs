@@ -69,6 +69,8 @@ namespace James.ResultItems
             SearchEngine.Instance.IncrementPriority(this);
         }
 
+        public override string AutoComplete() => Title;
+
         /// <summary>
         /// Starts the program/ file or opens the folder of the given path
         /// </summary>

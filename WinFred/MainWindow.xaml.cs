@@ -102,6 +102,11 @@ namespace James
                     WorkflowManager.Instance.CancelWorkflows();
                     searchResultControl.Open(e);
                     break;
+                case Key.Tab:
+                    SearchTextBox.Text = searchResultControl.AutoComplete();
+                    SearchTextBox.SelectionStart = SearchTextBox.Text.Length;
+                    SearchTextBox.SelectionLength = 0;
+                    break;
                 case Key.Escape:
                     Hide();
                     if (Config.Instance.AlwaysClearLastInput)
@@ -110,7 +115,7 @@ namespace James
                     }
                     break;
             }
-            if (e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) || e.KeyboardDevice.IsKeyDown(Key.RightCtrl))
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
                 if (e.KeyboardDevice.IsKeyDown(Key.Up))
                 {

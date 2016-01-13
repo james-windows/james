@@ -16,5 +16,6 @@ namespace James.ResultItems
         public abstract void Open(KeyEventArgs e);
 
         public override string ToString() => Title + ", " + Priority;
+        public abstract string AutoComplete();
     }
 }

@@ -16,5 +16,10 @@ namespace James.ResultItems
         {
             WorkflowComponent.CallNext(new [] {Subtitle});
         }
+
+        public override string AutoComplete()
+        {
+            return Title;
+        }
     }
 }
