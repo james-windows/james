@@ -13,10 +13,6 @@ namespace James.Workflows.Outputs
 
         public override string GetSummary() => "output";
 
-        public override int GetColumn() => 2;
-
-        public override int GetRow() => ParentWorkflow.Outputs.FindIndex(outputs => outputs.Id == Id);
-
         protected string FormatStringToText(string[] arguments)
         {
             return string.Format(FormatString, arguments);

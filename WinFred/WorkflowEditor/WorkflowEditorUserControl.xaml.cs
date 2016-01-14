@@ -21,9 +21,7 @@ namespace James.WorkflowEditor
         private const int ComponentHeight = 70;
         private const int ComponentWidth = 120;
         private const int ComponentPadding = 10;
-        private const int CircleRadius = 5;
         private readonly List<CustomPath> _myLines;
-        private CustomPath _currPath;
 
         public WorkflowEditorUserControl()
         {
@@ -33,6 +31,11 @@ namespace James.WorkflowEditor
         }
 
         private void Item_OnUpdate(object sender) => DrawCanvas(sender, null);
+
+        private List<WorkflowComponentUserControl> WorkflowComponentUserControls
+            => editorCanvas.Children.OfType<WorkflowComponentUserControl>().ToList();
+
+        private Workflow CurrentWorkflow => DataContext as Workflow;
 
         private void DeleteConnection(object sender, MouseButtonEventArgs e)
         {
@@ -56,67 +59,93 @@ namespace James.WorkflowEditor
             }
         }
 
+        private Point startPoint;
+        private WorkflowComponentUserControl selectedComponentUserControl;
+        private CustomPath customPath;
+
         private void StartDragging(object sender, MouseButtonEventArgs e)
         {
-            var tmp = (WorkflowComponentUserControl) sender;
-            if (tmp.DataContext is BasicOutput && !(tmp.DataContext is MagicOutput))
+            selectedComponentUserControl = (WorkflowComponentUserControl) sender;
+            if (e.OriginalSource is Ellipse)
             {
-                return;
+                var component = selectedComponentUserControl.DataContext as WorkflowComponent;
+                customPath = new CustomPath(component, new Point(component.X + 95, component.Y + ComponentHeight / 2 - ComponentPadding));
+                editorCanvas.Children.Add(customPath.Path);
+                MouseMove += MovePath;
+                WorkflowComponentUserControls.ForEach(comp => comp.NewSource(selectedComponentUserControl.DataContext as WorkflowComponent));
             }
-            try
+            else
             {
-                var position = tmp.grid.Children[0].TransformToAncestor(editorCanvas).Transform(new Point(7, 5));
-                _currPath = new CustomPath((WorkflowComponent) tmp.DataContext, position);
-                _currPath.ChangeDestination(position);
-                MouseMove += MoveWhileDragging;
-                editorCanvas.Children.Add(_currPath.Path);
-                editorCanvas.Children.OfType<WorkflowComponentUserControl>().ForEach(component => component.NewSource(tmp.DataContext as WorkflowComponent));
-                Mouse.OverrideCursor = Cursors.None;
+                startPoint = e.GetPosition(selectedComponentUserControl);
+                MouseMove += MoveComponent;
             }
-            catch (Exception)
+        }
+
+        private void MoveComponent(object sender, MouseEventArgs e)
+        {
+            if (selectedComponentUserControl == null) return;
+            var component = selectedComponentUserControl.DataContext as WorkflowComponent;
+            var point = e.GetPosition(editorCanvas);
+            double newX = point.X - startPoint.X;
+            if (newX < 0)
             {
+                foreach (var comp in CurrentWorkflow.Components.Where(workflowComponent => workflowComponent != component))
+                {
+                    comp.X -= newX;
+                }
+                component.X = 0;
+            }
+            else
+            {
+                component.X = newX;
+            }
+            double newY = point.Y - startPoint.Y;
+            if (newY < 0)
+            {
+                foreach (var comp in CurrentWorkflow.Components.Where(workflowComponent => workflowComponent != component))
+                {
+                    comp.Y -= newY;
+                }
+                component.Y = 0;
+            }
+            else
+            {
+                component.Y = newY;
+            }
+            DrawCanvas(this, null);
+        }
+
+        private void CorrectLeftAndTop(List<WorkflowComponent> components)
+        {
+            double minX = components.Min(component => component.X);
+            components.ForEach(component => component.X -= minX);
+
+            double minY = components.Min(component => component.Y);
+            components.ForEach(component => component.Y -= minY);
+        } 
+
+        private void MovePath(object sender, MouseEventArgs e)
+        {
+            customPath?.ChangeDestination(e.GetPosition(editorCanvas));
+        }
+
+        private void FinishMoving(object sender, MouseButtonEventArgs e)
+        {
+            if (selectedComponentUserControl != null)
+            {
+                startPoint = new Point();
+                MouseMove -= MoveComponent;
+                selectedComponentUserControl = null;
+            }
+            else if (customPath != null && CurrentHoveredWorkflowComponent != null)
+            {
+                AddConnection(customPath.Source, (CurrentHoveredWorkflowComponent as WorkflowComponentUserControl).DataContext as WorkflowComponent);
+                MouseMove -= MovePath;
+                editorCanvas.Children.Remove(customPath.Path);
+                customPath = null;
                 DrawCanvas(this, null);
             }
         }
-
-        private void MoveWhileDragging(object sender, MouseEventArgs e)
-        {
-            if (_currPath != null)
-            {
-                Mouse.OverrideCursor = Cursors.None;
-                if (CurrentHoveredWorkflowComponent != null)
-                {
-                    var data = CurrentHoveredWorkflowComponent.DataContext;
-                    var destination = data as WorkflowComponent;
-                    if (destination != null && !destination.IsAllowed(_currPath.Source))
-                    {
-                        Mouse.OverrideCursor = Cursors.No;
-                    }
-                }
-                var point = e.GetPosition(editorCanvas);
-                _currPath.ChangeDestination(point);
-            }
-        }
-
-        private void FinishDragging(object sender = null, MouseButtonEventArgs e = null)
-        {
-            if (_currPath != null)
-            {
-                MouseMove -= MoveWhileDragging;
-                Mouse.OverrideCursor = null;
-                var curr = CurrentHoveredWorkflowComponent;
-                var context = curr?.DataContext as WorkflowComponent;
-                if (context != null && context.IsAllowed(_currPath.Source))
-                {
-                    AddConnection(_currPath.Source as WorkflowComponent, context);
-                }
-                editorCanvas.Children.Remove(_currPath.Path);
-                _currPath = null;
-                DrawCanvas(this, null);
-            }
-        }
-
-        private void UIElement_OnMouseLeave(object sender, MouseEventArgs e) => FinishDragging();
 
         /// <summary>
         /// Adds the connection if it's not already existing
@@ -125,7 +154,7 @@ namespace James.WorkflowEditor
         /// <param name="destination"></param>
         private static void AddConnection(WorkflowComponent source, WorkflowComponent destination)
         {
-            if (!source.ConnectedTo.Contains(destination.Id))
+            if (!source.ConnectedTo.Contains(destination.Id) && source != destination)
             {
                 source.ConnectedTo.Add(destination.Id);
             }
@@ -137,6 +166,7 @@ namespace James.WorkflowEditor
 
         private void WorkflowEditorUserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            (e.OldValue as Workflow)?.Persist();
             _myLines.Clear();
             editorCanvas.Children.Clear();
             if (DataContext != null)
@@ -151,40 +181,37 @@ namespace James.WorkflowEditor
             editorCanvas.Children.Clear();
 
             var workflow = (Workflow) DataContext;
-            var maxHeight = DrawComponents(workflow.Components);
+            DrawComponents(workflow.Components);
 
             DrawConnections(workflow);
-            editorCanvas.Height = maxHeight;
         }
 
-        private int DrawComponents(List<WorkflowComponent> components)
+        private void DrawComponents(List<WorkflowComponent> components)
         {
-            int maxHeight = 0;
-            foreach(var component in components)
+            CorrectLeftAndTop(CurrentWorkflow.Components);
+            editorCanvas.Height = components.Max(component => component.Y) + 50;
+            editorCanvas.Width = components.Max(component => component.X) + 100;
+            foreach (var component in components)
             {
                 var item = new WorkflowComponentUserControl(component);
                 item.MouseLeftButtonDown += StartDragging;
+                item.MouseLeftButtonUp += FinishMoving;
+                //item.rightAnchor.MouseLeftButtonDown += StartConnection;
                 item.OnUpdate += Item_OnUpdate;
-                Canvas.SetLeft(item, ComponentPadding + ComponentWidth * component.GetColumn());
-                Canvas.SetTop(item, ComponentPadding + ComponentHeight * component.GetRow());
-                maxHeight = Math.Max(ComponentHeight * (component.GetRow() + 1), maxHeight);
                 editorCanvas.Children.Add(item);
             }
-            return maxHeight;
         }
 
         private void DrawConnections(Workflow workflow)
         {
             foreach (var item in workflow.Components)
             {
-                var source = new Point(ComponentWidth * (item.GetColumn() + 1) - ComponentPadding,
-                    ComponentHeight / 2 + ComponentHeight * item.GetRow());
+                var source = new Point(item.X + 95, item.Y + ComponentHeight / 2 - ComponentPadding);
 
                 foreach (var id in item.ConnectedTo)
                 {
                     WorkflowComponent nextComponent = workflow.GetNext(id);
-                    Point destination = new Point(ComponentPadding + CircleRadius + ComponentWidth * nextComponent.GetColumn(),
-                        ComponentHeight/2 + ComponentHeight*nextComponent.GetRow());
+                    Point destination = new Point(nextComponent.X + ComponentPadding, nextComponent.Y + ComponentHeight / 2 - ComponentPadding);
 
                     var path = new CustomPath(item, source, destination) { Destination = nextComponent };
                     path.Path.MouseRightButtonDown += DeleteConnection;

@@ -15,9 +15,5 @@ namespace James.Workflows.Triggers
         }
 
         public override bool IsAllowed(WorkflowComponent source) => (source is BasicAction || source is MagicOutput) && source != this;
-
-        public override int GetColumn() => 0;
-
-        public override int GetRow() => ParentWorkflow.Triggers.FindIndex(component => component.Id == Id);
     }
 }

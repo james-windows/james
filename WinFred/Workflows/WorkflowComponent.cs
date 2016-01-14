@@ -47,11 +47,15 @@ namespace James.Workflows
 
         public int Id { get; set; }
 
+        public double X { get; set; }
+
+        public double Y { get; set; }
+
         public abstract void Run(string[] input);
 
         public abstract string GetSummary();
 
-        public virtual bool IsAllowed(WorkflowComponent source) => false;
+        public virtual bool IsAllowed(WorkflowComponent source) => source != this && !source.ConnectedTo.Contains(Id);
 
         public List<int> ConnectedTo { get; set; } = new List<int>();
 
@@ -71,8 +75,8 @@ namespace James.Workflows
             component.id = Id;
             component.type = Name.Replace(" ", "").ToLower();
             component.connectedTo = new JArray(ConnectedTo);
-            component.y = GetRow() * 100 + 50;
-            component.x = GetColumn() * 150 + 20;
+            component.y = Y;
+            component.x = X;
 
             foreach (var prop in GetType().GetProperties())
             {
@@ -94,6 +98,8 @@ namespace James.Workflows
 
             WorkflowComponent item = (WorkflowComponent) Activator.CreateInstance(type);
             item.Id = component.id;
+            item.X = component.x;
+            item.Y = component.y;
             foreach (var id in component.connectedTo)
             {
                 item.ConnectedTo.Add(int.Parse(id.ToString()));   
@@ -132,17 +138,5 @@ namespace James.Workflows
         {
             return GetType().Name + $" id: {Id}";
         }
-
-        /// <summary>
-        /// returns the column of the component
-        /// </summary>
-        /// <returns>value in [0,2]</returns>
-        public abstract int GetColumn();
-
-        /// <summary>
-        /// Returns the index of the element in the column
-        /// </summary>
-        /// <returns></returns>
-        public abstract int GetRow();
     }
 }

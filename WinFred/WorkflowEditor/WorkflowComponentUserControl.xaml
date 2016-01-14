@@ -15,17 +15,17 @@
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid x:Name="grid" Height="50" Width="100">
-        <Ellipse x:Name="rightAnchor" Width="10" Height="10" Fill="White" HorizontalAlignment="Right"
-                 VerticalAlignment="Center" />
         <Ellipse x:Name="leftAnchor" Width="10" Height="10" Fill="{DynamicResource AccentColorBrush}" HorizontalAlignment="Left"
                  VerticalAlignment="Center" Visibility="Hidden" />
-        <Grid Background="LightGray" HorizontalAlignment="Center" Width="90">
-            <StackPanel VerticalAlignment="Center" MaxWidth="90">
+        <Grid Background="LightGray" MaxWidth="90">
+            <StackPanel VerticalAlignment="Center" Margin="5,0">
                 <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontSize="9" Foreground="#FF333333" />
                 <TextBlock x:Name="SummaryTextBlock" Text="{Binding Summary}" HorizontalAlignment="Center" FontSize="7"
-                           Foreground="#FF777777"
-                           TextWrapping="Wrap" TextAlignment="Center" />
+                               Foreground="#FF777777"
+                               TextWrapping="Wrap" TextAlignment="Center" />
             </StackPanel>
         </Grid>
+        <Ellipse x:Name="rightAnchor" Width="10" Height="10" Fill="White" HorizontalAlignment="Right"
+                 VerticalAlignment="Center" />
     </Grid>
 </UserControl>

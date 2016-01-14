@@ -47,9 +47,6 @@ namespace James.Workflows.Actions
             CallNext(proc.StandardOutput.ReadToEnd().Split(SEPARATOR));
         }
 
-        public override bool IsAllowed(WorkflowComponent source) => (source is BasicTrigger || source is MagicOutput || source is BasicAction) && source.ConnectedTo.Contains(Id);
-        public override int GetColumn() => 1;
-
-        public override int GetRow() => ParentWorkflow.Actions.FindIndex(component => component.Id == Id);
+        public override bool IsAllowed(WorkflowComponent source) => base.IsAllowed(source) && (source is BasicTrigger || source is MagicOutput || source is BasicAction);
     }
 }

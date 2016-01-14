@@ -24,6 +24,7 @@ namespace James.WorkflowEditor
         {
             InitializeComponent();
             DataContext = workflowComponent;
+            UpdatePosition();
             if (workflowComponent is BasicOutput && !(workflowComponent is MagicOutput))
             {
                 rightAnchor.Visibility = Visibility.Hidden;
@@ -66,6 +67,13 @@ namespace James.WorkflowEditor
             {
                 leftAnchor.Visibility = Visibility.Visible;
             }
+        }
+
+        public void UpdatePosition()
+        {
+            var workflowComponent = DataContext as WorkflowComponent;
+            Canvas.SetLeft(this, workflowComponent.X);
+            Canvas.SetTop(this, workflowComponent.Y);
         }
     }
 }

@@ -6,7 +6,7 @@
              xmlns:helper="clr-namespace:James.HelperClasses"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" Loaded="FillContextMenu">
-    <Grid MouseLeftButtonUp="FinishDragging" MouseLeave="UIElement_OnMouseLeave" helper:GridHelper.RowDefinition="a|*">
+    <Grid MouseLeftButtonUp="FinishMoving" helper:GridHelper.RowDefinition="30|*" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Grid.Background>
             <ImageBrush ImageSource="..\Resources\workflow-bg.jpg" TileMode="FlipY"
                         Stretch="Uniform" AlignmentY="Top" Viewport="0,0,128,128" ViewportUnits="Absolute" />
@@ -36,8 +36,8 @@
                 </Button.ContextMenu>
             </Button>
         </Grid>
-        <Viewbox Grid.Row="1">
-            <Canvas x:Name="editorCanvas" Width="360" MinHeight="210" />
+        <Viewbox Grid.Row="1" Margin="5">
+            <Canvas MinHeight="300" MinWidth="300" x:Name="editorCanvas" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Viewbox>
     </Grid>
 </UserControl>

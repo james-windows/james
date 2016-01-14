@@ -71,28 +71,16 @@ namespace James.WorkflowEditor
             var segments = new List<PathSegment>();
             var currPos = new Point(SourcePoint.X, SourcePoint.Y);
             var up = SourcePoint.Y > destination.Y;
-            double radius;
 
             if (destination.X > SourcePoint.X)
             {
-                radius = 15;
-                if (Math.Abs(destination.Y - SourcePoint.Y) < 1) // No curve necessary, straight line to other component
-                {
-                    segments.Add(new LineSegment(currPos, true));
-                    segments.Add(new LineSegment(destination, true));
-                }
-                else
-                {
-                    radius = 12.5;
-                    segments.Add(DrawCircleSector(ref currPos, radius, false, up, true));
-                    currPos.Y = destination.Y + (up ? radius : -radius);
-                    segments.Add(new LineSegment(currPos, true));
-                    segments.Add(DrawCircleSector(ref currPos, radius, false, up, false));
-                }
+                var middle = new Point((SourcePoint.X + destination.X) / 2, (SourcePoint.Y + destination.Y) / 2);
+                segments.Add(new BezierSegment(SourcePoint, new Point(middle.X, SourcePoint.Y), middle, true));
+                segments.Add(new BezierSegment(middle, new Point(middle.X, destination.Y), destination, true));
             }
             else
             {
-                radius = 10;
+                double radius = 10;
                 segments.Add(DrawCircleSector(ref currPos, radius, false, up, true));
                 currPos.Y += (up ? -15 : +15);
                 segments.Add(new LineSegment(currPos, true));
