@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using James.Workflows;
+using James.Workflows.Triggers;
 
 namespace James.ResultItems
 {
@@ -19,7 +20,11 @@ namespace James.ResultItems
 
         public override string AutoComplete()
         {
-            return Title;
+            if (WorkflowComponent is KeywordTrigger)
+            {
+                return (WorkflowComponent as KeywordTrigger).Keyword + " ";
+            }
+            return null;
         }
     }
 }

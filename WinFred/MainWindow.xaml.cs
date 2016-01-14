@@ -103,9 +103,13 @@ namespace James
                     searchResultControl.Open(e);
                     break;
                 case Key.Tab:
-                    SearchTextBox.Text = searchResultControl.AutoComplete();
-                    SearchTextBox.SelectionStart = SearchTextBox.Text.Length;
-                    SearchTextBox.SelectionLength = 0;
+                    string text = searchResultControl.AutoComplete();
+                    if (text != null)
+                    {
+                        SearchTextBox.Text = text;
+                        SearchTextBox.SelectionStart = SearchTextBox.Text.Length;
+                        //SearchTextBox.SelectionLength = 0;
+                    }
                     break;
                 case Key.Escape:
                     Hide();
