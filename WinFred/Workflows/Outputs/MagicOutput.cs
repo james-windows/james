@@ -7,9 +7,10 @@ namespace James.Workflows.Outputs
     {
         public override void Run(string[] output)
         {
+            string text = FormatStringToText(output);
             var outputResults = new List<ResultItem>
             {
-                new MagicResultItem() {Subtitle = output[0], Title = ParentWorkflow.Name, WorkflowComponent = this}
+                new MagicResultItem() {Title = text, Subtitle = ParentWorkflow.Name, WorkflowComponent = this}
             };
             MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
         }

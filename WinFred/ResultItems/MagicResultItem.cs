@@ -9,13 +9,15 @@ namespace James.ResultItems
         public WorkflowComponent WorkflowComponent { get; set; }
 
         public string[] WorkflowArguments { get; set; }
+
         /// <summary>
         /// Does basically nothing because it's only in use to display information
         /// </summary>
         /// <param name="e"></param>
-        public override void Open(KeyEventArgs e)
+        /// <param name="search">The current text in the SearchBox</param>
+        public override void Open(KeyEventArgs e, string search)
         {
-            WorkflowComponent.CallNext(new [] {Subtitle});
+            WorkflowComponent.CallNext(search.Split(' '));
         }
 
         public override string AutoComplete()

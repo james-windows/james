@@ -13,7 +13,7 @@ namespace James.ResultItems
 
         public int CompareTo(ResultItem other) => Priority - other.Priority;
 
-        public abstract void Open(KeyEventArgs e);
+        public abstract void Open(KeyEventArgs e, string search);
 
         public override string ToString() => Title + ", " + Priority;
         public abstract string AutoComplete();

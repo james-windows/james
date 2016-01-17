@@ -48,7 +48,7 @@ namespace James.ResultItems
         /// Gets triggered if Enter is pressed or item got clicked
         /// </summary>
         /// <param name="e"></param>
-        public override void Open(KeyEventArgs e)
+        public override void Open(KeyEventArgs e, string search)
         {
             if (e.KeyboardDevice.Modifiers == (ModifierKeys.Shift | ModifierKeys.Control))
             {

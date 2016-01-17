@@ -42,7 +42,7 @@ namespace James.UserControls
                 var window = Window.GetWindow(this);
                 window?.Hide();
                 var index = (int) (e.GetPosition(this).Y/SearchResultElement.RowHeight);
-                _results[index].Open(null);
+                _results[index].Open(null, MainWindow.GetInstance().SearchTextBox.Text);
             }
         }
 
@@ -108,13 +108,13 @@ namespace James.UserControls
             }
         }
 
-        public void Open(KeyEventArgs e)
+        public void Open(KeyEventArgs e, string input)
         {
             e.Handled = true;
             var index = _searchResultElement.CurrentFocus;
             if (index >= 0 && index < _results.Count)
             {
-                _results[index].Open(e);
+                _results[index].Open(e, input);
             }
         }
 

@@ -100,7 +100,7 @@ namespace James
                     break;
                 case Key.Enter:
                     WorkflowManager.Instance.CancelWorkflows();
-                    searchResultControl.Open(e);
+                    searchResultControl.Open(e, SearchTextBox.Text);
                     break;
                 case Key.Tab:
                     string text = searchResultControl.AutoComplete();
@@ -108,7 +108,6 @@ namespace James
                     {
                         SearchTextBox.Text = text;
                         SearchTextBox.SelectionStart = SearchTextBox.Text.Length;
-                        //SearchTextBox.SelectionLength = 0;
                     }
                     break;
                 case Key.Escape:
