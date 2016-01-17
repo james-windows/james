@@ -133,7 +133,7 @@ namespace James
 
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
 
-        private string _windowAccentColor = "Lime";
+        private string _windowAccentColor = "Cyan";
         private bool _isBaseLight = true;
         private bool _startProgramOnStartup;
         public bool AlwaysClearLastInput { get; set; } = true;
