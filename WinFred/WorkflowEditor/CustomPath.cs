@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using ICSharpCode.SharpZipLib.Checksums;
 using James.Properties;
 using James.Workflows;
 using James.Workflows.Actions;
@@ -68,39 +69,27 @@ namespace James.WorkflowEditor
         /// <param name="destination"></param>
         public void CalcPath(Point destination)
         {
+            float magic = 8;
             var segments = new List<PathSegment>();
-            var currPos = new Point(SourcePoint.X, SourcePoint.Y);
-            var up = SourcePoint.Y > destination.Y;
-
+            Point middle = new Point((SourcePoint.X + destination.X)/2, (SourcePoint.Y + destination.Y)/2);
             if (destination.X > SourcePoint.X)
             {
-                var middle = new Point((SourcePoint.X + destination.X) / 2, (SourcePoint.Y + destination.Y) / 2);
-                segments.Add(new BezierSegment(SourcePoint, new Point(middle.X, SourcePoint.Y), middle, true));
-                segments.Add(new BezierSegment(middle, new Point(middle.X, destination.Y), destination, true));
+                //segments.Add(new BezierSegment(SourcePoint, new Point(middle.X, SourcePoint.Y), middle, true));
+                //segments.Add(new BezierSegment(middle, new Point(middle.X, destination.Y), destination, true));
+                Point c1 = new Point(SourcePoint.X + (magic - 1) * (destination.X - SourcePoint.X) / magic, SourcePoint.Y +(destination.Y - SourcePoint.Y) / magic);
+                Point c2 = new Point(SourcePoint.X + (destination.X - SourcePoint.X) / magic, SourcePoint.Y + (magic - 1) * (destination.Y - SourcePoint.Y) / magic);
+                segments.Add(new BezierSegment(c1, c2, destination, true));
             }
             else
             {
-                double radius = 10;
-                segments.Add(DrawCircleSector(ref currPos, radius, false, up, true));
-                currPos.Y += (up ? -15 : +15);
-                segments.Add(new LineSegment(currPos, true));
-                segments.Add(DrawCircleSector(ref currPos, radius, true, up, false));
-                currPos.X = destination.X;
-                segments.Add(new LineSegment(currPos, true));
-                up = currPos.Y > destination.Y;
-
-                radius = Math.Min(radius, Math.Abs(currPos.Y - destination.Y)/2);
-                segments.Add(DrawCircleSector(ref currPos, radius, true, up, true));
-                if (radius > 9)
-                {
-                    currPos.Y = destination.Y + (up ? radius : -radius);
-                    segments.Add(new LineSegment(currPos, true));
-                }
-                segments.Add(DrawCircleSector(ref currPos, radius, false, up, false));
+                double distanceX = Math.Abs(SourcePoint.X - destination.X)/ 3;
+                Point c1 = new Point(SourcePoint.X + Math.Min((magic-1) * (SourcePoint.X - destination.X) / magic, distanceX) + 20, SourcePoint.Y + (magic - 1)*(destination.Y- SourcePoint.Y)/magic);
+                Point c2 = new Point(destination.X - Math.Min((magic - 1) * (SourcePoint.X - destination.X) / magic, distanceX) - 20, destination.Y - (magic - 1) * (destination.Y - SourcePoint.Y) / magic);
+                segments.Add(new BezierSegment(c1, c2, destination, true));
             }
 
             var geo = new PathGeometry();
-            geo.Figures.Add(new PathFigure(SourcePoint, segments, false));
+            geo.Figures.Add(new PathFigure(SourcePoint, segments, false) {StartPoint = SourcePoint});
             Path.Data = geo;
             Canvas.SetZIndex(Path, -2);
         }
