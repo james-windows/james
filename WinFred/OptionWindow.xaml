@@ -29,11 +29,6 @@
                     <optionControls:AppearanceUserControl />
                 </Grid>
             </TabItem>
-            <TabItem Header="Usage">
-                <Grid>
-                    <optionControls:UsageUserControl />
-                </Grid>
-            </TabItem>
         </TabControl>
     </Grid>
     <controls:MetroWindow.RightWindowCommands>
