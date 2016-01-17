@@ -24,7 +24,7 @@ namespace James
                 Visibility = Visibility.Hidden;
             }
             InitializeComponent();
-            new HotKey(Key.Space, KeyModifier.Alt, OnHotKeyHandler);
+            ShortcutManager.Instance.ShortcutPressed += (sender, args) => OnHotKeyHandler(sender as Shortcut);
             LargeType.Instance.Deactivated += LargeType_Deactivated;
             LargeType.Instance.Activated += LargeType_Activated;
         }
@@ -57,17 +57,24 @@ namespace James
             }
         }
 
-        private void OnHotKeyHandler(HotKey hotKey)
+        private void OnHotKeyHandler(Shortcut shortcut)
         {
-            if (IsVisible || hotKey == null)
+            if (IsVisible || shortcut == null)
             {
                 HideWindow();
             }
             else
             {
-                if (Config.Instance.AlwaysClearLastInput)
+                if (Equals(shortcut.HotKey, Config.Instance.ShortcutManagerSettings.JamesHotKey.HotKey))
                 {
-                    SearchTextBox.Text = "";
+                    if (Config.Instance.AlwaysClearLastInput)
+                    {
+                        SearchTextBox.Text = "";
+                    }
+                }
+                else
+                {
+                    SearchTextBox.Text = shortcut.Action;
                 }
                 SearchTextBox.SelectAll();
                 Show();
@@ -129,12 +136,13 @@ namespace James
                     searchResultControl.DecreasePriority();
                 }
             }
-            if (e.KeyboardDevice.IsKeyDown(Key.L) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt) &&
+            var shortcutSettings = Config.Instance.ShortcutManagerSettings;
+            if (e.KeyboardDevice.IsKeyDown(shortcutSettings.LargeTypeHotKey.HotKey.Key) && e.KeyboardDevice.Modifiers == shortcutSettings.LargeTypeHotKey.HotKey.ModifierKeys &&
                 SearchTextBox.Text.Trim().Length > 0)
             {
                 DisplayLargeType(SearchTextBox.Text);
             }
-            else if (e.KeyboardDevice.IsKeyDown(Key.S) && e.KeyboardDevice.IsKeyDown(Key.LeftAlt))
+            else if (e.KeyboardDevice.IsKeyDown(shortcutSettings.SettingsHotKey.HotKey.Key) && e.KeyboardDevice.Modifiers == shortcutSettings.SettingsHotKey.HotKey.ModifierKeys)
             {
                 new OptionWindow().Show();
                 HideWindow();

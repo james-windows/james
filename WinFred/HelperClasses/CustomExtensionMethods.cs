@@ -7,6 +7,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using James.Workflows;
+using MahApps.Metro.Controls;
 
 namespace James.HelperClasses
 {
@@ -64,9 +65,22 @@ namespace James.HelperClasses
         {
             return parent.Components.First(component => component.Id == id);
         }
+
+        /// <summary>
+        /// Returns the index of the element in the list
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public static int FindIndex<T>(this IEnumerable<T> items, Predicate<T> predicate)
         {
             return items.TakeWhile(item => !predicate(item)).Count();
+        }
+
+        public static GlobalHotKey.HotKey ToGlobalHotKey(this HotKey hotkey)
+        {
+            return new GlobalHotKey.HotKey(hotkey.Key, hotkey.ModifierKeys);
         }
     }
 }

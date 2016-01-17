@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Input;
 using James.HelperClasses;
 using James.Search;
+using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using Path = James.Search.Path;
 
@@ -68,6 +70,7 @@ namespace James
                                        "\\James";
                             Directory.CreateDirectory(path);
                             _config = SerializationHelper.Deserialize<Config>(path + "\\config.json");
+                            var instance = ShortcutManager.Instance;
                         }
                         catch (Exception)
                         {
@@ -100,6 +103,7 @@ namespace James
             lock (SingeltonLock)
             {
                 InitConfig();
+                ShortcutManagerSettings.Reset();
                 StartProgramOnStartup = false;
                 WindowChangedAccentColor?.Invoke(this, null);
             }
@@ -113,6 +117,7 @@ namespace James
         public ObservableCollection<Path> Paths { get; set; }
         public List<FileExtension> DefaultFileExtensions { get; set; }
         public ObservableCollection<string> ExcludedFolders { get; set; }
+        public ShortcutManagerSettings ShortcutManagerSettings { get; set; }
 
         public string ConfigFolderLocation { get; set; } =
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";

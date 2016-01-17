@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="James.UserControls.HotkeyUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:James.UserControls"
+             xmlns:helperClasses="clr-namespace:James.HelperClasses"
+             mc:Ignorable="d" 
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             d:DesignHeight="300" d:DesignWidth="500">
+    <Grid helperClasses:GridHelper.RowDefinition="a|*">
+        <GroupBox Header="James-Hotkey">
+            <StackPanel>
+                <Grid helperClasses:GridHelper.ColumnDefinition="*|*">
+                    <TextBlock VerticalAlignment="Center">James-Hotkey:</TextBlock>
+                    <controls:HotKeyBox Grid.Column="1" x:Name="jamesHotKey" HotKey="{Binding JamesHotKey.HotKey}" AreModifierKeysRequired="True" Margin="0,5"></controls:HotKeyBox>
+                </Grid>
+                <Grid helperClasses:GridHelper.ColumnDefinition="*|*">
+                    <TextBlock VerticalAlignment="Center">LargeType-Hotkey:</TextBlock>
+                    <controls:HotKeyBox Grid.Column="1" x:Name="largeTypeHotKey" HotKey="{Binding LargeTypeHotKey.HotKey}" AreModifierKeysRequired="True" Margin="0,5"></controls:HotKeyBox>
+                </Grid>
+                <Grid helperClasses:GridHelper.ColumnDefinition="*|*">
+                    <TextBlock VerticalAlignment="Center">Settings-Hotkey:</TextBlock>
+                    <controls:HotKeyBox Grid.Column="1" x:Name="settingsHotKey" HotKey="{Binding SettingsHotKey.HotKey}" AreModifierKeysRequired="True" Margin="0,5"></controls:HotKeyBox>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Custom Hotkeys">
+            <DataGrid ItemsSource="{Binding Shortcuts}" AutoGenerateColumns="False" VerticalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="is enabled" Binding="{Binding AutoRun}"></DataGridCheckBoxColumn>
+                    <DataGridTextColumn Header="Action" MinWidth="150" Binding="{Binding Action}"></DataGridTextColumn>
+                    <DataGridTemplateColumn Header="Hotkey" MinWidth="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <controls:HotKeyBox HotKey="{Binding HotKey}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridCheckBoxColumn Header="auto run" Binding="{Binding AutoRun}"></DataGridCheckBoxColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+    </Grid>
+</UserControl>

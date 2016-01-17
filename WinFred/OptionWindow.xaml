@@ -29,6 +29,11 @@
                     <optionControls:AppearanceUserControl />
                 </Grid>
             </TabItem>
+            <TabItem Header="Hotkeys">
+                <Grid>
+                    <optionControls:HotkeyUserControl />
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
     <controls:MetroWindow.RightWindowCommands>

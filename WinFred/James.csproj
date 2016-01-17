@@ -102,6 +102,10 @@
       <HintPath>..\packages\DeltaCompressionDotNet.2.0.0.0-rc1\lib\net20\DeltaCompressionDotNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GlobalHotKey, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GlobalHotKey.1.1.0\lib\GlobalHotKey.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\squirrel.windows.1.2.1\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
@@ -186,9 +190,12 @@
     </Compile>
     <Compile Include="Enumerations\AccentColorTypes.cs" />
     <Compile Include="HelperClasses\CustomExtensionMethods.cs" />
+    <Compile Include="HelperClasses\Shortcut.cs" />
+    <Compile Include="HelperClasses\ShortcutManager.cs" />
     <Compile Include="HelperClasses\SerializationHelper.cs" />
     <Compile Include="HelperClasses\GridHelper.cs" />
     <Compile Include="HelperClasses\PathHelper.cs" />
+    <Compile Include="HelperClasses\ShortcutManagerSettings.cs" />
     <Compile Include="PartialConfigClasses\LargeTypeConfig.cs" />
     <Compile Include="PartialConfigClasses\MainWindowConfig.cs" />
     <Compile Include="ResultItems\MagicResultItem.cs" />
@@ -203,6 +210,9 @@
     </Compile>
     <Compile Include="UserControls\GeneralUserControl.xaml.cs">
       <DependentUpon>GeneralUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\HotkeyUserControl.xaml.cs">
+      <DependentUpon>HotkeyUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SearchConfiguration\DefaultConfiguration.xaml.cs">
       <DependentUpon>DefaultConfiguration.xaml</DependentUpon>
@@ -284,7 +294,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HelperClasses\HotKey.cs" />
     <Compile Include="LargeType.xaml.cs">
       <DependentUpon>LargeType.xaml</DependentUpon>
     </Compile>
@@ -301,6 +310,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\GeneralUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\HotkeyUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

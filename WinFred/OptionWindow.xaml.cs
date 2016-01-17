@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using James.HelperClasses;
 using MahApps.Metro.Controls;
 
 namespace James
@@ -24,6 +25,10 @@ namespace James
 
         private void TabChanged(object sender, SelectionChangedEventArgs e) => Config.Instance.Persist();
 
-        private void MetroWindow_Closing(object sender, CancelEventArgs e) => Config.Instance.Persist();
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            Config.Instance.Persist();
+            ShortcutManager.Instance.Reload();
+        }
     }
 }
