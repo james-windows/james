@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <GroupBox Header="Default Settings" VerticalContentAlignment="Stretch">
-        <Grid helperClasses:GridHelper.ColumnDefinition="2*|*" helperClasses:GridHelper.RowDefinition="50|*">
+        <Grid helperClasses:GridHelper.ColumnDefinition="2*|*" helperClasses:GridHelper.RowDefinition="30|*">
             <TextBlock>
                 <Run Text="Default folder priority:" />
             </TextBlock>

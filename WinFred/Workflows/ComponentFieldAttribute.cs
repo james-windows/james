@@ -27,7 +27,7 @@ namespace James.Workflows
             switch (prop.PropertyType.Name)
             {
                 case "Int32":
-                    tmp = new NumericUpDown {Value = (int) prop.GetValue(component)};
+                    tmp = new NumericUpDown {Value = (int) prop.GetValue(component), SelectAllOnFocus = true};
                     break;
                 case "String":
                     tmp = new TextBox {Text = prop.GetValue(component).ToString()};

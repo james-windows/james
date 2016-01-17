@@ -36,7 +36,7 @@
                 </Grid>
                 <Grid helperClasses:GridHelper.ColumnDefinition="*|*">
                     <TextBlock>default priority:</TextBlock>
-                    <controls:NumericUpDown Minimum="0" Value="{Binding Priority}" />
+                    <controls:NumericUpDown Minimum="0" Value="{Binding Priority}" SelectAllOnFocus="True"/>
                 </Grid>
                 <Grid helperClasses:GridHelper.ColumnDefinition="*|*">
                     <TextBlock>Insert folders:</TextBlock>
@@ -47,7 +47,7 @@
                               VerticalScrollBarVisibility="Visible">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Extension}" Header="Extension" />
-                    <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority" Width="*" />
+                    <controls:DataGridNumericUpDownColumn Binding="{Binding Priority}" Header="Priority" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

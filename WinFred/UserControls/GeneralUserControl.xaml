@@ -19,14 +19,13 @@
                     <TextBlock>
                         <Run Text="Count for displayed search results" />
                     </TextBlock>
-                    <controls:NumericUpDown Value="{Binding MaxSearchResults}" Minimum="1" Maximum="20" />
+                    <controls:NumericUpDown Value="{Binding MaxSearchResults}" Minimum="1" Maximum="20" SelectAllOnFocus="True"/>
                 </Grid>
                 <Grid helper:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock>
                         <Run Text="Limit to start with searching" />
                     </TextBlock>
-                    <controls:NumericUpDown
-                        Value="{Binding Path=StartSearchMinTextLength, ValidatesOnExceptions=True}" Minimum="1" />
+                    <controls:NumericUpDown Value="{Binding StartSearchMinTextLength}" Minimum="1" SelectAllOnFocus="True"/>
                 </Grid>
             </StackPanel>
         </GroupBox>
