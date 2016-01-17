@@ -6,7 +6,7 @@
              xmlns:helper="clr-namespace:James.HelperClasses"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" Loaded="FillContextMenu">
-    <Grid MouseLeftButtonUp="FinishMoving" helper:GridHelper.RowDefinition="30|*" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <Grid MouseLeftButtonUp="FinishMoving" MouseLeave="UIElement_OnMouseLeave" helper:GridHelper.RowDefinition="30|*">
         <Grid.Background>
             <ImageBrush ImageSource="..\Resources\workflow-bg.jpg" TileMode="FlipY"
                         Stretch="Uniform" AlignmentY="Top" Viewport="0,0,128,128" ViewportUnits="Absolute" />

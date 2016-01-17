@@ -137,15 +137,20 @@ namespace James.WorkflowEditor
                 MouseMove -= MoveComponent;
                 selectedComponentUserControl = null;
             }
-            else if (customPath != null && CurrentHoveredWorkflowComponent != null)
+            if (customPath != null) 
             {
-                AddConnection(customPath.Source, (CurrentHoveredWorkflowComponent as WorkflowComponentUserControl).DataContext as WorkflowComponent);
                 MouseMove -= MovePath;
                 editorCanvas.Children.Remove(customPath.Path);
+                if (CurrentHoveredWorkflowComponent != null)
+                {
+                    AddConnection(customPath.Source, (CurrentHoveredWorkflowComponent as WorkflowComponentUserControl).DataContext as WorkflowComponent);
+                }
                 customPath = null;
                 DrawCanvas(this, null);
             }
         }
+
+        private void UIElement_OnMouseLeave(object sender, MouseEventArgs e) => FinishMoving(this, null);
 
         /// <summary>
         /// Adds the connection if it's not already existing
@@ -154,7 +159,7 @@ namespace James.WorkflowEditor
         /// <param name="destination"></param>
         private static void AddConnection(WorkflowComponent source, WorkflowComponent destination)
         {
-            if (!source.ConnectedTo.Contains(destination.Id) && source != destination)
+            if (!source.ConnectedTo.Contains(destination.Id) && source != destination && destination.IsAllowed(source))
             {
                 source.ConnectedTo.Add(destination.Id);
             }
@@ -196,7 +201,6 @@ namespace James.WorkflowEditor
                 var item = new WorkflowComponentUserControl(component);
                 item.MouseLeftButtonDown += StartDragging;
                 item.MouseLeftButtonUp += FinishMoving;
-                //item.rightAnchor.MouseLeftButtonDown += StartConnection;
                 item.OnUpdate += Item_OnUpdate;
                 editorCanvas.Children.Add(item);
             }
@@ -211,7 +215,7 @@ namespace James.WorkflowEditor
                 foreach (var id in item.ConnectedTo)
                 {
                     WorkflowComponent nextComponent = workflow.GetNext(id);
-                    Point destination = new Point(nextComponent.X + ComponentPadding, nextComponent.Y + ComponentHeight / 2 - ComponentPadding);
+                    Point destination = new Point(nextComponent.X + ComponentPadding - 5, nextComponent.Y + ComponentHeight / 2 - ComponentPadding);
 
                     var path = new CustomPath(item, source, destination) { Destination = nextComponent };
                     path.Path.MouseRightButtonDown += DeleteConnection;
@@ -236,13 +240,13 @@ namespace James.WorkflowEditor
 
         #endregion
 
-        #region Add Component
-
         private void OpenContextMenu(object sender, RoutedEventArgs e)
         {
             var tmp = (Button) sender;
             tmp.ContextMenu.IsOpen = !tmp.ContextMenu.IsOpen;
         }
+
+        #region Add Component
 
         private void FillContextMenu(object sender, RoutedEventArgs e)
         {
