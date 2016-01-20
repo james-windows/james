@@ -117,11 +117,14 @@ namespace James.WorkflowEditor
 
         private void CorrectLeftAndTop(List<WorkflowComponent> components)
         {
-            double minX = components.Min(component => component.X);
-            components.ForEach(component => component.X -= minX);
+            if (components.Count > 0)
+            {
+                double minX = components.Min(component => component.X);
+                components.ForEach(component => component.X -= minX);
 
-            double minY = components.Min(component => component.Y);
-            components.ForEach(component => component.Y -= minY);
+                double minY = components.Min(component => component.Y);
+                components.ForEach(component => component.Y -= minY);
+            }
         } 
 
         private void MovePath(object sender, MouseEventArgs e)
@@ -194,8 +197,11 @@ namespace James.WorkflowEditor
         private void DrawComponents(List<WorkflowComponent> components)
         {
             CorrectLeftAndTop(CurrentWorkflow.Components);
-            editorCanvas.Height = components.Max(component => component.Y) + 50;
-            editorCanvas.Width = components.Max(component => component.X) + 100;
+            if (components.Count > 0)
+            {
+                editorCanvas.Height = components.Max(component => component.Y) + 50;
+                editorCanvas.Width = components.Max(component => component.X) + 100;
+            }
             foreach (var component in components)
             {
                 var item = new WorkflowComponentUserControl(component);
