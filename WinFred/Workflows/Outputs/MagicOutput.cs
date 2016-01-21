@@ -5,13 +5,29 @@ namespace James.Workflows.Outputs
 {
     public class MagicOutput : BasicOutput
     {
+        const char HORIZONTALSPLIT = '|';
+
+        [ComponentField("Subtitle Format")]
+        public string SubtitleFormat { get; set; } = "{0}";
+
         public override void Run(string[] output)
         {
-            string text = FormatStringToText(output);
-            var outputResults = new List<ResultItem>
+            var outputResults = new List<ResultItem>();
+            foreach (string text in output)
             {
-                new MagicResultItem() {Title = text, Subtitle = ParentWorkflow.Name, WorkflowComponent = this}
-            };
+                if (text.Trim().Length > 0)
+                {
+                    string[] splits = text.Split(HORIZONTALSPLIT);
+                    outputResults.Add(new MagicResultItem()
+                    {
+                        Title = FormatStringToText(FormatString, splits),
+                        Subtitle = FormatStringToText(SubtitleFormat, splits),
+                        WorkflowComponent = this,
+                        WorkflowArguments = splits
+                    });
+                }
+            }
+            
             MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
         }
 

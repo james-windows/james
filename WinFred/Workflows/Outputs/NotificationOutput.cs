@@ -32,7 +32,7 @@ namespace James.Workflows.Outputs
             {
                 Icon = Icon.ExtractAssociatedIcon(AppDomain.CurrentDomain.BaseDirectory + "James.exe"),
                 BalloonTipIcon = ToolTipIcon.Info,
-                BalloonTipTitle = FormatStringToText(output),
+                BalloonTipTitle = FormatStringToText(FormatString, output),
                 BalloonTipText = "James-Workflow: " + ParentWorkflow.Name,
                 Visible = true
             };

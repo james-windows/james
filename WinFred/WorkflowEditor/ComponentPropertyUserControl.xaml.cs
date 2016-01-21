@@ -39,6 +39,9 @@ namespace James.WorkflowEditor
                 case "String":
                     _prop.SetValue(_component, ((TextBox) _element).Text);
                     break;
+                case "Boolean":
+                    _prop.SetValue(_component, ((ToggleSwitchButton) _element).IsChecked);
+                    break;
             }
         }
     }

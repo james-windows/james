@@ -81,6 +81,7 @@ namespace James.UserControls
         public void WorkflowOutput(List<ResultItem> searchResults)
         {
             _results = searchResults;
+            FocusedIndex = 0;
             Dispatcher.Invoke(() =>
             {
                 _searchResultElement.DrawItems(_results, 0);
@@ -100,7 +101,7 @@ namespace James.UserControls
         }
 
         public void MoveDown()
-        {
+            {
             if (FocusedIndex < _results.Count - 1)
             {
                 FocusedIndex++;

@@ -1,7 +1,7 @@
-﻿using James.Workflows.Actions;
-using James.Workflows.Outputs;
+﻿using James.Workflows.Outputs;
+using James.Workflows.Triggers;
 
-namespace James.Workflows.Triggers
+namespace James.Workflows.Actions
 {
     public class DelayAction : BasicAction
     {

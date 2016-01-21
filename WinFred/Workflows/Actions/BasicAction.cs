@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
@@ -12,7 +13,7 @@ namespace James.Workflows.Actions
             ExecutablePath = executablePath;
         }
 
-        protected const char SEPARATOR = '\n';
+        protected const string SEPARATOR = "\r\n";
         public BasicAction()
         {
         }
@@ -44,7 +45,7 @@ namespace James.Workflows.Actions
                 }
             };
             proc.Start();
-            CallNext(proc.StandardOutput.ReadToEnd().Split(SEPARATOR));
+            CallNext(proc.StandardOutput.ReadToEnd().Split(new[] {SEPARATOR}, StringSplitOptions.RemoveEmptyEntries));
         }
 
         public override bool IsAllowed(WorkflowComponent source) => base.IsAllowed(source) && (source is BasicTrigger || source is MagicOutput || source is BasicAction);

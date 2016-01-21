@@ -17,7 +17,7 @@ namespace James.ResultItems
         /// <param name="search">The current text in the SearchBox</param>
         public override void Open(KeyEventArgs e, string search)
         {
-            WorkflowComponent.CallNext(search.Split(' '));
+            WorkflowComponent.CallNext(WorkflowArguments);
         }
 
         public override string AutoComplete()

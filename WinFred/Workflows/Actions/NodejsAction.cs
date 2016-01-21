@@ -34,7 +34,7 @@ namespace James.Workflows.Actions
             };
             proc.Start();
             proc.WaitForExit();
-            CallNext(proc.StandardOutput.ReadToEnd().Split(SEPARATOR));
+            CallNext(proc.StandardOutput.ReadToEnd().Split(new[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }

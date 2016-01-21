@@ -32,6 +32,9 @@ namespace James.Workflows
                 case "String":
                     tmp = new TextBox {Text = prop.GetValue(component).ToString()};
                     break;
+                case "Boolean":
+                    tmp = new ToggleSwitchButton() {IsChecked = (bool)prop.GetValue(component)};
+                    break;
             }
             return tmp != null ? new ComponentPropertyUserControl(description, tmp, prop, component) : null;
         }

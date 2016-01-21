@@ -274,7 +274,7 @@
     <Compile Include="Workflows\RunnableWorkflowComponent.cs" />
     <Compile Include="Workflows\Triggers\BasicTrigger.cs" />
     <Compile Include="Workflows\Triggers\KeywordTrigger.cs" />
-    <Compile Include="Workflows\Triggers\DelayAction.cs" />
+    <Compile Include="Workflows\Actions\DelayAction.cs" />
     <Compile Include="Workflows\Workflow.cs" />
     <Compile Include="Workflows\WorkflowComponent.cs" />
     <Compile Include="Workflows\WorkflowManager.cs" />

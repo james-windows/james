@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using James.Workflows.Interfaces;
 using James.Workflows.Triggers;
 
@@ -9,7 +10,6 @@ namespace James.Workflows.Actions
         [ComponentField("The Path of the script file")]
         public string Script { get; set; } = "";
 
-        [ComponentField("Additional Arguments for the program")]
         public override string ExecutableArguments { get; set; } = "";
 
         public override string ExecutablePath { get; set; } = @"C:\Portable\WinPython-64bit-3.4.3.7\python-3.4.3.amd64\python.exe";
@@ -23,7 +23,7 @@ namespace James.Workflows.Actions
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = ExecutablePath,
-                    Arguments = Script + " " + ExecutableArguments + string.Join(" ", arguments),
+                    Arguments = Script + " " + string.Join(" ", arguments),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -33,7 +33,7 @@ namespace James.Workflows.Actions
             };
             proc.Start();
             proc.WaitForExit();
-            CallNext(proc.StandardOutput.ReadToEnd().Split(SEPARATOR));
+            CallNext(proc.StandardOutput.ReadToEnd().Split(new[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }

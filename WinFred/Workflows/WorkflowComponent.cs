@@ -59,7 +59,7 @@ namespace James.Workflows
 
         public List<int> ConnectedTo { get; set; } = new List<int>();
 
-        public void CallNext(string[] arguments)
+        public virtual void CallNext(string[] arguments)
         {
             foreach (var id in ConnectedTo)
             {

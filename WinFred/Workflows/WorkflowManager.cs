@@ -39,7 +39,7 @@ namespace James.Workflows
         {
             foreach (var workflow in Workflows)
             {
-                KeywordTriggers = workflow.Triggers.OfType<KeywordTrigger>().ToList();
+                KeywordTriggers.AddRange(workflow.Components.OfType<KeywordTrigger>().ToList());
             }
         }
 
@@ -59,15 +59,18 @@ namespace James.Workflows
 
         public IEnumerable<ResultItem> GetKeywordTriggers(string input)
         {
-            return
-                KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input.Split(' ')[0]))
-                    .Select(
+            var keywordTriggers = KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input.Split(' ')[0]));
+            foreach (var trigger in keywordTriggers.Where(trigger => trigger.Autorun))
+            {
+                trigger.Run(input.Split(' '));
+            }
+            return keywordTriggers.Where(trigger => !trigger.Autorun).Select(
                         trigger =>
                             new MagicResultItem()
                             {
                                 WorkflowComponent = trigger,
-                                Subtitle = trigger.Title,
-                                Title = trigger.ParentWorkflow.Name,
+                                Subtitle = trigger.Subtitle,
+                                Title = trigger.Title,
                                 WorkflowArguments = input.Split(' ')
                             });
         }
