@@ -142,10 +142,6 @@
       <HintPath>..\packages\squirrel.windows.1.2.1\lib\Net45\NuGet.Squirrel.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SearchEngineWrapper, Version=1.0.5821.36031, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\x64\Debug\SearchEngineWrapper.dll</HintPath>
-    </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
       <Private>True</Private>
@@ -185,6 +181,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApiListener.cs" />
     <Compile Include="ChangelogWindow.xaml.cs">
       <DependentUpon>ChangelogWindow.xaml</DependentUpon>
     </Compile>
@@ -272,6 +269,7 @@
     <Compile Include="Workflows\Outputs\MagicOutput.cs" />
     <Compile Include="Workflows\Outputs\OpenOutput.cs" />
     <Compile Include="Workflows\RunnableWorkflowComponent.cs" />
+    <Compile Include="Workflows\Triggers\ApiTrigger.cs" />
     <Compile Include="Workflows\Triggers\BasicTrigger.cs" />
     <Compile Include="Workflows\Triggers\KeywordTrigger.cs" />
     <Compile Include="Workflows\Actions\DelayAction.cs" />
@@ -423,6 +421,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\workflow-bg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SearchEngineWrapper\SearchEngineWrapper.vcxproj">
+      <Project>{35113677-1683-4425-ac56-382321c7c9e6}</Project>
+      <Name>SearchEngineWrapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

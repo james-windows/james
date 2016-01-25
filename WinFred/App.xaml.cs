@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.IO.Pipes;
 using System.Threading;
 using System.Windows;
 using James.Search;
@@ -31,15 +33,28 @@ namespace James
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
-            var createdNew = true;
+            bool createdNew;
             _mutex = new Mutex(true, "James", out createdNew);
-            if (createdNew)
+            if (createdNew && e.Args.Length == 0)
             {
                 StartProgram();
                 base.OnStartup(e);
+                var instance = ApiListener.Instance;
             }
             else
             {
+                using (NamedPipeClientStream client = new NamedPipeClientStream("james"))
+                {
+                    client.Connect(100);
+                    if (client.IsConnected)
+                    {
+                        using (StreamWriter writer = new StreamWriter(client))
+                        {
+                            writer.WriteLine(string.Join(" ", e.Args).Substring(6));
+                            writer.Flush();
+                        }
+                    }
+                }
                 Environment.Exit(1);
             }
         }

@@ -42,6 +42,8 @@ namespace James.Workflows
             LoadKeywordTriggers();
         }
 
+        public List<WorkflowComponent> AllComponents => Workflows.SelectMany(workflow => workflow.Components).ToList();
+
         public void LoadKeywordTriggers()
         {
             foreach (var workflow in Workflows)
@@ -91,6 +93,11 @@ namespace James.Workflows
             item.Remove();
             Workflows.Remove(item);
             LoadKeywordTriggers();
+        }
+
+        public void RunApiTrigger(string input, string[] args)
+        {
+            AllComponents.OfType<ApiTrigger>().Where(trigger => trigger.Action.Length > 0 && trigger.Action == input).ForEach(trigger => trigger.CallNext(args));
         }
     }
 }
