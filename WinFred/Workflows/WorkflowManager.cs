@@ -27,8 +27,15 @@ namespace James.Workflows
                 string configPath = path + "\\config.json";
                 if (File.Exists(configPath))
                 {
-                    dynamic item = JsonConvert.DeserializeObject(File.ReadAllText(configPath));
-                    Workflows.Add(new Workflow(item, path));
+                    try
+                    {
+                        dynamic item = JsonConvert.DeserializeObject(File.ReadAllText(configPath));
+                        Workflows.Add(new Workflow(item, path));
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Failed to load Workflow. Invalid config.js format!");
+                    }
                 }
             }
 
