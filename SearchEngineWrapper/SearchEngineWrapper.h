@@ -1,8 +1,8 @@
 // SearchEngineWrapper.h
 
 #pragma once
+#include "..\SearchEngine\shared\SearchAlgorithm\search-engine.cpp"
 
-#include "..\SearchEngine\SearchAlgorithm\search-engine.cpp"
 using namespace System;
 using namespace System::Collections::Generic;
 

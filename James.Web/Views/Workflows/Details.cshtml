@@ -1,0 +1,44 @@
+@model James.Web.ViewModels.Workflows.DetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 class="title">@Html.DisplayFor(model => model.Workflow.Name)</h2>
+
+<div>
+    <h4>Workflow</h4>
+    <p>
+        <a asp-action="Index" class="btn btn-default" role="button"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back to List</a>
+        @if (Model.EditAllowed)
+        {
+            <a asp-action="Delete" asp-route-id="@Model.Workflow.Id" class="btn btn-default" role="button">Delete</a>
+            <a asp-action="Edit" asp-route-id="@Model.Workflow.Id" class="btn btn-default" role="button">Edit</a>
+        }
+    </p>
+    <hr/>
+    <div class="row">
+        <div class="col-md-3">
+            <img class="icon" src="@Model.IconPath" width="256"/><br/>
+            <strong>Author: </strong>
+            <a asp-action="Author" asp-route-author="@Model.Workflow.Author.UserName">
+                @Html.DisplayFor(model => model.Workflow.Author.UserName)
+            </a><br/>
+            <strong>Downloads: </strong>@Html.DisplayFor(model => model.Workflow.Downloads)<br/>
+            <strong>FileSize: </strong>@Html.DisplayFor(model => model.FileSize)<br/>
+            <strong>Published: </strong>@Html.DisplayFor(model => model.Workflow.PublishDate)<br/>
+            <a href="@Model.DownloadPath">
+                <span class="glyphicon glyphicon-download-alt"></span>
+            </a>
+
+        </div>
+        <div class="col-md-9">
+            @Html.DisplayFor(model => model.Workflow.ShortDescription)
+            <section class="download">jpm install @Html.DisplayFor(model => model.Workflow.Name)</section>
+            <blockquote class="description">
+                @Html.Raw(Model.Workflow.Description)
+            </blockquote>
+            @{ await Html.RenderPartialAsync("DisqusView", Model.DisqusViewModel); }
+        </div>
+    </div>
+</div>

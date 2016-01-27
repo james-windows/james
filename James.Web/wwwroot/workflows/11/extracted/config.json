@@ -1,0 +1,61 @@
+{
+  "author": "moser",
+  "enabled": true,
+  "components": [
+    {
+      "id": 0,
+      "type": "keyword",
+      "connectedTo": [
+        1
+      ],
+      "y": 17.357730644100727,
+      "x": 0.0,
+      "title": "displays time",
+      "keyword": "time",
+      "autorun": true
+    },
+    {
+      "id": 1,
+      "type": "python",
+      "connectedTo": [
+        3
+      ],
+      "y": 0.0,
+      "x": 209.14163299035266,
+      "script": "time.py",
+      "executablearguments": ""
+    },
+    {
+      "id": 3,
+      "type": "magic",
+      "connectedTo": [
+        1
+      ],
+      "y": 107.24684013945708,
+      "x": 219.97283097623855,
+      "subtitleformat": "",
+      "formatstring": "time: {0}"
+    },
+    {
+      "id": 4,
+      "type": "keyword",
+      "connectedTo": [
+        5
+      ],
+      "y": 160.98185170406859,
+      "x": 10.525737638596013,
+      "title": "tea in x minutes",
+      "keyword": "tea",
+      "autorun": false
+    },
+    {
+      "id": 5,
+      "type": "magic",
+      "connectedTo": [],
+      "y": 172.74591009782748,
+      "x": 168.41178568322397,
+      "subtitleformat": "",
+      "formatstring": "{0} in {1} minutes."
+    }
+  ]
+}

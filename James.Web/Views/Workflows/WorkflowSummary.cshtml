@@ -1,0 +1,20 @@
+﻿@model James.Web.ViewModels.Workflows.DetailsViewModel
+
+<section class="WorkflowSummary">
+    <div class="row">
+        <div class="col-md-1 col-sm-2 col-xs-4">
+            <img src="@Model.IconPath" width="64" height="64"/>
+        </div>
+        <div class="col-md-8 col-sm-5 col-xs-8">
+            <a class="title" asp-action="Details" asp-route-id="@Model.Workflow.Id">@Model.Workflow.Name</a><br/>
+            <p class="short-description">@Html.DisplayFor(modelItem => Model.Workflow.ShortDescription)</p>
+
+        </div>
+        <div class="col-xs-4 col-sm-1"></div>
+        <div class="col-md-3 col-sm-5 col-xs-8">
+            made by <a asp-action="Author" asp-route-author="@Model.Workflow.Author.UserName">@Model.Workflow.Author.UserName</a><br/>
+            <strong>Downloads: </strong>@Html.DisplayFor(modelItem => Model.Workflow.Downloads)<br/>
+            <strong>PublishDate: </strong>@Html.DisplayFor(modelItem => Model.Workflow.PublishDate)
+        </div>
+    </div>
+</section>

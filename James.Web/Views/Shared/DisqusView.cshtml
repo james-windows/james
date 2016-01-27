@@ -1,0 +1,22 @@
+﻿@model James.Web.ViewModels.Workflows.DisqusViewModel
+<div class="jumbotron">
+    <div id="disqus_thread"></div>
+</div>
+<script>
+    var disqus_developer = 1; // this would set it to developer mode
+    var disqus_config = function () {
+        this.page.url = "@Html.DisplayFor(model => model.Url)";
+        this.page.identifier = "@Html.DisplayFor(model => model.Identifier)";
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+
+        s.src = '//james-web.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+<script id="dsq-count-scr" src="//james-web.disqus.com/count.js" async></script>

@@ -1,6 +1,6 @@
 #include "Stdafx.h"
 #include "SearchEngineWrapper.h"
-#include "..\SearchEngine\SearchAlgorithm\search-engine.cpp"
+#include "..\SearchEngine\shared\SearchAlgorithm\search-engine.cpp"
 
 #pragma warning(disable : 4477)
 

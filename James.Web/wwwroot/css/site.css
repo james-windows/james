@@ -1,0 +1,94 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Carousel */
+.carousel-caption {
+    z-index: 10 !important;
+}
+
+    .carousel-caption p {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+@media (min-width: 768px) {
+    .carousel-caption {
+        z-index: 10 !important;
+    }
+}
+
+/* custom style */
+body {
+    font-family: 'Roboto';
+}
+
+h2.title {
+    font-weight: 100;
+}
+
+section.download {
+    width: 100%;
+    height: 56px;
+    margin: 20px 0px;
+    line-height: 50px;
+    color: white;
+    background: #292929;
+    border: 3px solid darkgrey;
+    border-radius: 3px;
+    padding-left: 40px;
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
+    font-size: 24px;
+}
+
+section.WorkflowSummary {
+    padding: 20px 0px;
+    border-top: 1px solid #eee;
+    font-size: 16px;
+}
+section.WorkflowSummary:last-child {
+    border-bottom: 1px solid #eee;
+}
+
+section.WorkflowSummary div.row {
+    margin: 0px;
+}
+section.WorkflowSummary div.row a.title {
+    font-size: 26px;
+    font-weight: 100;
+}
+@media (max-width: 992px) {
+    section.WorkflowSummary div.row p.short-description {
+        display: none;
+    }
+}
+
+div.jumbotron {
+    padding: 10px 10px;
+    border-radius: 6px;
+    background-color: #eee;
+    margin-bottom: 30px;
+}
+img.icon {
+    margin-bottom: 20px;
+}
+blockquote.description {
+    overflow: hidden;
+}
+blockquote.description img {
+    max-width: 100%;
+}
