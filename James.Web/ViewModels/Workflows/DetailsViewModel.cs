@@ -12,8 +12,6 @@ namespace James.Web.ViewModels.Workflows
 
         public DisqusViewModel DisqusViewModel { get; set; }
 
-        public string DownloadPath => $"/workflows/{Workflow.Id}/{Workflow.Name}.james";
-
         private string _iconPath;
         public string IconPath
         {
