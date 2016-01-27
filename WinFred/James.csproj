@@ -182,7 +182,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApiListener.cs" />
-    <Compile Include="ChangelogWindow.xaml.cs">
+    <Compile Include="Windows\ChangelogWindow.xaml.cs">
       <DependentUpon>ChangelogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enumerations\AccentColorTypes.cs" />
@@ -193,8 +193,8 @@
     <Compile Include="HelperClasses\GridHelper.cs" />
     <Compile Include="HelperClasses\PathHelper.cs" />
     <Compile Include="HelperClasses\ShortcutManagerSettings.cs" />
-    <Compile Include="PartialConfigClasses\LargeTypeConfig.cs" />
-    <Compile Include="PartialConfigClasses\MainWindowConfig.cs" />
+    <Compile Include="Windows\PartialConfigClasses\LargeTypeConfig.cs" />
+    <Compile Include="Windows\PartialConfigClasses\MainWindowConfig.cs" />
     <Compile Include="ResultItems\MagicResultItem.cs" />
     <Compile Include="ResultItems\SearchResultItem.cs" />
     <Compile Include="SearchResultElement.cs" />
@@ -242,7 +242,7 @@
     <Compile Include="UserControls\WorkflowsUserControl.xaml.cs">
       <DependentUpon>WorkflowsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OptionWindow.xaml.cs">
+    <Compile Include="Windows\OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
@@ -253,7 +253,7 @@
     <Compile Include="Search\SearchEngine.cs" />
     <Compile Include="ResultItems\ResultItem.cs" />
     <Compile Include="ValidationRules\FileExtensionValidationRule.cs" />
-    <Compile Include="WelcomeWindow.xaml.cs">
+    <Compile Include="Windows\WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workflows\Actions\BasicAction.cs" />
@@ -276,15 +276,15 @@
     <Compile Include="Workflows\Workflow.cs" />
     <Compile Include="Workflows\WorkflowComponent.cs" />
     <Compile Include="Workflows\WorkflowManager.cs" />
-    <Page Include="ChangelogWindow.xaml">
+    <Page Include="Windows\ChangelogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LargeType.xaml">
+    <Page Include="Windows\LargeType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -292,10 +292,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LargeType.xaml.cs">
+    <Compile Include="Windows\LargeType.xaml.cs">
       <DependentUpon>LargeType.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -355,11 +355,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OptionWindow.xaml">
+    <Page Include="Windows\OptionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WelcomeWindow.xaml">
+    <Page Include="Windows\WelcomeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -391,7 +391,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Workflow.cd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

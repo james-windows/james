@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using MahApps.Metro.Controls;
 
-namespace James
+namespace James.Windows
 {
     /// <summary>
     ///     Interaction logic for WelcomeWindow.xaml
@@ -20,7 +20,7 @@ namespace James
         {
             if (_launchMainWindowAtEnd)
             {
-                MainWindow.GetInstance(true).Show();
+                Windows.MainWindow.GetInstance(true).Show();
             }
             Close();
         }

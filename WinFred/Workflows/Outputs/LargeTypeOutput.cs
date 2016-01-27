@@ -13,11 +13,11 @@ namespace James.Workflows.Outputs
             if (FirstRun)
             {
                 FirstRun = false;
-                MainWindow.GetInstance().DisplayLargeType(string.Join(" ", output));
+                Windows.MainWindow.GetInstance().DisplayLargeType(string.Join(" ", output));
             }
             else
             {
-                LargeType.Instance.ChangeMessage(string.Join(" ", output));
+                Windows.LargeType.Instance.ChangeMessage(string.Join(" ", output));
             }
         }
 

@@ -42,7 +42,7 @@ namespace James.UserControls
                 var window = Window.GetWindow(this);
                 window?.Hide();
                 var index = (int) (e.GetPosition(this).Y/SearchResultElement.RowHeight);
-                _results[index].Open(null, MainWindow.GetInstance().SearchTextBox.Text);
+                _results[index].Open(null, Windows.MainWindow.GetInstance().SearchTextBox.Text);
             }
         }
 

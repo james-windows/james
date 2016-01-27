@@ -23,7 +23,7 @@ namespace James.UserControls
 
         private void DisplayChangelog(object sender, RoutedEventArgs e)
         {
-            var changelogWindow = new ChangelogWindow {Owner = Window.GetWindow(this)};
+            var changelogWindow = new Windows.ChangelogWindow {Owner = Window.GetWindow(this)};
             changelogWindow.ShowDialog();
         }
     }

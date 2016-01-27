@@ -141,8 +141,8 @@ namespace James.Web.Controllers
         {
             string userId = User.GetUserId();
             var item = _context.Workflow.Include(w => w.Author).First(w => w.Id == workflow.Id);
-            var user = _userManager.Users.Single(applicationUser => applicationUser.Id == userId);
-            return _userManager.GetRolesAsync(user).Result.Count != 0 || user == item.Author;
+            var user = _userManager.Users.FirstOrDefault(applicationUser => applicationUser.Id == userId);
+            return user != null && (_userManager.GetRolesAsync(user).Result.Count != 0 || user == item.Author);
         }
 
         // GET: Workflows/Edit/5

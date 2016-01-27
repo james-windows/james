@@ -66,11 +66,11 @@ namespace James
             SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
             if (_showTheWelcomeWizard)
             {
-                new WelcomeWindow().Show();
+                new Windows.WelcomeWindow().Show();
             }
             else
             {
-                James.MainWindow.GetInstance().Show();
+                James.Windows.MainWindow.GetInstance().Show();
                 Task.Run(() => InitializeSingeltons());
             }
         }

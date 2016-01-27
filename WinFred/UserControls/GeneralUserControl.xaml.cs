@@ -46,7 +46,7 @@ namespace James.UserControls
             }
         }
 
-        private void LaunchWelcomeWindow(object sender, RoutedEventArgs e) => new WelcomeWindow(false).Show();
+        private void LaunchWelcomeWindow(object sender, RoutedEventArgs e) => new Windows.WelcomeWindow(false).Show();
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e) => DataContext = Config.Instance;
     }
