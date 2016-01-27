@@ -6,6 +6,11 @@ using System.Windows.Interop;
 
 namespace James.Windows
 {
+    /// <summary>
+    /// Used the code from the following source:
+    /// http://withinrafael.com/adding-the-aero-glass-blur-to-your-windows-10-apps/
+    /// only working with Windows 10
+    /// </summary>
     partial class MainWindow
     {
         [Flags]
