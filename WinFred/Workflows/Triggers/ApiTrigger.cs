@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace James.Workflows.Triggers
+﻿namespace James.Workflows.Triggers
 {
     class ApiTrigger: BasicTrigger
     {
@@ -13,6 +7,6 @@ namespace James.Workflows.Triggers
         [ComponentField("The name of the action to listen")]
         public string Action { get; set; } = "";
 
-        public override string GetSummary() => $"Listens for {Action} in the james: protocol";
+        public override string GetSummary() => $"Listens for '{Action}' in the api";
     }
 }

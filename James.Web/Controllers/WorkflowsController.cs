@@ -238,9 +238,10 @@ namespace James.Web.Controllers
                 return HttpNotFound();
             }
             Workflow workflow = results.First();
-            string source = _hostingEnv.WebRootPath + $@"\workflows\{workflow.Id}\{workflow.Name}.james";
-            string fileName = $"{workflow.Name}.james";
-            return File(source, "application/zip", fileName);
+            workflow.Downloads++;
+            _context.Workflow.Update(workflow);
+            _context.SaveChanges();
+            return LocalRedirect($@"~/workflows/{workflow.Id}/{workflow.Name}.james");
         }
     }
 }
