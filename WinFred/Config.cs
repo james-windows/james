@@ -87,6 +87,7 @@ namespace James
             _config = new Config();
             _config.Paths.Add(new Path {Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)});
             LoadDefaultFileExtensions();
+            _config.ShortcutManagerSettings = new ShortcutManagerSettings();
             _config.Persist();
         }
 

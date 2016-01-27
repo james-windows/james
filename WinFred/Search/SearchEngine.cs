@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using James.Properties;
 using James.ResultItems;
+using System.IO;
 
 namespace James.Search
 {
@@ -20,8 +21,13 @@ namespace James.Search
 
         private SearchEngine()
         {
+            string filePath = Config.Instance.ConfigFolderLocation + "\\files.txt";
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath);
+            }
             _searchEngineWrapper =
-                new SearchEngineWrapper.SearchEngineWrapper(Config.Instance.ConfigFolderLocation + "\\files.txt");
+                new SearchEngineWrapper.SearchEngineWrapper(filePath);
             _timer = new Timer(1000*60*5)
             {
                 AutoReset = true,
