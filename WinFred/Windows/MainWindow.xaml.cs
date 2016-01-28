@@ -57,7 +57,7 @@ namespace James.Windows
             }
         }
 
-        private void OnHotKeyHandler(Shortcut shortcut)
+        public void OnHotKeyHandler(Shortcut shortcut)
         {
             if (IsVisible || shortcut == null)
             {
