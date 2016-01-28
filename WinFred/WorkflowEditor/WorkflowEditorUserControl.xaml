@@ -3,26 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:helper="clr-namespace:James.HelperClasses"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" Loaded="FillContextMenu">
-    <Grid MouseLeftButtonUp="FinishMoving" MouseLeave="UIElement_OnMouseLeave" helper:GridHelper.RowDefinition="30|*">
+    <Grid MouseLeftButtonUp="FinishMoving" MouseLeave="UIElement_OnMouseLeave">
         <Grid.Background>
             <ImageBrush ImageSource="..\Resources\workflow-bg.jpg" TileMode="FlipY"
                         Stretch="Uniform" AlignmentY="Top" Viewport="0,0,128,128" ViewportUnits="Absolute" />
         </Grid.Background>
-        <Grid>
-            <Button Content="Add" Click="OpenContextMenu" HorizontalAlignment="Right">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SquareButtonStyle}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                <Setter Property="IsEnabled" Value="False" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-                <Button.ContextMenu>
+        <Border Background="Transparent" ContextMenuOpening="Border_ContextMenuOpening">
+            <Viewbox x:Name="viewBox">
+                <Viewbox.ContextMenu>
                     <ContextMenu x:Name="AddButton" MenuItem.Click="AddComponent">
                         <MenuItem Header="Triggers" x:Name="TriggerContextMenu"/>
                         <MenuItem Header="Actions" x:Name="ActionContextMenu"/>
@@ -33,11 +23,11 @@
                             </Style>
                         </ContextMenu.Resources>
                     </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
-        </Grid>
-        <Viewbox Grid.Row="1" Margin="5">
-            <Canvas MinHeight="300" MinWidth="300" x:Name="editorCanvas" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        </Viewbox>
+                </Viewbox.ContextMenu>
+                <Border BorderBrush="#33A9A9A9" BorderThickness="1">
+                    <Canvas MinHeight="300" MinWidth="300" x:Name="editorCanvas" Background="Transparent"/>
+                </Border>
+            </Viewbox>
+        </Border>
     </Grid>
 </UserControl>

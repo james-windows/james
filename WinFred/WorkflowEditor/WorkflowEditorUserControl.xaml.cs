@@ -224,7 +224,7 @@ namespace James.WorkflowEditor
                     Point destination = new Point(nextComponent.X + ComponentPadding - 5, nextComponent.Y + ComponentHeight / 2 - ComponentPadding);
 
                     var path = new CustomPath(item, source, destination) { Destination = nextComponent };
-                    path.Path.MouseRightButtonDown += DeleteConnection;
+                    path.Path.MouseLeftButtonDown += DeleteConnection;
                     editorCanvas.Children.Add(path.Path);
                     _myLines.Add(path);
                 }
@@ -279,11 +279,21 @@ namespace James.WorkflowEditor
         {
             var component = (Type)((MenuItem)e.OriginalSource).DataContext;
             var instance = (WorkflowComponent)Activator.CreateInstance(component);
+            instance.X = point.X;
+            instance.Y = point.Y;
             var workflow = (Workflow)DataContext;
             workflow.AddComponent(instance);
             DrawCanvas(this, null);
         }
 
         #endregion
+
+        private Point point = new Point();
+
+        private void Border_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            point.X = e.CursorLeft;
+            point.Y = e.CursorTop;
+        }
     }
 }

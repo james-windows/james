@@ -70,7 +70,7 @@ namespace James.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to right click to remove.
+        ///   Looks up a localized string similar to click to remove.
         /// </summary>
         internal static string CustomLine_RightClickToRemoveLine {
             get {

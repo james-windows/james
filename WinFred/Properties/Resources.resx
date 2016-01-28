@@ -121,7 +121,7 @@
     <value>- Event got triggerd</value>
   </data>
   <data name="CustomLine_RightClickToRemoveLine" xml:space="preserve">
-    <value>right click to remove</value>
+    <value>click to remove</value>
   </data>
   <data name="General_WorkflowComponent_Description" xml:space="preserve">
     <value>A description for each Workflow component will be placed here soon! Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</value>
