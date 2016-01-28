@@ -59,9 +59,12 @@ namespace James.Workflows
 
         public string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Name;
 
+        public bool canceld = false;
+
         public void Cancel()
         {
-            Components.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
+            canceld = true;
+            Components.OfType<BasicAction>().ForEach(surviveable => surviveable.Cancel());
         }
 
         public void Persist()

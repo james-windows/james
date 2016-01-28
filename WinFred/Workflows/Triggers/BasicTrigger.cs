@@ -4,7 +4,7 @@ using James.Workflows.Outputs;
 
 namespace James.Workflows.Triggers
 {
-    public abstract class BasicTrigger : RunnableWorkflowComponent, ICrossPlatform
+    public abstract class BasicTrigger : WorkflowComponent, ICrossPlatform
     {
         protected BasicTrigger()
         {

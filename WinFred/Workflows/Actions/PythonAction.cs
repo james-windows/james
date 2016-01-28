@@ -18,7 +18,7 @@ namespace James.Workflows.Actions
 
         public override void Run(string[] arguments)
         {
-            var proc = new Process
+            proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {

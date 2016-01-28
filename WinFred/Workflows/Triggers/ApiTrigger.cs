@@ -2,7 +2,11 @@
 {
     class ApiTrigger: BasicTrigger
     {
-        public override void Run(string[] input) => CallNext(input);
+        public override void Run(string[] arguments)
+        {
+            ParentWorkflow.canceld = false;
+            CallNext(arguments);
+        }
 
         [ComponentField("The name of the action to listen")]
         public string Action { get; set; } = "";

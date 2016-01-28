@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
+using James.HelperClasses;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 
 namespace James.Workflows.Actions
 {
-    public class BasicAction : RunnableWorkflowComponent
+    public class BasicAction : WorkflowComponent
     {
         public BasicAction(string executablePath)
         {
@@ -25,6 +27,34 @@ namespace James.Workflows.Actions
         public virtual string ExecutableArguments { get; set; } = "";
 
         public override string GetSummary() => $"Runs {ExecutablePath.Split('\\').Last()}";
+
+        protected Process proc;
+
+        public bool Background { get; set; } = false;
+
+        public virtual void Cancel()
+        {
+            if (!Background)
+            {
+                proc.Kill();
+            }
+        }
+
+        public override void CallNext(string[] arguments)
+        {
+            if (Background && ParentWorkflow.canceld)
+            {
+                base.CallNext(arguments);
+            }
+            foreach (var id in ConnectedTo)
+            {
+                var nextComponent = this.GetNext(id);
+                if (!(nextComponent is BasicAction && !(nextComponent as BasicAction).Background))
+                {
+                    Task.Run(() => nextComponent.Run(arguments));
+                }
+            }
+        }
 
         public override void Run(string[] arguments)
         {
