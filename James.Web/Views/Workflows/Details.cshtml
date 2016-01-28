@@ -34,7 +34,7 @@
         </div>
         <div class="col-md-9">
             @Html.DisplayFor(model => model.Workflow.ShortDescription)
-            <section class="download">jpm install @Html.DisplayFor(model => model.Workflow.Name)</section>
+            <a href="james:insert/jpm/install/@Model.Workflow.Name"><section class="download">jpm install @Html.DisplayFor(model => model.Workflow.Name)</section></a>
             <blockquote class="description">
                 @Html.Raw(Model.Workflow.Description)
             </blockquote>
