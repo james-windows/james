@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using James.HelperClasses;
+using James.Workflows;
 using MahApps.Metro.Controls;
 
 namespace James.Windows
@@ -29,6 +30,7 @@ namespace James.Windows
         {
             Config.Instance.Persist();
             ShortcutManager.Instance.Reload();
+            WorkflowManager.Instance.PersistWorkflows();
         }
     }
 }
