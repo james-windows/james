@@ -28,6 +28,13 @@
         "Hosting:Environment": "Development"
       },
       "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-update1"
+    },
+    "production": {
+      "commandName": "web",
+      "environmentVariables": {
+        "Hosting:Environment": "Production"
+      },
+      "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-update1"
     }
   }
 }

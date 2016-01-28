@@ -70,7 +70,7 @@ namespace James.Web
 
             app.UseApplicationInsightsRequestTelemetry();
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() && false)
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
