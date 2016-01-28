@@ -268,6 +268,7 @@
     <Compile Include="Workflows\Outputs\NotificationOutput.cs" />
     <Compile Include="Workflows\Outputs\MagicOutput.cs" />
     <Compile Include="Workflows\Outputs\OpenOutput.cs" />
+    <Compile Include="Workflows\Outputs\SearchBoxOutput.cs" />
     <Compile Include="Workflows\RunnableWorkflowComponent.cs" />
     <Compile Include="Workflows\Triggers\ApiTrigger.cs" />
     <Compile Include="Workflows\Triggers\BasicTrigger.cs" />
