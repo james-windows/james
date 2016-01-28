@@ -128,35 +128,6 @@ namespace James.WorkflowEditor
         }
 
         /// <summary>
-        ///     Generates the beautiful curved Path from one position to the other
-        /// </summary>
-        /// <param name="start">Startpoint</param>
-        /// <param name="radius"></param>
-        /// <param name="left"></param>
-        /// <param name="up"></param>
-        /// <param name="rightCurved">Should it be curved right?</param>
-        /// <returns></returns>
-        private BezierSegment DrawCircleSector(ref Point start, double radius, bool left, bool up, bool rightCurved)
-        {
-            var newX = start.X + ((left) ? -radius : radius);
-            var newY = start.Y + ((up) ? -radius : radius);
-            var destination = new Point(newX, newY);
-            Point middle;
-            if (rightCurved)
-            {
-                middle = new Point(destination.X, start.Y);
-            }
-            else
-            {
-                middle = new Point(start.X, destination.Y);
-            }
-
-            var segment = new BezierSegment(start, middle, destination, true);
-            start = destination;
-            return segment;
-        }
-
-        /// <summary>
         ///     Deletes the connection from the components
         /// </summary>
         public void DeleteConnection()
