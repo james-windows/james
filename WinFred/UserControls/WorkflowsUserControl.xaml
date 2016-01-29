@@ -32,6 +32,7 @@
                                             </MenuItem.Style>
                                         </MenuItem>
                                         <MenuItem Click="DeleteWorkflowButton_Click" Header="Delete" Style="{StaticResource MetroMenuItem}"/>
+                                        <MenuItem Click="ExportWorkflowButton_Click" Header="Export" Style="{StaticResource MetroMenuItem}"/>
                                         <Separator/>
                                         <MenuItem Click="OpenWorkflowFolder" Header="Open Workflowfolder" Style="{StaticResource MetroMenuItem}"/>
                                     </ContextMenu>

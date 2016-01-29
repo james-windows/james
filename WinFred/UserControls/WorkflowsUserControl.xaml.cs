@@ -1,8 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.IO.Compression;
+using System.Windows;
+using System.Windows.Forms;
 using James.Workflows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace James.UserControls
 {
@@ -57,6 +59,19 @@ namespace James.UserControls
         private void OpenWorkflowFolder(object sender, RoutedEventArgs e)
         {
             ((Workflow)WorkflowListBox.SelectedItem).OpenFolder();
+        }
+
+        private void ExportWorkflowButton_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((Workflow) WorkflowListBox.SelectedItem);
+            FileDialog dialog = new SaveFileDialog();
+            dialog.FileName = item.Name + ".james";
+            dialog.Filter = "james workflows|*.james";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                ZipFile.CreateFromDirectory(Config.Instance.ConfigFolderLocation + "\\workflows\\" + item.Name, dialog.FileName);
+            }
         }
     }
 }
