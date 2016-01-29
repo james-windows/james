@@ -292,8 +292,18 @@ namespace James.WorkflowEditor
 
         private void Border_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            point.X = e.CursorLeft;
-            point.Y = e.CursorTop;
+            double offset = (border.ActualWidth - viewBox.ActualWidth);
+            if (e.CursorLeft > (sender as FrameworkElement).ActualWidth / 2)
+            {
+                offset *= -1;
+            }
+            point.X = e.CursorLeft / border.ActualWidth * editorCanvas.ActualWidth;
+            offset = (border.ActualHeight - viewBox.ActualHeight);
+            if (e.CursorTop > (sender as FrameworkElement).ActualHeight / 2)
+            {
+                offset *= -1;
+            }
+            point.Y = e.CursorTop / viewBox.ActualHeight * editorCanvas.ActualHeight;
         }
     }
 }

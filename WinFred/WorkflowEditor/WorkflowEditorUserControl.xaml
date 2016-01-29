@@ -10,24 +10,24 @@
             <ImageBrush ImageSource="..\Resources\workflow-bg.jpg" TileMode="FlipY"
                         Stretch="Uniform" AlignmentY="Top" Viewport="0,0,128,128" ViewportUnits="Absolute" />
         </Grid.Background>
-        <Border Background="Transparent" ContextMenuOpening="Border_ContextMenuOpening">
-            <Viewbox x:Name="viewBox">
-                <Viewbox.ContextMenu>
-                    <ContextMenu x:Name="AddButton" MenuItem.Click="AddComponent">
-                        <MenuItem Header="Triggers" x:Name="TriggerContextMenu"/>
-                        <MenuItem Header="Actions" x:Name="ActionContextMenu"/>
-                        <MenuItem Header="Outputs" x:Name="OutputContextMenu"/>
-                        <ContextMenu.Resources>
-                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
-                                <Setter Property="Header" Value="{Binding Name, Mode=OneWay}" />
-                            </Style>
-                        </ContextMenu.Resources>
-                    </ContextMenu>
-                </Viewbox.ContextMenu>
-                <Border BorderBrush="#33A9A9A9" BorderThickness="1">
-                    <Canvas MinHeight="300" MinWidth="300" x:Name="editorCanvas" Background="Transparent"/>
-                </Border>
-            </Viewbox>
+        <Border Background="Transparent" ContextMenuOpening="Border_ContextMenuOpening" x:Name="border">
+            <Border.ContextMenu>
+                <ContextMenu x:Name="AddButton" MenuItem.Click="AddComponent">
+                    <MenuItem Header="Triggers" x:Name="TriggerContextMenu"/>
+                    <MenuItem Header="Actions" x:Name="ActionContextMenu"/>
+                    <MenuItem Header="Outputs" x:Name="OutputContextMenu"/>
+                    <ContextMenu.Resources>
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                            <Setter Property="Header" Value="{Binding Name, Mode=OneWay}" />
+                        </Style>
+                    </ContextMenu.Resources>
+                </ContextMenu>
+            </Border.ContextMenu>
+            <Border Background="Transparent">
+                <Viewbox x:Name="viewBox">
+                    <Canvas MinHeight="300" MinWidth="300" x:Name="editorCanvas"/>
+                </Viewbox>
+            </Border>
         </Border>
     </Grid>
 </UserControl>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Net.Mime;
 using System.Windows.Input;
 using James.HelperClasses;
 using James.Search;
@@ -89,6 +90,20 @@ namespace James
             LoadDefaultFileExtensions();
             _config.ShortcutManagerSettings = new ShortcutManagerSettings();
             _config.Persist();
+            AssociateFileExtension();
+        }
+
+        public static void AssociateFileExtension()
+        {
+            string executablePath = Directory.GetCurrentDirectory() + "\\James.exe";
+            string iconPath = Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico";
+            RegistryKey FileReg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.james");
+            RegistryKey AppReg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Applicatons\\MyNotepad.exe");
+            RegistryKey AppAssoc =
+                Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.james");
+
+            FileReg.CreateSubKey("DefaultIcon").SetValue("", iconPath);
+            FileReg.CreateSubKey("shell\\open\\command").SetValue("", "\""+ executablePath + "\" %1");
         }
 
         public void Persist()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.IO.Pipes;
 using System.Threading;
 using System.Windows;
@@ -45,13 +46,20 @@ namespace James
             {
                 using (NamedPipeClientStream client = new NamedPipeClientStream("james"))
                 {
-                    client.Connect(100);
-                    if (client.IsConnected)
+                    if (e.Args.Length == 1 && File.Exists(e.Args[0]) && e.Args[0].EndsWith(".james"))
                     {
-                        using (StreamWriter writer = new StreamWriter(client))
+                        ZipFile.ExtractToDirectory(e.Args[0], Config.Instance.ConfigFolderLocation + "\\workflows");
+                    }
+                    else
+                    {
+                        client.Connect(100);
+                        if (client.IsConnected)
                         {
-                            writer.WriteLine(string.Join(" ", e.Args).Substring(6));
-                            writer.Flush();
+                            using (StreamWriter writer = new StreamWriter(client))
+                            {
+                                writer.WriteLine(string.Join(" ", e.Args).Substring(6));
+                                writer.Flush();
+                            }
                         }
                     }
                 }
