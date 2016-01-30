@@ -1,6 +1,8 @@
 ﻿using System.IO.Compression;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using James.WorkflowEditor;
 using James.Workflows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -48,7 +50,7 @@ namespace James.UserControls
             var name =
                 await
                     parentWindow.ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
-            if (name != null)
+            if (name != null && WorkflowManager.Instance.Workflows.All(workflow => workflow.Name != name))
             {
                 var wf = new Workflow(name) {IsEnabled = true};
                 WorkflowManager.Instance.Workflows.Add(wf);
@@ -64,14 +66,21 @@ namespace James.UserControls
         private void ExportWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
             var item = ((Workflow) WorkflowListBox.SelectedItem);
-            FileDialog dialog = new SaveFileDialog();
-            dialog.FileName = item.Name + ".james";
-            dialog.Filter = "james workflows|*.james";
+            item.Export();
+        }
 
-            if (dialog.ShowDialog() == DialogResult.OK)
+        private void OpenWorkflowSettings(object sender, RoutedEventArgs e)
+        {
+            var dialog = new WorkflowSettingsDialog((Workflow)WorkflowListBox.SelectedItem);
+            var window = Window.GetWindow(this);
+            ((MetroWindow)window)?.ShowMetroDialogAsync(dialog);
+            dialog.Unloaded += (o, args) =>
             {
-                ZipFile.CreateFromDirectory(Config.Instance.ConfigFolderLocation + "\\workflows\\" + item.Name, dialog.FileName);
-            }
+                int index = WorkflowListBox.SelectedIndex;
+                DataContext = null;
+                DataContext = WorkflowManager.Instance;
+                WorkflowListBox.SelectedIndex = index;
+            };
         }
     }
 }

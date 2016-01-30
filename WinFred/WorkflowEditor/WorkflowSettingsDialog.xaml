@@ -1,0 +1,37 @@
+﻿<dialogs:BaseMetroDialog x:Class="James.WorkflowEditor.WorkflowSettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:James.WorkflowEditor"
+        xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        xmlns:helperClasses="clr-namespace:James.HelperClasses"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+    <StackPanel Margin="20,0,20,20">
+        <Grid helperClasses:GridHelper.ColumnDefinition="*|a" Margin="0,0,0,10">
+            <TextBlock Text="{Binding Name}" FontSize="26" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            <Button Grid.Column="1" VerticalAlignment="Center" Click="ImportWorkflowIcon">
+                <Image x:Name="WorkflowImage" Width="64" Source="../logo2.ico"></Image>
+            </Button>
+        </Grid>
+        <Grid helperClasses:GridHelper.ColumnDefinition="*|*">
+            <TextBlock Grid.Column="0" Text="Name:"></TextBlock>
+            <TextBox Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </Grid>
+        <Grid helperClasses:GridHelper.ColumnDefinition="*|*">
+            <TextBlock Grid.Column="0" Text="Author:"></TextBlock>
+            <TextBox Grid.Column="1" Text="{Binding Author}"></TextBox>
+        </Grid>
+        <Grid helperClasses:GridHelper.ColumnDefinition="*|*">
+            <TextBlock Text="Is enabled:"></TextBlock>
+            <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding IsEnabled}" />
+        </Grid>
+        <Grid helperClasses:GridHelper.ColumnDefinition="a|a|*|a|a" Margin="0,20,0,0" >
+            <Button Grid.Column="0" MinWidth="30" Style="{DynamicResource AccentedSquareButtonStyle}" Click="FinishedWorkflow">OK</Button>
+            <Button Grid.Column="1" Margin="10,0,0,0" Style="{DynamicResource SquareButtonStyle}" Click="OpenWorkflowFolder">Open WorkflowFolder</Button>
+            <Button Grid.Column="3" Margin="10,0,0,0" Style="{DynamicResource SquareButtonStyle}" Click="ExportWorkflow">Export</Button>
+            <Button Grid.Column="4" Margin="10,0,0,0" Style="{DynamicResource SquareButtonStyle}" Click="DeleteWorkflow">Delete Workflow</Button>
+        </Grid>
+    </StackPanel>
+</dialogs:BaseMetroDialog>

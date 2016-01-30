@@ -19,6 +19,8 @@
                                 <!--#region Context Menu-->
                                 <Grid.ContextMenu>
                                     <ContextMenu>
+                                        <MenuItem Click="OpenWorkflowSettings" Header="Settings" Style="{StaticResource MetroMenuItem}"/>
+                                        <Separator/>
                                         <MenuItem x:Name="ChangeStatusMenuItem" Click="ChangeStatusMenuItem_Click">
                                             <MenuItem.Style>
                                                 <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">

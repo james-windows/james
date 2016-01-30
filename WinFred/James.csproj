@@ -259,6 +259,9 @@
     <Compile Include="Windows\WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WorkflowEditor\WorkflowSettingsDialog.xaml.cs">
+      <DependentUpon>WorkflowSettingsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Workflows\Actions\BasicAction.cs" />
     <Compile Include="Workflows\Actions\NodejsAction.cs" />
     <Compile Include="Workflows\Actions\PythonAction.cs" />
@@ -363,6 +366,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\WelcomeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WorkflowEditor\WorkflowSettingsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

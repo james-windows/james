@@ -246,12 +246,6 @@ namespace James.WorkflowEditor
 
         #endregion
 
-        private void OpenContextMenu(object sender, RoutedEventArgs e)
-        {
-            var tmp = (Button) sender;
-            tmp.ContextMenu.IsOpen = !tmp.ContextMenu.IsOpen;
-        }
-
         #region Add Component
 
         private void FillContextMenu(object sender, RoutedEventArgs e)

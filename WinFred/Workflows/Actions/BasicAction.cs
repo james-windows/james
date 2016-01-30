@@ -34,7 +34,7 @@ namespace James.Workflows.Actions
 
         public virtual void Cancel()
         {
-            if (!Background)
+            if (!Background && proc != null && !proc.HasExited)
             {
                 proc?.Kill();
             }

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Windows.Forms;
 using James.HelperClasses;
 using James.Workflows.Actions;
 using James.Workflows.Interfaces;
@@ -96,5 +98,16 @@ namespace James.Workflows
         public void OpenFolder() => Process.Start(Path);
 
         public void Remove() => Directory.Delete(Path, true);
+
+        public void Export()
+        {
+            FileDialog dialog = new SaveFileDialog();
+            dialog.FileName = Name + ".james";
+            dialog.Filter = "james workflows|*.james";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                ZipFile.CreateFromDirectory(Path, dialog.FileName);
+            }
+        }
     }
 }
