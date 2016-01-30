@@ -25,8 +25,8 @@ namespace James.Workflows.Actions
         {
             if (!Background)
             {
-                timer.Stop();
-                timer.Close();
+                timer?.Stop();
+                timer?.Close();
             }
         }
 

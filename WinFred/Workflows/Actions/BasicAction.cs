@@ -36,7 +36,7 @@ namespace James.Workflows.Actions
         {
             if (!Background)
             {
-                proc.Kill();
+                proc?.Kill();
             }
         }
 
