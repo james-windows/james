@@ -1,11 +1,13 @@
 ﻿using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.Workflows.Actions;
 using James.Workflows.Interfaces;
@@ -19,6 +21,7 @@ namespace James.Workflows
     {
         private Workflow()
         {
+
         }
 
         public Workflow(dynamic item, string path)

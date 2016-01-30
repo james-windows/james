@@ -7,18 +7,28 @@ namespace James.Workflows.Actions
 {
     public class NodejsAction: BasicAction, ICrossPlatform
     {
+        public NodejsAction()
+        {
+            ExecutablePath = getFullPathOfExe("node.exe");
+        }
+
         [ComponentField("The Path of the script file")]
         public string Script { get; set; } = "";
 
         [ComponentField("Additional Arguments for the program")]
         public override string ExecutableArguments { get; set; } = "";
 
-        public override string ExecutablePath { get; set; } = @"C:\Users\moser\cmd\node.exe";
+        public override string ExecutablePath { get; set; } = "";
 
         public override string GetSummary() => $"Runs {Script}";
 
         public override void Run(string[] arguments)
         {
+            if (ExecutablePath == null)
+            {
+                CallNext(new string[] { "node.exe couldn't be found in the path" });
+                return;
+            }
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo

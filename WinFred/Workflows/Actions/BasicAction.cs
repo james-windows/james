@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using James.HelperClasses;
@@ -36,7 +38,14 @@ namespace James.Workflows.Actions
         {
             if (!Background && proc != null && !proc.HasExited)
             {
-                proc?.Kill();
+                try
+                {
+                    proc?.Kill();
+                }
+                catch (Win32Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 
@@ -79,5 +88,21 @@ namespace James.Workflows.Actions
         }
 
         public override bool IsAllowed(WorkflowComponent source) => base.IsAllowed(source) && (source is BasicTrigger || source is MagicOutput || source is BasicAction);
+
+        public string getFullPathOfExe(string executableName)
+        {
+            var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+            string executablePath = null;
+            foreach (var p in path.Split(';'))
+            {
+                var fullPath = Path.Combine(p, executableName);
+                if (File.Exists(fullPath))
+                {
+                    executablePath = fullPath;
+                    break;
+                }
+            }
+            return executablePath;
+        }
     }
 }
