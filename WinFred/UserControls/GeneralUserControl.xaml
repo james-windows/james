@@ -51,10 +51,10 @@
                         Width="175" Margin="2" />
             </WrapPanel>
         </GroupBox>
-        <StackPanel Grid.Column="1" Grid.RowSpan="3">
+        <Grid Grid.Column="1" Grid.RowSpan="3" helper:GridHelper.RowDefinition="a|*|a">
             <TextBlock FontSize="24" TextAlignment="Center" Margin="0,20,0,10">James Settings</TextBlock>
-            <Image Source="../Resources/logo.png" Width="200" Margin="75,0,20,0" />
-            <TextBlock Foreground="#ffaaaaaa" FontSize="12" TextWrapping="Wrap" Margin="0,30,0,0">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy, sed diam voluptua. At vero eos et rebum. Stet clita kasd gubergren, no sea tum dolor sit amet. Lm dolor sit amet, consetetur sadipscing elitr, sed dia erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</TextBlock>
-        </StackPanel>
+            <Image Grid.Row="1" Source="../Resources/logo.png" Width="200" Margin="75,0,20,0" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="2" Foreground="#ffaaaaaa" FontSize="12" TextWrapping="Wrap" Margin="0,30,0,0" VerticalAlignment="Bottom">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy, sed diam voluptua. At vero eos et rebum. Stet clita kasd gubergren, no sea tum dolor sit amet. Lm dolor sit amet, consetetur sadipscing elitr, sed dia erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</TextBlock>
+        </Grid>
     </Grid>
 </UserControl>
