@@ -38,31 +38,31 @@
                 </div>
             </div>
         </div>
-        <div class="container body-content">
-            @if (ViewBag.Errors != null)
+    <div class="container body-content">
+        @if (ViewBag.Errors != null)
+        {
+            foreach (string error in ViewBag.Errors)
             {
-                @foreach (string error in ViewBag.Errors)
-                {
-                    <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
-                        @error<br />
-                    </div>
-                }
+                <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
+                    @error<br/>
+                </div>
             }
-            @if (ViewBag.Success != null)
+        }
+        @if (ViewBag.Success != null)
+        {
+            foreach (string success in ViewBag.Success)
             {
-                @foreach (string success in ViewBag.Success)
-                {
-                    <div class="alert alert-success" role="alert" style="margin-top: 10px;">
-                        @success<br />
-                    </div>
-                }
+                <div class="alert alert-success" role="alert" style="margin-top: 10px;">
+                    @success<br/>
+                </div>
             }
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; 2016 - James.Web</p>
-            </footer>
-        </div>
+        }
+        @RenderBody()
+        <hr/>
+        <footer>
+            <p>&copy; 2016 - James.Web</p>
+        </footer>
+    </div>
 
         <environment names="Development">
             <script src="~/lib/jquery/dist/jquery.js"></script>

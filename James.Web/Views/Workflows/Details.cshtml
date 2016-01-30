@@ -15,6 +15,17 @@
             <a asp-action="Delete" asp-route-id="@Model.Workflow.Id" class="btn btn-default" role="button">Delete</a>
             <a asp-action="Edit" asp-route-id="@Model.Workflow.Id" class="btn btn-default" role="button">Edit</a>
         }
+        @if (Model.Admin)
+        {
+            if (Model.Workflow.Verified)
+            {
+                <a asp-action="UnverifyWorkflow" asp-route-id="@Model.Workflow.Id" class="btn btn-primary" role="button">Unverify</a>
+            }
+            else
+            {
+                <a asp-action="VerifyWorkflow" asp-route-id="@Model.Workflow.Id" class="btn btn-primary" role="button">Verify</a>
+            }
+        }
     </p>
     <hr/>
     <div class="row">

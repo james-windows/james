@@ -32,8 +32,8 @@ namespace James.Web.Controllers
         // GET: Workflows
         public IActionResult Index()
         {
-            IndexViewModel model = new IndexViewModel() {Workflows = new List<DetailsViewModel>()};
-            foreach (var workflow in _context.Workflow.Include(workflow => workflow.Author))
+            IndexViewModel model = new IndexViewModel() {Workflows = new List<DetailsViewModel>(), Admin = IsAdmin()};
+            foreach (var workflow in _context.Workflow.Include(workflow => workflow.Author).Where(workflow => workflow.Verified))
             {
                 model.Workflows.Add(new DetailsViewModel
                 {
@@ -50,7 +50,61 @@ namespace James.Web.Controllers
         public IActionResult Author(string author)
         {
             ViewData["filter"] = $"Filtered by {author}";
-            return View("Index", _context.Workflow.Include(workflow => workflow.Author).Where(workflow => workflow.Author.UserName == author).ToList());
+            IndexViewModel model = new IndexViewModel() { Workflows = new List<DetailsViewModel>(), Admin = IsAdmin() };
+            foreach (var workflow in _context.Workflow.Include(workflow => workflow.Author).Where(workflow => workflow.Verified && workflow.Author.UserName == author))
+            {
+                model.Workflows.Add(new DetailsViewModel
+                {
+                    Workflow = workflow,
+                    IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\extracted\\icon.png",
+                    EditAllowed = CheckAuthorization(workflow)
+                });
+            }
+            return View("Index", model);
+        }
+
+        [Authorize(Roles = "admin")]
+        public IActionResult Verify()
+        {
+            IndexViewModel model = new IndexViewModel() { Workflows = new List<DetailsViewModel>() };
+            foreach (var workflow in _context.Workflow.Include(workflow => workflow.Author).Where(workflow => !workflow.Verified))
+            {
+                model.Workflows.Add(new DetailsViewModel
+                {
+                    Workflow = workflow,
+                    IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\extracted\\icon.png",
+                    EditAllowed = CheckAuthorization(workflow)
+                });
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "admin")]
+        public RedirectToActionResult VerifyWorkflow(int id)
+        {
+            Workflow workflow = _context.Workflow.Include(item => item.Author).Single(item => item.Id == id);
+            if (workflow == null)
+            {
+                return RedirectToAction("Verify");
+            }
+            workflow.Verified = true;
+            _context.Workflow.Update(workflow);
+            _context.SaveChanges();
+            return RedirectToAction("Verify");
+        }
+
+        [Authorize(Roles = "admin")]
+        public RedirectToActionResult UnverifyWorkflow(int id)
+        {
+            Workflow workflow = _context.Workflow.Include(item => item.Author).Single(item => item.Id == id);
+            if (workflow == null)
+            {
+                return RedirectToAction("Verify");
+            }
+            workflow.Verified = false;
+            _context.Workflow.Update(workflow);
+            _context.SaveChanges();
+            return RedirectToAction("Verify");
         }
 
         // GET: Workflows/Details/5
@@ -61,25 +115,30 @@ namespace James.Web.Controllers
                 return HttpNotFound();
             }
 
-            Workflow workflow = _context.Workflow.Single(item => item.Id == id);
-            if (workflow == null)
+            Workflow workflow = _context.Workflow.Include(item => item.Author).Single(item => item.Id == id);
+            if (workflow == null || (!workflow.Verified && !CheckAuthorization(workflow)))
             {
                 return HttpNotFound();
             }
-            DisqusViewModel disqus = new DisqusViewModel
-            {
-                Identifier = id.ToString(),
-                Url = this.Request.GetDisplayUrl()
-            };
             DetailsViewModel model = new DetailsViewModel
             {
                 Workflow = workflow,
                 IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\extracted\\icon.png",
                 EditAllowed = CheckAuthorization(workflow),
-                DisqusViewModel = disqus
+                DisqusViewModel = new DisqusViewModel
+                {
+                    Identifier = id.ToString(),
+                    Url = Request.GetDisplayUrl()
+                },
+                Admin = IsAdmin()
             };
-
             return View(model);
+        }
+
+        private bool IsAdmin()
+        {
+            var user = _userManager.Users.FirstOrDefault(applicationUser => applicationUser.Id == User.GetUserId());
+            return user != null && (_userManager.GetRolesAsync(user).Result.Any(s => s == "admin"));
         }
 
         // GET: Workflows/Create
@@ -142,7 +201,7 @@ namespace James.Web.Controllers
             string userId = User.GetUserId();
             var item = _context.Workflow.Include(w => w.Author).First(w => w.Id == workflow.Id);
             var user = _userManager.Users.FirstOrDefault(applicationUser => applicationUser.Id == userId);
-            return user != null && (_userManager.GetRolesAsync(user).Result.Count != 0 || user == item.Author);
+            return user != null && (IsAdmin() || user == item.Author);
         }
 
         // GET: Workflows/Edit/5

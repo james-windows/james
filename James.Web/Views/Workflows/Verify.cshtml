@@ -1,24 +1,14 @@
 @model James.Web.ViewModels.Workflows.IndexViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Verify Workflows";
 }
 
-<h2>Index</h2>
+<h2>Verify Workflows</h2>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary btn-lg" role="button">Create New</a>
-    @if (@Model.Admin)
-    {
-        <br/>
-        <a asp-action="Verify">Verify Workflows</a>
-    }
+    Displays all workflows which are waiting to be verified.
 </p>
-@ViewData["filter"]
-@if (ViewData["filter"] != null)
-{
-    <a asp-action="Index">show all</a>
-}
 @foreach (var item in Model.Workflows) {
     @await Html.PartialAsync("WorkflowSummary", item)
 }

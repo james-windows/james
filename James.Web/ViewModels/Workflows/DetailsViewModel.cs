@@ -21,6 +21,8 @@ namespace James.Web.ViewModels.Workflows
             }
         }
 
+        public bool Admin { get; set; }
+
         public string FileSize
         {
             get

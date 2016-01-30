@@ -8,7 +8,7 @@ using James.Web.Models;
 namespace James.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160122123422_Initial")]
+    [Migration("20160129153111_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
