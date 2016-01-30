@@ -46,6 +46,7 @@ namespace James.Workflows
 
         public void LoadKeywordTriggers()
         {
+            KeywordTriggers.Clear();
             foreach (var workflow in Workflows)
             {
                 KeywordTriggers.AddRange(workflow.Components.OfType<KeywordTrigger>().ToList());
@@ -77,6 +78,7 @@ namespace James.Workflows
                         trigger =>
                             new MagicResultItem()
                             {
+                                Icon = trigger.ParentWorkflow.Icon,
                                 WorkflowComponent = trigger,
                                 Subtitle = trigger.Subtitle,
                                 Title = trigger.Title,

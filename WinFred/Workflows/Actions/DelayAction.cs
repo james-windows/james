@@ -5,6 +5,8 @@ using James.Workflows.Triggers;
 using System.Timers;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ICSharpCode.SharpZipLib.Zip;
+using James.HelperClasses;
 
 namespace James.Workflows.Actions
 {
@@ -13,11 +15,17 @@ namespace James.Workflows.Actions
         public DelayAction()
         {
         }
+        
+        public override string ExecutablePath { get; set; } = "";
+        public override string ExecutableArguments { get; set; } = "";
 
-        [ComponentField("Sets the delay [ms]")]
-        public int Delay { get; set; } = 1000;
+        [ComponentField("Multiplier: ")]
+        public int Multiplier { get; set; } = 1000;
 
-        public override string GetSummary() => $"Timeouts for {Delay} ms";
+        [ComponentField("Delay format string:")]
+        public string DelayFormat { get; set; } = "{0}";
+
+        public override string GetSummary() => $"Timeouts for a certain time";
 
         private Timer timer;
 
@@ -32,12 +40,21 @@ namespace James.Workflows.Actions
 
         public override void Run(string[] arguments)
         {
-            timer = new Timer {Interval = Delay};
+            int delay;
+            if (!int.TryParse(DelayFormat.InsertArguments(arguments), out delay) || delay * Multiplier == 0)
+            {
+                CallNext(arguments);
+                return;
+            }
+            delay *= Multiplier;
+            timer = new Timer {Interval = delay};
             timer.Elapsed += (sender, e) =>
             {
+                timer.Stop();
                 timer.Close();
                 CallNext(arguments);
             };
+            timer.Start();
         }
 
         public override bool IsAllowed(WorkflowComponent source)

@@ -32,6 +32,7 @@ namespace James.Workflows.Actions
 
         protected Process proc;
 
+        [ComponentField("Run in background")]
         public bool Background { get; set; } = false;
 
         public virtual void Cancel()

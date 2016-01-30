@@ -117,6 +117,10 @@ namespace James.Workflows
                     {
                         prop.SetValue(item, int.Parse(GetPropertyValue(component, prop.Name)));
                     }
+                    else if (prop.PropertyType == typeof(bool))
+                    {
+                        prop.SetValue(item, bool.Parse(GetPropertyValue(component, prop.Name)));
+                    }
                 }
             }
             return item;

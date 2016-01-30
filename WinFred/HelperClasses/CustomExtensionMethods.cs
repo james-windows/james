@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -27,6 +29,16 @@ namespace James.HelperClasses
                 BitmapSizeOptions.FromEmptyOptions());
             Console.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
             return imageSource;
+        }
+
+        public static string InsertArguments(this string format, string[] arguments)
+        {
+            string output = format;
+            for (int i = 0; i < arguments.Length; i++)
+            {
+                output = output.Replace("{" + i + "}", arguments[i]);
+            }
+            return Regex.Replace(output, @"{[0-9]+}", string.Empty);
         }
 
         /// <summary>

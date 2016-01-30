@@ -1,4 +1,5 @@
-﻿using System.CodeDom;
+﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -19,11 +20,6 @@ namespace James.Workflows
 {
     public class Workflow
     {
-        private Workflow()
-        {
-
-        }
-
         public Workflow(dynamic item, string path)
         {
             Name = path.Split('\\').Last();
@@ -36,6 +32,7 @@ namespace James.Workflows
                 Components.Last().ParentWorkflow = this;
             }
             _lastId = Components.Count > 0 ? Components.Last().Id + 1: 0;
+            LoadWorkflowIcon();
         }
 
         public Workflow(string name)
@@ -43,9 +40,31 @@ namespace James.Workflows
             Name = name;
             Directory.CreateDirectory(Path);
             Persist();
+            LoadWorkflowIcon();
+        }
+
+        public void LoadWorkflowIcon()
+        {
+            string iconPath = Path + "\\icon.png";
+            if (File.Exists(iconPath))
+            {
+                Icon = new BitmapImage();
+                Icon.BeginInit();
+                Icon.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                Icon.CacheOption = BitmapCacheOption.OnLoad;
+                Icon.UriSource = new Uri(iconPath);
+                Icon.EndInit();
+                Icon.Freeze();
+            }
+            else
+            {
+                Icon = Config.Instance.Icon;
+            }
         }
 
         public string Name { get; set; }
+
+        public BitmapImage Icon { get; set; }
 
         [DataMember(Order = 3)]
         public string Author { get; set; } = System.Security.Principal.WindowsIdentity.GetCurrent()?.Name.Split('\\').Last();

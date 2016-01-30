@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using James.HelperClasses;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Outputs
@@ -32,7 +33,7 @@ namespace James.Workflows.Outputs
             {
                 Icon = Icon.ExtractAssociatedIcon(AppDomain.CurrentDomain.BaseDirectory + "James.exe"),
                 BalloonTipIcon = ToolTipIcon.Info,
-                BalloonTipTitle = FormatStringToText(FormatString, output),
+                BalloonTipTitle = FormatString.InsertArguments(output),
                 BalloonTipText = "James-Workflow: " + ParentWorkflow.Name,
                 Visible = true
             };

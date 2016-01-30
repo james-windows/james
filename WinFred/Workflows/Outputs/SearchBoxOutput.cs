@@ -13,7 +13,7 @@ namespace James.Workflows.Outputs
     {
         public override void Run(string[] input)
         {
-            string output = FormatStringToText(FormatString, input);
+            string output = FormatString.InsertArguments(input);
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 var main = MainWindow.GetInstance();

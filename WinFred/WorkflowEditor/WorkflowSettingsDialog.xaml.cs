@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using James.HelperClasses;
 using James.Workflows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -22,21 +23,7 @@ namespace James.WorkflowEditor
             InitializeComponent();
             _workflowName = workflow.Name;
             DataContext = workflow;
-            LoadWorkflowIcon();
-        }
-
-        private void LoadWorkflowIcon()
-        {
-            string iconPath = Workflow.Path + "\\icon.png";
-            if (File.Exists(iconPath))
-            {
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = new Uri(iconPath);
-                image.EndInit();
-                WorkflowImage.Source = image;
-            }
+            WorkflowImage.Source = workflow.Icon;
         }
 
         private void FinishedWorkflow(object sender, RoutedEventArgs e)
@@ -103,7 +90,9 @@ namespace James.WorkflowEditor
                 {
                     Bitmap bitmap = new Bitmap(dialog.FileName);
                     bitmap.Save(Workflow.Path + "\\icon.png");
-                    LoadWorkflowIcon();
+                    Workflow.LoadWorkflowIcon();
+                    WorkflowImage.Source = null;
+                    WorkflowImage.Source = Workflow.Icon;
                 }
                 catch (ArgumentException)
                 {

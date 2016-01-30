@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Media.Imaging;
+using James.HelperClasses;
 using James.ResultItems;
 
 namespace James.Workflows.Outputs
@@ -10,6 +14,9 @@ namespace James.Workflows.Outputs
         [ComponentField("Subtitle Format")]
         public string SubtitleFormat { get; set; } = "{0}";
 
+        [ComponentField("Icon Format")]
+        public string IconFormat { get; set; } = "{0}";
+
         public override void Run(string[] output)
         {
             var outputResults = new List<ResultItem>();
@@ -20,8 +27,9 @@ namespace James.Workflows.Outputs
                     string[] splits = text.Split(HORIZONTALSPLIT);
                     outputResults.Add(new MagicResultItem()
                     {
-                        Title = FormatStringToText(FormatString, splits),
-                        Subtitle = FormatStringToText(SubtitleFormat, splits),
+                        Icon = GetIcon(IconFormat.InsertArguments(splits)),
+                        Title = FormatString.InsertArguments(splits),
+                        Subtitle = SubtitleFormat.InsertArguments(splits),
                         WorkflowComponent = this,
                         WorkflowArguments = splits
                     });
@@ -29,6 +37,30 @@ namespace James.Workflows.Outputs
             }
             
             Windows.MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
+        }
+
+        private BitmapImage GetIcon(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                filePath = ParentWorkflow.Path + "\\" + filePath;
+            }
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    BitmapImage image = new BitmapImage(new Uri(filePath));
+                    return image;
+                }
+                catch (Exception)
+                {
+                    return ParentWorkflow.Icon;
+                }
+            }
+            else
+            {
+                return ParentWorkflow.Icon;
+            }
         }
 
         public override string GetSummary() => $"Displays the response in SearchResultList";

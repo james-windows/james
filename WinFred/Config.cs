@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Mime;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.Search;
 using MahApps.Metro.Controls;
@@ -72,6 +73,7 @@ namespace James
                             Directory.CreateDirectory(path);
                             _config = SerializationHelper.Deserialize<Config>(path + "\\config.json");
                             var instance = ShortcutManager.Instance;
+                            _config.Icon = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico"));
                         }
                         catch (Exception)
                         {
@@ -194,6 +196,8 @@ namespace James
                 WindowChangedAccentColor?.Invoke(this, new EventArgs());
             }
         }
+
+        public BitmapImage Icon { get; set; }
 
         #endregion
     }
