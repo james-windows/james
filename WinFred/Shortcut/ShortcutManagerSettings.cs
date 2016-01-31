@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using MahApps.Metro.Controls;
 
-namespace James.HelperClasses
+namespace James.Shortcut
 {
     public class ShortcutManagerSettings
     {

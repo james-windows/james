@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using GlobalHotKey;
-using GlobalHotKey.Internal;
 using James.HelperClasses;
-using Controls = MahApps.Metro.Controls;
 
-namespace James.HelperClasses
+namespace James.Shortcut
 {
     public class ShortcutManager
     {
