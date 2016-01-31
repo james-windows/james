@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,11 +24,18 @@ namespace James.WorkflowEditor
         private const int ComponentPadding = 10;
         private readonly List<CustomPath> _myLines;
 
+        [DllImport("user32.dll")]
+        static extern void ClipCursor(ref System.Drawing.Rectangle rect);
+
+        [DllImport("user32.dll")]
+        static extern void ClipCursor(IntPtr rect);
+
         public WorkflowEditorUserControl()
         {
             InitializeComponent();
             _myLines = new List<CustomPath>();
             DataContextChanged += WorkflowEditorUserControl_DataContextChanged;
+            SizeChanged += (sender, args) => ClipCursor(IntPtr.Zero);
         }
 
         private void Item_OnUpdate(object sender) => DrawCanvas(sender, null);
@@ -65,6 +73,9 @@ namespace James.WorkflowEditor
 
         private void StartDragging(object sender, MouseButtonEventArgs e)
         {
+            Point a = editorBorder.PointToScreen(new Point(0, 0));
+            System.Drawing.Rectangle r = new System.Drawing.Rectangle((int)a.X + 1, (int)a.Y + 1, (int)(a.X - 1 + editorBorder.ActualWidth), (int)(a.Y - 1 + editorBorder.ActualHeight));
+            ClipCursor(ref r);
             selectedComponentUserControl = (WorkflowComponentUserControl) sender;
             if (e.OriginalSource is Ellipse)
             {
@@ -134,6 +145,7 @@ namespace James.WorkflowEditor
 
         private void FinishMoving(object sender, MouseButtonEventArgs e)
         {
+            ClipCursor(IntPtr.Zero);
             if (selectedComponentUserControl != null)
             {
                 startPoint = new Point();
