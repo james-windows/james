@@ -15,6 +15,8 @@ namespace James.WorkflowEditor
     {
         public delegate void ComponentUpdateHandler(object sender);
 
+        public WorkflowComponent Component => DataContext as WorkflowComponent;
+
         public WorkflowComponentUserControl()
         {
             InitializeComponent();
@@ -35,14 +37,13 @@ namespace James.WorkflowEditor
 
         private void RemoveComponent(object sender, RoutedEventArgs e)
         {
-            var component = (WorkflowComponent) ((MenuItem) sender).DataContext;
-            component.ParentWorkflow.RemoveComponent(component);
+            Component.ParentWorkflow.RemoveComponent(Component);
             OnUpdate?.Invoke(this);
         }
 
         public void OpenComponent(object sender = null, RoutedEventArgs e = null)
         {
-            var dialog = new ComponentMetroDialog((WorkflowComponent) DataContext);
+            var dialog = new ComponentMetroDialog(Component);
             var window = Window.GetWindow(this);
             ((MetroWindow) window)?.ShowMetroDialogAsync(dialog);
 
@@ -51,15 +52,14 @@ namespace James.WorkflowEditor
 
         private void Dialog_Unloaded(object sender, RoutedEventArgs e)
         {
-            SummaryTextBlock.Text = ((WorkflowComponent) DataContext).Summary;
+            SummaryTextBlock.Text = Component.Summary;
         }
 
-        private void OpenWorkflowFolder(object sender, RoutedEventArgs e)
-            => ((WorkflowComponent) DataContext).ParentWorkflow.OpenFolder();
+        private void OpenWorkflowFolder(object sender, RoutedEventArgs e) => Component.ParentWorkflow.OpenFolder();
 
         public void NewSource(WorkflowComponent component)
         {
-            if (component == null || !((WorkflowComponent) DataContext).IsAllowed(component) || component.ConnectedTo.Contains((DataContext as WorkflowComponent).Id))
+            if (component == null || !(Component.IsAllowed(component) || component.ConnectedTo.Contains(Component.Id)))
             {
                 leftAnchor.Visibility = Visibility.Hidden;
             }
@@ -71,9 +71,8 @@ namespace James.WorkflowEditor
 
         public void UpdatePosition()
         {
-            var workflowComponent = DataContext as WorkflowComponent;
-            Canvas.SetLeft(this, workflowComponent.X);
-            Canvas.SetTop(this, workflowComponent.Y);
+            Canvas.SetLeft(this, Component.X);
+            Canvas.SetTop(this, Component.Y);
         }
     }
 }

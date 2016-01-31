@@ -4,7 +4,7 @@
     {
         public override void Run(string[] arguments)
         {
-            ParentWorkflow.canceld = false;
+            ParentWorkflow.canceled = false;
             CallNext(arguments);
         }
 

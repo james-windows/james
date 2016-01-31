@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Net.Mime;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.Search;
-using MahApps.Metro.Controls;
+using James.Shortcut;
 using Microsoft.Win32;
 using Path = James.Search.Path;
 
@@ -68,8 +66,7 @@ namespace James
                     {
                         try
                         {
-                            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-                                       "\\James";
+                            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
                             Directory.CreateDirectory(path);
                             _config = SerializationHelper.Deserialize<Config>(path + "\\config.json");
                             var instance = ShortcutManager.Instance;
@@ -101,8 +98,7 @@ namespace James
             string iconPath = Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico";
             RegistryKey FileReg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.james");
             RegistryKey AppReg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Applicatons\\MyNotepad.exe");
-            RegistryKey AppAssoc =
-                Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.james");
+            RegistryKey AppAssoc = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.james");
 
             FileReg.CreateSubKey("DefaultIcon").SetValue("", iconPath);
             FileReg.CreateSubKey("shell\\open\\command").SetValue("", "\""+ executablePath + "\" %1");
@@ -137,8 +133,7 @@ namespace James
         public ObservableCollection<string> ExcludedFolders { get; set; }
         public ShortcutManagerSettings ShortcutManagerSettings { get; set; }
 
-        public string ConfigFolderLocation { get; set; } =
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+        public string ConfigFolderLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
 
         public string ReleaseUrl { get; set; } = @"http://www.moserm.tk/Releases";
 
@@ -162,12 +157,10 @@ namespace James
             get { return _startProgramOnStartup; }
             set
             {
-                var registryKey = Registry.CurrentUser.OpenSubKey
-                    ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                var registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 if (value)
                 {
-                    registryKey?.SetValue("James",
-                        "\"" + ConfigFolderLocation + "\\Update.exe\" --processStart James.exe");
+                    registryKey?.SetValue("James", "\"" + ConfigFolderLocation + "\\Update.exe\" --processStart James.exe");
                 }
                 else
                 {

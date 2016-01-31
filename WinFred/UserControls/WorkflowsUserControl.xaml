@@ -21,18 +21,6 @@
                                     <ContextMenu>
                                         <MenuItem Click="OpenWorkflowSettings" Header="Settings" Style="{StaticResource MetroMenuItem}"/>
                                         <Separator/>
-                                        <MenuItem x:Name="ChangeStatusMenuItem" Click="ChangeStatusMenuItem_Click">
-                                            <MenuItem.Style>
-                                                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
-                                                    <Setter Property="Header" Value="Disable" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsEnabled}" Value="False">
-                                                            <Setter Property="Header" Value="Enable" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </MenuItem.Style>
-                                        </MenuItem>
                                         <MenuItem Click="DeleteWorkflowButton_Click" Header="Delete" Style="{StaticResource MetroMenuItem}"/>
                                         <MenuItem Click="ExportWorkflowButton_Click" Header="Export" Style="{StaticResource MetroMenuItem}"/>
                                         <Separator/>

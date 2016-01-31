@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using James.HelperClasses;
+using James.Shortcut;
 using James.Workflows;
+using MahApps.Metro.Controls;
 
 namespace James.Windows
 {
@@ -24,9 +25,9 @@ namespace James.Windows
                 Visibility = Visibility.Hidden;
             }
             InitializeComponent();
-            ShortcutManager.Instance.ShortcutPressed += (sender, args) => OnHotKeyHandler(sender as Shortcut);
-            Windows.LargeType.Instance.Deactivated += LargeType_Deactivated;
-            Windows.LargeType.Instance.Activated += LargeType_Activated;
+            ShortcutManager.Instance.ShortcutPressed += (sender, args) => OnHotKeyHandler(sender as Shortcut.Shortcut);
+            LargeType.Instance.Deactivated += LargeType_Deactivated;
+            LargeType.Instance.Activated += LargeType_Activated;
         }
 
         public static MainWindow GetInstance(bool showOnStartup = false)
@@ -57,7 +58,7 @@ namespace James.Windows
             }
         }
 
-        public void OnHotKeyHandler(Shortcut shortcut)
+        public void OnHotKeyHandler(Shortcut.Shortcut shortcut)
         {
             if (IsVisible || shortcut == null)
             {
@@ -85,7 +86,7 @@ namespace James.Windows
 
         private void HideWindow()
         {
-            Windows.LargeType.Instance.Hide();
+            LargeType.Instance.Hide();
             if (Config.Instance.AlwaysClearLastInput)
             {
                 SearchTextBox.Text = "";
@@ -137,22 +138,34 @@ namespace James.Windows
                 }
             }
             var shortcutSettings = Config.Instance.ShortcutManagerSettings;
-            if (e.KeyboardDevice.IsKeyDown(shortcutSettings.LargeTypeHotKey.HotKey.Key) && e.KeyboardDevice.Modifiers == shortcutSettings.LargeTypeHotKey.HotKey.ModifierKeys &&
-                SearchTextBox.Text.Trim().Length > 0)
+            var largeTypeHotKey = shortcutSettings.LargeTypeHotKey.HotKey;
+            var settingsHotKey = shortcutSettings.SettingsHotKey.HotKey;
+            if (HotKeyPressed(largeTypeHotKey, e) && SearchTextBox.Text.Trim().Length > 0)
             {
                 DisplayLargeType(SearchTextBox.Text);
             }
-            else if (e.KeyboardDevice.IsKeyDown(shortcutSettings.SettingsHotKey.HotKey.Key) && e.KeyboardDevice.Modifiers == shortcutSettings.SettingsHotKey.HotKey.ModifierKeys)
+            else if (HotKeyPressed(settingsHotKey, e))
             {
                 new OptionWindow().Show();
                 HideWindow();
             }
         }
 
+        /// <summary>
+        /// Tests if the key and the modifiers are pressed
+        /// </summary>
+        /// <param name="hotkey"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private bool HotKeyPressed(HotKey hotkey, KeyEventArgs e)
+        {
+            return e.KeyboardDevice.IsKeyDown(hotkey.Key) && e.KeyboardDevice.Modifiers == hotkey.ModifierKeys;
+        }
+
         public void DisplayLargeType(string message)
         {
             _showLargeType = true;
-            Windows.LargeType.Instance.DisplayMessage(message);
+            LargeType.Instance.DisplayMessage(message);
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)

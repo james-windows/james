@@ -17,7 +17,7 @@ namespace James.Workflows.Outputs
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 var main = MainWindow.GetInstance();
-                main.OnHotKeyHandler(new Shortcut() {HotKey = null});
+                main.OnHotKeyHandler(new Shortcut.Shortcut() {HotKey = null});
                 main.SearchTextBox.Text = output;
                 main.SearchTextBox.SelectionStart = output.Length;
             }));          

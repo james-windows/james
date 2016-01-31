@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using James.HelperClasses;
+using James.Shortcut;
 using James.Workflows;
 using MahApps.Metro.Controls;
 

@@ -24,7 +24,7 @@
                     <ContextMenu>
                         <MenuItem x:Name="ChangeStatusMenuItem" Click="ChangeStatusMenuItem_Click">
                             <MenuItem.Style>
-                                <Style TargetType="MenuItem">
+                                <Style TargetType="MenuItem" BasedOn="{StaticResource MetroMenuItem}">
                                     <Setter Property="Header" Value="Disable" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Path=IsEnabled}"
@@ -37,7 +37,7 @@
                         </MenuItem>
                         <MenuItem x:Name="DeletePathMenuItem" Click="RemoveFolderButton_Click">
                             <MenuItem.Style>
-                                <Style TargetType="MenuItem">
+                                <Style TargetType="MenuItem" BasedOn="{StaticResource MetroMenuItem}">
                                     <Setter Property="Header" Value="Delete" />
                                 </Style>
                             </MenuItem.Style>

@@ -52,7 +52,7 @@ namespace James.Workflows.Actions
 
         public override void CallNext(string[] arguments)
         {
-            if (Background && ParentWorkflow.canceld)
+            if (Background && ParentWorkflow.canceled)
             {
                 base.CallNext(arguments);
             }

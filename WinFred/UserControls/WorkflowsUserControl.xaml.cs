@@ -1,7 +1,5 @@
-﻿using System.IO.Compression;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Forms;
 using James.WorkflowEditor;
 using James.Workflows;
 using MahApps.Metro.Controls;
@@ -21,11 +19,6 @@ namespace James.UserControls
             DataContext = WorkflowManager.Instance;
         }
 
-        private void ChangeStatusMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ((Workflow) WorkflowListBox.SelectedItem).IsEnabled = !((Workflow) WorkflowListBox.SelectedItem).IsEnabled;
-        }
-
         private async void DeleteWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
@@ -34,10 +27,7 @@ namespace James.UserControls
                 NegativeButtonText = "Cancel",
                 AffirmativeButtonText = "Yes, I'm sure!"
             };
-            var result =
-                await
-                    parentWindow.ShowMessageAsync("Delete Workflow", "Are you sure?",
-                        MessageDialogStyle.AffirmativeAndNegative, setting);
+            var result = await parentWindow.ShowMessageAsync("Delete Workflow", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative, setting);
             if (MessageDialogResult.Affirmative == result)
             {
                 WorkflowManager.Instance.Remove((Workflow) WorkflowListBox.SelectedItem);
@@ -47,9 +37,7 @@ namespace James.UserControls
         private async void AddWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
-            var name =
-                await
-                    parentWindow.ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
+            var name = await parentWindow.ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
             if (name != null && WorkflowManager.Instance.Workflows.All(workflow => workflow.Name != name))
             {
                 var wf = new Workflow(name) {IsEnabled = true};
@@ -58,16 +46,9 @@ namespace James.UserControls
             }
         }
 
-        private void OpenWorkflowFolder(object sender, RoutedEventArgs e)
-        {
-            ((Workflow)WorkflowListBox.SelectedItem).OpenFolder();
-        }
+        private void OpenWorkflowFolder(object sender, RoutedEventArgs e) => ((Workflow)WorkflowListBox.SelectedItem).OpenFolder();
 
-        private void ExportWorkflowButton_Click(object sender, RoutedEventArgs e)
-        {
-            var item = ((Workflow) WorkflowListBox.SelectedItem);
-            item.Export();
-        }
+        private void ExportWorkflowButton_Click(object sender, RoutedEventArgs e) => ((Workflow)WorkflowListBox.SelectedItem).Export();
 
         private void OpenWorkflowSettings(object sender, RoutedEventArgs e)
         {

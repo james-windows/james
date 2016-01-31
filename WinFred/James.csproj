@@ -185,17 +185,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApiListener.cs" />
+    <Compile Include="HelperClasses\MouseHelper.cs" />
     <Compile Include="Windows\ChangelogWindow.xaml.cs">
       <DependentUpon>ChangelogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enumerations\AccentColorTypes.cs" />
     <Compile Include="HelperClasses\CustomExtensionMethods.cs" />
-    <Compile Include="HelperClasses\Shortcut.cs" />
-    <Compile Include="HelperClasses\ShortcutManager.cs" />
+    <Compile Include="Shortcut\Shortcut.cs" />
+    <Compile Include="Shortcut\ShortcutManager.cs" />
     <Compile Include="HelperClasses\SerializationHelper.cs" />
     <Compile Include="HelperClasses\GridHelper.cs" />
     <Compile Include="HelperClasses\PathHelper.cs" />
-    <Compile Include="HelperClasses\ShortcutManagerSettings.cs" />
+    <Compile Include="Shortcut\ShortcutManagerSettings.cs" />
     <Compile Include="Windows\PartialConfigClasses\LargeTypeConfig.cs" />
     <Compile Include="Windows\PartialConfigClasses\MainWindowConfig.cs" />
     <Compile Include="ResultItems\MagicResultItem.cs" />
@@ -255,7 +256,6 @@
     <Compile Include="Search\Path.cs" />
     <Compile Include="Search\SearchEngine.cs" />
     <Compile Include="ResultItems\ResultItem.cs" />
-    <Compile Include="ValidationRules\FileExtensionValidationRule.cs" />
     <Compile Include="Windows\WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>

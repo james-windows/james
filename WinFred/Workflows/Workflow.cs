@@ -1,8 +1,6 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -11,7 +9,6 @@ using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.Workflows.Actions;
-using James.Workflows.Interfaces;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 using Newtonsoft.Json.Linq;
@@ -83,11 +80,11 @@ namespace James.Workflows
 
         public string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Name;
 
-        public bool canceld = false;
+        public bool canceled = false;
 
         public void Cancel()
         {
-            canceld = true;
+            canceled = true;
             Components.OfType<BasicAction>().ForEach(surviveable => surviveable.Cancel());
         }
 

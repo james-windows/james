@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,31 +18,23 @@ namespace James.WorkflowEditor
     /// </summary>
     public partial class WorkflowEditorUserControl : UserControl
     {
-        private const int ComponentHeight = 80;
-        private const int ComponentWidth = 120;
+        private const int ComponentHeight = 70;
         private const int ComponentPadding = 10;
         private readonly List<CustomPath> _myLines;
-
-        [DllImport("user32.dll")]
-        static extern void ClipCursor(ref System.Drawing.Rectangle rect);
-
-        [DllImport("user32.dll")]
-        static extern void ClipCursor(IntPtr rect);
-
+        
         public WorkflowEditorUserControl()
         {
             InitializeComponent();
             _myLines = new List<CustomPath>();
             DataContextChanged += WorkflowEditorUserControl_DataContextChanged;
-            SizeChanged += (sender, args) => ClipCursor(IntPtr.Zero);
+            SizeChanged += (sender, args) => MouseHelper.ClearMouseTrap();
         }
 
         private void Item_OnUpdate(object sender) => DrawCanvas(sender, null);
 
-        private List<WorkflowComponentUserControl> WorkflowComponentUserControls
-            => editorCanvas.Children.OfType<WorkflowComponentUserControl>().ToList();
+        private List<WorkflowComponentUserControl> WorkflowComponentUserControls => editorCanvas.Children.OfType<WorkflowComponentUserControl>().ToList();
 
-        private Workflow CurrentWorkflow => DataContext as Workflow;
+        private Workflow Workflow => DataContext as Workflow;
 
         private void DeleteConnection(object sender, MouseButtonEventArgs e)
         {
@@ -52,9 +43,9 @@ namespace James.WorkflowEditor
             DrawCanvas(this, null);
         }
 
-        #region creating connection
+        #region edit workflow
 
-        private static FrameworkElement CurrentHoveredWorkflowComponent
+        private static FrameworkElement CurrentHoveredComponent
         {
             get
             {
@@ -67,40 +58,38 @@ namespace James.WorkflowEditor
             }
         }
 
-        private Point startPoint;
-        private WorkflowComponentUserControl selectedComponentUserControl;
-        private CustomPath customPath;
+        private Point _startPoint;
+        private WorkflowComponentUserControl _selectedComponent;
+        private CustomPath _customPath;
 
         private void StartDragging(object sender, MouseButtonEventArgs e)
         {
-            Point a = editorBorder.PointToScreen(new Point(0, 0));
-            System.Drawing.Rectangle r = new System.Drawing.Rectangle((int)a.X + 1, (int)a.Y + 1, (int)(a.X - 1 + editorBorder.ActualWidth), (int)(a.Y - 1 + editorBorder.ActualHeight));
-            ClipCursor(ref r);
-            selectedComponentUserControl = (WorkflowComponentUserControl) sender;
+            MouseHelper.TrapMouseInsideControl(editorBorder);
+            _selectedComponent = (WorkflowComponentUserControl) sender;
             if (e.OriginalSource is Ellipse)
             {
-                var component = selectedComponentUserControl.DataContext as WorkflowComponent;
-                customPath = new CustomPath(component, new Point(component.X + 95, component.Y + ComponentHeight / 2 - ComponentPadding));
-                editorCanvas.Children.Add(customPath.Path);
+                var component = _selectedComponent.Component;
+                _customPath = new CustomPath(component, new Point(component.X + 95, component.Y + ComponentHeight / 2 - ComponentPadding));
+                editorCanvas.Children.Add(_customPath.Path);
                 MouseMove += MovePath;
-                WorkflowComponentUserControls.ForEach(comp => comp.NewSource(selectedComponentUserControl.DataContext as WorkflowComponent));
+                WorkflowComponentUserControls.ForEach(comp => comp.NewSource(_selectedComponent.Component));
             }
             else
             {
-                startPoint = e.GetPosition(selectedComponentUserControl);
+                _startPoint = e.GetPosition(_selectedComponent);
                 MouseMove += MoveComponent;
             }
         }
-
+        
         private void MoveComponent(object sender, MouseEventArgs e)
         {
-            if (selectedComponentUserControl == null) return;
-            var component = selectedComponentUserControl.DataContext as WorkflowComponent;
+            if (_selectedComponent == null) return;
+            var component = _selectedComponent.Component;
             var point = e.GetPosition(editorCanvas);
-            double newX = point.X - startPoint.X;
+            double newX = point.X - _startPoint.X;
             if (newX < 0)
             {
-                foreach (var comp in CurrentWorkflow.Components.Where(workflowComponent => workflowComponent != component))
+                foreach (var comp in Workflow.Components.Where(item => item != component))
                 {
                     comp.X -= newX;
                 }
@@ -110,10 +99,10 @@ namespace James.WorkflowEditor
             {
                 component.X = newX;
             }
-            double newY = point.Y - startPoint.Y;
+            double newY = point.Y - _startPoint.Y;
             if (newY < 0)
             {
-                foreach (var comp in CurrentWorkflow.Components.Where(workflowComponent => workflowComponent != component))
+                foreach (var comp in Workflow.Components.Where(item => item != component))
                 {
                     comp.Y -= newY;
                 }
@@ -133,39 +122,37 @@ namespace James.WorkflowEditor
                 double minX = components.Min(component => component.X);
                 components.ForEach(component => component.X -= minX);
 
-                double minY = components.Min(component => component.Y);
+                double minY = components.Min(component => component.Y) - 5;
                 components.ForEach(component => component.Y -= minY);
             }
         } 
 
         private void MovePath(object sender, MouseEventArgs e)
         {
-            customPath?.ChangeDestination(e.GetPosition(editorCanvas));
+            _customPath?.ChangeDestination(e.GetPosition(editorCanvas));
         }
 
         private void FinishMoving(object sender, MouseButtonEventArgs e)
         {
-            ClipCursor(IntPtr.Zero);
-            if (selectedComponentUserControl != null)
+            MouseHelper.ClearMouseTrap();
+            if (_selectedComponent != null)
             {
-                startPoint = new Point();
+                _startPoint = new Point();
                 MouseMove -= MoveComponent;
-                selectedComponentUserControl = null;
+                _selectedComponent = null;
             }
-            if (customPath != null) 
+            if (_customPath != null) 
             {
                 MouseMove -= MovePath;
-                editorCanvas.Children.Remove(customPath.Path);
-                if (CurrentHoveredWorkflowComponent != null)
+                editorCanvas.Children.Remove(_customPath.Path);
+                if (CurrentHoveredComponent != null)
                 {
-                    AddConnection(customPath.Source, (CurrentHoveredWorkflowComponent as WorkflowComponentUserControl).DataContext as WorkflowComponent);
+                    AddConnection(_customPath.Source, (CurrentHoveredComponent as WorkflowComponentUserControl).Component);
                 }
-                customPath = null;
+                _customPath = null;
                 DrawCanvas(this, null);
             }
         }
-
-        private void UIElement_OnMouseLeave(object sender, MouseEventArgs e) => FinishMoving(this, null);
 
         /// <summary>
         /// Adds the connection if it's not already existing
@@ -199,19 +186,17 @@ namespace James.WorkflowEditor
         {
             _myLines.Clear();
             editorCanvas.Children.Clear();
-
-            var workflow = (Workflow) DataContext;
-            DrawComponents(workflow.Components);
-
-            DrawConnections(workflow);
+            
+            DrawComponents(Workflow.Components);
+            DrawConnections();
         }
 
         private void DrawComponents(List<WorkflowComponent> components)
         {
-            CorrectLeftAndTop(CurrentWorkflow.Components);
             if (components.Count > 0)
             {
-                editorCanvas.Height = components.Max(component => component.Y) + 50;
+                CorrectLeftAndTop(components);
+                editorCanvas.Height = components.Max(component => component.Y) + 60;
                 editorCanvas.Width = components.Max(component => component.X) + 100;
             }
             foreach (var component in components)
@@ -224,15 +209,15 @@ namespace James.WorkflowEditor
             }
         }
 
-        private void DrawConnections(Workflow workflow)
+        private void DrawConnections()
         {
-            foreach (var item in workflow.Components)
+            foreach (var item in Workflow.Components)
             {
                 var source = new Point(item.X + 95, item.Y + ComponentHeight / 2 - ComponentPadding);
 
                 foreach (var id in item.ConnectedTo)
                 {
-                    WorkflowComponent nextComponent = workflow.GetNext(id);
+                    WorkflowComponent nextComponent = Workflow.GetNext(id);
                     Point destination = new Point(nextComponent.X + ComponentPadding - 5, nextComponent.Y + ComponentHeight / 2 - ComponentPadding);
 
                     var path = new CustomPath(item, source, destination) { Destination = nextComponent };
@@ -243,43 +228,30 @@ namespace James.WorkflowEditor
             }
         }
 
-        public void DrawComponents(List<WorkflowComponent> components, int column)
-        {
-            for (var i = 0; i < components.Count; i++)
-            {
-                var item = new WorkflowComponentUserControl(components[i]);
-                item.MouseLeftButtonDown += StartDragging;
-                item.OnUpdate += Item_OnUpdate;
-                Canvas.SetLeft(item, ComponentPadding + ComponentWidth*column);
-                Canvas.SetTop(item, ComponentPadding + ComponentHeight*i);
-                editorCanvas.Children.Add(item);
-            }
-        }
-
         #endregion
-
-        #region Add Component
 
         private void FillContextMenu(object sender, RoutedEventArgs e)
         {
-            var triggers = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
-                from assemblyType in domainAssembly.GetTypes()
-                where (typeof (BasicTrigger).IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract)
-                select assemblyType).ToArray();
-            TriggerContextMenu.ItemsSource = triggers;
-
-            var actions = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
-                from assemblyType in domainAssembly.GetTypes()
-                where (typeof(BasicAction).IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract)
-                select assemblyType).ToArray();
-            ActionContextMenu.ItemsSource = actions;
-
-            var outputs = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
-                from assemblyType in domainAssembly.GetTypes()
-                where (typeof(BasicOutput).IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract)
-                select assemblyType).ToArray();
-            OutputContextMenu.ItemsSource = outputs;
+            TriggerContextMenu.ItemsSource = GetAllChildTypesInAssembly(typeof(BasicTrigger));
+            ActionContextMenu.ItemsSource = GetAllChildTypesInAssembly(typeof(BasicAction));
+            OutputContextMenu.ItemsSource = GetAllChildTypesInAssembly(typeof(BasicOutput));
         }
+
+        /// <summary>
+        /// Returnes all types in the assembly which inherits from the given type.
+        /// Also excludes all abstract types.
+        /// </summary>
+        /// <param name="type">The type from which to get the child classes</param>
+        /// <returns>All classes which inherits from the given type, excluding abstract classes</returns>
+        private IEnumerable<Type> GetAllChildTypesInAssembly(Type type)
+        {
+            return (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                    from assemblyType in domainAssembly.GetTypes()
+                    where (type.IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract)
+                    select assemblyType);
+        }
+
+        #region Add Component
 
         private void AddComponent(object sender, RoutedEventArgs e)
         {
@@ -287,12 +259,9 @@ namespace James.WorkflowEditor
             var instance = (WorkflowComponent)Activator.CreateInstance(component);
             instance.X = point.X;
             instance.Y = point.Y;
-            var workflow = (Workflow)DataContext;
-            workflow.AddComponent(instance);
+            Workflow.AddComponent(instance);
             DrawCanvas(this, null);
         }
-
-        #endregion
 
         private Point point = new Point();
 
@@ -311,5 +280,7 @@ namespace James.WorkflowEditor
             }
             point.Y = e.CursorTop / viewBox.ActualHeight * editorCanvas.ActualHeight;
         }
+
+        #endregion
     }
 }
