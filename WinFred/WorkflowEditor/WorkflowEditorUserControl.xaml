@@ -23,9 +23,9 @@
                     </ContextMenu.Resources>
                 </ContextMenu>
             </Border.ContextMenu>
-            <Border Background="Transparent">
+            <Border Background="Transparent"  ClipToBounds="True">
                 <Viewbox x:Name="viewBox">
-                    <Canvas MinHeight="300" MinWidth="300" x:Name="editorCanvas"/>
+                    <Canvas MinHeight="300" MinWidth="300" x:Name="editorCanvas" />
                 </Viewbox>
             </Border>
         </Border>

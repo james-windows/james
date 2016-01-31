@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="100">
+             mc:Ignorable="d" Height="60" d:DesignWidth="100">
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem Header="Edit" Click="OpenComponent" />
@@ -12,7 +12,7 @@
             <MenuItem Header="Open Workflow Folder" Click="OpenWorkflowFolder" />
         </ContextMenu>
     </UserControl.ContextMenu>
-    <Grid x:Name="grid" Height="50" Width="100">
+    <Grid x:Name="grid" Height="50" Width="100" >
         <Ellipse x:Name="leftAnchor" Width="10" Height="10" Fill="{DynamicResource AccentColorBrush}" HorizontalAlignment="Left"
                  VerticalAlignment="Center" Visibility="Hidden" />
         <Grid Background="#E5D3D3D3" MaxWidth="90">

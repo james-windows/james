@@ -18,7 +18,7 @@ namespace James.WorkflowEditor
     /// </summary>
     public partial class WorkflowEditorUserControl : UserControl
     {
-        private const int ComponentHeight = 70;
+        private const int ComponentHeight = 80;
         private const int ComponentWidth = 120;
         private const int ComponentPadding = 10;
         private readonly List<CustomPath> _myLines;
