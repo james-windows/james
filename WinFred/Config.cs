@@ -22,35 +22,6 @@ namespace James
             ExcludedFolders = new ObservableCollection<string>();
         }
 
-        public static void LoadDefaultFileExtensions()
-        {
-            var tmp = new List<FileExtension>
-            {
-                new FileExtension("exe", 100),
-                new FileExtension("png", 10),
-                new FileExtension("jpg", 10),
-                new FileExtension("pdf", 40),
-                new FileExtension("doc", 10),
-                new FileExtension("c", 11),
-                new FileExtension("cpp", 11),
-                new FileExtension("html", 15),
-                new FileExtension("js", 10),
-                new FileExtension("html", 10),
-                new FileExtension("msi", 80),
-                new FileExtension("zip", 50),
-                new FileExtension("csv", 10),
-                new FileExtension("cs", 10),
-                new FileExtension("cshtml", 10),
-                new FileExtension("jar", 20),
-                new FileExtension("java", 30),
-                new FileExtension("txt", 20),
-                new FileExtension("docx", 10),
-                new FileExtension("xmcd", 39),
-                new FileExtension("mcdx", 40)
-            };
-            _config.DefaultFileExtensions.AddRange(tmp);
-        }
-
         #region singleton
 
         private static Config _config;
@@ -86,7 +57,7 @@ namespace James
         {
             _config = new Config();
             _config.Paths.Add(new Path {Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)});
-            LoadDefaultFileExtensions();
+            _config.DefaultFileExtensions.AddRange(HelperClasses.DefaultFileExtensions.GetDefault());
             _config.ShortcutManagerSettings = new ShortcutManagerSettings();
             _config.Persist();
             AssociateFileExtension();
