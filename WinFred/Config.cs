@@ -7,6 +7,7 @@ using James.HelperClasses;
 using James.Search;
 using James.Shortcut;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using Path = James.Search.Path;
 
 namespace James
@@ -43,7 +44,7 @@ namespace James
                             var instance = ShortcutManager.Instance;
                             _config.Icon = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico"));
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             InitConfig();
                         }
@@ -161,6 +162,7 @@ namespace James
             }
         }
 
+        [JsonIgnore]
         public BitmapImage Icon { get; set; }
 
         #endregion
