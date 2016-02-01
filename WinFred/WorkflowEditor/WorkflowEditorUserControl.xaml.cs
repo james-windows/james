@@ -282,5 +282,10 @@ namespace James.WorkflowEditor
         }
 
         #endregion
+
+        private void UIElement_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            FinishMoving(this, null);
+        }
     }
 }
