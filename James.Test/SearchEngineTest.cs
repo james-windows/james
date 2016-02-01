@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using James.ResultItems;
 using James.Search;
-using James.Workflows.Outputs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace James.Test
@@ -15,7 +13,7 @@ namespace James.Test
         #region helper
         public void PrepareTest()
         {
-            Config.Instance.ConfigFolderLocation = "";
+            Config.Instance.ConfigFolderLocation = Environment.CurrentDirectory;
         }
 
         public void CompareSearchResults(List<ResultItem> one, List<ResultItem> two)
