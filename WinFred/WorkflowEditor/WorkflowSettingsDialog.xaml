@@ -11,7 +11,7 @@
     <StackPanel Margin="20,0,20,20">
         <Grid helperClasses:GridHelper.ColumnDefinition="*|a" Margin="0,0,0,10">
             <TextBlock Text="{Binding Name}" FontSize="26" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
-            <Button Grid.Column="1" VerticalAlignment="Center" Click="ImportWorkflowIcon">
+            <Button Grid.Column="1" VerticalAlignment="Center" Click="ImportWorkflowIcon" AllowDrop="True" Drop="DropFilePath">
                 <Image x:Name="WorkflowImage" Width="64" Source="../logo2.ico"></Image>
             </Button>
         </Grid>

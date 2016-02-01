@@ -8,6 +8,8 @@ using James.HelperClasses;
 using James.Workflows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using DragDropEffects = System.Windows.DragDropEffects;
+using DragEventArgs = System.Windows.DragEventArgs;
 
 namespace James.WorkflowEditor
 {
@@ -86,13 +88,10 @@ namespace James.WorkflowEditor
             dialog.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
             if (dialog.ShowDialog() == DialogResult.OK && File.Exists(dialog.FileName))
             {
+                LoadIcon(dialog.FileName);
                 try
                 {
-                    Bitmap bitmap = new Bitmap(dialog.FileName);
-                    bitmap.Save(Workflow.Path + "\\icon.png");
-                    Workflow.LoadWorkflowIcon();
-                    WorkflowImage.Source = null;
-                    WorkflowImage.Source = Workflow.Icon;
+                    
                 }
                 catch (ArgumentException)
                 {
@@ -102,5 +101,35 @@ namespace James.WorkflowEditor
                 }
             }
         }
+
+        private async void LoadIcon(string path)
+        {
+            try
+            {
+                Bitmap bitmap = new Bitmap(path);
+                bitmap.Save(Workflow.Path + "\\icon.png");
+                Workflow.LoadWorkflowIcon();
+                WorkflowImage.Source = null;
+                WorkflowImage.Source = Workflow.Icon;
+            }
+            catch (ArgumentException)
+            {
+                var parentWindow = (MetroWindow)Window.GetWindow(this);
+                await parentWindow.ShowMessageAsync("Icon Error",
+                    "Icon couldn't be importet! Make sure it has the correct file format");
+            }
+        }
+
+        private void DropFilePath(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop))
+            {
+                string[] paths = (string[]) e.Data.GetData(System.Windows.DataFormats.FileDrop);
+                if (paths.Length > 0)
+                {
+                    LoadIcon(paths[0]);
+                }
+            }
+        } 
     }
 }
