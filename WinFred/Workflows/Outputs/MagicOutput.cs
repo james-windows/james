@@ -17,6 +17,9 @@ namespace James.Workflows.Outputs
         [ComponentField("Icon Format")]
         public string IconFormat { get; set; } = "{0}";
 
+        [ComponentField("Auto close after execution")]
+        public bool Hide { get; set; } = false;
+
         public override void Run(string[] output)
         {
             var outputResults = new List<ResultItem>();

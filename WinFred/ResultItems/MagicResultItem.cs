@@ -1,5 +1,7 @@
 ﻿using System.Windows.Input;
+using James.Windows;
 using James.Workflows;
+using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 
 namespace James.ResultItems
@@ -18,6 +20,11 @@ namespace James.ResultItems
         public override void Open(KeyEventArgs e, string search)
         {
             WorkflowComponent.CallNext(WorkflowArguments);
+            var magic = WorkflowComponent as MagicOutput;
+            if (magic != null && magic.Hide)
+            {
+                MainWindow.GetInstance().Hide();
+            }
         }
 
         public override string AutoComplete()
