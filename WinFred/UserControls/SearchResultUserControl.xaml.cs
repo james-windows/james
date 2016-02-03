@@ -119,30 +119,59 @@ namespace James.UserControls
             }
         }
 
+        /// <summary>
+        /// Increases the priority of the selected element
+        /// If it's on the first position it adds 10 to the priority
+        /// </summary>
         public void IncreasePriority()
         {
             var index = _searchResultElement.CurrentFocus;
-            if (index > 0 && index < results.Count)
+            if (index >= 0 && index < results.Count)
             {
-                var diff = results[index - 1].Priority - results[index].Priority + 1;
-                ChangePriority(diff, index);
+                int diff;
+                if (results[index] is SearchResultItem)
+                {
+                    if (index == 0 || results[index - 1] is MagicResultItem)
+                    {
+                        diff = 10;
+                    }
+                    else
+                    {
+                        diff = results[index - 1].Priority - results[index].Priority + 1;
+                    }
+                    ChangePriority(diff, index);
+                }
             }
         }
 
+        /// <summary>
+        /// Decreases the priority of the selected element
+        /// If it's on the last position it decreases the priority by -10
+        /// </summary>
         public void DecreasePriority()
         {
             var index = _searchResultElement.CurrentFocus;
-            if (index >= 0 && index < results.Count - 1)
+            if (index >= 0 && index < results.Count)
             {
-                var diff = results[index].Priority - results[index + 1].Priority + 1;
-                ChangePriority(-diff, index);
+                int diff;
+                if (results[index] is SearchResultItem)
+                {
+                    if (index == results.Count - 1 || results[index + 1] is MagicResultItem)
+                    {
+                        diff = -10;
+                    }
+                    else
+                    {
+                        diff = results[index + 1].Priority - results[index].Priority - 1;
+                    }
+                    ChangePriority(diff, index);
+                }
             }
         }
 
         public void ChangePriority(int diff, int index)
         {
             SearchEngine.Instance.IncrementPriority(results[index].Subtitle, diff);
-
             Search(_lastSearch, results[index]);
         }
 
