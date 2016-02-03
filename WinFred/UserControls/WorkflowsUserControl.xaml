@@ -7,7 +7,7 @@
              xmlns:helper="clr-namespace:James.HelperClasses"
              xmlns:workflowEditor="clr-namespace:James.WorkflowEditor"
              mc:Ignorable="d">
-    <Grid helper:GridHelper.ColumnDefinition="200|*">
+    <Grid helper:GridHelper.ColumnDefinition="230|*">
         <!--#region Block for the Workflows list -->
         <GroupBox Header="Workflows">
             <Grid helper:GridHelper.RowDefinition="*|a">
@@ -15,7 +15,7 @@
                          ItemsSource="{Binding Workflows, IsAsync=True}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid helper:GridHelper.RowDefinition="a|a" helper:GridHelper.ColumnDefinition="50|*" Margin="0,5">
                                 <!--#region Context Menu-->
                                 <Grid.ContextMenu>
                                     <ContextMenu>
@@ -28,18 +28,15 @@
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                                 <!--#endregion-->
-                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch"
-                                           ContextMenuService.ShowOnDisabled="True">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsEnabled}" Value="False">
-                                                    <Setter Property="Foreground" Value="DarkGray" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                <Grid Grid.RowSpan="2">
+                                    <Image Source="{Binding Icon}" MaxWidth="48" MaxHeight="36" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"></Image>
+                                </Grid>
+                                <TextBlock Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Stretch" FontSize="16" Style="{StaticResource DisableTextBlock}"
+                                           ContextMenuService.ShowOnDisabled="True"></TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" TextBlock.FontSize="11">
+                                    <TextBlock Style="{StaticResource DisableTextBlock}" Margin="0,0,5,0">Author:</TextBlock>
+                                    <TextBlock Style="{StaticResource DisableTextBlock}" Text="{Binding Author}" FontWeight="SemiBold"></TextBlock>
+                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

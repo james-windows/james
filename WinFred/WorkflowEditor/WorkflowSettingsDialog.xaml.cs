@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
@@ -89,16 +90,6 @@ namespace James.WorkflowEditor
             if (dialog.ShowDialog() == DialogResult.OK && File.Exists(dialog.FileName))
             {
                 LoadIcon(dialog.FileName);
-                try
-                {
-                    
-                }
-                catch (ArgumentException)
-                {
-                    var parentWindow = (MetroWindow)Window.GetWindow(this);
-                    await parentWindow.ShowMessageAsync("Icon Error",
-                        "Icon couldn't be importet! Make sure it has the correct file format");
-                }
             }
         }
 
@@ -112,7 +103,7 @@ namespace James.WorkflowEditor
                 WorkflowImage.Source = null;
                 WorkflowImage.Source = Workflow.Icon;
             }
-            catch (ArgumentException)
+            catch (Exception e) when (e is ExternalException || e is ArgumentException)
             {
                 var parentWindow = (MetroWindow)Window.GetWindow(this);
                 await parentWindow.ShowMessageAsync("Icon Error",

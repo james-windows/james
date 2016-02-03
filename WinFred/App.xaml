@@ -43,6 +43,13 @@
                             </Style>
                         </Style.Resources>
                     </Style>
+                    <Style x:Key="DisableTextBlock" TargetType="{x:Type TextBlock}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                                <Setter Property="Foreground" Value="DarkGray" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
