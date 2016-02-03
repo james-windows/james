@@ -90,7 +90,7 @@ namespace James.Workflows.Actions
 
         public override bool IsAllowed(WorkflowComponent source) => base.IsAllowed(source) && (source is BasicTrigger || source is MagicOutput || source is BasicAction);
 
-        public string getFullPathOfExe(string executableName)
+        public string GetFullPathOfExe(string executableName)
         {
             var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
             string executablePath = null;

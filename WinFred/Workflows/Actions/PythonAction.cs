@@ -11,7 +11,7 @@ namespace James.Workflows.Actions
 
         public PythonAction()
         {
-            ExecutablePath = getFullPathOfExe("python.exe");
+            ExecutablePath = GetFullPathOfExe("python.exe");
         }
 
         public override string ExecutableArguments { get; set; } = "";

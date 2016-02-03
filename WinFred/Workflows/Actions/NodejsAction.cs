@@ -8,7 +8,7 @@ namespace James.Workflows.Actions
     {
         public NodejsAction()
         {
-            ExecutablePath = getFullPathOfExe("node.exe");
+            ExecutablePath = GetFullPathOfExe("node.exe");
         }
 
         [ComponentField("The Path of the script file")]
