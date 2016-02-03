@@ -132,10 +132,12 @@ namespace James.Windows
                 if (e.KeyboardDevice.IsKeyDown(Key.Up))
                 {
                     searchResultControl.IncreasePriority();
+                    e.Handled = true;
                 }
                 else if (e.KeyboardDevice.IsKeyDown(Key.Down))
                 {
                     searchResultControl.DecreasePriority();
+                    e.Handled = true;
                 }
             }
             var shortcutSettings = Config.Instance.ShortcutManagerSettings;
