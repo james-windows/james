@@ -18,7 +18,7 @@ namespace James.UserControls
     {
         private readonly SearchResultElement _searchResultElement;
         private string _lastSearch = "";
-        private List<ResultItem> _results;
+        public List<ResultItem> results;
 
         public SearchResultUserControl()
         {
@@ -42,7 +42,7 @@ namespace James.UserControls
                 var window = Window.GetWindow(this);
                 window?.Hide();
                 var index = (int) (e.GetPosition(this).Y/SearchResultElement.RowHeight);
-                _results[index].Open(null, Windows.MainWindow.GetInstance().SearchTextBox.Text);
+                results[index].Open(null, Windows.MainWindow.GetInstance().SearchTextBox.Text);
             }
         }
 
@@ -51,26 +51,26 @@ namespace James.UserControls
             lock (this)
             {
                 _lastSearch = str;
-                _results = SearchEngine.Instance.Query(str);
+                results = SearchEngine.Instance.Query(str);
                 WorkflowManager.Instance.CancelWorkflows();
                 if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength, 1))
                 {
-                    _results.InsertRange(0, WorkflowManager.Instance.GetKeywordTriggers(str));
+                    results.InsertRange(0, WorkflowManager.Instance.GetKeywordTriggers(str));
                 }
                 FocusedIndex = (focusedItem != null) ? CalcFocusedItem(focusedItem) : 0;
 
-                _results = _results.Take(10).ToList();
-                _searchResultElement.DrawItems(_results, FocusedIndex);
+                results = results.Take(10).ToList();
+                _searchResultElement.DrawItems(results, FocusedIndex);
                 Dispatcher.BeginInvoke(
-                    (Action)(() => { _searchResultElement.Height = _results.Count * SearchResultElement.RowHeight; }));
+                    (Action)(() => { _searchResultElement.Height = results.Count * SearchResultElement.RowHeight; }));
             }
         }
 
         public int CalcFocusedItem(ResultItem focusedItem)
         {
-            for (var i = 0; i < _results.Count; i++)
+            for (var i = 0; i < results.Count; i++)
             {
-                if (_results[i].Subtitle == focusedItem.Subtitle)
+                if (results[i].Subtitle == focusedItem.Subtitle)
                 {
                     return i;
                 }
@@ -80,14 +80,14 @@ namespace James.UserControls
 
         public void WorkflowOutput(List<ResultItem> searchResults)
         {
-            _results = searchResults;
+            results = searchResults;
             FocusedIndex = 0;
             Dispatcher.Invoke(() =>
             {
-                _searchResultElement.DrawItems(_results, 0);
+                _searchResultElement.DrawItems(results, 0);
                 Dispatcher.BeginInvoke(
                     (Action)
-                        (() => { _searchResultElement.Height = _results.Count*SearchResultElement.RowHeight; }));
+                        (() => { _searchResultElement.Height = results.Count*SearchResultElement.RowHeight; }));
             });
         }
 
@@ -96,16 +96,16 @@ namespace James.UserControls
             if (FocusedIndex > 0)
             {
                 FocusedIndex--;
-                _searchResultElement.DrawItems(_results, FocusedIndex);
+                _searchResultElement.DrawItems(results, FocusedIndex);
             }
         }
 
         public void MoveDown()
             {
-            if (FocusedIndex < _results.Count - 1)
+            if (FocusedIndex < results.Count - 1)
             {
                 FocusedIndex++;
-                _searchResultElement.DrawItems(_results, FocusedIndex);
+                _searchResultElement.DrawItems(results, FocusedIndex);
             }
         }
 
@@ -113,18 +113,18 @@ namespace James.UserControls
         {
             e.Handled = true;
             var index = _searchResultElement.CurrentFocus;
-            if (index >= 0 && index < _results.Count)
+            if (index >= 0 && index < results.Count)
             {
-                _results[index].Open(e, input);
+                results[index].Open(e, input);
             }
         }
 
         public void IncreasePriority()
         {
             var index = _searchResultElement.CurrentFocus;
-            if (index > 0 && index < _results.Count)
+            if (index > 0 && index < results.Count)
             {
-                var diff = _results[index - 1].Priority - _results[index].Priority + 1;
+                var diff = results[index - 1].Priority - results[index].Priority + 1;
                 ChangePriority(diff, index);
             }
         }
@@ -132,24 +132,24 @@ namespace James.UserControls
         public void DecreasePriority()
         {
             var index = _searchResultElement.CurrentFocus;
-            if (index >= 0 && index < _results.Count - 1)
+            if (index >= 0 && index < results.Count - 1)
             {
-                var diff = _results[index].Priority - _results[index + 1].Priority + 1;
+                var diff = results[index].Priority - results[index + 1].Priority + 1;
                 ChangePriority(-diff, index);
             }
         }
 
         public void ChangePriority(int diff, int index)
         {
-            SearchEngine.Instance.IncrementPriority(_results[index].Subtitle, diff);
+            SearchEngine.Instance.IncrementPriority(results[index].Subtitle, diff);
 
-            Search(_lastSearch, _results[index]);
+            Search(_lastSearch, results[index]);
         }
 
         public string AutoComplete()
         {
             var index = _searchResultElement.CurrentFocus;
-            return _results[index].AutoComplete();
+            return results[index].AutoComplete();
         }
     }
 }

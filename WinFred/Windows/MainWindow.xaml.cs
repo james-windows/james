@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using James.ResultItems;
 using James.Shortcut;
 using James.Workflows;
 using MahApps.Metro.Controls;
@@ -140,9 +141,25 @@ namespace James.Windows
             var shortcutSettings = Config.Instance.ShortcutManagerSettings;
             var largeTypeHotKey = shortcutSettings.LargeTypeHotKey.HotKey;
             var settingsHotKey = shortcutSettings.SettingsHotKey.HotKey;
-            if (HotKeyPressed(largeTypeHotKey, e) && SearchTextBox.Text.Trim().Length > 0)
+            if (HotKeyPressed(largeTypeHotKey, e))
             {
-                DisplayLargeType(SearchTextBox.Text);
+                int index = searchResultControl.FocusedIndex;
+                if (index < searchResultControl.results?.Count)
+                {
+                    var resultItem = searchResultControl.results[index] as MagicResultItem;
+                    if (resultItem != null)
+                    {
+                        DisplayLargeType(resultItem.Title);
+                    }
+                    else if (SearchTextBox.Text.Trim().Length > 0)
+                    {
+                        DisplayLargeType(SearchTextBox.Text);
+                    }
+                }
+                else if (SearchTextBox.Text.Trim().Length > 0)
+                {
+                    DisplayLargeType(SearchTextBox.Text);
+                }
             }
             else if (HotKeyPressed(settingsHotKey, e))
             {
