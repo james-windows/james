@@ -62,6 +62,7 @@ namespace James.Windows
                 return;
             }
             Message = message;
+            TextBlock.MaxWidth = Math.Sqrt(message.Length*200);
             KeyDown -= Window_KeyDown;
             Hide();
             KeyDown -= Window_KeyDown;
