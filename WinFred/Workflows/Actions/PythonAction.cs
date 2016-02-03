@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using James.Workflows.Interfaces;
-using James.Workflows.Triggers;
 
 namespace James.Workflows.Actions
 {

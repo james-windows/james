@@ -143,28 +143,33 @@ namespace James.Windows
             var settingsHotKey = shortcutSettings.SettingsHotKey.HotKey;
             if (HotKeyPressed(largeTypeHotKey, e))
             {
-                int index = searchResultControl.FocusedIndex;
-                if (index < searchResultControl.results?.Count)
+                CallLargeType();
+            }
+            else if (HotKeyPressed(settingsHotKey, e))
+            {
+                new OptionWindow().Show();
+                HideWindow();
+            }
+        }
+
+        private void CallLargeType()
+        {
+            int index = searchResultControl.FocusedIndex;
+            if (index < searchResultControl.results?.Count)
+            {
+                var resultItem = searchResultControl.results[index] as MagicResultItem;
+                if (resultItem != null)
                 {
-                    var resultItem = searchResultControl.results[index] as MagicResultItem;
-                    if (resultItem != null)
-                    {
-                        DisplayLargeType(resultItem.Title);
-                    }
-                    else if (SearchTextBox.Text.Trim().Length > 0)
-                    {
-                        DisplayLargeType(SearchTextBox.Text);
-                    }
+                    DisplayLargeType(resultItem.Title);
                 }
                 else if (SearchTextBox.Text.Trim().Length > 0)
                 {
                     DisplayLargeType(SearchTextBox.Text);
                 }
             }
-            else if (HotKeyPressed(settingsHotKey, e))
+            else if (SearchTextBox.Text.Trim().Length > 0)
             {
-                new OptionWindow().Show();
-                HideWindow();
+                DisplayLargeType(SearchTextBox.Text);
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Actions
