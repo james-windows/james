@@ -5,6 +5,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using James.Annotations;
 using James.ResultItems;
 
@@ -69,7 +70,7 @@ namespace James.Search
                 data.AddRange(GetItemsInCurrentScope(Location + currentPath));
                 foreach (var directory in Directory.GetDirectories(Location + currentPath))
                 {
-                    if (Config.Instance.ExcludedFolders.All(s => !directory.Contains("\\" + s)) /*&& Config.Instance.Paths.All(path => path.Location != directory)*/)
+                    if (!(Config.Instance.ExcludedFolders.Any(s => Regex.IsMatch(directory, s)) || Config.Instance.Paths.Any(path => path.Location == directory && currentPath != "")))
                     {
                         data.AddRange(GetItemsToBeIndexed(directory.Replace(Location, "")));
                     }
@@ -105,8 +106,7 @@ namespace James.Search
         /// <returns></returns>
         private IEnumerable<ResultItem> GetItemsInCurrentScope(string currentPath)
         {
-            return
-                Directory.GetFiles(currentPath).Select(GetItemIfItShouldBeIndexed).Where(file => file != null).ToList();
+            return Directory.GetFiles(currentPath).Select(GetItemIfItShouldBeIndexed).Where(file => file != null);
         }
 
         private ResultItem GetItemIfItShouldBeIndexed(string filePath)
@@ -123,7 +123,7 @@ namespace James.Search
         public int GetPathPriority(string path)
         {
             var priority = CalculatePriorityByFileExtensions(path);
-            if (priority < 0)
+            if (priority < 0 || Config.Instance.ExcludedFolders.Any(s => Regex.IsMatch(path, s)))
             {
                 return -1;
             }
