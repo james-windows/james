@@ -21,6 +21,7 @@ namespace James.UserControls.SearchConfiguration
         public SearchUserControl()
         {
             InitializeComponent();
+            DataContext = Config.Instance;
         }
 
         private async void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
@@ -42,6 +43,9 @@ namespace James.UserControls.SearchConfiguration
             }
         }
 
+        /// <summary>
+        /// Asks the user if he is sure about that and starts to rebuild the index
+        /// </summary>
         private async void BuildIndexInTheBg()
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
@@ -52,6 +56,11 @@ namespace James.UserControls.SearchConfiguration
             tmp.Start();
         }
 
+        /// <summary>
+        /// Displays the progress of building the index to the gui
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangedBuildingIndexProgress(object sender, ProgressChangedEventArgs e)
         {
             if (e.ProgressPercentage == 100)
@@ -103,11 +112,6 @@ namespace James.UserControls.SearchConfiguration
         private void ChangeStatusMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ((Path) PathListBox.SelectedItem).IsEnabled = !((Path) PathListBox.SelectedItem).IsEnabled;
-        }
-
-        private void SearchUserControl_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            DataContext = Config.Instance;
         }
 
         private void DeselectPath(object sender, RoutedEventArgs e) => PathListBox.UnselectAll();

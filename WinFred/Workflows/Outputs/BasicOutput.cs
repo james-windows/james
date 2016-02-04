@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using James.Workflows.Actions;
-using James.Workflows.Triggers;
-
-namespace James.Workflows.Outputs
+﻿namespace James.Workflows.Outputs
 {
     public abstract class BasicOutput : WorkflowComponent
     { 

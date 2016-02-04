@@ -1,4 +1,5 @@
-﻿using James.Workflows.Interfaces;
+﻿using James.HelperClasses;
+using James.Workflows.Interfaces;
 
 namespace James.Workflows.Outputs
 {
@@ -7,17 +8,18 @@ namespace James.Workflows.Outputs
         private bool FirstRun { get; set; } = true;
 
         public void Cancel() => FirstRun = true;
-
+       
         public override void Run(string[] output)
         {
+            string text = FormatString.InsertArguments(output);
             if (FirstRun)
             {
                 FirstRun = false;
-                Windows.MainWindow.GetInstance().DisplayLargeType(string.Join(" ", output));
+                Windows.MainWindow.GetInstance().DisplayLargeType(text);
             }
             else
             {
-                Windows.LargeType.Instance.ChangeMessage(string.Join(" ", output));
+                Windows.LargeType.Instance.ChangeMessage(text);
             }
         }
 

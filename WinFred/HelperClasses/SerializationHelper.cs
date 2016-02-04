@@ -27,16 +27,5 @@ namespace James.HelperClasses
                 PreserveReferencesHandling = PreserveReferencesHandling.All
             });
         }
-
-        public static Workflow DeserializeWorkflow(string path)
-        {
-            Workflow workflow =  JsonConvert.DeserializeObject<Workflow>(File.ReadAllText(path), new JsonSerializerSettings()
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                PreserveReferencesHandling = PreserveReferencesHandling.All
-            });
-            workflow.Components.ForEach(component => component.ParentWorkflow = workflow);
-            return workflow;
-        }
     }
 }

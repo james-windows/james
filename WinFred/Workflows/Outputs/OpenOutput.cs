@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using James.HelperClasses;
 
 namespace James.Workflows.Outputs
 {
@@ -9,7 +10,7 @@ namespace James.Workflows.Outputs
         {
             try
             {
-                Process.Start(input[0]);
+                Process.Start(FormatString.InsertArguments(input));
             }
             catch (Exception)
             {

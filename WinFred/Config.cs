@@ -106,19 +106,16 @@ namespace James
         public ShortcutManagerSettings ShortcutManagerSettings { get; set; }
 
         public string ConfigFolderLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
-
+        private string _windowAccentColor = "Cyan";
         public string ReleaseUrl { get; set; } = @"http://www.moserm.tk/Releases";
 
         public int DefaultFolderPriority { get; set; } = 80;
         public int MaxSearchResults { get; set; } = 8;
-
         public int StartSearchMinTextLength { get; set; } = 1;
-
         public double LargeTypeOpacity { get; set; } = 0.75;
 
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
 
-        private string _windowAccentColor = "Cyan";
         private bool _isBaseLight = true;
         private bool _startProgramOnStartup;
         public bool AlwaysClearLastInput { get; set; } = true;

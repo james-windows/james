@@ -7,7 +7,6 @@ using James.HelperClasses;
 using James.ResultItems;
 using James.Workflows.Triggers;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace James.Workflows
 {

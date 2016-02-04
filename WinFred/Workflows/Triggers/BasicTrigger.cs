@@ -14,6 +14,6 @@ namespace James.Workflows.Triggers
         {
         }
 
-        public override bool IsAllowed(WorkflowComponent source) => (source is BasicAction || source is MagicOutput) && source != this;
+        public override bool IsAllowed(WorkflowComponent source) => false;
     }
 }

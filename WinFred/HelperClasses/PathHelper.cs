@@ -15,11 +15,15 @@ namespace James.HelperClasses
             return path.Split('\\').Last();
         }
 
-        public static string GetFoldername(string path)
+        public static string GetFolderPath(string path)
         {
             return path.Substring(0, path.LastIndexOf('\\'));
         }
 
+        /// <summary>
+        /// Opens the property window of the explorer.exe for a providen path
+        /// </summary>
+        /// <param name="path"></param>
         public static void OpenPathPropertyWindow(string path)
         {
             if (File.Exists(path) || Directory.Exists(path))

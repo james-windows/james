@@ -16,6 +16,11 @@ namespace James.ResultItems
         public abstract void Open(KeyEventArgs e, string search);
 
         public override string ToString() => Title + ", " + Priority;
+
+        /// <summary>
+        /// Returns the string to be inserted, when the user wants to autocomplete
+        /// </summary>
+        /// <returns></returns>
         public abstract string AutoComplete();
     }
 }

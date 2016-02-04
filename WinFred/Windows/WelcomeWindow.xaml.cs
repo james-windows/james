@@ -20,7 +20,7 @@ namespace James.Windows
         {
             if (_launchMainWindowAtEnd)
             {
-                Windows.MainWindow.GetInstance(true).Show();
+                MainWindow.GetInstance(true).Show();
             }
             Close();
         }

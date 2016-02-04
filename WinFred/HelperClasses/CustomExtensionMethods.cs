@@ -22,12 +22,10 @@ namespace James.HelperClasses
         /// <returns></returns>
         public static ImageSource ToImageSource(this Icon icon)
         {
-            var tmp = DateTime.Now;
             ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(
                 icon.Handle,
                 Int32Rect.Empty,
                 BitmapSizeOptions.FromEmptyOptions());
-            Console.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
             return imageSource;
         }
 

@@ -60,10 +60,7 @@ namespace James.Workflows.Outputs
                     return ParentWorkflow.Icon;
                 }
             }
-            else
-            {
-                return ParentWorkflow.Icon;
-            }
+            return ParentWorkflow.Icon;
         }
 
         public override string GetSummary() => $"Displays the response in SearchResultList";

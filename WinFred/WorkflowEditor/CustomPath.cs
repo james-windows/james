@@ -71,11 +71,8 @@ namespace James.WorkflowEditor
         {
             float magic = 8;
             var segments = new List<PathSegment>();
-            Point middle = new Point((SourcePoint.X + destination.X)/2, (SourcePoint.Y + destination.Y)/2);
             if (destination.X > SourcePoint.X)
             {
-                //segments.Add(new BezierSegment(SourcePoint, new Point(middle.X, SourcePoint.Y), middle, true));
-                //segments.Add(new BezierSegment(middle, new Point(middle.X, destination.Y), destination, true));
                 Point c1 = new Point(SourcePoint.X + (magic - 1) * (destination.X - SourcePoint.X) / magic, SourcePoint.Y +(destination.Y - SourcePoint.Y) / magic);
                 Point c2 = new Point(SourcePoint.X + (destination.X - SourcePoint.X) / magic, SourcePoint.Y + (magic - 1) * (destination.Y - SourcePoint.Y) / magic);
                 segments.Add(new BezierSegment(c1, c2, destination, true));

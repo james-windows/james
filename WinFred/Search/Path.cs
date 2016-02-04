@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using James.Annotations;
+using James.HelperClasses;
 using James.ResultItems;
 
 namespace James.Search
@@ -64,6 +65,7 @@ namespace James.Search
         /// <returns></returns>
         public IEnumerable<ResultItem> GetItemsToBeIndexed(string currentPath = "")
         {
+            //TODO if /Users/Moser is path and Moser is excluded even the files shouldn't be included
             var data = new List<ResultItem>();
             try
             {
@@ -94,7 +96,7 @@ namespace James.Search
             return new SearchResultItem
             {
                 Subtitle = path,
-                Title = path.Split('\\').Last(),
+                Title = PathHelper.GetFilename(path),
                 Priority = Config.Instance.DefaultFolderPriority + Priority
             };
         }
@@ -109,6 +111,11 @@ namespace James.Search
             return Directory.GetFiles(currentPath).Select(GetItemIfItShouldBeIndexed).Where(file => file != null);
         }
 
+        /// <summary>
+        /// Returns item if priority > 0
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         private ResultItem GetItemIfItShouldBeIndexed(string filePath)
         {
             var priority = GetPathPriority(filePath);

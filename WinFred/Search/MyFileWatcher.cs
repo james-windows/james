@@ -39,7 +39,8 @@ namespace James.Search
 
         private void File_Created(object sender, FileSystemEventArgs e)
         {
-            var newName = e.Name.Split('\\').Last();
+            //TODO fix issue when 2 paths are listening on the same file
+            var newName = PathHelper.GetFilename(e.Name);
             var watcher = sender as FileSystemWatcher;
             var currentPath = _paths.First(path => path.Location == watcher?.Path);
             var oldPath = GetOldPathIfExists(newName);
@@ -102,8 +103,7 @@ namespace James.Search
 
         private static void DeleteFileLazy()
         {
-            var now = DateTime.Now;
-            while (DeleteEvents.Count > 0 && (now - DeleteEvents.Peek().Date).TotalMilliseconds > MaxMoveDelay)
+            while (DeleteEvents.Count > 0 && (DateTime.Now - DeleteEvents.Peek().Date).TotalMilliseconds > MaxMoveDelay)
             {
                 var path = DeleteEvents.Dequeue().Path;
                 Console.WriteLine($"lazy deleted {path}");

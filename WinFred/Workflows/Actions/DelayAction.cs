@@ -1,11 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using James.Workflows.Outputs;
+﻿using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 using System.Timers;
-using System.Windows.Controls;
-using System.Windows.Media;
-using ICSharpCode.SharpZipLib.Zip;
 using James.HelperClasses;
 
 namespace James.Workflows.Actions

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
-using System.Windows.Threading;
 using James.HelperClasses;
 
 namespace James.Workflows.Outputs
@@ -12,7 +10,7 @@ namespace James.Workflows.Outputs
         [STAThread]
         public override void Run(string[] input)
         {
-            Thread thread = new Thread(() => Clipboard.SetText(string.Join(" ", input)));
+            Thread thread = new Thread(() => Clipboard.SetText(FormatString.InsertArguments(input)));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             thread.Join();

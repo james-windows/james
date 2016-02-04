@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using James.HelperClasses;
 using James.Workflows.Outputs;
 
@@ -35,8 +33,6 @@ namespace James.Workflows.Triggers
             ParentWorkflow.canceled = false;
             CallNext(arguments);
         }
-
-        public override bool IsAllowed(WorkflowComponent source) => false;
 
         public override void CallNext(string[] arguments)
         {

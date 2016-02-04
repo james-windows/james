@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using James.HelperClasses;
 using James.Properties;
-using James.Workflows.Actions;
-using James.Workflows.Outputs;
-using James.Workflows.Triggers;
-using Microsoft.Win32.TaskScheduler;
 using Newtonsoft.Json.Linq;
 using Task = System.Threading.Tasks.Task;
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using James.HelperClasses;
 using James.ResultItems;
 using James.Search;
 using James.Workflows;
@@ -169,12 +168,21 @@ namespace James.UserControls
             }
         }
 
-        public void ChangePriority(int diff, int index)
+        /// <summary>
+        /// Changes the priority of the given file by the providen diff
+        /// </summary>
+        /// <param name="diff"></param>
+        /// <param name="item"></param>
+        public void ChangePriority(int diff, int item)
         {
-            SearchEngine.Instance.IncrementPriority(results[index].Subtitle, diff);
-            Search(_lastSearch, results[index]);
+            SearchEngine.Instance.IncrementPriority(results[item].Subtitle, diff);
+            Search(_lastSearch, results[item]);
         }
 
+        /// <summary>
+        /// Asks the current selected ResultItem for the AutoCompletion
+        /// </summary>
+        /// <returns></returns>
         public string AutoComplete()
         {
             var index = _searchResultElement.CurrentFocus;

@@ -28,6 +28,8 @@ namespace James.Search
             }
             _searchEngineWrapper =
                 new SearchEngineWrapper.SearchEngineWrapper(filePath);
+
+            //Triggers index backup every 5 minutes
             _timer = new Timer(1000*60*5)
             {
                 AutoReset = true,
@@ -47,6 +49,11 @@ namespace James.Search
             }
         }
 
+        /// <summary>
+        /// It's time for a new backup of the index to be saved
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
 #if DEBUG
@@ -57,12 +64,19 @@ namespace James.Search
 
         public event ChangedBuildingIndexProgressEventHandler ChangedBuildingIndexProgress;
 
+        /// <summary>
+        /// Starts to rebuild the index
+        /// </summary>
         public void BuildIndex()
         {
             var data = GetFilesToBeIndexed();
             WriteFilesToIndex(data);
         }
 
+        /// <summary>
+        /// Collects all items from every path parallel
+        /// </summary>
+        /// <returns></returns>
         private static List<ResultItem> GetFilesToBeIndexed()
         {
             var data = new List<ResultItem>();
@@ -71,6 +85,10 @@ namespace James.Search
             return data;
         }
 
+        /// <summary>
+        /// Adds providen ResultItems to the index
+        /// </summary>
+        /// <param name="data"></param>
         public void WriteFilesToIndex(IReadOnlyList<ResultItem> data)
         {
             var lastProgress = -1;
@@ -83,6 +101,12 @@ namespace James.Search
             _searchEngineWrapper.Save();
         }
 
+        /// <summary>
+        /// Notifies the GUI about the progress
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="total"></param>
+        /// <param name="lastProgress"></param>
         private void ChangeProgress(int position, int total, ref int lastProgress)
         {
             if (lastProgress != CalcProgress(position, total))

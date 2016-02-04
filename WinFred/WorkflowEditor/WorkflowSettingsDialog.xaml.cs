@@ -83,7 +83,7 @@ namespace James.WorkflowEditor
             window.HideMetroDialogAsync(this);
         }
 
-        private async void ImportWorkflowIcon(object sender, RoutedEventArgs e)
+        private void ImportWorkflowIcon(object sender, RoutedEventArgs e)
         {
             FileDialog dialog = new OpenFileDialog();
             dialog.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
@@ -93,6 +93,23 @@ namespace James.WorkflowEditor
             }
         }
 
+        private void DropFilePath(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop))
+            {
+                string[] paths = (string[]) e.Data.GetData(System.Windows.DataFormats.FileDrop);
+                if (paths.Length > 0)
+                {
+                    LoadIcon(paths[0]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tests to load the icon correctly and saves it into the workflow folder on success
+        /// Also updates the Icon in the Workflow object
+        /// </summary>
+        /// <param name="path"></param>
         private async void LoadIcon(string path)
         {
             try
@@ -110,17 +127,5 @@ namespace James.WorkflowEditor
                     "Icon couldn't be importet! Make sure it has the correct file format");
             }
         }
-
-        private void DropFilePath(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop))
-            {
-                string[] paths = (string[]) e.Data.GetData(System.Windows.DataFormats.FileDrop);
-                if (paths.Length > 0)
-                {
-                    LoadIcon(paths[0]);
-                }
-            }
-        } 
     }
 }

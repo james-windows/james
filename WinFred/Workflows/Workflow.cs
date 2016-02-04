@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -41,6 +40,9 @@ namespace James.Workflows
             LoadWorkflowIcon();
         }
 
+        /// <summary>
+        /// Loads icon of the workflow if no icon is found it takes the james icon
+        /// </summary>
         public void LoadWorkflowIcon()
         {
             string iconPath = Path + "\\icon.png";
