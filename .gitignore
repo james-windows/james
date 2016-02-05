@@ -218,3 +218,4 @@ nuget.exe
 SearchEngine/shared
 *.opendb
 *.reg
+James.Web/wwwroot/workflows
