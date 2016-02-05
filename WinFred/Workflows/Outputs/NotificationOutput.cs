@@ -37,7 +37,6 @@ namespace James.Workflows.Outputs
                 Visible = true
             };
             icon.ShowBalloonTip(Timeperiod);
-            LastIcon?.Dispose();
             LastIcon = icon;
         }
     }

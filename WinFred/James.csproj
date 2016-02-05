@@ -157,6 +157,11 @@
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.IO.Log" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\WindowsPowerShell\3.0\System.Management.Automation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management.Instrumentation" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="system.windows.controls.ribbon" />
     <Reference Include="System.Windows.Forms" />
@@ -187,6 +192,7 @@
     <Compile Include="ApiListener.cs" />
     <Compile Include="HelperClasses\DefaultFileExtensions.cs" />
     <Compile Include="HelperClasses\MouseHelper.cs" />
+    <Compile Include="Search\DeleteEvent.cs" />
     <Compile Include="Windows\ChangelogWindow.xaml.cs">
       <DependentUpon>ChangelogWindow.xaml</DependentUpon>
     </Compile>
@@ -203,7 +209,6 @@
     <Compile Include="ResultItems\MagicResultItem.cs" />
     <Compile Include="ResultItems\SearchResultItem.cs" />
     <Compile Include="SearchResultElement.cs" />
-    <Compile Include="Search\DeleteEvent.cs" />
     <Compile Include="UserControls\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>
     </Compile>
@@ -265,6 +270,7 @@
     </Compile>
     <Compile Include="Workflows\Actions\BasicAction.cs" />
     <Compile Include="Workflows\Actions\NodejsAction.cs" />
+    <Compile Include="Workflows\Actions\PowershellAction.cs" />
     <Compile Include="Workflows\Actions\PythonAction.cs" />
     <Compile Include="Workflows\ComponentFieldAttribute.cs" />
     <Compile Include="Workflows\Interfaces\ICrossPlatform.cs" />
