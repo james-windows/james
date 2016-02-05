@@ -22,7 +22,7 @@ namespace James.Workflows.Outputs
 
         public override void Run(string[] output)
         {
-            var outputResults = new List<ResultItem>();
+            var outputResults = new List<MagicResultItem>();
             foreach (string text in output)
             {
                 if (text.Trim().Length > 0)
@@ -38,8 +38,10 @@ namespace James.Workflows.Outputs
                     });
                 }
             }
-            
-            Windows.MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
+            if (outputResults.Count > 0)
+            {
+                Windows.MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
+            }
         }
 
         private BitmapImage GetIcon(string filePath)

@@ -77,9 +77,13 @@ namespace James.UserControls
             return 0;
         }
 
-        public void WorkflowOutput(List<ResultItem> searchResults)
+        public void WorkflowOutput(List<MagicResultItem> searchResults)
         {
-            results = searchResults;
+            results.RemoveAll(
+                item => item is MagicResultItem &&
+                    ((MagicResultItem) item).WorkflowComponent.ParentWorkflow == searchResults[0].WorkflowComponent.ParentWorkflow);
+            results.InsertRange(0, searchResults);
+            results = results.Take(Config.Instance.MaxSearchResults).ToList();
             FocusedIndex = 0;
             Dispatcher.Invoke(() =>
             {
