@@ -29,7 +29,7 @@
                 </Grid>
                 <Grid helperClasses:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock>
-                        <Run Text="Run file icons:" />
+                        <Run Text="Show file icons:" />
                     </TextBlock>
                     <controls:ToggleSwitch IsChecked="{Binding Path=DisplayFileIcons}" />
                 </Grid>
