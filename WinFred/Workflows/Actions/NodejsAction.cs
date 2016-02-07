@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using James.HelperClasses;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Actions
@@ -8,7 +7,7 @@ namespace James.Workflows.Actions
     {
         public NodejsAction()
         {
-            ExecutablePath = GetFullPathOfExe("node.exe");
+            ExecutablePath = PathHelper.GetFullPathOfExe("node.exe");
         }
 
         [ComponentField("The Path of the script file")]
@@ -23,27 +22,16 @@ namespace James.Workflows.Actions
 
         public override void Run(string[] arguments)
         {
+            if (Background == false && ParentWorkflow.IsCanceled)
+            {
+                return;
+            }
             if (ExecutablePath == null)
             {
                 CallNext(new string[] { "node.exe couldn't be found in the path" });
                 return;
             }
-            var proc = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = ExecutablePath,
-                    Arguments = Script + " " + ExecutableArguments + string.Join(" ", arguments),
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    WorkingDirectory = ParentWorkflow.Path,
-                    CreateNoWindow = true
-                }
-            };
-            proc.Start();
-            proc.WaitForExit();
-            CallNext(proc.StandardOutput.ReadToEnd().Split(new[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries));
+            CallNext(StartProcess(Script + " " + string.Join(" ", arguments)));
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ICSharpCode.SharpZipLib.Zip;
 using James.HelperClasses;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
@@ -52,22 +53,19 @@ namespace James.Workflows.Actions
 
         public override void CallNext(string[] arguments)
         {
-            if (Background && ParentWorkflow.canceled)
-            {
-                base.CallNext(arguments);
-            }
             foreach (var id in ConnectedTo)
             {
                 var nextComponent = this.GetNext(id);
-                if (!(nextComponent is BasicAction && !(nextComponent as BasicAction).Background))
-                {
-                    Task.Run(() => nextComponent.Run(arguments));
-                }
+                Task.Run(() => nextComponent.Run(arguments));
             }
         }
 
         public override void Run(string[] arguments)
         {
+            if (Background == false && ParentWorkflow.IsCanceled)
+            {
+                return;
+            }
             var path = ExecutablePath;
             if (path[1] != ':')
             {
@@ -89,21 +87,25 @@ namespace James.Workflows.Actions
         }
 
         public override bool IsAllowed(WorkflowComponent source) => base.IsAllowed(source) && (source is BasicTrigger || source is MagicOutput || source is BasicAction);
-
-        public string GetFullPathOfExe(string executableName)
+        
+        protected string[] StartProcess(string arguments)
         {
-            var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
-            string executablePath = null;
-            foreach (var p in path.Split(';'))
+            proc = new Process
             {
-                var fullPath = Path.Combine(p, executableName);
-                if (File.Exists(fullPath))
+                StartInfo = new ProcessStartInfo
                 {
-                    executablePath = fullPath;
-                    break;
+                    FileName = ExecutablePath,
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    WorkingDirectory = ParentWorkflow.Path,
+                    CreateNoWindow = true
                 }
-            }
-            return executablePath;
+            };
+            proc.Start();
+            proc.WaitForExit();
+            return proc.StandardOutput.ReadToEnd().Split(new[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

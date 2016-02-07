@@ -83,11 +83,11 @@ namespace James.Workflows
 
         public string Path => Config.Instance.ConfigFolderLocation + "\\workflows\\" + Name;
 
-        public bool canceled = false;
+        public bool IsCanceled { get; set; } = false;
 
         public void Cancel()
         {
-            canceled = true;
+            IsCanceled = true;
             Components.OfType<BasicAction>().ForEach(surviveable => surviveable.Cancel());
         }
 

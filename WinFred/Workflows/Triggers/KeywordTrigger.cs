@@ -30,7 +30,7 @@ namespace James.Workflows.Triggers
 
         public override void Run(string[] arguments)
         {
-            ParentWorkflow.canceled = false;
+            ParentWorkflow.IsCanceled = false;
             CallNext(arguments);
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using James.HelperClasses;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Actions
@@ -11,7 +10,7 @@ namespace James.Workflows.Actions
 
         public PythonAction()
         {
-            ExecutablePath = GetFullPathOfExe("python.exe");
+            ExecutablePath = PathHelper.GetFullPathOfExe("python.exe");
         }
 
         public override string ExecutableArguments { get; set; } = "";
@@ -22,27 +21,16 @@ namespace James.Workflows.Actions
 
         public override void Run(string[] arguments)
         {
+            if (Background == false && ParentWorkflow.IsCanceled)
+            {
+                return;
+            }
             if (ExecutablePath == null)
             {
                 CallNext(new string[] {"python couldn't be found in the path"});
                 return;
             }
-            proc = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = ExecutablePath,
-                    Arguments = Script + " " + string.Join(" ", arguments),
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    WorkingDirectory = ParentWorkflow.Path,
-                    CreateNoWindow = true
-                }
-            };
-            proc.Start();
-            proc.WaitForExit();
-            CallNext(proc.StandardOutput.ReadToEnd().Split(new[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries));
+            CallNext(StartProcess(Script + " " + string.Join(" ", arguments)));
         }
     }
 }

@@ -35,6 +35,10 @@ namespace James.Workflows.Actions
 
         public override void Run(string[] arguments)
         {
+            if (Background == false && ParentWorkflow.IsCanceled)
+            {
+                return;
+            }
             int delay;
             if (!int.TryParse(DelayFormat.InsertArguments(arguments), out delay) || delay * Multiplier == 0)
             {
