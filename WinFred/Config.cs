@@ -120,6 +120,7 @@ namespace James
         private bool _startProgramOnStartup;
         public bool AlwaysClearLastInput { get; set; } = true;
         public bool DisplayFileIcons { get; set; } = true;
+        public bool DisplayPriorities { get; set; } = false;
 
         public bool StartProgramOnStartup
         {

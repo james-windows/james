@@ -35,6 +35,12 @@
                 </Grid>
                 <Grid helperClasses:GridHelper.ColumnDefinition="2*|1*">
                     <TextBlock>
+                        <Run Text="Show file priority:" />
+                    </TextBlock>
+                    <controls:ToggleSwitch IsChecked="{Binding Path=DisplayPriorities}" />
+                </Grid>
+                <Grid helperClasses:GridHelper.ColumnDefinition="2*|1*">
+                    <TextBlock>
                         <Run Text="LargType opacity:" />
                     </TextBlock>
                     <Grid helperClasses:GridHelper.ColumnDefinition="*|30" Grid.Column="1">
