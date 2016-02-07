@@ -173,7 +173,10 @@ namespace James.WorkflowEditor
 
         private void WorkflowEditorUserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            (e.OldValue as Workflow)?.Persist();
+            if (WorkflowManager.Instance.Workflows.Contains(e.OldValue))
+            {
+                (e.OldValue as Workflow)?.Persist();
+            }
             _myLines.Clear();
             editorCanvas.Children.Clear();
             if (DataContext != null)
