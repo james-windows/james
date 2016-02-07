@@ -79,19 +79,22 @@ namespace James.UserControls
 
         public void WorkflowOutput(List<MagicResultItem> searchResults)
         {
-            results.RemoveAll(
-                item => item is MagicResultItem &&
-                    ((MagicResultItem) item).WorkflowComponent.ParentWorkflow == searchResults[0].WorkflowComponent.ParentWorkflow);
-            results.InsertRange(0, searchResults);
-            results = results.Take(Config.Instance.MaxSearchResults).ToList();
-            FocusedIndex = 0;
-            Dispatcher.Invoke(() =>
+            lock (this)
             {
-                _searchResultElement.DrawItems(results, 0);
-                Dispatcher.BeginInvoke(
-                    (Action)
-                        (() => { _searchResultElement.Height = results.Count*SearchResultElement.RowHeight; }));
-            });
+                results.RemoveAll(
+                item => item is MagicResultItem &&
+                    ((MagicResultItem)item).WorkflowComponent.ParentWorkflow == searchResults[0].WorkflowComponent.ParentWorkflow);
+                results.InsertRange(0, searchResults);
+                results = results.Take(Config.Instance.MaxSearchResults).ToList();
+                FocusedIndex = 0;
+                Dispatcher.Invoke(() =>
+                {
+                    _searchResultElement.DrawItems(results, 0);
+                    Dispatcher.BeginInvoke(
+                        (Action)
+                            (() => { _searchResultElement.Height = results.Count * SearchResultElement.RowHeight; }));
+                });
+            }
         }
 
         public void MoveUp()
