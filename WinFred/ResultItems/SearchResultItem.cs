@@ -52,11 +52,18 @@ namespace James.ResultItems
         {
             if (e.KeyboardDevice.Modifiers == (ModifierKeys.Shift | ModifierKeys.Control))
             {
-                Open(Subtitle, !_isDirectory);
+                if (_isDirectory)
+                {
+                    OpenFolder(true);
+                }
+                else
+                {
+                    Open(Subtitle, true);
+                }
             }
-            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift || _isDirectory)
+            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift)
             {
-                OpenFolder();
+                OpenFolder(true);
             }
             else if (e.KeyboardDevice.Modifiers == ModifierKeys.Alt)
             {
@@ -101,9 +108,16 @@ namespace James.ResultItems
         /// Opens the explorer with the position of the file/folder.
         /// Also selects the given item
         /// </summary>
-        private void OpenFolder()
+        private void OpenFolder(bool selectFolder = false)
         {
-            Process.Start("explorer.exe", "/select," + Subtitle);
+            if (selectFolder)
+            {
+                Process.Start("explorer.exe", "/select," + Subtitle);
+            }
+            else
+            {
+                Process.Start(Subtitle);
+            }
         }
     }
 }
