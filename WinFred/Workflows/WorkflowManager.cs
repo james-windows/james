@@ -21,24 +21,25 @@ namespace James.Workflows
             {
                 Directory.CreateDirectory(Config.Instance.ConfigFolderLocation + "\\workflows");
             }
-            foreach (var path in Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows"))
+            Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows").ForEach(LoadWorkflow);
+            LoadKeywordTriggers();
+        }
+
+        public void LoadWorkflow(string path)
+        {
+            string configPath = path + "\\config.json";
+            if (File.Exists(configPath))
             {
-                string configPath = path + "\\config.json";
-                if (File.Exists(configPath))
+                try
                 {
-                    try
-                    {
-                        dynamic item = JsonConvert.DeserializeObject(File.ReadAllText(configPath));
-                        Workflows.Add(new Workflow(item, path));
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Failed to load Workflow. Invalid config.js format!");
-                    }
+                    dynamic item = JsonConvert.DeserializeObject(File.ReadAllText(configPath));
+                    Workflows.Add(new Workflow(item, path));
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Failed to load Workflow. Invalid config.js format!");
                 }
             }
-
-            LoadKeywordTriggers();
         }
 
         public List<WorkflowComponent> AllComponents => Workflows.SelectMany(workflow => workflow.Components).ToList();
