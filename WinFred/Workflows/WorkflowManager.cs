@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
+using System.Windows.Forms.VisualStyles;
+using System.Windows.Threading;
 using James.HelperClasses;
 using James.ResultItems;
 using James.Workflows.Triggers;
@@ -17,11 +20,11 @@ namespace James.Workflows
 
         private WorkflowManager()
         {
-            if (!Directory.Exists(Config.Instance.ConfigFolderLocation + "\\workflows"))
+            if (!Directory.Exists(Config.Instance.WorkflowFolderLocation))
             {
-                Directory.CreateDirectory(Config.Instance.ConfigFolderLocation + "\\workflows");
+                Directory.CreateDirectory(Config.Instance.WorkflowFolderLocation);
             }
-            Directory.GetDirectories(Config.Instance.ConfigFolderLocation + "\\workflows").ForEach(LoadWorkflow);
+            Directory.GetDirectories(Config.Instance.WorkflowFolderLocation).ForEach(LoadWorkflow);
             LoadKeywordTriggers();
         }
 
@@ -33,9 +36,11 @@ namespace James.Workflows
                 try
                 {
                     dynamic item = JsonConvert.DeserializeObject(File.ReadAllText(configPath));
-                    Workflows.Add(new Workflow(item, path));
+                    Workflow workflow = new Workflow(item, path);
+                    
+                    Application.Current.Dispatcher.Invoke(new Action(() => Workflows.Add(workflow)));
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     Console.WriteLine("Failed to load Workflow. Invalid config.js format!");
                 }

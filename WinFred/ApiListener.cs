@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Pipes;
-using System.Linq;
 using System.Threading;
+using System.Windows.Forms;
 using James.Workflows;
 
 namespace James
@@ -39,10 +39,18 @@ namespace James
                     server.WaitForConnection();
                     using (StreamReader reader = new StreamReader(server))
                     {
-                        string message = reader.ReadLine().Trim('/');
-                        if (message != null)
+                        string message = reader.ReadLine();
+                        if (!string.IsNullOrEmpty(message))
                         {
-                            WorkflowManager.Instance.RunApiTrigger(message.Split('/').FirstOrDefault(), message.Split('/'));
+                            var splits = message.Split('/');
+                            WorkflowManager.Instance.RunApiTrigger(splits[0], splits);
+
+                            //Check for new imported workflow to be added
+                            string workflowPath = $@"{Config.Instance.WorkflowFolderLocation}\{splits[1]}";
+                            if (splits[0] == "workflow" && Directory.Exists(workflowPath))
+                            {
+                                WorkflowManager.Instance.LoadWorkflow(workflowPath);
+                            }
                         }
                     }
                 }

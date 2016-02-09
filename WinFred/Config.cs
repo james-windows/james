@@ -49,6 +49,7 @@ namespace James
                             InitConfig();
                         }
                     }
+                    AssociateFileExtension();
                     return _config;
                 }
             }
@@ -106,6 +107,7 @@ namespace James
         public ShortcutManagerSettings ShortcutManagerSettings { get; set; }
 
         public string ConfigFolderLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+        public string WorkflowFolderLocation => ConfigFolderLocation + "\\workflows";
         private string _windowAccentColor = "Cyan";
         public string ReleaseUrl { get; set; } = @"http://www.moserm.tk/Releases";
 

@@ -4,6 +4,7 @@ using System.IO.Compression;
 using System.IO.Pipes;
 using System.Threading;
 using System.Windows;
+using James.HelperClasses;
 using James.Search;
 using James.Workflows;
 using Microsoft.Win32.TaskScheduler;
@@ -44,27 +45,41 @@ namespace James
             }
             else
             {
-                using (NamedPipeClientStream client = new NamedPipeClientStream("james"))
+                AlternativeRun(e);
+            }
+        }
+
+        /// <summary>
+        /// If an instance of James is already running, its opened to import a workflow or triggers the Api
+        /// </summary>
+        /// <param name="e"></param>
+        private static void AlternativeRun(StartupEventArgs e)
+        {
+            using (NamedPipeClientStream client = new NamedPipeClientStream("james"))
+            {
+                client.Connect(100);
+                using (StreamWriter writer = new StreamWriter(client))
                 {
                     if (e.Args.Length == 1 && File.Exists(e.Args[0]) && e.Args[0].EndsWith(".james"))
                     {
-                        ZipFile.ExtractToDirectory(e.Args[0], Config.Instance.ConfigFolderLocation + "\\workflows");
-                    }
-                    else
-                    {
-                        client.Connect(100);
-                        if (client.IsConnected)
+                        string workflowFolder = Config.Instance.WorkflowFolderLocation + "\\" + PathHelper.GetFilename(e.Args[0]).Replace(".james", "");
+                        if (!Directory.Exists(workflowFolder))
                         {
-                            using (StreamWriter writer = new StreamWriter(client))
+                            ZipFile.ExtractToDirectory(e.Args[0], workflowFolder);
+                            if (client.IsConnected)
                             {
-                                writer.WriteLine(string.Join(" ", e.Args).Substring(6));
-                                writer.Flush();
+                                writer.WriteLine("workflow/" + PathHelper.GetFilename(e.Args[0]).Replace(".james", ""));
                             }
                         }
                     }
+                    else if (client.IsConnected)
+                    {
+                        writer.WriteLine(string.Join(" ", e.Args).Substring(6));
+                    }
+                    writer.Flush();
                 }
-                Environment.Exit(1);
             }
+            Environment.Exit(1);
         }
 
         private static void StartProgram()
@@ -85,8 +100,8 @@ namespace James
 
         private static void InitializeSingeltons()
         {
-            var instance = SearchEngine.Instance;
-            var watcher = MyFileWatcher.Instance;
+            //var instance = SearchEngine.Instance;
+            //var watcher = MyFileWatcher.Instance;
             var workflowManager = WorkflowManager.Instance;
         }
 
