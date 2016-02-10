@@ -71,6 +71,10 @@ namespace James
                                 writer.WriteLine("workflow/" + PathHelper.GetFilename(e.Args[0]).Replace(".james", ""));
                             }
                         }
+                        else
+                        {
+                            MessageBox.Show($"An Workflow with the name '{PathHelper.GetFilename(e.Args[0]).Replace(".james", "")}' is already importet!", "Workflow already imported!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                     else if (client.IsConnected)
                     {
