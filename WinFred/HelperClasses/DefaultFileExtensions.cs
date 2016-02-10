@@ -13,6 +13,7 @@ namespace James.HelperClasses
                 new FileExtension("exe", 100),
                 new FileExtension("msi", 80),
                 new FileExtension("jar", 70),
+                new FileExtension("ps1", 60),
 
                 //images:
                 new FileExtension("png", 20),
