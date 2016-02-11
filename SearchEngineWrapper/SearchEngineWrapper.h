@@ -16,7 +16,7 @@ namespace SearchEngineWrapper {
 	{
 	public:
 
-		SearchEngineWrapper(System::String ^ indexFile);
+		SearchEngineWrapper(System::String ^ indexFile, int results);
 
 		void Save();
 

@@ -7,10 +7,10 @@
 using namespace System::Runtime::InteropServices;
 using namespace System::Net;
 
-SearchEngineWrapper::SearchEngineWrapper::SearchEngineWrapper(String^ indexFile)
+SearchEngineWrapper::SearchEngineWrapper::SearchEngineWrapper(String^ indexFile, int results)
 {
 	this->indexFile = indexFile;
-	searchEngine = SearchEngine::load(ConvertToChar(indexFile));
+	searchEngine = SearchEngine::load(ConvertToChar(indexFile), results);
 	searchResults = gcnew List<SearchResult^>();
 }
 
@@ -54,17 +54,15 @@ void SearchEngineWrapper::SearchEngineWrapper::Find(String^ file) {
 
 //private functions:
 char* SearchEngineWrapper::SearchEngineWrapper::ConvertToChar(System::String^ text) {
-	String^ encodedString = WebUtility::HtmlEncode(text);
-	char *cNow = new char[encodedString->Length];
-	sprintf(cNow, "%s", encodedString);
-	return cNow;
+	String^ encodedString = WebUtility::UrlEncode(text)->Replace("+", " ")->Replace("%5C", "\\")->Replace("%3A", ":");
+	return (char*)(Marshal::StringToHGlobalAnsi(encodedString)).ToPointer();
 }
 
 __declspec(dllexport) const char *SearchEncodeLower(const char *s)
 {
-	String^ decodedString = WebUtility::HtmlDecode(gcnew String(s));
+	String^ decodedString = WebUtility::UrlDecode(gcnew String(s));
 	decodedString = decodedString->ToLower();
-	String^ encodedString = WebUtility::HtmlEncode(decodedString);
+	String^ encodedString = WebUtility::UrlEncode(decodedString)->Replace("+", " ")->Replace("%5C", "\\");
 	char *cNow = new char[encodedString->Length];
 	sprintf(cNow, "%s", encodedString);
 	return cNow;

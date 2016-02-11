@@ -25,7 +25,11 @@ namespace James.ResultItems
             {
                 try
                 {
-                    return _isDirectory ? null : System.Drawing.Icon.ExtractAssociatedIcon(Subtitle).ToImageSource();
+                    if (_isDirectory || !File.Exists(Subtitle))
+                    {
+                        return null;
+                    }
+                    return System.Drawing.Icon.ExtractAssociatedIcon(Subtitle).ToImageSource();
                 }
                 catch (FileNotFoundException)
                 {

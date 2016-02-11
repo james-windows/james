@@ -27,7 +27,7 @@ namespace James.Search
                 File.Create(filePath);
             }
             _searchEngineWrapper =
-                new SearchEngineWrapper.SearchEngineWrapper(filePath);
+                new SearchEngineWrapper.SearchEngineWrapper(filePath, Config.Instance.MaxSearchResults);
 
             //Triggers index backup every 5 minutes
             _timer = new Timer(1000*60*5)

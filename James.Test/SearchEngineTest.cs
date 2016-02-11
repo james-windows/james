@@ -227,6 +227,18 @@ namespace James.Test
             var secondQuery = SearchEngine.Instance.Query("f");
             CompareSearchResults(query, secondQuery);
         }
+
+        [TestMethod]
+        public void InsertWithEuro()
+        {
+            SearchEngine.Instance.AddFile(new SearchResultItem(@"C:\Users\moser\OneDrive\Dokumente\tmp\rene 5€.txt", 10));
+            var query = SearchEngine.Instance.Query("rene");
+            Assert.IsTrue(query.Count == 1, "One result should be returned!");
+
+            query = SearchEngine.Instance.Query("5€");
+            Assert.IsTrue(query.Count == 1, "One result should be returned!");
+        }
+
         #endregion
     }
 }
