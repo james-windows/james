@@ -3,10 +3,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.Search;
 
@@ -44,7 +42,18 @@ namespace James.ResultItems
         {
             Subtitle = path;
             Priority = priority;
-            Title = Directory.Exists(path) ? path.Split('\\').Last() : PathHelper.GetFilename(path);
+            if (Directory.Exists(path))
+            {
+                Title = path.Split('\\').Last();
+            }
+            else
+            {
+                Title = PathHelper.GetFilename(path);
+                if (!Config.Instance.DisplayFileExtensions)
+                {
+                    Title = Title.Substring(0, Title.LastIndexOf('.'));
+                }
+            }
             _isDirectory = Directory.Exists(Subtitle);
         }
 
