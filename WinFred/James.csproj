@@ -142,6 +142,10 @@
       <HintPath>..\packages\squirrel.windows.1.2.1\lib\Net45\NuGet.Squirrel.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SearchEngineWrapper, Version=1.0.5889.23977, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\x64\Debug\SearchEngineWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
       <Private>True</Private>
@@ -445,12 +449,6 @@
     <Resource Include="Resources\workflow-bg.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SearchEngineWrapper\SearchEngineWrapper.vcxproj">
-      <Project>{35113677-1683-4425-ac56-382321c7c9e6}</Project>
-      <Name>SearchEngineWrapper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\logo2.ico">

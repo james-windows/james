@@ -231,12 +231,44 @@ namespace James.Test
         [TestMethod]
         public void InsertWithEuro()
         {
+            PrepareTest();
             SearchEngine.Instance.AddFile(new SearchResultItem(@"C:\Users\moser\OneDrive\Dokumente\tmp\rene 5€.txt", 10));
             var query = SearchEngine.Instance.Query("rene");
             Assert.IsTrue(query.Count == 1, "One result should be returned!");
 
             query = SearchEngine.Instance.Query("5€");
             Assert.IsTrue(query.Count == 1, "One result should be returned!");
+        }
+
+        [TestMethod]
+        public void CorrectSplittingTest()
+        {
+            PrepareTest();
+
+            ResultItem testPath = new SearchResultItem(@"C:\User\Moser\Desktop\firstFile.txt", 0);
+            SearchEngine.Instance.AddFile(testPath);
+            
+            QueryOnce(testPath, "first");
+
+            QueryOnce(testPath, "firstFile");
+
+            QueryOnce(testPath, "firstFile.txt");
+            
+            QueryOnce(testPath, "txt");
+
+            QueryOnce(testPath, "File.txt");
+        }
+
+        /// <summary>
+        /// Queries for search and expects on item which sould be equal to testPath
+        /// </summary>
+        /// <param name="testPath"></param>
+        /// <param name="search"></param>
+        private static void QueryOnce(ResultItem testPath, string search)
+        {
+            var query = SearchEngine.Instance.Query(search);
+            Assert.IsTrue(query.Count == 1, $"One result should be returned by searching for '{search}'!");
+            Assert.IsTrue(query[0].Subtitle == testPath.Subtitle, "Both paths should match!");
         }
 
         #endregion
