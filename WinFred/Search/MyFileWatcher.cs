@@ -84,7 +84,7 @@ namespace James.Search
             {
                 DeleteEvents.Enqueue(new DeleteEvent
                 {
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     Path = e.FullPath,
                     Name = e.FullPath.Split('\\').Last()
                 });
@@ -103,7 +103,7 @@ namespace James.Search
 
         private static void DeleteFileLazy()
         {
-            while (DeleteEvents.Count > 0 && (DateTime.Now - DeleteEvents.Peek().Date).TotalMilliseconds > MaxMoveDelay)
+            while (DeleteEvents.Count > 0 && (DateTime.UtcNow - DeleteEvents.Peek().Date).TotalMilliseconds > MaxMoveDelay)
             {
                 var path = DeleteEvents.Dequeue().Path;
                 Console.WriteLine($"lazy deleted {path}");

@@ -137,9 +137,9 @@ namespace James.Search
                 return new List<ResultItem>();
             }
 #if DEBUG
-            var tmp = DateTime.Now;
+            var tmp = DateTime.UtcNow;
             _searchEngineWrapper.Find(search);
-            Console.WriteLine((DateTime.Now - tmp).TotalMilliseconds);
+            Console.WriteLine((DateTime.UtcNow - tmp).TotalMilliseconds);
 #else
             _searchEngineWrapper.Find(search);
 #endif
