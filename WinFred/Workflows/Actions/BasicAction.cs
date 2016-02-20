@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ICSharpCode.SharpZipLib.Zip;
 using James.HelperClasses;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
@@ -71,30 +69,18 @@ namespace James.Workflows.Actions
             {
                 path = ParentWorkflow.Path + "\\" + path;
             }
-            var proc = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = path,
-                    Arguments = ExecutableArguments + arguments,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
-                }
-            };
-            proc.Start();
-            CallNext(proc.StandardOutput.ReadToEnd().Split(new[] {SEPARATOR}, StringSplitOptions.RemoveEmptyEntries));
+            CallNext(StartProcess(string.Join(" ", arguments), path));
         }
 
         public override bool IsAllowed(WorkflowComponent source) => base.IsAllowed(source) && (source is BasicTrigger || source is MagicOutput || source is BasicAction);
         
-        protected string[] StartProcess(string arguments)
+        protected string[] StartProcess(string arguments, string executablePath = null)
         {
             proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = ExecutablePath,
+                    FileName = executablePath ?? ExecutablePath,
                     Arguments = arguments,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
