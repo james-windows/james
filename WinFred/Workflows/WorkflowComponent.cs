@@ -88,7 +88,7 @@ namespace James.Workflows
         {
             var type = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
                             from assemblyType in domainAssembly.GetTypes()
-                            where (typeof(WorkflowComponent).IsAssignableFrom(assemblyType) && assemblyType.Name.ToLower().StartsWith(GetPropertyValue(component, "type").Replace(" ", "")))
+                            where (typeof(WorkflowComponent).IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract && assemblyType.Name.ToLower().StartsWith(GetPropertyValue(component, "type").Replace(" ", "")))
                             select assemblyType).First();
 
             WorkflowComponent item = (WorkflowComponent) Activator.CreateInstance(type);
