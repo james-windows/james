@@ -46,7 +46,7 @@ void SearchEngineWrapper::SearchEngineWrapper::Find(String^ file) {
 	{
 		SearchResult^ tmp = gcnew SearchResult;
 		tmp->path = gcnew String(res[i].first);
-		tmp->path = WebUtility::HtmlDecode(tmp->path);
+		tmp->path = WebUtility::UrlDecode(tmp->path);
 		tmp->priority = res[i].second;
 		searchResults->Add(tmp);
 	}
