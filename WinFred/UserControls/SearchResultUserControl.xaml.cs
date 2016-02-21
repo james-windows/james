@@ -193,7 +193,7 @@ namespace James.UserControls
         public string AutoComplete()
         {
             var index = _searchResultElement.CurrentFocus;
-            return results[index].AutoComplete();
+            return results != null && index < results.Count ? results[index].AutoComplete(): string.Empty;
         }
     }
 }
