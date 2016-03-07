@@ -58,13 +58,13 @@ namespace James
         private static void InitConfig()
         {
             _config = new Config();
-            _config.Paths.Add(new Path {Location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)});
+            _config.Paths = new ObservableCollection<Path>(DefaultPaths.GetDefault());
             _config.DefaultFileExtensions.AddRange(HelperClasses.DefaultFileExtensions.GetDefault());
             _config.ShortcutManagerSettings = new ShortcutManagerSettings();
             _config.Persist();
             AssociateFileExtension();
         }
-
+        //TODO add registry entry for custom protocol
         public static void AssociateFileExtension()
         {
             string executablePath = Directory.GetCurrentDirectory() + "\\James.exe";
