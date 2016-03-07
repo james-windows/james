@@ -9,6 +9,8 @@ namespace James.HelperClasses
         {
             return new List<FileExtension>
             {
+                //links
+                new FileExtension("lnk", 80),
                 //executables:
                 new FileExtension("exe", 100),
                 new FileExtension("msi", 80),
