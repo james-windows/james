@@ -165,7 +165,7 @@ namespace James.Search
             {
                 priority = GetPriorityByGivenFileExtensions(fileExtension, Config.Instance.DefaultFileExtensions);
             }
-            return priority;
+            return priority + Math.Max(0, 10 - (int)Math.Sqrt(PathHelper.GetFilename(filePath).Length));
         }
 
         /// <summary>
