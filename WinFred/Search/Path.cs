@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -70,9 +69,11 @@ namespace James.Search
             try
             {
                 data.AddRange(GetItemsInCurrentScope(Location + currentPath));
-                foreach (var directory in Directory.GetDirectories(Location + currentPath))
+                foreach (var directory in GetDirectories(Location + currentPath))
                 {
-                    if (!(Config.Instance.ExcludedFolders.Any(s => Regex.IsMatch(directory, s)) || Config.Instance.Paths.Any(path => path.Location == directory && currentPath != "")))
+                    bool folderExcluded = Config.Instance.ExcludedFolders.Any(s => Regex.IsMatch(directory, s));
+                    bool folderConfigurationOverriden = Config.Instance.Paths.Any(path => path.Location == directory && currentPath != "");
+                    if (!folderExcluded && !folderConfigurationOverriden)
                     {
                         data.AddRange(GetItemsToBeIndexed(directory.Replace(Location, "")));
                     }
@@ -85,6 +86,18 @@ namespace James.Search
             }
             return data;
         }
+
+        /// <summary>
+        /// Returns all not hidden directories in path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private IEnumerable<string> GetDirectories(string path)
+        {
+            return new DirectoryInfo(path).GetDirectories()
+                .Where(dir => !dir.Attributes.HasFlag(FileAttributes.Hidden))
+                .Select(dir => dir.FullName).Where(dir => dir != "");
+        } 
 
         /// <summary>
         /// Generates an ResultItem for the folder
@@ -108,7 +121,9 @@ namespace James.Search
         /// <returns></returns>
         private IEnumerable<ResultItem> GetItemsInCurrentScope(string currentPath)
         {
-            return Directory.GetFiles(currentPath).Select(GetItemIfItShouldBeIndexed).Where(file => file != null);
+            return new DirectoryInfo(currentPath).GetFiles()
+                .Where(f => !f.Attributes.HasFlag(FileAttributes.Hidden))
+                .Select(filePath => GetItemIfItShouldBeIndexed(filePath.FullName)).Where(f => f != null);
         }
 
         /// <summary>
