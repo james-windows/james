@@ -13,6 +13,7 @@ namespace James.Windows
     /// </summary>
     public partial class OptionWindow : MetroWindow
     {
+        //Todo make singelton
         public OptionWindow()
         {
             InitializeComponent();
