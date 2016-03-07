@@ -104,8 +104,8 @@ namespace James
 
         private static void InitializeSingeltons()
         {
-            //var instance = SearchEngine.Instance;
-            //var watcher = MyFileWatcher.Instance;
+            var instance = SearchEngine.Instance;
+            var watcher = MyFileWatcher.Instance;
             var workflowManager = WorkflowManager.Instance;
         }
 
