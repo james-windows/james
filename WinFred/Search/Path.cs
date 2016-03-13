@@ -80,6 +80,7 @@ namespace James.Search
                 }
             }
             catch (UnauthorizedAccessException){}
+            catch (DirectoryNotFoundException){}
             if (IndexFolders && data.Count > 0)
             {
                 data.Add(GenerateFolder(Location + currentPath));
