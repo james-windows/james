@@ -4,15 +4,18 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace James.Windows
+namespace James.HelperClasses
 {
-    /// <summary>
-    /// Used the code from the following source:
-    /// http://withinrafael.com/adding-the-aero-glass-blur-to-your-windows-10-apps/
-    /// only working with Windows 10
-    /// </summary>
-    public partial class LargeType
+    public static class WindowHelper
     {
+        public static void HideWindowFromTaskList(Window window)
+        {
+            var wndHelper = new WindowInteropHelper(window);
+            var exStyle = (int)GetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE);
+            exStyle |= (int)ExtendedWindowStyles.WS_EX_TOOLWINDOW;
+            SetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE, (IntPtr)exStyle);
+        }
+
         [Flags]
         public enum ExtendedWindowStyles
         {
@@ -22,14 +25,6 @@ namespace James.Windows
         public enum GetWindowLongFields
         {
             GWL_EXSTYLE = (-20)
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            var wndHelper = new WindowInteropHelper(this);
-            var exStyle = (int) GetWindowLong(wndHelper.Handle, (int) GetWindowLongFields.GWL_EXSTYLE);
-            exStyle |= (int) ExtendedWindowStyles.WS_EX_TOOLWINDOW;
-            SetWindowLong(wndHelper.Handle, (int) GetWindowLongFields.GWL_EXSTYLE, (IntPtr) exStyle);
         }
 
         [DllImport("user32.dll")]
@@ -71,7 +66,7 @@ namespace James.Windows
 
         private static int IntPtrToInt32(IntPtr intPtr)
         {
-            return unchecked((int) intPtr.ToInt64());
+            return unchecked((int)intPtr.ToInt64());
         }
 
         [DllImport("kernel32.dll", EntryPoint = "SetLastError")]

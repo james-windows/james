@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using James.HelperClasses;
 
 namespace James.Windows
 {
@@ -19,6 +20,7 @@ namespace James.Windows
             Height = SystemParameters.PrimaryScreenHeight;
             DataContext = Config.Instance;
             KeyUp += LargeType_KeyUp;
+            Loaded +=(sender, args) => WindowHelper.HideWindowFromTaskList(this);
         }
 
         public string Message

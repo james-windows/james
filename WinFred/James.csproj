@@ -197,6 +197,7 @@
     <Compile Include="HelperClasses\DefaultFileExtensions.cs" />
     <Compile Include="HelperClasses\DefaultPaths.cs" />
     <Compile Include="HelperClasses\MouseHelper.cs" />
+    <Compile Include="HelperClasses\WindowHelper.cs" />
     <Compile Include="Search\DeleteEvent.cs" />
     <Compile Include="Windows\ChangelogWindow.xaml.cs">
       <DependentUpon>ChangelogWindow.xaml</DependentUpon>
@@ -209,7 +210,6 @@
     <Compile Include="HelperClasses\GridHelper.cs" />
     <Compile Include="HelperClasses\PathHelper.cs" />
     <Compile Include="Shortcut\ShortcutManagerSettings.cs" />
-    <Compile Include="Windows\PartialConfigClasses\LargeTypeConfig.cs" />
     <Compile Include="Windows\PartialConfigClasses\MainWindowConfig.cs" />
     <Compile Include="ResultItems\MagicResultItem.cs" />
     <Compile Include="ResultItems\SearchResultItem.cs" />
