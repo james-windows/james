@@ -36,6 +36,8 @@ namespace James.HelperClasses
             {
                 output = output.Replace("{" + i + "}", arguments[i]);
             }
+            output = output.Replace("{#}", arguments.Length.ToString());
+            output = output.Replace("{...}", string.Join(" ", arguments));
             return Regex.Replace(output, @"{[0-9]+}", string.Empty);
         }
 
