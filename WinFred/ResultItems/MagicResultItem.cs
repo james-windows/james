@@ -23,7 +23,7 @@ namespace James.ResultItems
             var magic = WorkflowComponent as MagicOutput;
             if (magic != null && magic.Hide)
             {
-                MainWindow.GetInstance().Hide();
+                MainWindow.GetInstance().HideWindow();
             }
         }
 

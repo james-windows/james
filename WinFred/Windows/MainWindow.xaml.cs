@@ -85,14 +85,17 @@ namespace James.Windows
             }
         }
 
-        private void HideWindow()
+        public void HideWindow()
         {
-            LargeType.Instance.Hide();
-            if (Config.Instance.AlwaysClearLastInput)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                SearchTextBox.Text = "";
-            }
-            Hide();
+                LargeType.Instance.Hide();
+                if (Config.Instance.AlwaysClearLastInput)
+                {
+                    SearchTextBox.Text = "";
+                }
+                Hide();
+            });
         }
 
         #region Window-Events

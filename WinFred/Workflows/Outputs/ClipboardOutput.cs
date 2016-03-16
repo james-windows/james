@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using James.HelperClasses;
+using James.Windows;
 
 namespace James.Workflows.Outputs
 {
@@ -14,6 +15,7 @@ namespace James.Workflows.Outputs
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             thread.Join();
+            MainWindow.GetInstance().HideWindow();
         }
     }
 }

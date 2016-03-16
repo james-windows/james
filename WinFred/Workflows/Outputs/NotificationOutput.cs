@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using James.HelperClasses;
+using James.Windows;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Outputs
@@ -38,6 +39,7 @@ namespace James.Workflows.Outputs
             };
             icon.ShowBalloonTip(Timeperiod);
             LastIcon = icon;
+            MainWindow.GetInstance().HideWindow();
         }
     }
 }

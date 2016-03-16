@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows;
 using James.HelperClasses;
+using James.Windows;
 
 namespace James.Workflows.Outputs
 {
@@ -10,9 +12,10 @@ namespace James.Workflows.Outputs
         {
             try
             {
+                MainWindow.GetInstance().HideWindow();
                 Process.Start(FormatString.InsertArguments(input));
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Console.WriteLine("Error when starting " + input[0]);
             }

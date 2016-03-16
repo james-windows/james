@@ -81,6 +81,7 @@ namespace James.Workflows
                     component.Add(prop.Name.ToLower(), JToken.FromObject(prop.GetValue(this)));
                 }
             }
+            component.ToString();
             return component;
         }
 
