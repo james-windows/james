@@ -11,10 +11,8 @@ namespace James.HelperClasses
         {
             List<Path> paths = new List<Path>();
             paths.Add(new Path { Location = Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Priority = 50 });
-            //download folder:
-            string downloadFolder =
-                Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
-                    "{374DE290-123F-4565-9164-39C4925E467B}", string.Empty).ToString();
+            string downloadFolder = RegistryHelper.GetDownloadFolderLocation();
+                
             if (downloadFolder != string.Empty)
             {
                 paths.Add(new Path { Location = downloadFolder, Priority = 50 });

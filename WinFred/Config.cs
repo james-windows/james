@@ -6,7 +6,6 @@ using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.Search;
 using James.Shortcut;
-using Microsoft.Win32;
 using Newtonsoft.Json;
 using Path = James.Search.Path;
 
@@ -41,15 +40,12 @@ namespace James
                             var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
                             Directory.CreateDirectory(path);
                             _config = SerializationHelper.Deserialize<Config>(path + "\\config.json");
-                            var instance = ShortcutManager.Instance;
-                            _config.Icon = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico"));
                         }
                         catch (Exception e)
                         {
                             InitConfig();
                         }
                     }
-                    AssociateFileExtension();
                     return _config;
                 }
             }
@@ -62,20 +58,10 @@ namespace James
             _config.DefaultFileExtensions.AddRange(HelperClasses.DefaultFileExtensions.GetDefault());
             _config.ShortcutManagerSettings = new ShortcutManagerSettings();
             _config.Persist();
-            AssociateFileExtension();
+            RegistryHelper.AssociateFileExtension();
+            RegistryHelper.RegisterCustomProtocol();
         }
-        //TODO add registry entry for custom protocol
-        public static void AssociateFileExtension()
-        {
-            string executablePath = Directory.GetCurrentDirectory() + "\\James.exe";
-            string iconPath = Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico";
-            RegistryKey FileReg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.james");
-            RegistryKey AppReg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Applicatons\\MyNotepad.exe");
-            RegistryKey AppAssoc = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.james");
-
-            FileReg.CreateSubKey("DefaultIcon").SetValue("", iconPath);
-            FileReg.CreateSubKey("shell\\open\\command").SetValue("", "\""+ executablePath + "\" %1");
-        }
+        
 
         public void Persist()
         {
@@ -130,15 +116,7 @@ namespace James
             get { return _startProgramOnStartup; }
             set
             {
-                var registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                if (value)
-                {
-                    registryKey?.SetValue("James", "\"" + ConfigFolderLocation + "\\Update.exe\" --processStart James.exe");
-                }
-                else
-                {
-                    registryKey?.DeleteValue("James", false);
-                }
+                RegistryHelper.SetProgramAtStartup(value);
                 _startProgramOnStartup = value;
             }
         }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms.VisualStyles;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using James.HelperClasses;
 using James.ResultItems;
@@ -24,11 +25,13 @@ namespace James.Workflows
             {
                 Directory.CreateDirectory(Config.Instance.WorkflowFolderLocation);
             }
-            Directory.GetDirectories(Config.Instance.WorkflowFolderLocation).ForEach(LoadWorkflow);
+            Config.Instance.Icon = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico"));
+
+            Directory.GetDirectories(Config.Instance.WorkflowFolderLocation).ForEach(dir => LoadWorkflow(dir));
             LoadKeywordTriggers();
         }
 
-        public void LoadWorkflow(string path)
+        public bool LoadWorkflow(string path)
         {
             string configPath = path + "\\config.json";
             if (File.Exists(configPath))
@@ -37,14 +40,16 @@ namespace James.Workflows
                 {
                     dynamic item = JsonConvert.DeserializeObject(File.ReadAllText(configPath));
                     Workflow workflow = new Workflow(item, path);
-                    
-                    Application.Current.Dispatcher.Invoke(new Action(() => Workflows.Add(workflow)));
+                    Application.Current.Dispatcher.Invoke(() => Workflows.Add(workflow));
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Failed to load Workflow. Invalid config.js format!");
+                    return false;
                 }
+                return true;
             }
+            return false;
         }
 
         public List<WorkflowComponent> AllComponents => Workflows.SelectMany(workflow => workflow.Components).ToList();

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Pipes;
 using System.Threading;
 using System.Windows.Forms;
@@ -49,7 +50,10 @@ namespace James
                             string workflowPath = $@"{Config.Instance.WorkflowFolderLocation}\{splits[1]}";
                             if (splits[0] == "workflow" && Directory.Exists(workflowPath))
                             {
-                                WorkflowManager.Instance.LoadWorkflow(workflowPath);
+                                if (WorkflowManager.Instance.LoadWorkflow(workflowPath))
+                                {
+                                    MessageBox.Show($"Successfully imported workflow: {splits[1]}");
+                                }
                             }
                         }
                     }

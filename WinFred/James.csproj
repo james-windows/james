@@ -197,6 +197,7 @@
     <Compile Include="HelperClasses\DefaultFileExtensions.cs" />
     <Compile Include="HelperClasses\DefaultPaths.cs" />
     <Compile Include="HelperClasses\MouseHelper.cs" />
+    <Compile Include="HelperClasses\RegistryHelper.cs" />
     <Compile Include="HelperClasses\WindowHelper.cs" />
     <Compile Include="Search\DeleteEvent.cs" />
     <Compile Include="Windows\ChangelogWindow.xaml.cs">

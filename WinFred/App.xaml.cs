@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using James.HelperClasses;
 using James.Search;
+using James.Shortcut;
 using James.Workflows;
 using Microsoft.Win32.TaskScheduler;
 using Squirrel;
@@ -37,13 +38,13 @@ namespace James
         {
             bool createdNew;
             _mutex = new Mutex(true, "James", out createdNew);
-            if (createdNew && e.Args.Length == 0)
+            if (createdNew)
             {
                 StartProgram();
                 base.OnStartup(e);
                 var instance = ApiListener.Instance;
             }
-            else
+            else if(e.Args.Length != 0)
             {
                 AlternativeRun(e);
             }
@@ -107,6 +108,7 @@ namespace James
             var instance = SearchEngine.Instance;
             var watcher = MyFileWatcher.Instance;
             var workflowManager = WorkflowManager.Instance;
+            var shortcutManager = ShortcutManager.Instance;
         }
 
         private static void OnAppUninstall(Version version)
