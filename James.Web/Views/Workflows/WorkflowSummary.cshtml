@@ -14,7 +14,8 @@
         <div class="col-md-3 col-sm-5 col-xs-8">
             made by <a asp-action="Author" asp-route-author="@Model.Workflow.Author.UserName">@Model.Workflow.Author.UserName</a><br/>
             <strong>Downloads: </strong>@Html.DisplayFor(modelItem => Model.Workflow.Downloads)<br/>
-            <strong>PublishDate: </strong>@Html.DisplayFor(modelItem => Model.Workflow.PublishDate)
+            <strong>PublishDate: </strong>@Html.DisplayFor(modelItem => Model.Workflow.PublishDate)<br/>
+            <strong>Platform: </strong>@Html.DisplayFor(modelItem => Model.Workflow.Platform)
         </div>
     </div>
 </section>

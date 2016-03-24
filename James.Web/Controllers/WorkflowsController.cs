@@ -38,7 +38,7 @@ namespace James.Web.Controllers
                 model.Workflows.Add(new DetailsViewModel
                 {
                     Workflow = workflow,
-                    IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\extracted\\icon.png",
+                    IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\icon.png",
                     EditAllowed = CheckAuthorization(workflow)
                 });
             }
@@ -163,12 +163,12 @@ namespace James.Web.Controllers
                 workflow.FileSize = file.Length;
                 _context.Workflow.Add(workflow);
                 _context.SaveChanges();
-
                 var service = new WorkflowExtractService();
                 try
                 {
-                    service.ExtractWorkflow(file, workflow, _hostingEnv);
+                    service.ExtractWorkflow(file, ref workflow, _hostingEnv);
                     ViewBag.Success.Add("Workflow successfull added!");
+                    _context.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 catch (InvalidDataException)

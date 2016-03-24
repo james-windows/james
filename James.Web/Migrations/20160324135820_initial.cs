@@ -5,7 +5,7 @@ using Microsoft.Data.Entity.Metadata;
 
 namespace James.Web.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,6 +57,7 @@ namespace James.Web.Migrations
                     Downloads = table.Column<int>(nullable: true),
                     FileSize = table.Column<long>(nullable: false),
                     Name = table.Column<string>(nullable: false),
+                    Platform = table.Column<int>(nullable: false),
                     PublishDate = table.Column<DateTime>(nullable: true),
                     ShortDescription = table.Column<string>(nullable: true),
                     Verified = table.Column<bool>(nullable: false)

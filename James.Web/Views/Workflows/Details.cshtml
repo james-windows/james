@@ -37,7 +37,8 @@
             </a><br/>
             <strong>Downloads: </strong>@Html.DisplayFor(model => model.Workflow.Downloads)<br/>
             <strong>FileSize: </strong>@Html.DisplayFor(model => model.FileSize)<br/>
-            <strong>Published: </strong>@Html.DisplayFor(model => model.Workflow.PublishDate)<br/><br/>
+            <strong>Published: </strong>@Html.DisplayFor(model => model.Workflow.PublishDate)<br/>
+            <strong>Platform: </strong>@Html.DisplayFor(model => model.Workflow.Platform)<br /><br/>
             <a asp-action="Download" asp-route-id="@Model.Workflow.Id" class="btn btn-default btn-lg btn-block">
                 <span class="glyphicon glyphicon-download-alt"></span> Download
             </a>

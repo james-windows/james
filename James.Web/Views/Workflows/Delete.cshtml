@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.Raw(Model.Description)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Downloads)
@@ -34,6 +34,12 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PublishDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Platform)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Platform)
         </dd>
     </dl>
     

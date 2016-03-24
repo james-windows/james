@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace James.Web.Models
 {
@@ -28,5 +30,7 @@ namespace James.Web.Models
         public bool Verified { get; set; } = false;
 
         public long FileSize { get; set; }
+
+        public Platform Platform { get; set; }
     }
 }

@@ -80,6 +80,8 @@ namespace James.Web.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<int>("Platform");
+
                     b.Property<DateTime?>("PublishDate");
 
                     b.Property<string>("ShortDescription")

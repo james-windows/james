@@ -8,8 +8,8 @@ using James.Web.Models;
 namespace James.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160129153111_Initial")]
-    partial class Initial
+    [Migration("20160324135820_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,6 +80,8 @@ namespace James.Web.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
+
+                    b.Property<int>("Platform");
 
                     b.Property<DateTime?>("PublishDate");
 
