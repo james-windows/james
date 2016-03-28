@@ -21,13 +21,13 @@ namespace James.Workflows.Actions
 
         public override void Run(string[] arguments)
         {
-            if (Background == false && ParentWorkflow.IsCanceled)
+            if (!Background && ParentWorkflow.IsCanceled)
             {
                 return;
             }
             if (ExecutablePath == null)
             {
-                CallNext(new string[] {"python couldn't be found in the path"});
+                CallNext(new[] {"python couldn't be found in the path"});
                 return;
             }
             CallNext(StartProcess(Script + " " + string.Join(" ", arguments)));

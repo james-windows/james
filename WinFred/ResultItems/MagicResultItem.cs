@@ -19,7 +19,7 @@ namespace James.ResultItems
         /// <param name="search">The current text in the SearchBox</param>
         public override void Open(KeyEventArgs e, string search)
         {
-            WorkflowComponent.CallNext(WorkflowArguments);
+            WorkflowComponent.Run(WorkflowArguments);
             var magic = WorkflowComponent as MagicOutput;
             if (magic != null && magic.Hide)
             {

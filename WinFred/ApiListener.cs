@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.Pipes;
 using System.Threading;
 using System.Windows.Forms;
@@ -43,7 +42,7 @@ namespace James
                         string message = reader.ReadLine();
                         if (!string.IsNullOrEmpty(message))
                         {
-                            var splits = message.Split('/');
+                            var splits = message.Trim('/').Split('/');
                             WorkflowManager.Instance.RunApiTrigger(splits[0], splits);
 
                             //Check for new imported workflow to be added
@@ -52,6 +51,7 @@ namespace James
                             {
                                 if (WorkflowManager.Instance.LoadWorkflow(workflowPath))
                                 {
+                                    WorkflowManager.Instance.LoadKeywordTriggers();
                                     MessageBox.Show($"Successfully imported workflow: {splits[1]}");
                                 }
                             }

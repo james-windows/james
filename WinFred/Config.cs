@@ -111,6 +111,9 @@ namespace James
         public bool DisplayPriorities { get; set; } = false;
         public bool DisplayFileExtensions { get; set; } = false;
 
+        [JsonIgnore]//sets by the first instance
+        public bool FirstInstance { get; set; }
+
         public bool StartProgramOnStartup
         {
             get { return _startProgramOnStartup; }

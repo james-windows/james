@@ -29,6 +29,7 @@ namespace James.Workflows
 
             Directory.GetDirectories(Config.Instance.WorkflowFolderLocation).ForEach(dir => LoadWorkflow(dir));
             LoadKeywordTriggers();
+            var instance = ApiListener.Instance;
         }
 
         public bool LoadWorkflow(string path)

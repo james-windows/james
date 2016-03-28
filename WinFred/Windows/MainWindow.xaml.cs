@@ -111,7 +111,6 @@ namespace James.Windows
                     searchResultControl.MoveUp();
                     break;
                 case Key.Enter:
-                    WorkflowManager.Instance.CancelWorkflows();
                     searchResultControl.Open(e, SearchTextBox.Text);
                     break;
                 case Key.Tab:

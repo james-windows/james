@@ -10,10 +10,13 @@ namespace James.HelperClasses
         /// </summary>
         public static void RegisterCustomProtocol()
         {
-            string executablePath = Directory.GetCurrentDirectory() + "\\James.exe";
-            RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\james");
-            reg?.SetValue("URL PROTOCOL", "");
-            reg?.CreateSubKey("shell\\open\\command")?.SetValue("", $"\"{executablePath}\" \"%1\"");
+            if (Config.Instance.FirstInstance)
+            {
+                string executablePath = Directory.GetCurrentDirectory() + "\\James.exe";
+                RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\james");
+                reg?.SetValue("URL PROTOCOL", "");
+                reg?.CreateSubKey("shell\\open\\command")?.SetValue("", $"\"{executablePath}\" \"%1\"");
+            }
         }
 
         /// <summary>
@@ -21,14 +24,17 @@ namespace James.HelperClasses
         /// </summary>
         public static void AssociateFileExtension()
         {
-            string executablePath = Directory.GetCurrentDirectory() + "\\James.exe";
-            string iconPath = Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico";
-            RegistryKey FileReg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.james");
-            Registry.CurrentUser.CreateSubKey("Software\\Classes\\Applicatons\\MyNotepad.exe");
-            Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.james");
+            if (Config.Instance.FirstInstance)
+            {
+                string executablePath = Directory.GetCurrentDirectory() + "\\James.exe";
+                string iconPath = Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico";
+                RegistryKey FileReg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.james");
+                Registry.CurrentUser.CreateSubKey("Software\\Classes\\Applicatons\\MyNotepad.exe");
+                Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.james");
 
-            FileReg?.CreateSubKey("DefaultIcon")?.SetValue("", iconPath);
-            FileReg?.CreateSubKey("shell\\open\\command")?.SetValue("", $"\"{executablePath}\" %1");
+                FileReg?.CreateSubKey("DefaultIcon")?.SetValue("", iconPath);
+                FileReg?.CreateSubKey("shell\\open\\command")?.SetValue("", $"\"{executablePath}\" %1");
+            }
         }
 
         /// <summary>

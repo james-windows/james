@@ -59,6 +59,7 @@ namespace James.Workflows
             else
             {
                 Icon = Config.Instance.Icon;
+                Icon.Freeze();
             }
         }
 
@@ -89,6 +90,7 @@ namespace James.Workflows
         {
             IsCanceled = true;
             Components.OfType<BasicAction>().ForEach(surviveable => surviveable.Cancel());
+            Components.OfType<LargeTypeOutput>().ForEach(largeType => largeType.Cancel());
         }
 
         public void Persist()

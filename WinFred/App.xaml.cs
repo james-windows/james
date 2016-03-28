@@ -42,7 +42,7 @@ namespace James
             {
                 StartProgram();
                 base.OnStartup(e);
-                var instance = ApiListener.Instance;
+                Config.Instance.FirstInstance = true;
             }
             else if(e.Args.Length != 0)
             {
@@ -56,6 +56,7 @@ namespace James
         /// <param name="e"></param>
         private static void AlternativeRun(StartupEventArgs e)
         {
+            
             using (NamedPipeClientStream client = new NamedPipeClientStream("james"))
             {
                 client.Connect(100);
@@ -84,7 +85,7 @@ namespace James
                     writer.Flush();
                 }
             }
-            Environment.Exit(1);
+            Environment.Exit(0);
         }
 
         private static void StartProgram()
