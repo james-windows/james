@@ -92,3 +92,7 @@ blockquote.description {
 blockquote.description img {
     max-width: 100%;
 }
+/*HOME*/
+.carousel-control {
+    width: 5%;
+}

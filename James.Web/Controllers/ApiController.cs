@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using James.Web.Models;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
-
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace James.Web.Controllers
 {
@@ -26,13 +20,14 @@ namespace James.Web.Controllers
             return _context.Workflow.Where(workflow => workflow.Verified && workflow.Name.StartsWith(filter ?? "")).Include(workflow => workflow.Author).Select(
             workflow =>new
                 {
-                    Name = workflow.Name,
+                    workflow.Id,
+                    workflow.Name,
+                    workflow.Platform,
                     Author = workflow.Author.UserName,
-                    Downloads = workflow.Downloads,
-                    Filesize = workflow.FileSize,
-                    PublishDate = workflow.PublishDate,
-                    Id = workflow.Id,
-                    ShortDescription = workflow.ShortDescription
+                    workflow.Downloads,
+                    workflow.FileSize,
+                    workflow.PublishDate,
+                    workflow.ShortDescription
                 }
             );
         }
