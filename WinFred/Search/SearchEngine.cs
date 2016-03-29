@@ -7,6 +7,7 @@ using System.Timers;
 using James.Properties;
 using James.ResultItems;
 using System.IO;
+using James.HelperClasses;
 
 namespace James.Search
 {
@@ -69,6 +70,7 @@ namespace James.Search
         /// </summary>
         public void BuildIndex()
         {
+            Config.Instance.Paths.Where(path => path.IsEnabled).ForEach(path => _searchEngineWrapper.RemoveRecursive(path.Location));
             var data = GetFilesToBeIndexed();
             WriteFilesToIndex(data);
         }
