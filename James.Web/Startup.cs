@@ -110,14 +110,14 @@ namespace James.Web
 
             app.UseGoogleAuthentication(options =>
             {
-                options.ClientId = Configuration["Authentication:Google:ClientId"];
-                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                options.ClientId = "971403424463-0crsvf0oei56dom53dr3crge2jf2qbe2.apps.googleusercontent.com";
+                options.ClientSecret = "fQyAbTVHVw6x00q-68Kev4sD";
             });
 
             app.UseFacebookAuthentication(options =>
             {
-                options.AppId = Configuration["Authentication:Facebook:AppId"];
-                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                options.AppId = "1544336009213906";
+                options.AppSecret = "1933c0b138d284061c0184e32fcb092c";
             });
 
             app.UseMvc(routes =>
