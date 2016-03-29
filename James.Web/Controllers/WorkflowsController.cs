@@ -56,7 +56,7 @@ namespace James.Web.Controllers
                 model.Workflows.Add(new DetailsViewModel
                 {
                     Workflow = workflow,
-                    IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\extracted\\icon.png",
+                    IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\icon.png",
                     EditAllowed = CheckAuthorization(workflow)
                 });
             }
@@ -72,7 +72,7 @@ namespace James.Web.Controllers
                 model.Workflows.Add(new DetailsViewModel
                 {
                     Workflow = workflow,
-                    IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\extracted\\icon.png",
+                    IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\icon.png",
                     EditAllowed = CheckAuthorization(workflow)
                 });
             }
@@ -123,7 +123,7 @@ namespace James.Web.Controllers
             DetailsViewModel model = new DetailsViewModel
             {
                 Workflow = workflow,
-                IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\extracted\\icon.png",
+                IconPath = $"{_hostingEnv.WebRootPath}\\workflows\\{workflow.Id}\\icon.png",
                 EditAllowed = CheckAuthorization(workflow),
                 DisqusViewModel = new DisqusViewModel
                 {
