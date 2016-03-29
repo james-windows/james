@@ -19,8 +19,11 @@ namespace James.UserControls.SearchConfiguration
             var parentWindow = (MetroWindow)Window.GetWindow(this);
             var result =
                 await parentWindow.ShowInputAsync("Add excluded folder", "Which folders should be excluded?");
-            Config.Instance.ExcludedFolders.Add(result.Trim());
-            Config.Instance.Persist();
+            if (result != null)
+            {
+                Config.Instance.ExcludedFolders.Add(result.Trim());
+                Config.Instance.Persist();
+            }
         }
 
         private void RemoveExcludedFolderButton_Click(object sender, RoutedEventArgs e)
