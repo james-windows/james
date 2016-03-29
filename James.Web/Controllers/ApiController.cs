@@ -15,14 +15,19 @@ namespace James.Web.Controllers
 
         // GET: api/values
         [HttpGet]
-        public object Index(string filter = "")
+        public object Index(Platform os = Platform.Both, string filter = "")
         {
-            return _context.Workflow.Where(workflow => workflow.Verified && workflow.Name.StartsWith(filter ?? "")).Include(workflow => workflow.Author).Select(
+            return _context.Workflow
+                .Where(workflow =>  workflow.Verified &&
+                                    workflow.Name.StartsWith(filter ?? "") &&
+                                    workflow.Platform == os || workflow.Platform == Platform.Both)
+                .Include(workflow => workflow.Author)
+                .Select(
             workflow =>new
                 {
                     workflow.Id,
                     workflow.Name,
-                    workflow.Platform,
+                    Platform = workflow.Platform.ToString(),
                     Author = workflow.Author.UserName,
                     workflow.Downloads,
                     workflow.FileSize,
