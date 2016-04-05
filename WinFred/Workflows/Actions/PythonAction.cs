@@ -19,6 +19,10 @@ namespace James.Workflows.Actions
 
         public override string GetSummary() => $"Runs {Script}";
 
+        /// <summary>
+        /// Starts the action with the providen arguments
+        /// </summary>
+        /// <param name="arguments"></param>
         public override void Run(string[] arguments)
         {
             if (!Background && ParentWorkflow.IsCanceled)

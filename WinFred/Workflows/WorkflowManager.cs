@@ -80,13 +80,12 @@ namespace James.Workflows
 
         public IEnumerable<ResultItem> GetKeywordTriggers(string input)
         {
-            string firstWord = input.Split(' ')[0];
-            var keywordTriggers = KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(firstWord));
-            foreach (var trigger in keywordTriggers.Where(trigger => trigger.Autorun && trigger.Keyword == firstWord))
+            var keywordTriggers = KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input.Split(' ')[0])).ToList();
+            foreach (var trigger in keywordTriggers.Where(trigger => trigger.Autorun && input.StartsWith(trigger.Keyword)))
             {
                 trigger.Run(input.Split(' '));
             }
-            return keywordTriggers.Where(trigger => !trigger.Autorun || trigger.Keyword != firstWord).Select(
+            return keywordTriggers.Where(trigger => !trigger.Autorun || trigger.Keyword.StartsWith(input)).Select(
                         trigger =>
                             new MagicResultItem()
                             {

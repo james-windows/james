@@ -70,7 +70,7 @@ namespace James.Search
         /// </summary>
         public void BuildIndex()
         {
-            Config.Instance.Paths.Where(path => path.IsEnabled).ForEach(path => _searchEngineWrapper.RemoveRecursive(path.Location));
+            Config.Instance.Paths.Where(path => path.IsEnabled).ForEach(path => DeletePath(path.Location));
             var data = GetFilesToBeIndexed();
             WriteFilesToIndex(data);
         }
@@ -120,18 +120,42 @@ namespace James.Search
 
         private static int CalcProgress(int position, int total) => (int) (((double) position)/total*100);
 
+        /// <summary>
+        /// Wraps the Insert method of the SearchEngineWrapper
+        /// </summary>
+        /// <param name="file"></param>
         public void AddFile(ResultItem file) => _searchEngineWrapper.Insert(file.Subtitle, file.Priority);
 
+        /// <summary>
+        /// Wraps the Rename method of the SearchEngineWrapper
+        /// </summary>
+        /// <param name="oldPath"></param>
+        /// <param name="newPath"></param>
         public void RenameFile(string oldPath, string newPath) => _searchEngineWrapper.Rename(oldPath, newPath);
 
+        /// <summary>
+        /// Wraps the Delete Path method of the SearchEngineWrapper
+        /// </summary>
+        /// <param name="path"></param>
         public void DeletePath(string path) => _searchEngineWrapper.Remove(path);
 
-        public void DeletePathRecursive(string path) => _searchEngineWrapper.RemoveRecursive(path);
-
-        public void IncrementPriority(ResultItem resultItem) => IncrementPriority(resultItem.Subtitle);
-
+        /// <summary>
+        /// Wraps the IncrementePriority method of the SearchEngineWrapper
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="priority"></param>
         public void IncrementPriority(string path, int priority = 5) => _searchEngineWrapper.AddPriority(path, priority);
 
+        /// <summary>
+        /// Other overload of the IncrementPriority method
+        /// </summary>
+        /// <param name="resultItem"></param>
+        public void IncrementPriority(ResultItem resultItem) => IncrementPriority(resultItem.Subtitle);
+
+        /// <summary>
+        /// Wraps the Query method of the SearchEngineWrapper
+        /// </summary>
+        /// <param name="search"></param>
         public List<ResultItem> Query(string search)
         {
             if (search.Length < Config.Instance.StartSearchMinTextLength)

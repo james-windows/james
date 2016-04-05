@@ -10,16 +10,31 @@ namespace James.HelperClasses
 {
     public static class PathHelper
     {
+        /// <summary>
+        /// Fetches the file name of an providen path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static string GetFilename(string path)
         {
             return path.Split('\\').Last();
         }
 
+        /// <summary>
+        /// Returns online the path to the folder, of the given file path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static string GetFolderPath(string path)
         {
             return path.Substring(0, path.LastIndexOf('\\'));
         }
 
+        /// <summary>
+        /// Searchs through the Windows Paths location for an given executable to get the full path
+        /// </summary>
+        /// <param name="executableName"></param>
+        /// <returns></returns>
         public static string GetFullPathOfExe(string executableName)
         {
             var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);

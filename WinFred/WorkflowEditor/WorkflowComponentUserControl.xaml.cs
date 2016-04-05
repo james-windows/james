@@ -34,12 +34,22 @@ namespace James.WorkflowEditor
 
         public event ComponentUpdateHandler OnUpdate;
 
+        /// <summary>
+        /// Delets the component
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveComponent(object sender, RoutedEventArgs e)
         {
             Component.ParentWorkflow.RemoveComponent(Component);
             OnUpdate?.Invoke(this);
         }
 
+        /// <summary>
+        /// Opens the details of an component
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OpenComponent(object sender = null, RoutedEventArgs e = null)
         {
             var dialog = new ComponentMetroDialog(Component);
@@ -49,6 +59,11 @@ namespace James.WorkflowEditor
             dialog.Unloaded += Dialog_Unloaded;
         }
 
+        /// <summary>
+        /// Reloads the summary text if the form for the component got closed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Dialog_Unloaded(object sender, RoutedEventArgs e)
         {
             SummaryTextBlock.Text = Component.Summary;
@@ -56,6 +71,10 @@ namespace James.WorkflowEditor
 
         private void OpenWorkflowFolder(object sender, RoutedEventArgs e) => Component.ParentWorkflow.OpenFolder();
 
+        /// <summary>
+        /// Adds a connection to the component
+        /// </summary>
+        /// <param name="component"></param>
         public void NewSource(WorkflowComponent component)
         {
             if (component == null || !(Component.IsAllowed(component) || component.ConnectedTo.Contains(Component.Id)))
@@ -68,6 +87,9 @@ namespace James.WorkflowEditor
             }
         }
 
+        /// <summary>
+        /// Updates the postion of the user control to the providen WorkflowComponent
+        /// </summary>
         public void UpdatePosition()
         {
             Canvas.SetLeft(this, Component.X);

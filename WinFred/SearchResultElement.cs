@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using James.ResultItems;
@@ -34,8 +35,9 @@ namespace James
             FocusForegroundBrush = (Brush) ThemeManager.GetResourceFromAppStyle(null, "IdealForegroundColorBrush");
         }
 
-        public void DrawItems(List<ResultItem> searchResults, int focusedIndex)
+        public void DrawItems(List<ResultItem> searchResults, int focusedIndex, out ResultItem focusedItem)
         {
+            focusedItem = searchResults.ElementAtOrDefault(focusedIndex);
             _searchResults = searchResults;
             Dispatcher.BeginInvoke((Action) (() =>
             {

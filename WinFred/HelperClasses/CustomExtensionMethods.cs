@@ -29,6 +29,12 @@ namespace James.HelperClasses
             return imageSource;
         }
 
+        /// <summary>
+        /// Generates the output string for a given FormatString and arguments
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
         public static string InsertArguments(this string format, string[] arguments)
         {
             string output = format;
@@ -90,6 +96,11 @@ namespace James.HelperClasses
             return items.TakeWhile(item => !predicate(item)).Count();
         }
 
+        /// <summary>
+        /// Converts MahApps.Metro.Controls.HotKey to GlobalHotKey.HotKey for the GlobalHotKey api
+        /// </summary>
+        /// <param name="hotkey"></param>
+        /// <returns></returns>
         public static GlobalHotKey.HotKey ToGlobalHotKey(this HotKey hotkey)
         {
             return new GlobalHotKey.HotKey(hotkey.Key, hotkey.ModifierKeys);

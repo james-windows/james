@@ -6,8 +6,12 @@ using James.Windows;
 
 namespace James.Workflows.Outputs
 {
-    public class ClipboardOutput:BasicOutput
+    public class ClipboardOutput: BasicOutput
     {
+        /// <summary>
+        /// Copies the input to the clipboard
+        /// </summary>
+        /// <param name="input"></param>
         [STAThread]
         public override void Run(string[] input)
         {

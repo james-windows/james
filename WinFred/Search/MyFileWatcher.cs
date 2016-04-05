@@ -98,7 +98,6 @@ namespace James.Search
                 }
             });
             Console.WriteLine($"marking for deletion: {e.FullPath}");
-            SearchEngine.Instance.DeletePath(e.FullPath);
         }
 
         private static void DeleteFileLazy()
@@ -107,7 +106,7 @@ namespace James.Search
             {
                 var path = DeleteEvents.Dequeue().Path;
                 Console.WriteLine($"lazy deleted {path}");
-                SearchEngine.Instance.DeletePathRecursive(path);
+                SearchEngine.Instance.DeletePath(path);
             }
         }
 

@@ -16,7 +16,6 @@ namespace James.UserControls
     public partial class SearchResultUserControl : UserControl
     {
         private readonly SearchResultElement _searchResultElement;
-        private string _lastSearch = "";
         public List<ResultItem> results;
 
         public SearchResultUserControl()
@@ -32,6 +31,7 @@ namespace James.UserControls
         }
 
         public int FocusedIndex { get; private set; }
+        private ResultItem _focusedItem;
 
         private void MouseClick(object sender, MouseButtonEventArgs e)
         {
@@ -45,38 +45,43 @@ namespace James.UserControls
             }
         }
 
-        public void Search(string str, ResultItem focusedItem = null)
+        /// <summary>
+        /// Starts a new search, calls the searchengine and merges it with the matching KeywordTriggers
+        /// </summary>
+        /// <param name="str"></param>
+        public void Search(string str)
         {
             lock (this)
             {
-                _lastSearch = str;
                 results = SearchEngine.Instance.Query(str);
                 WorkflowManager.Instance.CancelWorkflows();
                 if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength, 1))
                 {
                     results.InsertRange(0, WorkflowManager.Instance.GetKeywordTriggers(str));
                 }
-                FocusedIndex = (focusedItem != null) ? CalcFocusedItem(focusedItem) : 0;
+                FocusedIndex = CalcFocusedItem();
 
-                results = results.Take(10).ToList();
-                _searchResultElement.DrawItems(results, FocusedIndex);
+                results = results.Take(Config.Instance.MaxSearchResults).ToList();
+                _searchResultElement.DrawItems(results, FocusedIndex, out _focusedItem);
                 Dispatcher.BeginInvoke(
                     (Action)(() => { _searchResultElement.Height = results.Count * SearchResultElement.RowHeight; }));
             }
         }
 
-        public int CalcFocusedItem(ResultItem focusedItem)
+        /// <summary>
+        /// Tries to restore the last selection
+        /// </summary>
+        /// <returns></returns>
+        public int CalcFocusedItem()
         {
-            for (var i = 0; i < results.Count; i++)
-            {
-                if (results[i].Subtitle == focusedItem.Subtitle)
-                {
-                    return i;
-                }
-            }
-            return 0;
+            int pos = results.IndexOf(_focusedItem);
+            return pos != -1 ? pos : 0;
         }
 
+        /// <summary>
+        /// Displays the results from a MagicOutput
+        /// </summary>
+        /// <param name="searchResults"></param>
         public void WorkflowOutput(List<MagicResultItem> searchResults)
         {
             lock (this)
@@ -89,7 +94,7 @@ namespace James.UserControls
                 FocusedIndex = 0;
                 Dispatcher.Invoke(() =>
                 {
-                    _searchResultElement.DrawItems(results, 0);
+                    _searchResultElement.DrawItems(results, 0, out _focusedItem);
                     Dispatcher.BeginInvoke(
                         (Action)
                             (() => { _searchResultElement.Height = results.Count * SearchResultElement.RowHeight; }));
@@ -97,24 +102,35 @@ namespace James.UserControls
             }
         }
 
+        /// <summary>
+        /// Moves current selection up
+        /// </summary>
         public void MoveUp()
         {
             if (FocusedIndex > 0)
             {
                 FocusedIndex--;
-                _searchResultElement.DrawItems(results, FocusedIndex);
+                _searchResultElement.DrawItems(results, FocusedIndex, out _focusedItem);
             }
         }
 
+        /// <summary>
+        /// Moves current selection down
+        /// </summary>
         public void MoveDown()
             {
             if (FocusedIndex < results.Count - 1)
             {
                 FocusedIndex++;
-                _searchResultElement.DrawItems(results, FocusedIndex);
+                _searchResultElement.DrawItems(results, FocusedIndex, out _focusedItem);
             }
         }
 
+        /// <summary>
+        /// Opens current selection
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="input"></param>
         public void Open(KeyEventArgs e, string input)
         {
             e.Handled = true;
@@ -183,7 +199,7 @@ namespace James.UserControls
         public void ChangePriority(int diff, int item)
         {
             SearchEngine.Instance.IncrementPriority(results[item].Subtitle, diff);
-            Search(_lastSearch, results[item]);
+            _focusedItem = results[item];
         }
 
         /// <summary>

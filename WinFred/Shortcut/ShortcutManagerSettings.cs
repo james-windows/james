@@ -11,6 +11,10 @@ namespace James.Shortcut
         public Shortcut LargeTypeHotKey { get; set; } = new Shortcut() { HotKey = new HotKey(Key.L, ModifierKeys.Alt) };
         public Shortcut SettingsHotKey { get; set; } = new Shortcut() { HotKey = new HotKey(Key.S, ModifierKeys.Alt) };
 
+        /// <summary>
+        /// Resets the user settings for the hotkeys and sets it to the default
+        /// </summary>
+        /// <returns></returns>
         public ShortcutManagerSettings Reset()
         {
             Shortcuts = new List<Shortcut>();

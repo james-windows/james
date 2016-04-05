@@ -8,6 +8,10 @@ namespace James.HelperClasses
 {
     public static class WindowHelper
     {
+        /// <summary>
+        /// Manages the Win32 API to hide the providen window rom the task list
+        /// </summary>
+        /// <param name="window"></param>
         public static void HideWindowFromTaskList(Window window)
         {
             var wndHelper = new WindowInteropHelper(window);
@@ -30,23 +34,27 @@ namespace James.HelperClasses
         [DllImport("user32.dll")]
         public static extern IntPtr GetWindowLong(IntPtr hWnd, int nIndex);
 
+        /// <summary>
+        /// Takes an windowHanlder, index and windows style and sets it. Throws Win32Exceptions if an error occurs
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nIndex"></param>
+        /// <param name="dwNewLong"></param>
+        /// <returns></returns>
         public static IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
         {
             var error = 0;
             var result = IntPtr.Zero;
-            // Win32 SetWindowLong doesn't clear error on success
             SetLastError(0);
 
             if (IntPtr.Size == 4)
             {
-                // use SetWindowLong
                 var tempResult = IntSetWindowLong(hWnd, nIndex, IntPtrToInt32(dwNewLong));
                 error = Marshal.GetLastWin32Error();
                 result = new IntPtr(tempResult);
             }
             else
             {
-                // use SetWindowLongPtr
                 result = IntSetWindowLongPtr(hWnd, nIndex, dwNewLong);
                 error = Marshal.GetLastWin32Error();
             }

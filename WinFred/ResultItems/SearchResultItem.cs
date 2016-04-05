@@ -61,6 +61,7 @@ namespace James.ResultItems
         /// Gets triggered if Enter is pressed or item got clicked
         /// </summary>
         /// <param name="e"></param>
+        /// <param name="search"></param>
         public override void Open(KeyEventArgs e, string search)
         {
             if (e.KeyboardDevice.Modifiers == (ModifierKeys.Shift | ModifierKeys.Control))
@@ -89,6 +90,10 @@ namespace James.ResultItems
             SearchEngine.Instance.IncrementPriority(this);
         }
 
+        /// <summary>
+        /// Provides the string for  the auto completion
+        /// </summary>
+        /// <returns></returns>
         public override string AutoComplete() => Title;
 
         /// <summary>

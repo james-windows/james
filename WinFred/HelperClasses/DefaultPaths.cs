@@ -7,6 +7,10 @@ namespace James.HelperClasses
 {
     public class DefaultPaths
     {
+        /// <summary>
+        /// Returns a collection of all default Paths
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<Path> GetDefault()
         {
             List<Path> paths = new List<Path>();

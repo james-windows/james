@@ -20,6 +20,10 @@ namespace James.Workflows.Outputs
         [ComponentField("Auto close after execution")]
         public bool Hide { get; set; } = false;
 
+        /// <summary>
+        /// Prepares the MagicResultItems and displays it on the search window
+        /// </summary>
+        /// <param name="output"></param>
         public override void Run(string[] output)
         {
             var outputResults = new List<MagicResultItem>();

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.Workflows.Actions;
+using James.Workflows.Interfaces;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 using Newtonsoft.Json.Linq;
@@ -86,13 +87,18 @@ namespace James.Workflows
 
         public bool IsCanceled { get; set; } = false;
 
+        /// <summary>
+        /// Cancels all running components
+        /// </summary>
         public void Cancel()
         {
             IsCanceled = true;
-            Components.OfType<BasicAction>().ForEach(surviveable => surviveable.Cancel());
-            Components.OfType<LargeTypeOutput>().ForEach(largeType => largeType.Cancel());
+            Components.OfType<ISurviveable>().ForEach(surviveable => surviveable.Cancel());
         }
 
+        /// <summary>
+        /// Saves the workflow in form of a .json file to the disc
+        /// </summary>
         public void Persist()
         {
             dynamic workflow = new JObject();
@@ -102,6 +108,10 @@ namespace James.Workflows
             File.WriteAllText(Path + "\\config.json", workflow.ToString());
         }
 
+        /// <summary>
+        /// Adds a new WorkflowComponent to the Workflow
+        /// </summary>
+        /// <param name="instance"></param>
         public void AddComponent(WorkflowComponent instance)
         {
             instance.Id = _lastId;
@@ -111,6 +121,10 @@ namespace James.Workflows
             WorkflowManager.Instance.LoadKeywordTriggers();
         }
 
+        /// <summary>
+        /// Removes a WorkflowComponent and it's connections from the workflow
+        /// </summary>
+        /// <param name="component"></param>
         public void RemoveComponent(WorkflowComponent component)
         {
             Triggers.ForEach(trigger => trigger.ConnectedTo.Remove(component.Id));
@@ -123,6 +137,9 @@ namespace James.Workflows
 
         public void Remove() => Directory.Delete(Path, true);
 
+        /// <summary>
+        /// archives the workflow folder and renames it to a .james file for export
+        /// </summary>
         public void Export()
         {
             FileDialog dialog = new SaveFileDialog();

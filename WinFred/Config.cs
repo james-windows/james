@@ -62,7 +62,9 @@ namespace James
             RegistryHelper.RegisterCustomProtocol();
         }
         
-
+        /// <summary>
+        /// Persists config into a .json file
+        /// </summary>
         public void Persist()
         {
             lock (_config)
@@ -71,6 +73,9 @@ namespace James
             }
         }
 
+        /// <summary>
+        /// Resets the Config and overrides all user's changes
+        /// </summary>
         public void ResetConfig()
         {
             lock (SingeltonLock)

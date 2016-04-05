@@ -33,6 +33,10 @@ namespace James
             (((App) Current).Resources).MergedDictionaries[4].Source = new Uri(baseColor);
         }
 
+        /// <summary>
+        /// Entry point of the application, here we check if it's the first running instance of James
+        /// </summary>
+        /// <param name="e"></param>
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {

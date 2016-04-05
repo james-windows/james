@@ -19,6 +19,7 @@ namespace James.ResultItems
         /// <param name="search">The current text in the SearchBox</param>
         public override void Open(KeyEventArgs e, string search)
         {
+            WorkflowComponent.ParentWorkflow.IsCanceled = false;
             WorkflowComponent.CallNext(WorkflowArguments);
             var magic = WorkflowComponent as MagicOutput;
             if (magic != null && magic.Hide)
@@ -27,6 +28,10 @@ namespace James.ResultItems
             }
         }
 
+        /// <summary>
+        /// Provides the string to use for the auto completion
+        /// </summary>
+        /// <returns></returns>
         public override string AutoComplete()
         {
             if (WorkflowComponent is KeywordTrigger)

@@ -34,6 +34,9 @@ namespace James.Workflows.Actions
         [ComponentField("Run in background")]
         public bool Background { get; set; } = false;
 
+        /// <summary>
+        /// Cancels the current Action
+        /// </summary>
         public virtual void Cancel()
         {
             if (!Background && proc != null && !proc.HasExited)
@@ -49,18 +52,13 @@ namespace James.Workflows.Actions
             }
         }
 
-        public override void CallNext(string[] arguments)
-        {
-            foreach (var id in ConnectedTo)
-            {
-                var nextComponent = this.GetNext(id);
-                Task.Run(() => nextComponent.Run(arguments));
-            }
-        }
-
+        /// <summary>
+        /// Starts the Action
+        /// </summary>
+        /// <param name="arguments"></param>
         public override void Run(string[] arguments)
         {
-            if (Background == false && ParentWorkflow.IsCanceled)
+            if (!Background && ParentWorkflow.IsCanceled)
             {
                 return;
             }
@@ -74,6 +72,12 @@ namespace James.Workflows.Actions
 
         public override bool IsAllowed(WorkflowComponent source) => base.IsAllowed(source) && (source is BasicTrigger || source is MagicOutput || source is BasicAction);
         
+        /// <summary>
+        /// Starts the process for the action
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="executablePath"></param>
+        /// <returns></returns>
         protected string[] StartProcess(string arguments, string executablePath = null)
         {
             proc = new Process
@@ -91,7 +95,8 @@ namespace James.Workflows.Actions
             };
             proc.Start();
             proc.WaitForExit();
-            return proc.StandardOutput.ReadToEnd().Split(new[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
+            string output = proc.StandardOutput.ReadToEnd();
+            return output.Split(new[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

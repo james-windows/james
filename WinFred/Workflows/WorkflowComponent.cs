@@ -35,6 +35,9 @@ namespace James.Workflows
             }
         }
 
+        /// <summary>
+        /// Every component needs to provide an individuel summary describing itself
+        /// </summary>
         public string Summary => GetSummary();
         public string Description => GetDescription();
 
@@ -50,10 +53,20 @@ namespace James.Workflows
 
         public abstract string GetSummary();
 
+
+        /// <summary>
+        /// Every component has to determine if a connection from the providen type is accepted
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public virtual bool IsAllowed(WorkflowComponent source) => source != this && !source.ConnectedTo.Contains(Id);
 
         public List<int> ConnectedTo { get; set; } = new List<int>();
 
+        /// <summary>
+        /// Calls the next to this workflow connected components
+        /// </summary>
+        /// <param name="arguments"></param>
         public virtual void CallNext(string[] arguments)
         {
             foreach (var id in ConnectedTo)
@@ -64,6 +77,10 @@ namespace James.Workflows
 
         public string GetDescription() => Resources.General_WorkflowComponent_Description;
 
+        /// <summary>
+        /// Converts the current component to an JObject
+        /// </summary>
+        /// <returns></returns>
         public JObject Persist()
         {
             dynamic component = new JObject();
@@ -85,6 +102,11 @@ namespace James.Workflows
             return component;
         }
 
+        /// <summary>
+        /// Loads all components and sets the attributes of the workflow
+        /// </summary>
+        /// <param name="component"></param>
+        /// <returns></returns>
         public static WorkflowComponent LoadComponent(dynamic component)
         {
             var type = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
@@ -122,7 +144,14 @@ namespace James.Workflows
             return item;
         }
 
-        public static string GetPropertyValue(dynamic item, string property)
+        /// <summary>
+        /// Small helper for the LoadWorkflow() method. 
+        /// It fetches the string value to an providen key.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        private static string GetPropertyValue(dynamic item, string property)
         {
             foreach (var prop in item)
             {
@@ -134,9 +163,6 @@ namespace James.Workflows
             return "";
         }
 
-        public override string ToString()
-        {
-            return GetType().Name + $" id: {Id}";
-        }
+        public override string ToString() => $"{GetType().Name} id: {Id}";
     }
 }

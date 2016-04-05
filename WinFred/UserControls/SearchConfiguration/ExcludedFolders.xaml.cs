@@ -14,6 +14,7 @@ namespace James.UserControls.SearchConfiguration
         {
             InitializeComponent();
         }
+
         private async void AddExcludedFolderButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow)Window.GetWindow(this);

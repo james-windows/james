@@ -5,6 +5,10 @@ namespace James.HelperClasses
 {
     public class DefaultFileExtensions
     {
+        /// <summary>
+        /// Returns a collection of all default FileExtensions
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<FileExtension> GetDefault()
         {
             return new List<FileExtension>

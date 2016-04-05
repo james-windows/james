@@ -20,8 +20,8 @@ namespace James.Web.Controllers
             return _context.Workflow
                 .Where(workflow =>  workflow.Verified &&
                                     workflow.Name.StartsWith(filter ?? "") &&
-                                    workflow.Platform == os || workflow.Platform == Platform.Both)
-                .Include(workflow => workflow.Author)
+                                    (workflow.Platform == os || workflow.Platform == Platform.Both))
+                .Include(workflow => workflow.Author)//todo order by downloads
                 .Select(
             workflow =>new
                 {

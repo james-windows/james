@@ -24,6 +24,9 @@ namespace James.Workflows.Actions
 
         private Timer timer;
 
+        /// <summary>
+        /// Cancels the timer of the action
+        /// </summary>
         public override void Cancel()
         {
             if (!Background)
@@ -33,6 +36,10 @@ namespace James.Workflows.Actions
             }
         }
 
+        /// <summary>
+        /// Starts a timeout for a specific amount of time (arguments + FormatString)
+        /// </summary>
+        /// <param name="arguments"></param>
         public override void Run(string[] arguments)
         {
             if (Background == false && ParentWorkflow.IsCanceled)

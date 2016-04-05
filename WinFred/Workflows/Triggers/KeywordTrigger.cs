@@ -34,6 +34,10 @@ namespace James.Workflows.Triggers
             CallNext(arguments);
         }
 
+        /// <summary>
+        /// Calls the next Componenten which are connected to the current one
+        /// </summary>
+        /// <param name="arguments"></param>
         public override void CallNext(string[] arguments)
         {
             foreach (var id in ConnectedTo)

@@ -18,6 +18,9 @@ namespace James.Shortcut
             Reload();
         }
 
+        /// <summary>
+        /// Clears all current active Shortcut listeners and reloads the shortcuts to listen
+        /// </summary>
         public void Reload()
         {
             _managerSettings = Config.Instance.ShortcutManagerSettings;
@@ -34,6 +37,11 @@ namespace James.Shortcut
         public delegate void ShortcutPressedEventHandler(object sender, EventArgs e);
         public event ShortcutPressedEventHandler ShortcutPressed;
 
+        /// <summary>
+        /// determine what should happen if a HotKey got pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HotKeyPressed(object sender, KeyPressedEventArgs e)
         {
             Shortcut result;

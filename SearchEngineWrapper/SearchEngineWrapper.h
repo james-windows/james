@@ -22,8 +22,6 @@ namespace SearchEngineWrapper {
 
 		void Remove(System::String ^ path);
 
-		void RemoveRecursive(System::String ^ path);
-
 		void Insert(System::String^ filename, int priority);
 
 		void AddPriority(System::String ^ path, int delta);

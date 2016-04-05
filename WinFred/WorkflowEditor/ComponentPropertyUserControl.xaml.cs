@@ -27,6 +27,9 @@ namespace James.WorkflowEditor
             _component = component;
         }
 
+        /// <summary>
+        /// necessary for the dialog over reflection. Writes the casted providen Value to the correct property
+        /// </summary>
         public void WriteToWorkflowComponent()
         {
             switch (_prop.PropertyType.Name)

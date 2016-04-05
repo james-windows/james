@@ -272,5 +272,27 @@ namespace James.Test
         }
 
         #endregion
+
+        [TestMethod]
+        public void AdvancedRebuildTest()
+        {
+            Config.Instance.ConfigFolderLocation = Environment.CurrentDirectory + "\\second";
+            var instance = SearchEngine.Instance;
+            instance.DeletePath(@"C:\Users\moser\Desktop");
+            instance.DeletePath(@"C:\Users\moser\Downloads");
+            instance.DeletePath(@"C:\Users\moser\Documents");
+            instance.DeletePath(@"C:\Users\moser\Pictures");
+            instance.DeletePath(@"C:\Users\moser\Videos");
+            instance.DeletePath(@"C:\Users\moser\Music");
+            instance.DeletePath(@"C:\Program Files");
+            instance.DeletePath(@"C:\Program Files (x86)");
+            instance.DeletePath(@"C:\Users\moser\AppData\Roaming\Microsoft\Windows\Start Menu");
+            instance.DeletePath(@"C:\ProgramData\Microsoft\Windows\Start Menu");
+            instance.DeletePath(@"C:\Users\moser\OneDrive");
+            instance.DeletePath(@"C:\tmp");
+            instance.DeletePath(@"C:\Portable");
+
+            Assert.IsTrue(instance.Query("a").Count == 0);
+        }
     }
 }

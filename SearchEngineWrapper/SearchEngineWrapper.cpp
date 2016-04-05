@@ -19,11 +19,7 @@ void SearchEngineWrapper::SearchEngineWrapper::Save() {
 }
 
 void SearchEngineWrapper::SearchEngineWrapper::Remove(String^ path) {
-	searchEngine->remove(ConvertToChar(path));
-}
-
-void SearchEngineWrapper::SearchEngineWrapper::RemoveRecursive(String^ path) {
-	searchEngine->remove(ConvertToChar(path));
+	searchEngine->removeRecursive(ConvertToChar(path));
 }
 
 void SearchEngineWrapper::SearchEngineWrapper::Insert(String^ path, int priority) {

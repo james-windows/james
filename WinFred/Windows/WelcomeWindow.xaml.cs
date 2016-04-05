@@ -16,6 +16,11 @@ namespace James.Windows
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Launches the search windows if the tutorial is completed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             if (_launchMainWindowAtEnd)

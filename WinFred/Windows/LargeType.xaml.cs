@@ -40,11 +40,14 @@ namespace James.Windows
             }
         }
 
-        private void LargeType_KeyUp(object sender, KeyEventArgs e)
-        {
-            KeyDown += Window_KeyDown;
-        }
+        private void LargeType_KeyUp(object sender, KeyEventArgs e) => KeyDown += Window_KeyDown;
 
+
+        /// <summary>
+        /// Closes LargeType on the specific key events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e == null || e.KeyboardDevice.IsKeyDown(Key.Escape) ||
@@ -56,6 +59,10 @@ namespace James.Windows
             }
         }
 
+        /// <summary>
+        /// Displays the providen message in the LargeType window
+        /// </summary>
+        /// <param name="message"></param>
         public void DisplayMessage(string message)
         {
             if (!Dispatcher.CheckAccess())
@@ -72,6 +79,10 @@ namespace James.Windows
             Activate();
         }
 
+        /// <summary>
+        /// Changes the message of the LargeType without bringing it to the front
+        /// </summary>
+        /// <param name="message"></param>
         public void ChangeMessage(string message)
         {
             if (!Dispatcher.CheckAccess())

@@ -39,11 +39,14 @@ namespace James.Windows
             }
         }
 
-        private void LargeType_Activated(object sender, EventArgs e)
-        {
-            _showLargeType = false;
-        }
 
+        private void LargeType_Activated(object sender, EventArgs e) => _showLargeType = false;
+
+        /// <summary>
+        /// Bring the search window to the focus when LargeType gets closed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LargeType_Deactivated(object sender, EventArgs e)
         {
             WorkflowManager.Instance.CancelWorkflows();
@@ -59,6 +62,10 @@ namespace James.Windows
             }
         }
 
+        /// <summary>
+        /// Reacts for the hotkey of the search window and shows or hides it depending on the current state
+        /// </summary>
+        /// <param name="shortcut"></param>
         public void OnHotKeyHandler(Shortcut.Shortcut shortcut)
         {
             if (IsVisible || shortcut == null)
@@ -85,6 +92,9 @@ namespace James.Windows
             }
         }
 
+        /// <summary>
+        /// Hides search window
+        /// </summary>
         public void HideWindow()
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -100,6 +110,11 @@ namespace James.Windows
 
         #region Window-Events
 
+        /// <summary>
+        /// Some key listeners for special events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SearchTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
@@ -156,6 +171,9 @@ namespace James.Windows
             }
         }
 
+        /// <summary>
+        /// Opens LargeType and brings it to the front
+        /// </summary>
         private void CallLargeType()
         {
             int index = searchResultControl.FocusedIndex;
@@ -178,6 +196,16 @@ namespace James.Windows
         }
 
         /// <summary>
+        /// Opens LargeType and shows the providen message
+        /// </summary>
+        /// <param name="message"></param>
+        public void DisplayLargeType(string message)
+        {
+            _showLargeType = true;
+            LargeType.Instance.DisplayMessage(message);
+        }
+
+        /// <summary>
         /// Tests if the key and the modifiers are pressed
         /// </summary>
         /// <param name="hotkey"></param>
@@ -188,18 +216,22 @@ namespace James.Windows
             return e.KeyboardDevice.IsKeyDown(hotkey.Key) && e.KeyboardDevice.Modifiers == hotkey.ModifierKeys;
         }
 
-        public void DisplayLargeType(string message)
-        {
-            _showLargeType = true;
-            LargeType.Instance.DisplayMessage(message);
-        }
-
+        /// <summary>
+        /// Starts a new search on TextChanged
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var str = SearchTextBox.Text.Trim();
             new Task(() => searchResultControl.Search(str)).Start();
         }
 
+        /// <summary>
+        /// Hides current window if it's no longer in the focus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e)
         {
             if (!_showLargeType)
@@ -208,12 +240,22 @@ namespace James.Windows
             }
         }
 
+        /// <summary>
+        /// Opens the settings window and hides james
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenSettings(object sender, RoutedEventArgs e)
         {
             new OptionWindow().Show();
             HideWindow();
         }
 
+        /// <summary>
+        /// Closes the hole application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseApplication(object sender, RoutedEventArgs e) => Environment.Exit(1);
 
         #endregion
