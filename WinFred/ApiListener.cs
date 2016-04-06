@@ -30,7 +30,9 @@ namespace James
             listenThread.Start();
         }
 
-        /// <summary>
+        
+
+
         /// Listens for incoming messages over the NamedPipes
         /// </summary>
         static void Listen()

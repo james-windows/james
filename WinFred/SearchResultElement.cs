@@ -146,6 +146,15 @@ namespace James
 
         protected override int VisualChildrenCount => _children.Count;
 
+        protected override Visual GetVisualChild(int index)
+        {
+            if (index< 0 || index >= _children.Count)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return _children[index];
+        }
         #endregion
     }
 }
