@@ -44,7 +44,6 @@ namespace James.Search
         /// <param name="e"></param>
         private void File_Created(object sender, FileSystemEventArgs e)
         {
-            //TODO fix issue when 2 paths are listening on the same file
             var newName = PathHelper.GetFilename(e.Name);
             var watcher = sender as FileSystemWatcher;
             var currentPath = _paths.First(path => path.Location == watcher?.Path);

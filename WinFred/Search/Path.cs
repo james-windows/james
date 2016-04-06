@@ -64,7 +64,6 @@ namespace James.Search
         /// <returns></returns>
         public IEnumerable<ResultItem> GetItemsToBeIndexed(string currentPath = "")
         {
-            //TODO if /Users/Moser is path and Moser is excluded even the files shouldn't be included
             var data = new List<ResultItem>();
             try
             {
