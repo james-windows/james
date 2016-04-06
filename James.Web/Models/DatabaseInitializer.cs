@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 
 namespace James.Web.Models

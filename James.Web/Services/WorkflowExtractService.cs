@@ -62,6 +62,11 @@ namespace James.Web.Services
             
         }
 
+        /// <summary>
+        /// extracts file to folder
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="folderPath"></param>
         private void ExtractFileToFolder(IFormFile file, string folderPath)
         {
             Directory.CreateDirectory(folderPath);
@@ -70,6 +75,10 @@ namespace James.Web.Services
             RemoveMacOsX(folderPath);
         }
 
+        /// <summary>
+        /// Removes the silliy __MACOSX folder inside an archive
+        /// </summary>
+        /// <param name="folder"></param>
         private void RemoveMacOsX(string folder)
         {
             if (Directory.Exists(folder + "\\__MACOSX"))
