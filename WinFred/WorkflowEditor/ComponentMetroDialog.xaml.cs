@@ -19,6 +19,11 @@ namespace James.WorkflowEditor
             _component = component;
         }
 
+        /// <summary>
+        /// Builds the dialog using reflection on the component
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BaseMetroDialog_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = _component;
@@ -36,6 +41,11 @@ namespace James.WorkflowEditor
 
         private void OpenWorkflowDirectory(object sender, RoutedEventArgs e) => _component.ParentWorkflow.OpenFolder();
 
+        /// <summary>
+        /// Saves every attribute of the component
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveChanges(object sender, RoutedEventArgs e)
         {
             foreach (var result in propertyPanel.Children.Cast<ComponentPropertyUserControl>())
@@ -45,6 +55,9 @@ namespace James.WorkflowEditor
             Close();
         }
 
+        /// <summary>
+        /// Persists the Workflow before closing
+        /// </summary>
         private void Close()
         {
             _component.ParentWorkflow.Persist();

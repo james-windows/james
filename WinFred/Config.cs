@@ -51,6 +51,9 @@ namespace James
             }
         }
 
+        /// <summary>
+        /// Initialiazes the config
+        /// </summary>
         private static void InitConfig()
         {
             _config = new Config();

@@ -19,6 +19,11 @@ namespace James.UserControls
             DataContext = WorkflowManager.Instance;
         }
 
+        /// <summary>
+        /// Deletes a workflow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void DeleteWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
@@ -34,6 +39,11 @@ namespace James.UserControls
             }
         }
 
+        /// <summary>
+        /// Creates a new workflow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void AddWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
@@ -50,6 +60,11 @@ namespace James.UserControls
 
         private void ExportWorkflowButton_Click(object sender, RoutedEventArgs e) => ((Workflow)WorkflowListBox.SelectedItem).Export();
 
+        /// <summary>
+        /// Open the settings window of the workflow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenWorkflowSettings(object sender, RoutedEventArgs e)
         {
             var dialog = new WorkflowSettingsDialog((Workflow)WorkflowListBox.SelectedItem);

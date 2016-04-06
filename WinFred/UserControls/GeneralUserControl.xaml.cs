@@ -17,6 +17,11 @@ namespace James.UserControls
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Uninstalls the application if it was deliverd by using squirrel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void UninstallProgram(object sender, RoutedEventArgs e)
         {
             var manager = new UpdateManager(Config.Instance.ReleaseUrl);
@@ -26,6 +31,11 @@ namespace James.UserControls
 
         private void CloseProgram(object sender, RoutedEventArgs e) => Environment.Exit(0);
 
+        /// <summary>
+        /// Resets the config
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ResetConfig(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);

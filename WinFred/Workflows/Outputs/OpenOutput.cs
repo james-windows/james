@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Windows;
 using James.HelperClasses;
 using James.Windows;
 

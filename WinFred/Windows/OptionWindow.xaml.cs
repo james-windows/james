@@ -27,6 +27,11 @@ namespace James.Windows
 
         private void TabChanged(object sender, SelectionChangedEventArgs e) => Config.Instance.Persist();
 
+        /// <summary>
+        /// Closes the window and persists all changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             Config.Instance.Persist();

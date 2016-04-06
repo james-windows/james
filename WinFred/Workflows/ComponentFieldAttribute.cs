@@ -20,6 +20,12 @@ namespace James.Workflows
         public string Description { get; }
         public bool IsFile { get; private set; }
 
+        /// <summary>
+        /// Provides 
+        /// </summary>
+        /// <param name="prop"></param>
+        /// <param name="component"></param>
+        /// <returns></returns>
         public FrameworkElement GetElement(PropertyInfo prop, WorkflowComponent component)
         {
             var description = Description;

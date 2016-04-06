@@ -24,6 +24,11 @@ namespace James.UserControls.SearchConfiguration
             DataContext = Config.Instance;
         }
 
+        /// <summary>
+        /// Starts a recreation of the index
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
@@ -75,6 +80,11 @@ namespace James.UserControls.SearchConfiguration
             _controller.SetMessage(e.ProgressPercentage + "% of the files already added!");
         }
 
+        /// <summary>
+        /// Adds a folder to the user specific config
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddFolderButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new FolderBrowserDialog();
@@ -88,6 +98,11 @@ namespace James.UserControls.SearchConfiguration
             }
         }
 
+        /// <summary>
+        /// Removes a folder of the user specifc config
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void RemoveFolderButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
@@ -109,6 +124,11 @@ namespace James.UserControls.SearchConfiguration
             }
         }
 
+        /// <summary>
+        /// Toggles the Enabled status of the path
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangeStatusMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ((Path) PathListBox.SelectedItem).IsEnabled = !((Path) PathListBox.SelectedItem).IsEnabled;

@@ -28,6 +28,10 @@ namespace James.Windows
             progressRing.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Loads the Changelog and displays it
+        /// </summary>
+        /// <returns></returns>
         private async Task<string> LoadChangelog()
         {
             using (var webClient = new WebClient())

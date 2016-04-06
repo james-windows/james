@@ -4,12 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using ICSharpCode.SharpZipLib.Checksums;
 using James.Properties;
 using James.Workflows;
-using James.Workflows.Actions;
-using James.Workflows.Outputs;
-using James.Workflows.Triggers;
 using MahApps.Metro;
 
 namespace James.WorkflowEditor
@@ -51,6 +47,9 @@ namespace James.WorkflowEditor
         public WorkflowComponent Destination { get; set; }
         public Path Path { get; set; }
 
+        /// <summary>
+        /// Recalculates the path
+        /// </summary>
         private void CreatePath()
         {
             Path = new Path

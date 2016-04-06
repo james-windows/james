@@ -4,12 +4,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Media.Imaging;
-using James.HelperClasses;
 using James.Workflows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using DragDropEffects = System.Windows.DragDropEffects;
 using DragEventArgs = System.Windows.DragEventArgs;
 
 namespace James.WorkflowEditor
@@ -29,6 +26,11 @@ namespace James.WorkflowEditor
             WorkflowImage.Source = workflow.Icon;
         }
 
+        /// <summary>
+        /// Saves the changes and closes the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FinishedWorkflow(object sender, RoutedEventArgs e)
         {
             if (Workflow.Name != _workflowName)
@@ -42,17 +44,18 @@ namespace James.WorkflowEditor
                 {
                     Workflow.Name = _workflowName;
                 }
-                
             }
             Workflow.Persist();
             Close();
         }
 
-        private void OpenWorkflowFolder(object sender, RoutedEventArgs e)
-        {
-            Workflow.OpenFolder();
-        }
+        private void OpenWorkflowFolder(object sender, RoutedEventArgs e) => Workflow.OpenFolder();
 
+        /// <summary>
+        /// Provides an option to delete the workflow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void DeleteWorkflow(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow)Window.GetWindow(this);
@@ -72,17 +75,15 @@ namespace James.WorkflowEditor
             Close();
         }
 
-        private void ExportWorkflow(object sender, RoutedEventArgs e)
-        {
-            Workflow.Export();
-        }
+        private void ExportWorkflow(object sender, RoutedEventArgs e) => Workflow.Export();
 
-        private void Close()
-        {
-            var window = (MetroWindow)Window.GetWindow(this);
-            window.HideMetroDialogAsync(this);
-        }
+        private void Close() => ((MetroWindow)Window.GetWindow(this)).HideMetroDialogAsync(this);
 
+        /// <summary>
+        /// Imports the icon for the workflow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ImportWorkflowIcon(object sender, RoutedEventArgs e)
         {
             FileDialog dialog = new OpenFileDialog();
@@ -93,6 +94,11 @@ namespace James.WorkflowEditor
             }
         }
 
+        /// <summary>
+        /// Handels the event, if an icon path got dropped into the control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DropFilePath(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop))

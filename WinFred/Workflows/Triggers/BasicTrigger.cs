@@ -1,6 +1,4 @@
-﻿using James.Workflows.Actions;
-using James.Workflows.Interfaces;
-using James.Workflows.Outputs;
+﻿using James.Workflows.Interfaces;
 
 namespace James.Workflows.Triggers
 {

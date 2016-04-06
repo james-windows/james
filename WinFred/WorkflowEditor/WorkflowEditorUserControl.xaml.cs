@@ -36,6 +36,11 @@ namespace James.WorkflowEditor
 
         private Workflow Workflow => DataContext as Workflow;
 
+        /// <summary>
+        /// Deletes a connection between 2 components
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteConnection(object sender, MouseButtonEventArgs e)
         {
             var myLine = _myLines.First(line => ReferenceEquals(line.Path, (Path) sender));
@@ -62,6 +67,11 @@ namespace James.WorkflowEditor
         private WorkflowComponentUserControl _selectedComponent;
         private CustomPath _customPath;
 
+        /// <summary>
+        /// Handels all necessary steps to start dragging
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartDragging(object sender, MouseButtonEventArgs e)
         {
             MouseHelper.TrapMouseInsideControl(editorBorder);
@@ -81,6 +91,11 @@ namespace James.WorkflowEditor
             }
         }
         
+        /// <summary>
+        /// Moves component to the current mouse position
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MoveComponent(object sender, MouseEventArgs e)
         {
             if (_selectedComponent == null) return;
@@ -115,6 +130,10 @@ namespace James.WorkflowEditor
             DrawCanvas(this, null);
         }
 
+        /// <summary>
+        /// Realigns all components
+        /// </summary>
+        /// <param name="components"></param>
         private void CorrectLeftAndTop(List<WorkflowComponent> components)
         {
             if (components.Count > 0)
@@ -127,11 +146,21 @@ namespace James.WorkflowEditor
             }
         } 
 
+        /// <summary>
+        /// Moves the destination of the current drawing path
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MovePath(object sender, MouseEventArgs e)
         {
             _customPath?.ChangeDestination(e.GetPosition(editorCanvas));
         }
 
+        /// <summary>
+        /// Finishes the drag and drop action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FinishMoving(object sender, MouseButtonEventArgs e)
         {
             MouseHelper.ClearMouseTrap();
@@ -171,6 +200,11 @@ namespace James.WorkflowEditor
 
         #region drawing Workflow
 
+        /// <summary>
+        /// Loads the new selected workflow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WorkflowEditorUserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (WorkflowManager.Instance.Workflows.Contains(e.OldValue))
@@ -185,6 +219,11 @@ namespace James.WorkflowEditor
             }
         }
 
+        /// <summary>
+        /// Draws the workflow to the canvas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawCanvas(object sender, RoutedEventArgs e)
         {
             _myLines.Clear();
@@ -194,6 +233,10 @@ namespace James.WorkflowEditor
             DrawConnections();
         }
 
+        /// <summary>
+        /// Draws an providen component to the canvas
+        /// </summary>
+        /// <param name="components"></param>
         private void DrawComponents(List<WorkflowComponent> components)
         {
             if (components.Count > 0)
@@ -212,6 +255,9 @@ namespace James.WorkflowEditor
             }
         }
 
+        /// <summary>
+        /// Draws all connections between components of this workflow
+        /// </summary>
         private void DrawConnections()
         {
             foreach (var item in Workflow.Components)
@@ -233,6 +279,11 @@ namespace James.WorkflowEditor
 
         #endregion
 
+        /// <summary>
+        /// Dynamically fills the context menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FillContextMenu(object sender, RoutedEventArgs e)
         {
             TriggerContextMenu.ItemsSource = GetAllChildTypesInAssembly(typeof(BasicTrigger));
@@ -256,6 +307,11 @@ namespace James.WorkflowEditor
 
         #region Add Component
 
+        /// <summary>
+        /// Adds a new component
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddComponent(object sender, RoutedEventArgs e)
         {
             var component = (Type)((MenuItem)e.OriginalSource).DataContext;
@@ -268,6 +324,11 @@ namespace James.WorkflowEditor
 
         private Point point = new Point();
 
+        /// <summary>
+        /// Opens the contextmenu to provide the option to create new components
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Border_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             double offset = (border.ActualWidth - viewBox.ActualWidth);
@@ -286,6 +347,11 @@ namespace James.WorkflowEditor
 
         #endregion
 
+        /// <summary>
+        /// Cancels the drag and drop functionality if the mouse leaves the drawing area
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UIElement_OnMouseLeave(object sender, MouseEventArgs e)
         {
             FinishMoving(this, null);

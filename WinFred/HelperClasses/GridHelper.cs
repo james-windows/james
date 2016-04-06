@@ -22,6 +22,11 @@ namespace James.HelperClasses
         public static void SetColumnDefinition(DependencyObject obj, string value)
             => obj.SetValue(ColumnDefinitionProperty, value);
 
+        /// <summary>
+        /// Redefines the Columndefinitions
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="e"></param>
         public static void ColumnCountChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             if (!(obj is Grid) || e.NewValue.ToString().Length == 0)
@@ -71,6 +76,11 @@ namespace James.HelperClasses
         public static void SetRowDefinition(DependencyObject obj, string value)
             => obj.SetValue(RowDefinitionProperty, value);
 
+        /// <summary>
+        /// Redefines the RowDefinitions
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="e"></param>
         public static void RowCountChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             if (!(obj is Grid) || e.NewValue.ToString().Length == 0)
@@ -98,7 +108,6 @@ namespace James.HelperClasses
                 }
             }
         }
-
         #endregion
     }
 }

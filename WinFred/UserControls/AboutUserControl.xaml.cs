@@ -20,6 +20,11 @@ namespace James.UserControls
 
         public string Version { get; } = "v0.1.1";
 
+        /// <summary>
+        /// Opens the window for displaying a changelog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DisplayChangelog(object sender, RoutedEventArgs e)
         {
             var changelogWindow = new Windows.ChangelogWindow {Owner = Window.GetWindow(this)};

@@ -4,9 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using James.HelperClasses;
 using James.ResultItems;
 using James.Workflows.Triggers;
@@ -32,6 +30,11 @@ namespace James.Workflows
             var instance = ApiListener.Instance;
         }
 
+        /// <summary>
+        /// Loads a workflow from an providen filepath
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public bool LoadWorkflow(string path)
         {
             string configPath = path + "\\config.json";
@@ -55,6 +58,9 @@ namespace James.Workflows
 
         public List<WorkflowComponent> AllComponents => Workflows.SelectMany(workflow => workflow.Components).ToList();
 
+        /// <summary>
+        /// Loads all Keywordtriggers over all workflows
+        /// </summary>
         public void LoadKeywordTriggers()
         {
             KeywordTriggers.Clear();
@@ -78,6 +84,11 @@ namespace James.Workflows
             }
         }
 
+        /// <summary>
+        /// Returns all matched keywords
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public IEnumerable<ResultItem> GetKeywordTriggers(string input)
         {
             var keywordTriggers = KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input.Split(' ')[0])).ToList();
@@ -101,6 +112,10 @@ namespace James.Workflows
 
         public void CancelWorkflows() => Workflows.ForEach(workflow => workflow.Cancel());
 
+        /// <summary>
+        /// Removes a workflow
+        /// </summary>
+        /// <param name="item"></param>
         public void Remove(Workflow item)
         {
             item.Remove();
@@ -108,6 +123,11 @@ namespace James.Workflows
             LoadKeywordTriggers();
         }
 
+        /// <summary>
+        /// Runs all matching api triggers, which matches the action window
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="args"></param>
         public void RunApiTrigger(string input, string[] args)
         {
             AllComponents.OfType<ApiTrigger>().Where(trigger => trigger.Action.Length > 0 && trigger.Action == input).ForEach(trigger => trigger.CallNext(args));

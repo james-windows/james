@@ -1,8 +1,4 @@
 using System.IO;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml.Linq;
-using James.Workflows;
 using Newtonsoft.Json;
 using Formatting = Newtonsoft.Json.Formatting;
 

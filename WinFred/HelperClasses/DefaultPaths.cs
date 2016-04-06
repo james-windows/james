@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using James.Search;
-using Microsoft.Win32;
 
 namespace James.HelperClasses
 {

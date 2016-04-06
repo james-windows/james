@@ -48,6 +48,11 @@ namespace James.Workflows.Outputs
             }
         }
 
+        /// <summary>
+        /// Loads the icon
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         private BitmapImage GetIcon(string filePath)
         {
             if (!File.Exists(filePath))
@@ -59,6 +64,7 @@ namespace James.Workflows.Outputs
                 try
                 {
                     BitmapImage image = new BitmapImage(new Uri(filePath));
+                    image.Freeze();
                     return image;
                 }
                 catch (Exception)

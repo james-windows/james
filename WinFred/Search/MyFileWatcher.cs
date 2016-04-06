@@ -37,6 +37,11 @@ namespace James.Search
             }
         }
 
+        /// <summary>
+        /// Handels if an event for file create got triggered
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void File_Created(object sender, FileSystemEventArgs e)
         {
             //TODO fix issue when 2 paths are listening on the same file
@@ -65,6 +70,11 @@ namespace James.Search
             }
         }
 
+        /// <summary>
+        /// Searches if a folder with the same name got moved
+        /// </summary>
+        /// <param name="newName"></param>
+        /// <returns></returns>
         private static string GetOldPathIfExists(string newName)
         {
             string oldPath = null;
@@ -78,6 +88,11 @@ namespace James.Search
             return oldPath;
         }
 
+        /// <summary>
+        /// Handels if an event for file delete got triggered
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private static void File_Deleted(object sender, FileSystemEventArgs e)
         {
             lock (DeleteEventsLock)
@@ -100,6 +115,9 @@ namespace James.Search
             Console.WriteLine($"marking for deletion: {e.FullPath}");
         }
 
+        /// <summary>
+        /// Deletes all folders which got marked as lazy delete
+        /// </summary>
         private static void DeleteFileLazy()
         {
             while (DeleteEvents.Count > 0 && (DateTime.UtcNow - DeleteEvents.Peek().Date).TotalMilliseconds > MaxMoveDelay)
@@ -110,6 +128,11 @@ namespace James.Search
             }
         }
 
+        /// <summary>
+        /// Handels if an event for file rename got triggered
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void File_Renamed(object sender, RenamedEventArgs e)
         {
             Console.WriteLine($"renamed {e.OldFullPath} to {e.FullPath}");

@@ -30,6 +30,9 @@ namespace James
             listenThread.Start();
         }
 
+        /// <summary>
+        /// Listens for incoming messages over the NamedPipes
+        /// </summary>
         static void Listen()
         {
             while (true)
@@ -44,19 +47,27 @@ namespace James
                         {
                             var splits = message.Trim('/').Split('/');
                             WorkflowManager.Instance.RunApiTrigger(splits[0], splits);
-
-                            //Check for new imported workflow to be added
-                            string workflowPath = $@"{Config.Instance.WorkflowFolderLocation}\{splits[1]}";
-                            if (splits[0] == "workflow" && Directory.Exists(workflowPath))
-                            {
-                                if (WorkflowManager.Instance.LoadWorkflow(workflowPath))
-                                {
-                                    WorkflowManager.Instance.LoadKeywordTriggers();
-                                    MessageBox.Show($"Successfully imported workflow: {splits[1]}");
-                                }
-                            }
+                            
+                            ChecksForNewImportedWorkflow(splits);
                         }
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check for new imported workflow to be added
+        /// </summary>
+        /// <param name="splits"></param>
+        private static void ChecksForNewImportedWorkflow(string[] splits)
+        {
+            string workflowPath = $@"{Config.Instance.WorkflowFolderLocation}\{splits[1]}";
+            if (splits[0] == "workflow" && Directory.Exists(workflowPath))
+            {
+                if (WorkflowManager.Instance.LoadWorkflow(workflowPath))
+                {
+                    WorkflowManager.Instance.LoadKeywordTriggers();
+                    MessageBox.Show($"Successfully imported workflow: {splits[1]}");
                 }
             }
         }

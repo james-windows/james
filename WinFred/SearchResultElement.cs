@@ -29,12 +29,23 @@ namespace James
         public Brush FocusBackgroundBrush { get; set; }
         public Brush FocusForegroundBrush { get; set; }
 
+        /// <summary>
+        /// Dynamically reloads the accent colors
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateAccentColor(object sender, EventArgs e)
         {
             FocusBackgroundBrush = (Brush) ThemeManager.GetResourceFromAppStyle(null, "AccentColorBrush");
             FocusForegroundBrush = (Brush) ThemeManager.GetResourceFromAppStyle(null, "IdealForegroundColorBrush");
         }
 
+        /// <summary>
+        /// Draws the providen searchResults items and focused the correct item
+        /// </summary>
+        /// <param name="searchResults"></param>
+        /// <param name="focusedIndex"></param>
+        /// <param name="focusedItem"></param>
         public void DrawItems(List<ResultItem> searchResults, int focusedIndex, out ResultItem focusedItem)
         {
             focusedItem = searchResults.ElementAtOrDefault(focusedIndex);
@@ -50,6 +61,10 @@ namespace James
             }));
         }
 
+        /// <summary>
+        /// Focus the correct item
+        /// </summary>
+        /// <param name="index"></param>
         private void FocusIndex(int index)
         {
             CurrentFocus = index;
@@ -62,6 +77,11 @@ namespace James
             _children.Add(drawingVisual);
         }
 
+        /// <summary>
+        /// Draws resultitem on a specific index
+        /// </summary>
+        /// <param name="resultItem"></param>
+        /// <param name="index"></param>
         private void DrawItemAtPos(ResultItem resultItem, int index)
         {
             var drawingVisual = new DrawingVisual();
@@ -84,6 +104,13 @@ namespace James
             _children.Add(drawingVisual);
         }
 
+        /// <summary>
+        /// Creates the text and setts some configurations
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="fontSize"></param>
+        /// <param name="focused"></param>
+        /// <returns></returns>
         private FormattedText CreateText(string text, int fontSize, bool focused = false)
         {
             var formattedText = new FormattedText(
@@ -96,6 +123,11 @@ namespace James
             return formattedText;
         }
 
+        /// <summary>
+        /// Checks the user defined color from the config IsBaseLight?
+        /// </summary>
+        /// <param name="focused"></param>
+        /// <returns></returns>
         private Brush GetBrush(bool focused)
         {
             Brush tmpBrush = Brushes.Black;
@@ -113,16 +145,6 @@ namespace James
         #region necessary for FrameworkElement
 
         protected override int VisualChildrenCount => _children.Count;
-
-        protected override Visual GetVisualChild(int index)
-        {
-            if (index < 0 || index >= _children.Count)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            return _children[index];
-        }
 
         #endregion
     }

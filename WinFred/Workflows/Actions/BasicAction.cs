@@ -2,8 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using James.HelperClasses;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 
@@ -71,7 +69,7 @@ namespace James.Workflows.Actions
         }
 
         public override bool IsAllowed(WorkflowComponent source) => base.IsAllowed(source) && (source is BasicTrigger || source is MagicOutput || source is BasicAction);
-        
+
         /// <summary>
         /// Starts the process for the action
         /// </summary>
@@ -80,21 +78,24 @@ namespace James.Workflows.Actions
         /// <returns></returns>
         protected string[] StartProcess(string arguments, string executablePath = null)
         {
+            ProcessStartInfo info = new ProcessStartInfo
+            {
+                FileName = executablePath ?? ExecutablePath,
+                Arguments = arguments,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                WorkingDirectory = ParentWorkflow.Path,
+                CreateNoWindow = true
+            };
+            
             proc = new Process
             {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = executablePath ?? ExecutablePath,
-                    Arguments = arguments,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    WorkingDirectory = ParentWorkflow.Path,
-                    CreateNoWindow = true
-                }
+                StartInfo = info
             };
             proc.Start();
             proc.WaitForExit();
+            
             string output = proc.StandardOutput.ReadToEnd();
             return output.Split(new[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
         }

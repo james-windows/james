@@ -60,7 +60,6 @@ namespace James
         /// <param name="e"></param>
         private static void AlternativeRun(StartupEventArgs e)
         {
-            
             using (NamedPipeClientStream client = new NamedPipeClientStream("james"))
             {
                 client.Connect(100);
