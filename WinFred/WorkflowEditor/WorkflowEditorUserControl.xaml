@@ -12,7 +12,7 @@
         </Grid.Background>
         <Border Background="Transparent" ContextMenuOpening="Border_ContextMenuOpening" x:Name="border">
             <Border.ContextMenu>
-                <ContextMenu x:Name="AddButton" MenuItem.Click="AddComponent">
+                <ContextMenu x:Name="AddButton" MenuItem.Click="AddComponent" Visibility="Hidden">
                     <MenuItem Header="Triggers" x:Name="TriggerContextMenu"/>
                     <MenuItem Header="Actions" x:Name="ActionContextMenu"/>
                     <MenuItem Header="Outputs" x:Name="OutputContextMenu"/>
@@ -21,6 +21,15 @@
                             <Setter Property="Header" Value="{Binding Name, Mode=OneWay}" />
                         </Style>
                     </ContextMenu.Resources>
+                    <!--<ContextMenu.Style>
+                        <Style TargetType="{x:Type ContextMenu}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Workflow}" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContextMenu.Style>-->
                 </ContextMenu>
             </Border.ContextMenu>
             <Border Background="Transparent" ClipToBounds="True" x:Name="editorBorder">

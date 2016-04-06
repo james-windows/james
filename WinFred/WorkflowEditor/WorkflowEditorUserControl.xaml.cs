@@ -213,8 +213,10 @@ namespace James.WorkflowEditor
             }
             _myLines.Clear();
             editorCanvas.Children.Clear();
+            AddButton.Visibility = Visibility.Hidden;
             if (DataContext != null)
             {
+                AddButton.Visibility = Visibility.Visible;
                 DrawCanvas(this, null);
             }
         }
@@ -331,6 +333,11 @@ namespace James.WorkflowEditor
         /// <param name="e"></param>
         private void Border_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
+            if (Workflow == null && sender is Border)
+            {
+                AddButton.IsOpen = false;
+                return;
+            }
             double offset = (border.ActualWidth - viewBox.ActualWidth);
             if (e.CursorLeft > (sender as FrameworkElement).ActualWidth / 2)
             {
