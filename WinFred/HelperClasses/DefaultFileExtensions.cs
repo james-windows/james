@@ -17,6 +17,7 @@ namespace James.HelperClasses
                 new FileExtension("lnk", 80),
                 //executables:
                 new FileExtension("exe", 100),
+                new FileExtension("james", 100),
                 new FileExtension("msi", 80),
                 new FileExtension("jar", 70),
                 new FileExtension("ps1", 60),
@@ -58,6 +59,7 @@ namespace James.HelperClasses
                 new FileExtension("js", 13),
                 new FileExtension("cs", 13),
                 new FileExtension("cshtml", 10),
+                new FileExtension("reg", 10),
                 new FileExtension("java", 14),
                 new FileExtension("sln", 60),
                 new FileExtension("log", 8),
