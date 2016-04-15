@@ -20,6 +20,8 @@ namespace James.Workflows.Outputs
         [ComponentField("Auto close after execution")]
         public bool Hide { get; set; } = false;
 
+        public override string GetDescription() => "Displays data as a SearchResult and allowes further components to be executed";
+
         /// <summary>
         /// Prepares the MagicResultItems and displays it on the search window
         /// </summary>

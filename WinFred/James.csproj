@@ -297,6 +297,10 @@
     <Compile Include="Workflows\Workflow.cs" />
     <Compile Include="Workflows\WorkflowComponent.cs" />
     <Compile Include="Workflows\WorkflowManager.cs" />
+    <Page Include="Styles\ComponentMetroDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\ChangelogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

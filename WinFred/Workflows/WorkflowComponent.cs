@@ -75,7 +75,7 @@ namespace James.Workflows
             }
         }
 
-        public string GetDescription() => Resources.General_WorkflowComponent_Description;
+        public virtual string GetDescription() => Resources.General_WorkflowComponent_Description;
 
         /// <summary>
         /// Converts the current component to an JObject

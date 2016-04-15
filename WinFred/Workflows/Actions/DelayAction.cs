@@ -70,5 +70,7 @@ namespace James.Workflows.Actions
         {
             return (source is BasicTrigger || source is BasicAction || source is MagicOutput) && source != this;
         }
+
+        public override string GetDescription() => "This component provides the possibility to delay an action for a specific amount of time";
     }
 }

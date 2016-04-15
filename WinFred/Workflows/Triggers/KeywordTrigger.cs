@@ -53,5 +53,7 @@ namespace James.Workflows.Triggers
                 }
             }
         }
+
+        public override string GetDescription() => "Triggers once the given keyword is entered into the SearchBox";
     }
 }

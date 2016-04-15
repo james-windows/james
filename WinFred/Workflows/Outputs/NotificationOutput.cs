@@ -11,9 +11,6 @@ namespace James.Workflows.Outputs
     {
         public NotifyIcon LastIcon { get; set; }
 
-        [ComponentField("Period for displaying notification [ms]")]
-        public int Timeperiod { get; set; } = 5000;
-
         public bool CancelNotifyIcon { get; set; } = true;
 
         public void Cancel()
@@ -25,7 +22,7 @@ namespace James.Workflows.Outputs
             }
         }
 
-        public override string GetSummary() => $"Displays notification for {Timeperiod} ms";
+        public override string GetSummary() => $"Displays notification";
 
         public override void Run(string[] output)
         {
@@ -37,9 +34,11 @@ namespace James.Workflows.Outputs
                 BalloonTipText = "James-Workflow: " + ParentWorkflow.Name,
                 Visible = true
             };
-            icon.ShowBalloonTip(Timeperiod);
+            icon.ShowBalloonTip(1000);
             LastIcon = icon;
             MainWindow.GetInstance().HideWindow();
         }
+
+        public override string GetDescription() => "Displays a message using the platform's notification api";
     }
 }
