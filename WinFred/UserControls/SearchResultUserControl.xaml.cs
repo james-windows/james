@@ -17,6 +17,7 @@ namespace James.UserControls
     {
         private readonly SearchResultElement _searchResultElement;
         public List<ResultItem> results;
+        private string _lastSearch;
 
         public SearchResultUserControl()
         {
@@ -53,6 +54,7 @@ namespace James.UserControls
         {
             lock (this)
             {
+                _lastSearch = str;
                 results = SearchEngine.Instance.Query(str);
                 WorkflowManager.Instance.CancelWorkflows();
                 if (str.Length >= Math.Max(Config.Instance.StartSearchMinTextLength, 1))
@@ -200,6 +202,7 @@ namespace James.UserControls
         {
             SearchEngine.Instance.IncrementPriority(results[item].Subtitle, diff);
             _focusedItem = results[item];
+            Search(_lastSearch);
         }
 
         /// <summary>
