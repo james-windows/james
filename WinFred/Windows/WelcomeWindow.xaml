@@ -6,7 +6,7 @@
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       mc:Ignorable="d" BorderThickness="0" GlowBrush="Black"
                       Title="Welcome" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
-                      Icon="Resources/logo2.png">
+                      Icon="../Resources/logo2.png">
     <Grid>
         <controls:FlipView IsBannerEnabled="False" Margin="10" Width="600" Height="500" MouseOverGlowEnabled="False">
             <controls:FlipView.Items>
@@ -14,7 +14,7 @@
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32">Welcome!</TextBlock>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="26">Thank you for choosing:</TextBlock>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="40">James</TextBlock>
-                    <Image Source="Resources/logo.png" Width="200" />
+                    <Image Source="../Resources/logo.png" Width="200" />
                     <TextBlock HorizontalAlignment="Center" FontSize="21">Now we will give you a brief demo how to use James!</TextBlock>
                 </StackPanel>
                 <StackPanel Width="600" Height="500">
