@@ -23,9 +23,13 @@ namespace James.ResultItems
             {
                 try
                 {
-                    if (_isDirectory || !File.Exists(Subtitle))
+                    if (!File.Exists(Subtitle) && !Directory.Exists(Subtitle))
                     {
                         return null;
+                    }
+                    else if (_isDirectory)
+                    {
+                        return Config.Instance.FolderIcon;
                     }
                     return System.Drawing.Icon.ExtractAssociatedIcon(Subtitle).ToImageSource();
                 }

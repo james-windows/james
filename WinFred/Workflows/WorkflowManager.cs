@@ -23,7 +23,6 @@ namespace James.Workflows
             {
                 Directory.CreateDirectory(Config.Instance.WorkflowFolderLocation);
             }
-            Config.Instance.Icon = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\Resources\\logo2.ico"));
 
             Directory.GetDirectories(Config.Instance.WorkflowFolderLocation).ForEach(dir => LoadWorkflow(dir));
             LoadKeywordTriggers();
