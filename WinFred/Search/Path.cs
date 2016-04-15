@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+//using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Alphaleonis.Win32.Filesystem;
 using James.Annotations;
 using James.HelperClasses;
 using James.ResultItems;
+using DirectoryInfo = Alphaleonis.Win32.Filesystem.DirectoryInfo;
 
 namespace James.Search
 {
