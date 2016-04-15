@@ -301,7 +301,7 @@ namespace James.WorkflowEditor
         /// <returns>All classes which inherits from the given type, excluding abstract classes</returns>
         private IEnumerable<Type> GetAllChildTypesInAssembly(Type type)
         {
-            return (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+            return (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly.FullName.StartsWith("James, "))
                     from assemblyType in domainAssembly.GetTypes()
                     where (type.IsAssignableFrom(assemblyType) && !assemblyType.IsAbstract)
                     select assemblyType);

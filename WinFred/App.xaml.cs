@@ -96,13 +96,13 @@ namespace James
             Config.Instance.WindowChangedAccentColor += App_WindowChangedAccentColor;
             SetStyleAccents();
             SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
+            InitializeSingeltons();
             if (_showTheWelcomeWizard)
             {
                 new Windows.WelcomeWindow().Show();
             }
             else
             {
-                InitializeSingeltons();
                 James.Windows.MainWindow.GetInstance().Show();
             }
         }
