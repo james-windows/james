@@ -102,17 +102,18 @@ namespace James
             }
             else
             {
+                InitializeSingeltons();
                 James.Windows.MainWindow.GetInstance().Show();
-                Task.Run(() => InitializeSingeltons());
             }
         }
 
         private static void InitializeSingeltons()
         {
-            var instance = SearchEngine.Instance;
-            var watcher = MyFileWatcher.Instance;
+            var searchEngine = SearchEngine.Instance;
             var workflowManager = WorkflowManager.Instance;
+            var watcher = MyFileWatcher.Instance;
             var shortcutManager = ShortcutManager.Instance;
+            var apiListener = ApiListener.Instance;
         }
 
         private static void OnAppUninstall(Version version)
