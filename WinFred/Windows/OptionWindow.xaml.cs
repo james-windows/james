@@ -16,7 +16,6 @@ namespace James.Windows
         public OptionWindow()
         {
             InitializeComponent();
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
         }
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)
