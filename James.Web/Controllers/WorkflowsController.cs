@@ -283,6 +283,7 @@ namespace James.Web.Controllers
             {
                 return RedirectToAction("Index");
             }
+            RemoveWorkflow(workflow);
             _context.Workflow.Remove(workflow);
             _context.SaveChanges();
             return RedirectToAction("Index");
