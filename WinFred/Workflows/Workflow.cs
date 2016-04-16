@@ -83,7 +83,7 @@ namespace James.Workflows
 
         private int _lastId = 0;
 
-        public string Path => Config.Instance.WorkflowFolderLocation + "\\" + Name;
+        public string Path => Config.WorkflowFolderLocation + "\\" + Name;
 
         public bool IsCanceled { get; set; } = false;
 

@@ -22,7 +22,7 @@ namespace James.Search
 
         private SearchEngine()
         {
-            string filePath = Config.Instance.ConfigFolderLocation + "\\files.txt";
+            string filePath = Config.ConfigFolderLocation + "\\files.txt";
             if (!File.Exists(filePath))
             {
                 File.Create(filePath);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.ResultItems;
@@ -65,11 +66,15 @@ namespace James.Workflows.Outputs
             {
                 try
                 {
-                    BitmapImage image = new BitmapImage(new Uri(filePath));
-                    image.Freeze();
-                    return image;
+                    if (File.Exists(filePath))
+                    {
+                        BitmapImage image = new BitmapImage(new Uri(filePath));
+                        image.Freeze();
+                       
+                        return image;
+                    }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     return ParentWorkflow.Icon;
                 }

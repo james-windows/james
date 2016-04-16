@@ -4,7 +4,7 @@ using Alphaleonis.Win32.Filesystem;
 
 namespace James.HelperClasses
 {
-    public static class IconHellper
+    public static class IconHelper
     {
         public static BitmapImage GetIcon(string path)
         {

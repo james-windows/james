@@ -65,9 +65,10 @@ namespace James
                 client.Connect(100);
                 using (StreamWriter writer = new StreamWriter(client))
                 {
+                    
                     if (e.Args.Length == 1 && File.Exists(e.Args[0]) && e.Args[0].EndsWith(".james"))
                     {
-                        string workflowFolder = Config.Instance.WorkflowFolderLocation + "\\" + PathHelper.GetFilename(e.Args[0]).Replace(".james", "");
+                        string workflowFolder = Config.WorkflowFolderLocation + "\\" + PathHelper.GetFilename(e.Args[0]).Replace(".james", "");
                         if (!Directory.Exists(workflowFolder))
                         {
                             ZipFile.ExtractToDirectory(e.Args[0], workflowFolder);
@@ -136,7 +137,7 @@ namespace James
                 var td = ts.NewTask();
                 td.RegistrationInfo.Description = "Calls the updater for James once a day";
                 td.Triggers.Add(new DailyTrigger {DaysInterval = 1});
-                td.Actions.Add(new ExecAction(Config.Instance.ConfigFolderLocation + "\\Update.exe",
+                td.Actions.Add(new ExecAction(Config.ConfigFolderLocation + "\\Update.exe",
                     "--update " + Config.Instance.ReleaseUrl, null));
                 ts.RootFolder.RegisterTaskDefinition(@"James", td);
             }

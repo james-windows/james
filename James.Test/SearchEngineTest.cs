@@ -13,7 +13,7 @@ namespace James.Test
         #region helper
         public void PrepareTest()
         {
-            Config.Instance.ConfigFolderLocation = Environment.CurrentDirectory;
+            Config.ConfigFolderLocation = Environment.CurrentDirectory;
         }
 
         public void CompareSearchResults(List<ResultItem> one, List<ResultItem> two)
@@ -276,7 +276,7 @@ namespace James.Test
         [TestMethod]
         public void AdvancedRebuildTest()
         {
-            Config.Instance.ConfigFolderLocation = Environment.CurrentDirectory + "\\second";
+            Config.ConfigFolderLocation = Environment.CurrentDirectory + "\\second";
             var instance = SearchEngine.Instance;
             instance.DeletePath(@"C:\Users\moser\Desktop");
             instance.DeletePath(@"C:\Users\moser\Downloads");

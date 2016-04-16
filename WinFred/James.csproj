@@ -203,7 +203,7 @@
     <Compile Include="ApiListener.cs" />
     <Compile Include="HelperClasses\DefaultFileExtensions.cs" />
     <Compile Include="HelperClasses\DefaultPaths.cs" />
-    <Compile Include="HelperClasses\IconHellper.cs" />
+    <Compile Include="HelperClasses\IconHelper.cs" />
     <Compile Include="HelperClasses\MouseHelper.cs" />
     <Compile Include="HelperClasses\RegistryHelper.cs" />
     <Compile Include="HelperClasses\WindowHelper.cs" />

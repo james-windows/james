@@ -73,7 +73,7 @@ namespace James
         {
             lock (_config)
             {
-                File.WriteAllText(_config.ConfigFolderLocation + "\\config.json", _config.Serialize());
+                File.WriteAllText(ConfigFolderLocation + "\\config.json", _config.Serialize());
             }
         }
 
@@ -101,8 +101,9 @@ namespace James
         public ObservableCollection<string> ExcludedFolders { get; set; }
         public ShortcutManagerSettings ShortcutManagerSettings { get; set; }
 
-        public string ConfigFolderLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
-        public string WorkflowFolderLocation => ConfigFolderLocation + "\\workflows";
+        public static string ConfigFolderLocation = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+        public static string WorkflowFolderLocation => ConfigFolderLocation + "\\workflows";
+
         private string _windowAccentColor = "Cyan";
         public string ReleaseUrl { get; set; } = @"http://www.moserm.tk/Releases";
 

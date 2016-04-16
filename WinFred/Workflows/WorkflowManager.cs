@@ -19,12 +19,12 @@ namespace James.Workflows
 
         private WorkflowManager()
         {
-            if (!Directory.Exists(Config.Instance.WorkflowFolderLocation))
+            if (!Directory.Exists(Config.WorkflowFolderLocation))
             {
-                Directory.CreateDirectory(Config.Instance.WorkflowFolderLocation);
+                Directory.CreateDirectory(Config.WorkflowFolderLocation);
             }
 
-            Directory.GetDirectories(Config.Instance.WorkflowFolderLocation).ForEach(dir => LoadWorkflow(dir));
+            Directory.GetDirectories(Config.WorkflowFolderLocation).ForEach(dir => LoadWorkflow(dir));
             LoadKeywordTriggers();
         }
 

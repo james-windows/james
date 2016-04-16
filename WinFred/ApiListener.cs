@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Drawing;
+using System.IO;
 using System.IO.Pipes;
 using System.Threading;
 using System.Windows.Forms;
@@ -49,8 +51,11 @@ namespace James
                         {
                             var splits = message.Trim('/').Split('/');
                             WorkflowManager.Instance.RunApiTrigger(splits[0], splits);
-                            
-                            ChecksForNewImportedWorkflow(splits);
+
+                            if (splits[0] == "workflow")
+                            {
+                                ChecksForNewImportedWorkflow(splits);
+                            }
                         }
                     }
                 }
@@ -63,13 +68,21 @@ namespace James
         /// <param name="splits"></param>
         private static void ChecksForNewImportedWorkflow(string[] splits)
         {
-            string workflowPath = $@"{Config.Instance.WorkflowFolderLocation}\{splits[1]}";
+            string workflowPath = $@"{Config.WorkflowFolderLocation}\{splits[1]}";
             if (splits[0] == "workflow" && Directory.Exists(workflowPath))
             {
                 if (WorkflowManager.Instance.LoadWorkflow(workflowPath))
                 {
                     WorkflowManager.Instance.LoadKeywordTriggers();
-                    MessageBox.Show($"Successfully imported workflow: {splits[1]}");
+                    var icon = new NotifyIcon
+                    {
+                        Icon = Icon.ExtractAssociatedIcon(AppDomain.CurrentDomain.BaseDirectory + "James.exe"),
+                        BalloonTipIcon = ToolTipIcon.Info,
+                        BalloonTipTitle = $"workflow: {splits[1]}",
+                        BalloonTipText = "was imported successfully!",
+                        Visible = true
+                    };
+                    icon.ShowBalloonTip(1000);
                 }
             }
         }
