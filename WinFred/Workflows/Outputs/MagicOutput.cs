@@ -32,18 +32,15 @@ namespace James.Workflows.Outputs
             var outputResults = new List<MagicResultItem>();
             foreach (string text in output)
             {
-                if (text.Trim().Length > 0)
+                string[] splits = text.Split(HORIZONTALSPLIT);
+                outputResults.Add(new MagicResultItem()
                 {
-                    string[] splits = text.Split(HORIZONTALSPLIT);
-                    outputResults.Add(new MagicResultItem()
-                    {
-                        Icon = GetIcon(IconFormat.InsertArguments(splits)),
-                        Title = FormatString.InsertArguments(splits),
-                        Subtitle = SubtitleFormat.InsertArguments(splits),
-                        WorkflowComponent = this,
-                        WorkflowArguments = splits
-                    });
-                }
+                    Icon = GetIcon(IconFormat.InsertArguments(splits)),
+                    Title = FormatString.InsertArguments(splits),
+                    Subtitle = SubtitleFormat.InsertArguments(splits),
+                    WorkflowComponent = this,
+                    WorkflowArguments = splits
+                });
             }
             if (outputResults.Count > 0)
             {

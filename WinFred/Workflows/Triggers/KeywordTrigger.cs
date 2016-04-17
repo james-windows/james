@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using James.HelperClasses;
 using James.Workflows.Outputs;
 
@@ -27,6 +28,13 @@ namespace James.Workflows.Triggers
         public bool Autorun { get; set; } = false;
 
         public override string GetSummary() => $"Triggers for \"{Keyword}\"";
+
+        public string[] GetArgumentsFromInput(string input)
+        {
+            input = input.Trim();
+            int lcp = Math.Min(Keyword.Length, input.Length);
+            return input.Substring(lcp).Trim().Split(' ');
+        }
 
         public override void Run(string[] arguments)
         {

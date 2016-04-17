@@ -13,11 +13,11 @@ namespace James.Workflows.Actions
             ExecutablePath = PathHelper.GetFullPathOfExe("python.exe");
         }
 
-        public override string ExecutableArguments { get; set; } = "";
-
         public override string ExecutablePath { get; set; } = "";
 
         public override string GetSummary() => $"Runs {Script}";
+
+        public override string ExecutableArguments { get; set; } = "{...}";
 
         /// <summary>
         /// Starts the action with the providen arguments
@@ -34,7 +34,7 @@ namespace James.Workflows.Actions
                 CallNext(new[] {"python couldn't be found in the path"});
                 return;
             }
-            CallNext(StartProcess(Script + " " + string.Join(" ", arguments)));
+            CallNext(StartProcess(Script + " " + ExecutableArguments.InsertArguments(arguments)));
         }
     }
 }

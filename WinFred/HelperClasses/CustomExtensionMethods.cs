@@ -80,7 +80,7 @@ namespace James.HelperClasses
         /// <returns>next component</returns>
         public static WorkflowComponent GetNext(this Workflow parent, int id)
         {
-            return parent.Components.First(component => component.Id == id);
+            return parent.Components.FirstOrDefault(component => component.Id == id);//todo check , delete openoutput with one single income
         }
 
         /// <summary>

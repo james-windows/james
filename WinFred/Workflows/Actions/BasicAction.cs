@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using James.HelperClasses;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
 
@@ -23,7 +25,7 @@ namespace James.Workflows.Actions
         public virtual string ExecutablePath { get; set; } = "";
 
         [ComponentField("Arguments for the program")]
-        public virtual string ExecutableArguments { get; set; } = "";
+        public virtual string ExecutableArguments { get; set; } = "{...}";
 
         public override string GetSummary() => $"Runs {ExecutablePath.Split('\\').Last()}";
 
@@ -65,7 +67,7 @@ namespace James.Workflows.Actions
             {
                 path = ParentWorkflow.Path + "\\" + path;
             }
-            CallNext(StartProcess(string.Join(" ", arguments), path));
+            CallNext(StartProcess(ExecutableArguments.InsertArguments(arguments), path));
         }
 
         public override bool IsAllowed(WorkflowComponent source) => base.IsAllowed(source) && (source is BasicTrigger || source is MagicOutput || source is BasicAction);
@@ -86,8 +88,9 @@ namespace James.Workflows.Actions
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 WorkingDirectory = ParentWorkflow.Path,
-                CreateNoWindow = true
-            };
+                CreateNoWindow = true,
+                StandardOutputEncoding = Encoding.UTF8
+        };
             
             proc = new Process
             {

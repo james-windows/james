@@ -89,12 +89,14 @@ namespace James.Workflows
         /// <returns></returns>
         public IEnumerable<ResultItem> GetKeywordTriggers(string input)
         {
-            var keywordTriggers = KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input.Split(' ')[0])).ToList();
-            foreach (var trigger in keywordTriggers.Where(trigger => trigger.Autorun && input.StartsWith(trigger.Keyword)))
+            var keywordTriggers = KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input) || input.StartsWith(trigger.Keyword)).ToList();
+            foreach (var trigger in keywordTriggers.Where(trigger => input.StartsWith(trigger.Keyword) && trigger.Autorun))
             {
-                trigger.Run(input.Split(' '));
+                trigger.Run(trigger.GetArgumentsFromInput(input));
+                keywordTriggers.Remove(trigger);
             }
-            return keywordTriggers.Where(trigger => !trigger.Autorun || trigger.Keyword.StartsWith(input)).Select(
+            
+            return keywordTriggers.Select(
                         trigger =>
                             new MagicResultItem()
                             {
@@ -102,7 +104,7 @@ namespace James.Workflows
                                 WorkflowComponent = trigger,
                                 Subtitle = trigger.Subtitle,
                                 Title = trigger.Title,
-                                WorkflowArguments = input.Split(' ')
+                                WorkflowArguments = trigger.GetArgumentsFromInput(input)
                             });
         }
 

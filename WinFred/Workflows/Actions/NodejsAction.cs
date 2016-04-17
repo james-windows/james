@@ -13,10 +13,9 @@ namespace James.Workflows.Actions
         [ComponentField("The Path of the script file")]
         public string Script { get; set; } = "";
 
-        [ComponentField("Additional Arguments for the program")]
-        public override string ExecutableArguments { get; set; } = "";
-
         public override string ExecutablePath { get; set; } = "";
+
+        public override string ExecutableArguments { get; set; } = "{...}";
 
         public override string GetSummary() => $"Runs {Script}";
 
@@ -35,7 +34,7 @@ namespace James.Workflows.Actions
                 CallNext(new string[] { "node.exe couldn't be found in the path" });
                 return;
             }
-            CallNext(StartProcess(Script + " " + string.Join(" ", arguments)));
+            CallNext(StartProcess(Script + " " + ExecutableArguments.InsertArguments(arguments)));
         }
     }
 }

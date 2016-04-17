@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using James.Workflows;
@@ -49,10 +50,11 @@ namespace James
                         string message = reader.ReadLine();
                         if (!string.IsNullOrEmpty(message))
                         {
-                            var splits = message.Trim('/').Split('/');
-                            WorkflowManager.Instance.RunApiTrigger(splits[0], splits);
+                            string keyword = message.Trim().Split('/').First();
+                            var splits = message.Replace(keyword, "").Trim('/').Split('/');
+                            WorkflowManager.Instance.RunApiTrigger(keyword, splits);
 
-                            if (splits[0] == "workflow")
+                            if (keyword == "workflow")
                             {
                                 ChecksForNewImportedWorkflow(splits);
                             }
@@ -68,8 +70,8 @@ namespace James
         /// <param name="splits"></param>
         private static void ChecksForNewImportedWorkflow(string[] splits)
         {
-            string workflowPath = $@"{Config.WorkflowFolderLocation}\{splits[1]}";
-            if (splits[0] == "workflow" && Directory.Exists(workflowPath))
+            string workflowPath = $@"{Config.WorkflowFolderLocation}\{splits[0]}";
+            if (Directory.Exists(workflowPath))
             {
                 if (WorkflowManager.Instance.LoadWorkflow(workflowPath))
                 {
@@ -78,7 +80,7 @@ namespace James
                     {
                         Icon = Icon.ExtractAssociatedIcon(AppDomain.CurrentDomain.BaseDirectory + "James.exe"),
                         BalloonTipIcon = ToolTipIcon.Info,
-                        BalloonTipTitle = $"workflow: {splits[1]}",
+                        BalloonTipTitle = $"workflow: {splits[0]}",
                         BalloonTipText = "was imported successfully!",
                         Visible = true
                     };
