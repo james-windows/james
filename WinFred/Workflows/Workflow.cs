@@ -135,7 +135,22 @@ namespace James.Workflows
 
         public void OpenFolder() => Process.Start(Path);
 
-        public void Remove() => Directory.Delete(Path, true);
+        /// <summary>
+        /// Tries to delete the folder of the workflow
+        /// notifies the user if an error occured
+        /// </summary>
+        public void Remove()
+        {
+            try
+            {
+                Directory.Delete(Path, true);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("An error occured while deleting the folder of the workflow: " + Name, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
 
         /// <summary>
         /// archives the workflow folder and renames it to a .james file for export
