@@ -219,3 +219,4 @@ SearchEngine/shared
 *.opendb
 *.reg
 *James.Web/wwwroot/workflows*
+*James.VC.db
