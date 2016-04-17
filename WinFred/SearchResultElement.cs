@@ -53,26 +53,26 @@ namespace James
             Dispatcher.BeginInvoke((Action) (() =>
             {
                 _children.Clear();
-                FocusIndex(focusedIndex);
+                CurrentFocus = focusedIndex;
                 for (var i = 0; i < searchResults.Count; i++)
                 {
+                    DrawBackground(i, focusedIndex == i? FocusBackgroundBrush : Brushes.Transparent);
                     DrawItemAtPos(searchResults[i], i);
                 }
             }));
         }
 
         /// <summary>
-        /// Focus the correct item
+        /// Draws the background of the item
         /// </summary>
         /// <param name="index"></param>
-        private void FocusIndex(int index)
+        private void DrawBackground(int index, Brush backgroundBrush)
         {
-            CurrentFocus = index;
             var drawingVisual = new DrawingVisual();
             using (var ctx = drawingVisual.RenderOpen())
             {
                 var rect = new Rect(new Point(0, index*RowHeight), new Size(ElementWidth, RowHeight));
-                ctx.DrawRectangle(FocusBackgroundBrush, null, rect);
+                ctx.DrawRectangle(backgroundBrush, null, rect);
             }
             _children.Add(drawingVisual);
         }
