@@ -93,12 +93,15 @@ namespace James
                     new Point(50, index*RowHeight + 25));
                 if (Config.Instance.DisplayPriorities)
                 {
-                    ctx.DrawText(CreateText(resultItem.Priority.ToString(), SmallFontSize, isFocused),
-                    new Point(5, index * RowHeight));
+                    ctx.DrawText(CreateText(resultItem.Priority.ToString(), SmallFontSize, isFocused), new Point(5, index*RowHeight));
+                    if (!(resultItem is SearchResultItem) || Config.Instance.DisplayFileIcons)
+                    {
+                        ctx.DrawImage(resultItem.Icon, new Rect(SmallFontSize, SmallFontSize + index*RowHeight, 32, 32));
+                    }
                 }
-                if (!(resultItem is SearchResultItem) || Config.Instance.DisplayFileIcons)
+                else
                 {
-                    ctx.DrawImage(resultItem.Icon, new Rect(SmallFontSize, SmallFontSize + index * RowHeight, 32, 32));
+                    ctx.DrawImage(resultItem.Icon, new Rect(SmallFontSize/2, SmallFontSize/2 + index*RowHeight, 40, 40));
                 }
             }
             _children.Add(drawingVisual);
