@@ -123,6 +123,8 @@ namespace James
                 new Typeface("Verdana"),
                 fontSize,
                 GetBrush(focused)) {MaxTextWidth = ElementWidth - 30};
+            formattedText.MaxTextWidth = ElementWidth - 50;
+            formattedText.MaxTextHeight = LargeFontSize + 10;
             return formattedText;
         }
 
