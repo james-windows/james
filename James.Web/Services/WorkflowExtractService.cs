@@ -13,8 +13,8 @@ namespace James.Web.Services
 {
     public class WorkflowExtractService
     {
-        private readonly string[] _windowsComponents = {"keyword", "api", "basic", "delay", "nodejs", "powershell", "python", "clipboard","largetype", "magic", "notification", "open", "searchbox"};
-        private readonly string[] _osxComponents = { "keyword", "api", "basic", "delay", "nodejs", "python", "clipboard", "largetype", "magic", "notification", "open", "searchbox" };
+        private readonly string[] _windowsComponents = {"keyword", "url", "basic", "delay", "nodejs", "powershell", "python", "clipboard","largetype", "magic", "notification", "open", "searchbox"};
+        private readonly string[] _osxComponents = { "keyword", "url", "delay", "nodejs", "python", "clipboard", "largetype", "magic", "notification", "open", "bash", "searchbox", "applescript", "zsh" };
         public bool ExtractWorkflow(IFormFile file, ref Workflow workflow, IHostingEnvironment hostingEnv)
         {
             string folderPath = hostingEnv.WebRootPath + $@"\workflows\{workflow.Id}";

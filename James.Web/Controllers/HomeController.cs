@@ -16,6 +16,11 @@ namespace James.Web.Controllers
 
         public IActionResult Index()
         {
+            var publicWorkflows =
+                _context.Workflow.Include(workflow => workflow.Author).Where(workflow => workflow.Verified).OrderByDescending(workflow => workflow.Downloads);
+            ViewBag.Windows = publicWorkflows.Count(workflow => workflow.Platform == Platform.Windows);
+            ViewBag.OSX = publicWorkflows.Count(workflow => workflow.Platform == Platform.OSX);
+            ViewBag.Both = publicWorkflows.Count(workflow => workflow.Platform == Platform.Both);
             return View();
         }
 
@@ -23,6 +28,11 @@ namespace James.Web.Controllers
         {
             ViewData["Message"] = "Your application description page.";
 
+            return View();
+        }
+
+        public IActionResult Impressum()
+        {
             return View();
         }
 

@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Mvc.ViewFeatures
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"] - James.Web</title>
+        <title>@ViewContext.RouteData.Values["controller"]  - James</title>
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <link href='https://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'>
         <environment names="Development">
             <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -31,7 +33,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        @*<li><a asp-controller="Home" asp-action="Index">Home</a></li>*@
                         <li><a asp-controller="Workflows" asp-action="Index" asp-route-author="@null">Workflows</a></li>
                     </ul>
                     @await Html.PartialAsync("_LoginPartial")
@@ -60,7 +62,7 @@
         @RenderBody()
         <hr/>
         <footer>
-            <p>&copy; 2016 - James.Web</p>
+            <p>&copy; 2016 - James.Web - <a asp-controller="Home" asp-action="Impressum" asp-route-author="@null">Impressum</a></p>
         </footer>
     </div>
 

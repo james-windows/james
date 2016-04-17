@@ -33,7 +33,9 @@ namespace James.Web.Controllers
         public IActionResult Index()
         {
             IndexViewModel model = new IndexViewModel() {Workflows = new List<DetailsViewModel>(), Admin = IsAdmin()};
-            foreach (var workflow in _context.Workflow.Include(workflow => workflow.Author).Where(workflow => workflow.Verified))
+            var publicWorkflows =
+                _context.Workflow.Include(workflow => workflow.Author).Where(workflow => workflow.Verified).OrderByDescending(workflow => workflow.Downloads);
+            foreach (var workflow in publicWorkflows)
             {
                 model.Workflows.Add(new DetailsViewModel
                 {
