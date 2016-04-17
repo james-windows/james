@@ -7,6 +7,7 @@ using James.ResultItems;
 using James.Shortcut;
 using James.Workflows;
 using MahApps.Metro.Controls;
+using Microsoft.Win32;
 
 namespace James.Windows
 {
@@ -26,9 +27,18 @@ namespace James.Windows
                 Visibility = Visibility.Hidden;
             }
             InitializeComponent();
+            Loaded += SetPosition;
+            SystemEvents.DisplaySettingsChanged += SetPosition;
             ShortcutManager.Instance.ShortcutPressed += (sender, args) => OnHotKeyHandler(sender as Shortcut.Shortcut);
             LargeType.Instance.Deactivated += LargeType_Deactivated;
             LargeType.Instance.Activated += LargeType_Activated;
+        }
+
+        private void SetPosition(object sender, EventArgs e)
+        {
+            var desktopWorkingArea = SystemParameters.WorkArea;
+            this.Left = (desktopWorkingArea.Width - this.Width) / 2;
+            this.Top = desktopWorkingArea.Height / 4;
         }
 
         public static MainWindow GetInstance(bool showOnStartup = false)

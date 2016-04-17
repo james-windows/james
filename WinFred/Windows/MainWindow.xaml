@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:userControls="clr-namespace:James.UserControls"
         xmlns:helper="clr-namespace:James.HelperClasses"
-        Width="700" WindowStartupLocation="CenterScreen"
+        Width="700"
         ResizeMode="NoResize" WindowStyle="None" SizeToContent="Height"
         ShowInTaskbar="False" Loaded="Window_Loaded" Deactivated="Window_Deactivated"
         BorderBrush="#FF777777" BorderThickness="1" AllowsTransparency="True" Background="#99FFFFFF">
