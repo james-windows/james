@@ -7,7 +7,7 @@
         WindowState="Normal">
     <Grid Background="Black" Margin="50">
         <Viewbox Margin="20">
-            <TextBlock x:Name="TextBlock" Foreground="White" TextWrapping="Wrap" MaxWidth="100" TextAlignment="Center" />
+            <TextBlock x:Name="TextBlock" Foreground="White" TextWrapping="Wrap" MaxWidth="100" TextAlignment="Center" FontFamily="Arial" />
         </Viewbox>
     </Grid>
 </Window>
