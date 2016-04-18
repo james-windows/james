@@ -91,10 +91,10 @@ namespace James
                 ctx.DrawText(CreateText(resultItem.Title, LargeFontSize, isFocused), new Point(50, index*RowHeight));
                 ctx.DrawText(CreateText(resultItem.Subtitle, SmallFontSize, isFocused),
                     new Point(50, index*RowHeight + 25));
-                if (Config.Instance.DisplayPriorities)
+                if (Config.Instance.DisplayPriorities && resultItem is SearchResultItem)
                 {
                     ctx.DrawText(CreateText(resultItem.Priority.ToString(), SmallFontSize, isFocused), new Point(5, index*RowHeight));
-                    if (!(resultItem is SearchResultItem) || Config.Instance.DisplayFileIcons)
+                    if (Config.Instance.DisplayFileIcons)
                     {
                         ctx.DrawImage(resultItem.Icon, new Rect(SmallFontSize, SmallFontSize + index*RowHeight, 32, 32));
                     }
