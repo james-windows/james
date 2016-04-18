@@ -58,7 +58,7 @@ namespace James.Workflows.Actions
             {
                 timer.Stop();
                 timer.Close();
-                if (!ParentWorkflow.IsCanceled)
+                if (!ParentWorkflow.IsCanceled || Background)
                 {
                     CallNext(arguments);
                 }
