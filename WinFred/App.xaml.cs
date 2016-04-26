@@ -4,6 +4,7 @@ using System.IO.Compression;
 using System.IO.Pipes;
 using System.Threading;
 using System.Windows;
+using Exceptionless;
 using James.HelperClasses;
 using James.Search;
 using James.Shortcut;
@@ -32,7 +33,7 @@ namespace James
             baseColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/" + baseColor + ".xaml";
             (((App) Current).Resources).MergedDictionaries[4].Source = new Uri(baseColor);
         }
-
+        
         /// <summary>
         /// Entry point of the application, here we check if it's the first running instance of James
         /// </summary>
@@ -40,6 +41,9 @@ namespace James
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
+            ExceptionlessClient.Default.Register();
+            int a = 0;
+            int b = 3/a;
             bool createdNew;
             _mutex = new Mutex(true, "James", out createdNew);
             if (createdNew)
@@ -48,7 +52,7 @@ namespace James
                 base.OnStartup(e);
                 Config.Instance.FirstInstance = true;
             }
-            else if(e.Args.Length != 0)
+            else if (e.Args.Length != 0)
             {
                 AlternativeRun(e);
             }
