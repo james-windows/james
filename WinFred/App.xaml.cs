@@ -42,8 +42,6 @@ namespace James
         protected override void OnStartup(StartupEventArgs e)
         {
             ExceptionlessClient.Default.Register();
-            int a = 0;
-            int b = 3/a;
             bool createdNew;
             _mutex = new Mutex(true, "James", out createdNew);
             if (createdNew)
