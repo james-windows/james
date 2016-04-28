@@ -1,7 +1,7 @@
 # README #
 
-Here you can find some useful information for the head of this development group.
-### What is this repository for? ###
+Here you can find some useful information to deploy the program
+### What is this documentation for? ###
 
 * Creating a Squirrel Release
 * Share the Releases
