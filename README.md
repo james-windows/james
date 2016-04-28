@@ -1,6 +1,9 @@
 # James http://jamesapp.tk/
 ## The best launcher for Windows
 
+<img src="http://jamesapp.tk/images/james.png" width="128">
+
+
 James is an application launcher for windows enabling you to find and open files as well as programs easily and fast. Furhtermore it's possible to extend James by the use of so-called Workflows.
 You can find a download center for James online under the following url: http://jamesapp.tk/Workflows
 
@@ -20,6 +23,8 @@ But just in case, having possibilities like that is pretty nice, isn't it?
 James ships with an immensely powerful Workflow-Editor, which takes launchers to the next level. It allows even none-programmers to extends the launcher using a simple drag & drop system.
 Viewing the weather forecast, setting timers, searching youtube - even opening SAP transactions is possible.
 Create your very own Workflows to increase your productivity!
+
+<img src="http://jamesapp.tk/images/smallJames3.png" width="400px"/>
 
 ###Contributors:
 * Michael Moser
