@@ -1,6 +1,8 @@
 # James http://jamesapp.tk/
 ## The best launcher for Windows
 
+<h3 style="color: red">Announcement: First installer for the public beta is cooming on March 1st!
+
 <img src="http://jamesapp.tk/images/james.png" width="128">
 
 
