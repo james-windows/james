@@ -1,7 +1,7 @@
 # James http://jamesapp.tk/
 ## The best launcher for Windows
 ```
-Announcement: First installer for the public beta is cooming on March 1st!
+Announcement: First installer for the public beta is coming on March 1st!
 ```
 <img src="http://jamesapp.tk/images/james.png" width="128">
 
