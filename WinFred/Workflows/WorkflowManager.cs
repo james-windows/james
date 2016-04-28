@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.ResultItems;
 using James.Workflows.Triggers;
@@ -90,9 +90,9 @@ namespace James.Workflows
         public IEnumerable<ResultItem> GetKeywordTriggers(string input)
         {
             var keywordTriggers = KeywordTriggers.Where(trigger => trigger.Keyword.StartsWith(input) || input.StartsWith(trigger.Keyword)).ToList();
-            foreach (var trigger in keywordTriggers.Where(trigger => input.StartsWith(trigger.Keyword) && trigger.Autorun))
+            foreach (var trigger in keywordTriggers.Where(trigger => input.StartsWith(trigger.Keyword) && trigger.Autorun).ToList())
             {
-                trigger.Run(trigger.GetArgumentsFromInput(input));
+                Task.Run(() => trigger.Run(trigger.GetArgumentsFromInput(input)));
                 keywordTriggers.Remove(trigger);
             }
             
