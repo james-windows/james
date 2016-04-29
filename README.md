@@ -32,7 +32,8 @@ James ships with an immensely powerful Workflow-Editor, which takes launchers to
 Viewing the weather forecast, setting timers, searching youtube - even opening SAP transactions is possible.
 Create your very own Workflows to increase your productivity!
 
-<img src="http://s32.postimg.org/3mzbt19qp/workflow.gif"/>
+<img src="http://jamesapp.tk/images/smallJames3.png" width="400px"/>
+
 
 ###Contributors:
 * Michael Moser
