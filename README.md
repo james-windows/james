@@ -17,7 +17,7 @@ When developing James, our team invented a powerful Search-Algorithm enabling yo
 Moreover does the search provide a variety of options besides opening the files and folders. For example, by pressing cmd, or ctrl on windows, your filemanager will pop up, showing you where the search result actually is.
 Other features include auto-completion and quick-look support, making James the most awesome launcher that has ever existed.
 
-<img src="http://s32.postimg.org/qusvkoj11/search.png" width="400px"/>
+<img src="https://s32.postimg.org/lqy4889zp/search.gif"/>
 
 
 ####Configure your Search Scope
@@ -25,14 +25,14 @@ Other than tools like Spotlight, James allows your to define exactly where he's 
 Of course there's a default configuration, if you don't want to mess around with these things.
 But just in case, having possibilities like that is pretty nice, isn't it?
 
-<img src="http://s32.postimg.org/ywh42l1sl/settings.png" width="400px"/>
+<img src="https://s32.postimg.org/a6op2gbkl/customzie.gif"/>
 
 ####Extend James with Workflows
 James ships with an immensely powerful Workflow-Editor, which takes launchers to the next level. It allows even none-programmers to extends the launcher using a simple drag & drop system.
 Viewing the weather forecast, setting timers, searching youtube - even opening SAP transactions is possible.
 Create your very own Workflows to increase your productivity!
 
-<img src="http://jamesapp.tk/images/smallJames3.png" width="400px"/>
+<img src="http://s32.postimg.org/3mzbt19qp/workflow.gif"/>
 
 ###Contributors:
 * Michael Moser
