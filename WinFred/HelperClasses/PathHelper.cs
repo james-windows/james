@@ -35,17 +35,7 @@ namespace James.HelperClasses
         public static string GetFullPathOfExe(string executableName)
         {
             var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
-            string executablePath = null;
-            foreach (var p in path.Split(';'))
-            {
-                var fullPath = Path.Combine(p, executableName);
-                if (File.Exists(fullPath))
-                {
-                    executablePath = fullPath;
-                    break;
-                }
-            }
-            return executablePath;
+            return path.Split(';').Select(p => Path.Combine(p, executableName)).FirstOrDefault(File.Exists);
         }
 
         /// <summary>
