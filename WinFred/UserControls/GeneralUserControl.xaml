@@ -52,9 +52,22 @@
             </WrapPanel>
         </GroupBox>
         <Grid Grid.Column="1" Grid.RowSpan="3" helper:GridHelper.RowDefinition="a|*|a">
-            <TextBlock FontSize="24" TextAlignment="Center" Margin="0,20,0,10">James Settings</TextBlock>
+            <TextBlock FontSize="24" TextAlignment="Center" Margin="0,20,0,10">It's a pleasure to meet you!</TextBlock>
             <Image Grid.Row="1" Source="../Resources/logo.png" Width="200" Margin="75,0,20,0" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="2" Foreground="#ffaaaaaa" FontSize="12" TextWrapping="Wrap" Margin="0,30,0,0" VerticalAlignment="Bottom">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy, sed diam voluptua. At vero eos et rebum. Stet clita kasd gubergren, no sea tum dolor sit amet. Lm dolor sit amet, consetetur sadipscing elitr, sed dia erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</TextBlock>
+            <TextBlock Grid.Row="2" Foreground="#ffaaaaaa" FontSize="12" TextWrapping="Wrap" Margin="0,30,0,0" VerticalAlignment="Bottom" Padding="10"><Run FontSize="14" FontWeight="Bold">Dear Sir or Madam,</Run><LineBreak/>
+            <LineBreak/>        
+            My name is James and I'm very exciting to start working for you.<LineBreak/>
+            Whatever you want I'll do it for you because you can tell me what I've to do for you by creating workflows.<LineBreak/>
+            With workflows you easily can tell me what you suppose what I've to do.<LineBreak/>
+
+            So let's give me some commands and I'll hopefully make you happy.<LineBreak/>
+            <LineBreak/>
+            Yours,<LineBreak/>
+            <Run FontSize="14" FontWeight="Bold">James</Run><LineBreak/>
+            <LineBreak/>
+            P.S: I'm looking up for certain files on your computer too and will order them by priority that you can set.
+            <LineBreak/>
+            </TextBlock>
         </Grid>
     </Grid>
 </UserControl>
