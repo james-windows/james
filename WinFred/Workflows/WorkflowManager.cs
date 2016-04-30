@@ -130,7 +130,7 @@ namespace James.Workflows
         /// <param name="args"></param>
         public void RunApiTrigger(string input, string[] args)
         {
-            AllComponents.OfType<ApiTrigger>().Where(trigger => trigger.Action.Length > 0 && trigger.Action == input).ForEach(trigger => trigger.CallNext(args));
+            AllComponents.OfType<UrlTrigger>().Where(trigger => trigger.Action.Length > 0 && trigger.Action == input).ForEach(trigger => trigger.CallNext(args));
         }
     }
 }

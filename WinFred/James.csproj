@@ -308,7 +308,7 @@
     <Compile Include="Workflows\Outputs\MagicOutput.cs" />
     <Compile Include="Workflows\Outputs\OpenOutput.cs" />
     <Compile Include="Workflows\Outputs\SearchBoxOutput.cs" />
-    <Compile Include="Workflows\Triggers\ApiTrigger.cs" />
+    <Compile Include="Workflows\Triggers\UrlTrigger.cs" />
     <Compile Include="Workflows\Triggers\BasicTrigger.cs" />
     <Compile Include="Workflows\Triggers\KeywordTrigger.cs" />
     <Compile Include="Workflows\Actions\DelayAction.cs" />
