@@ -29,7 +29,7 @@ namespace James.UserControls.SearchConfiguration
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
+        public async void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
         {
             var parentWindow = (MetroWindow) Window.GetWindow(this);
             var setting = new MetroDialogSettings

@@ -25,8 +25,11 @@ namespace James.Windows
         {
             if (_launchMainWindowAtEnd)
             {
-                MainWindow.GetInstance(true).Show();
+                OptionWindow options = new OptionWindow();
+                options.Show();
+                options.StartBuildingTheIndex();
             }
+            var instance = MainWindow.GetInstance();
             Close();
         }
     }

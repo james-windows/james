@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,6 +36,11 @@ namespace James.Windows
             Config.Instance.Persist();
             ShortcutManager.Instance.Reload();
             WorkflowManager.Instance.PersistWorkflows();
+        }
+
+        public void StartBuildingTheIndex()
+        {
+            SearchControl.RebuildIndexButton_Click(this, null);
         }
     }
 }

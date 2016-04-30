@@ -16,7 +16,7 @@
             </TabItem>
             <TabItem Header="Search">
                 <Grid>
-                    <searchConfiguration:SearchUserControl />
+                    <searchConfiguration:SearchUserControl x:Name="SearchControl"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Workflows">
