@@ -27,8 +27,8 @@ namespace James.HelperClasses
             paths.Add(CreateProgramPath(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), 100));
             paths.Add(CreateProgramPath(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), 95));
 
-            paths.Add(CreateStartMenuPaths(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), 100));
-            paths.Add(CreateStartMenuPaths(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), 95));
+            paths.Add(CreateStartMenuPaths(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), 120));
+            paths.Add(CreateStartMenuPaths(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), 115));
 
             return paths;
         }
