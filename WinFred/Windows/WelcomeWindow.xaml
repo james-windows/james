@@ -6,7 +6,7 @@
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       mc:Ignorable="d" BorderThickness="0" GlowBrush="Black"
                       Title="Welcome" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
-                      Icon="../Resources/logo2.png">
+                      Icon="../Resources/logo2.png" WindowStartupLocation="CenterScreen">
     <Grid>
         <controls:FlipView IsBannerEnabled="False" Margin="10" Width="600" Height="500" MouseOverGlowEnabled="False">
             <controls:FlipView.Items>
