@@ -16,7 +16,7 @@ namespace James.HelperClasses
         {
             try
             {
-                BitmapImage tmp = new BitmapImage(new Uri(GetExecuteablePath() + "\\Resources\\" + path));
+                BitmapImage tmp = new BitmapImage(new Uri(PathHelper.GetLocationOfJames() + "\\Resources\\" + path));
                 tmp.Freeze();
                 return tmp;
             }
@@ -24,12 +24,6 @@ namespace James.HelperClasses
             {
                 return new BitmapImage();
             }
-        }
-
-        private static string GetExecuteablePath()
-        {
-            var folders = Directory.GetDirectories(Config.ConfigFolderLocation).Where(s => PathHelper.GetFilename(s).StartsWith("app-")).Select(s => new  { path = s,version= new Version(PathHelper.GetFilename(s).Replace("app-", ""))});
-            return folders.OrderByDescending(arg => arg.version).First().path;
         }
     }
 }

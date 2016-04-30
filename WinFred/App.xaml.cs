@@ -48,10 +48,10 @@ namespace James
             {
                 StartProgram();
                 base.OnStartup(e);
-                Config.Instance.FirstInstance = true;
             }
             else if (e.Args.Length != 0)
             {
+                Config.Instance.FirstInstance = false;
                 AlternativeRun(e);
             }
         }
@@ -98,7 +98,7 @@ namespace James
         {
             Config.Instance.WindowChangedAccentColor += App_WindowChangedAccentColor;
             SetStyleAccents();
-            SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall);
+            SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall, onAppUpdate: OnAppUpdate);
             InitializeSingeltons();
             if (_showTheWelcomeWizard)
             {
@@ -108,6 +108,13 @@ namespace James
             {
                 James.Windows.MainWindow.GetInstance().Show();
             }
+        }
+
+        private static void OnAppUpdate(Version version)
+        {
+            MessageBox.Show($"James got an update to: {version}");
+            RegistryHelper.AssociateFileExtension();
+            RegistryHelper.RegisterCustomProtocol();
         }
 
         private static void InitializeSingeltons()
