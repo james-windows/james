@@ -1,6 +1,6 @@
 ﻿namespace James.Workflows.Triggers
 {
-    class ApiTrigger: BasicTrigger
+    public class UrlTrigger: BasicTrigger
     {
         public override void Run(string[] arguments)
         {
@@ -11,6 +11,6 @@
         [ComponentField("The name of the action to listen")]
         public string Action { get; set; } = "";
 
-        public override string GetSummary() => $"Listens for '{Action}' in the api";
+        public override string GetSummary() => $"Listens for '{Action}' in the url schema";
     }
 }
