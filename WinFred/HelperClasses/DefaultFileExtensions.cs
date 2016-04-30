@@ -29,6 +29,10 @@ namespace James.HelperClasses
                 new FileExtension("gif", 19),
                 new FileExtension("jpeg", 18),
 
+                //audio:
+                new FileExtension("mp3", 22),
+                new FileExtension("flac", 22),
+
                 //videos
                 new FileExtension("wav", 22),
                 new FileExtension("wma", 22),
