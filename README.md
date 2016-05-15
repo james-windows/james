@@ -1,5 +1,7 @@
 # James http://jamesapp.tk/
 ## The best launcher for Windows
+
+[![Join the chat at https://gitter.im/james-windows/james](https://badges.gitter.im/james-windows/james.svg)](https://gitter.im/james-windows/james?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ```
 Announcement: First installer for the public beta is coming on March 1st!
 ```
