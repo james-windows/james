@@ -14,7 +14,7 @@ namespace James.HelperClasses
         /// <returns></returns>
         public static string GetFilename(string path)
         {
-            return path.Split('\\').Last();
+            return Path.GetFileName(path);
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace James.HelperClasses
         /// <returns></returns>
         public static string GetFolderPath(string path)
         {
-            return path.Substring(0, path.LastIndexOf('\\'));
+            return Path.GetDirectoryName(path);
         }
 
         /// <summary>
