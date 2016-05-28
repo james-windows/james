@@ -25,6 +25,7 @@ namespace James.HelperClasses
                 //images:
                 new FileExtension("png", 20),
                 new FileExtension("jpg", 20),
+                new FileExtension("bmp", 20),
                 new FileExtension("ico", 19),
                 new FileExtension("gif", 19),
                 new FileExtension("jpeg", 18),
