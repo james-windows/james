@@ -162,7 +162,7 @@ namespace James.Search
         /// <returns>priority</returns>
         private int CalculatePriorityByFileExtensions(string filePath)
         {
-            var fileExtension = filePath.Split('.').Last();
+            var fileExtension = filePath.Split('.').Last(); //TODO test new FileInfo(filePath).Extension.Substring(1);
             var priority = GetPriorityByGivenFileExtensions(fileExtension, FileExtensions);
             if (priority == int.MinValue && IsDefaultConfigurationEnabled)
             {
