@@ -28,8 +28,10 @@ namespace James
         private readonly Thread listenThread;
         private ApiListener()
         {
-            listenThread = new Thread(Listen);
-            listenThread.IsBackground = true;
+            listenThread = new Thread(Listen)
+            {
+                IsBackground = true
+            };
             listenThread.Start();
         }
 

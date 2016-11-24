@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-//using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Alphaleonis.Win32.Filesystem;
 using James.Annotations;
 using James.HelperClasses;
 using James.ResultItems;
@@ -81,8 +79,8 @@ namespace James.Search
                     }
                 }
             }
-            catch (UnauthorizedAccessException){}
-            catch (DirectoryNotFoundException){}
+            catch (UnauthorizedAccessException) { }
+            catch (DirectoryNotFoundException) { }
             if (IndexFolders && data.Count > 0)
             {
                 data.Add(GenerateFolder(Location + currentPath));
@@ -100,7 +98,7 @@ namespace James.Search
             return new DirectoryInfo(path).GetDirectories()
                 .Where(dir => !dir.Attributes.HasFlag(FileAttributes.Hidden))
                 .Select(dir => dir.FullName).Where(dir => dir != "");
-        } 
+        }
 
         /// <summary>
         /// Generates an ResultItem for the folder
@@ -162,7 +160,7 @@ namespace James.Search
         /// <returns>priority</returns>
         private int CalculatePriorityByFileExtensions(string filePath)
         {
-            var fileExtension = filePath.Split('.').Last(); //TODO test new FileInfo(filePath).Extension.Substring(1);
+            var fileExtension = filePath.Split('.').Last();
             var priority = GetPriorityByGivenFileExtensions(fileExtension, FileExtensions);
             if (priority == int.MinValue && IsDefaultConfigurationEnabled)
             {
