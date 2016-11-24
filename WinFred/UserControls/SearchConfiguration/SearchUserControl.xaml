@@ -94,10 +94,12 @@
         </Grid>
         <Grid Grid.Column="1" helper:GridHelper.RowDefinition="*|a">
             <GroupBox Header="Index Settings" Grid.Row="1">
-                <StackPanel>
+                <Grid helper:GridHelper.ColumnDefinition="*|*">
                     <Button x:Name="RebuildIndexButton" Content="Rebuild Index" Click="RebuildIndexButton_Click"
                             Style="{DynamicResource SquareButtonStyle}" />
-                </StackPanel>
+                    <Button x:Name="SaveIndexButton" Content="Save Index" Click="SaveIndexButton_Click"
+                            Style="{DynamicResource SquareButtonStyle}" Grid.Column="1" />
+                </Grid>
             </GroupBox>
             <!--#region Block for default configuration -->
             <Grid Grid.Row="0">

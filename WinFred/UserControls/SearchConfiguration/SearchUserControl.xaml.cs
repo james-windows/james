@@ -25,6 +25,16 @@ namespace James.UserControls.SearchConfiguration
         }
 
         /// <summary>
+        /// Starts saving the current status of the index
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void SaveIndexButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchEngine.Instance.SaveIndex();
+        }
+
+        /// <summary>
         /// Starts a recreation of the index
         /// </summary>
         /// <param name="sender"></param>
