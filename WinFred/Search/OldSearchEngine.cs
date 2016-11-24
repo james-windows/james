@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using James.Properties;
 using James.ResultItems;
 using System.IO;
+using James.HelperClasses;
 
 namespace James.Search
 {
-    public class SearchEngine
+    public class OldSearchEngine
     {
         public delegate void ChangedBuildingIndexProgressEventHandler(object sender, ProgressChangedEventArgs e);
 
-        private static SearchEngine _searchEngine;
+        private static OldSearchEngine _oldSearchEngine;
         private static readonly object SingeltonLock = new object();
-        private Engine.Entity.SearchEngine _searchEngineWrapper;
+        private readonly SearchEngineWrapper.SearchEngineWrapper _searchEngineWrapper;
         private readonly Timer _timer;
 
-        private SearchEngine()
+        private OldSearchEngine()
         {
             string filePath = Config.ConfigFolderLocation + "\\files.txt";
             if (!File.Exists(filePath))
@@ -26,7 +28,7 @@ namespace James.Search
                 File.Create(filePath);
             }
             _searchEngineWrapper =
-                new Engine.Entity.SearchEngine(filePath);
+                new SearchEngineWrapper.SearchEngineWrapper(filePath, Config.Instance.MaxSearchResults);
 
             //Triggers index backup every 5 minutes
             _timer = new Timer(1000*60*5)
@@ -37,13 +39,13 @@ namespace James.Search
             _timer.Elapsed += Timer_Elapsed;
         }
 
-        public static SearchEngine Instance
+        public static OldSearchEngine Instance
         {
             get
             {
                 lock (SingeltonLock)
                 {
-                    return _searchEngine ?? (_searchEngine = new SearchEngine());
+                    return _oldSearchEngine ?? (_oldSearchEngine = new OldSearchEngine());
                 }
             }
         }
@@ -58,13 +60,8 @@ namespace James.Search
 #if DEBUG
             Console.WriteLine(Resources.SearchEngine_SearchEngineBackup_Notification);
 #endif
-            SaveIndex();
+            _searchEngineWrapper.Save();
         }
-
-        /// <summary>
-        /// Saves the current state of the index
-        /// </summary>
-        public void SaveIndex() => _searchEngineWrapper.Save();
 
         public event ChangedBuildingIndexProgressEventHandler ChangedBuildingIndexProgress;
 
@@ -73,8 +70,7 @@ namespace James.Search
         /// </summary>
         public void BuildIndex()
         {
-            //Config.Instance.Paths.Where(path => path.IsEnabled).ForEach(path => DeletePath(path.Location));
-            _searchEngineWrapper = new Engine.Entity.SearchEngine(Config.ConfigFolderLocation + "\\files.txt", false);
+            Config.Instance.Paths.Where(path => path.IsEnabled).ForEach(path => DeletePath(path.Location));
             var data = GetFilesToBeIndexed();
             WriteFilesToIndex(data);
         }
@@ -86,12 +82,8 @@ namespace James.Search
         private static List<ResultItem> GetFilesToBeIndexed()
         {
             var data = new List<ResultItem>();
-            foreach (var path in Config.Instance.Paths.Where(path => path.IsEnabled))
-            {
-                data.AddRange(path.GetItemsToBeIndexed());
-            }
-            //Parallel.ForEach(Config.Instance.Paths.Where(path => path.IsEnabled),
-            //    currentPath => { data.AddRange(currentPath.GetItemsToBeIndexed()); });
+            Parallel.ForEach(Config.Instance.Paths.Where(path => path.IsEnabled),
+                currentPath => { data.AddRange(currentPath.GetItemsToBeIndexed()); });
             return data;
         }
 
@@ -108,7 +100,7 @@ namespace James.Search
                 AddFile(data[i]);
             }
             ChangedBuildingIndexProgress?.Invoke(this, new ProgressChangedEventArgs(100, null));
-            SaveIndex();
+            _searchEngineWrapper.Save();
         }
 
         /// <summary>
@@ -145,14 +137,14 @@ namespace James.Search
         /// Wraps the Delete Path method of the SearchEngineWrapper
         /// </summary>
         /// <param name="path"></param>
-        public void DeletePath(string path) => _searchEngineWrapper.DeletePath(path);
+        public void DeletePath(string path) => _searchEngineWrapper.Remove(path);
 
         /// <summary>
         /// Wraps the IncrementePriority method of the SearchEngineWrapper
         /// </summary>
         /// <param name="path"></param>
         /// <param name="priority"></param>
-        public void IncrementPriority(string path, int priority = 5) => _searchEngineWrapper.ChangePriority(path, priority);
+        public void IncrementPriority(string path, int priority = 5) => _searchEngineWrapper.AddPriority(path, priority);
 
         /// <summary>
         /// Other overload of the IncrementPriority method
@@ -170,14 +162,18 @@ namespace James.Search
             {
                 return new List<ResultItem>();
             }
-            var result = _searchEngineWrapper.Find(search);
-            List<ResultItem> resultItems = new List<ResultItem>();
-            foreach (var line in result)
-            {
-                var splits = line.Split(';');
-                resultItems.Add(new SearchResultItem(splits[0], int.Parse(splits[1])));
-            }
-            return resultItems;
+#if DEBUG
+            var tmp = DateTime.UtcNow;
+            _searchEngineWrapper.Find(search);
+            Console.WriteLine((DateTime.UtcNow - tmp).TotalMilliseconds);
+#else
+            _searchEngineWrapper.Find(search);
+#endif
+            return
+                _searchEngineWrapper.searchResults.Select(
+                    item => new SearchResultItem(item.path, item.priority))
+                    .ToList()
+                    .ConvertAll(input => (ResultItem) input);
         }
     }
 }

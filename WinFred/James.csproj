@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>James</RootNamespace>
     <AssemblyName>James</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -66,6 +66,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <DocumentationFile>
     </DocumentationFile>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -220,6 +221,8 @@
     <Compile Include="HelperClasses\RegistryHelper.cs" />
     <Compile Include="HelperClasses\WindowHelper.cs" />
     <Compile Include="Search\DeleteEvent.cs" />
+    <Compile Include="Search\SearchEngine.cs" />
+    <Compile Include="Search\OldSearchEngine.cs" />
     <Compile Include="Windows\ChangelogWindow.xaml.cs">
       <DependentUpon>ChangelogWindow.xaml</DependentUpon>
     </Compile>
@@ -286,7 +289,6 @@
     <Compile Include="Search\FileExtension.cs" />
     <Compile Include="Search\MyFileWatcher.cs" />
     <Compile Include="Search\Path.cs" />
-    <Compile Include="Search\SearchEngine.cs" />
     <Compile Include="ResultItems\ResultItem.cs" />
     <Compile Include="Windows\WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
@@ -485,6 +487,12 @@
     <Content Include="Resources\logo2.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{bfc549c1-b62a-4ca7-b3e4-e1c6a83e3597}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

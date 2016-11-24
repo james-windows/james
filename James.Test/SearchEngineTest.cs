@@ -47,8 +47,8 @@ namespace James.Test
         public void CreatingInstanceTest()
         {
             PrepareTest();
-            SearchEngine searchEngine = SearchEngine.Instance;
-            Assert.IsNotNull(searchEngine, "Instance should be created!");
+            OldSearchEngine oldSearchEngine = OldSearchEngine.Instance;
+            Assert.IsNotNull(oldSearchEngine, "Instance should be created!");
         }
 
         #region Insert
@@ -58,8 +58,8 @@ namespace James.Test
             PrepareTest();
             ResultItem testPath = new SearchResultItem(@"C:\User\Moser\Desktop\firstFile.txt", 0);
             
-            SearchEngine.Instance.AddFile(testPath);
-            var query = SearchEngine.Instance.Query("first");
+            OldSearchEngine.Instance.AddFile(testPath);
+            var query = OldSearchEngine.Instance.Query("first");
 
             Assert.IsTrue(query.Count == 1, "One result should be returned!");
             Assert.IsTrue(query[0].Subtitle == testPath.Subtitle, "Both paths should match!");
@@ -71,10 +71,10 @@ namespace James.Test
             PrepareTest();
             ResultItem testPath = new SearchResultItem(@"C:\User\Moser\Desktop\firstFile.txt", 8);
 
-            SearchEngine.Instance.AddFile(testPath);
+            OldSearchEngine.Instance.AddFile(testPath);
             testPath.Priority = 10;
-            SearchEngine.Instance.AddFile(testPath);
-            var query = SearchEngine.Instance.Query("first");
+            OldSearchEngine.Instance.AddFile(testPath);
+            var query = OldSearchEngine.Instance.Query("first");
             Assert.IsTrue(query.Count == 1, "One result should be returned!");
             Assert.IsTrue(query[0].Subtitle == testPath.Subtitle, "Both paths should match!");
             Assert.IsTrue(query[0].Priority == testPath.Priority, "Path should be overriden by the higher priority!");
@@ -87,9 +87,9 @@ namespace James.Test
             var searchResults = GenerateSearchResults();
             foreach (var item in searchResults)
             {
-                SearchEngine.Instance.AddFile(item);
+                OldSearchEngine.Instance.AddFile(item);
             }
-            var query = SearchEngine.Instance.Query("f");
+            var query = OldSearchEngine.Instance.Query("f");
             var search =
                 searchResults.Where(result => result.Subtitle.Split('\\').Last().StartsWith("f"))
                     .OrderBy(result => -result.Priority).ToList().ConvertAll(input => (ResultItem)input); ;
@@ -106,12 +106,12 @@ namespace James.Test
             PrepareTest();
 
             InsertManyTest();
-            var query = SearchEngine.Instance.Query("first");
+            var query = OldSearchEngine.Instance.Query("first");
 
-            SearchEngine.Instance.RenameFile(query[0].Subtitle, query[0].Subtitle + "rename");
+            OldSearchEngine.Instance.RenameFile(query[0].Subtitle, query[0].Subtitle + "rename");
             query[0].Subtitle += "rename";
 
-            var secondQuery = SearchEngine.Instance.Query("first");
+            var secondQuery = OldSearchEngine.Instance.Query("first");
             CompareSearchResults(query, secondQuery);
         }
 
@@ -121,9 +121,9 @@ namespace James.Test
             PrepareTest();
 
             InsertManyTest();
-            var query = SearchEngine.Instance.Query("first");
+            var query = OldSearchEngine.Instance.Query("first");
 
-            SearchEngine.Instance.RenameFile(@"C:\User\Moser\Desktop", @"C:\User\Moser\Documents");
+            OldSearchEngine.Instance.RenameFile(@"C:\User\Moser\Desktop", @"C:\User\Moser\Documents");
             query =
                 query.Select(
                     result =>
@@ -133,7 +133,7 @@ namespace James.Test
                             Priority = result.Priority
                         }).ToList().ConvertAll(input => (ResultItem)input);
 
-            var secondQuery = SearchEngine.Instance.Query("first");
+            var secondQuery = OldSearchEngine.Instance.Query("first");
             CompareSearchResults(query, secondQuery);
         }
 
@@ -143,9 +143,9 @@ namespace James.Test
             PrepareTest();
 
             InsertManyTest();
-            SearchEngine.Instance.IncrementPriority("C:\\User\\Moser\\Desktop\\firstExe.exe", 10);
-            var query = SearchEngine.Instance.Query("first");
-            SearchEngine.Instance.RenameFile(@"C:\User\Moser\Desktop", @"C:\User\Moser\Documents");
+            OldSearchEngine.Instance.IncrementPriority("C:\\User\\Moser\\Desktop\\firstExe.exe", 10);
+            var query = OldSearchEngine.Instance.Query("first");
+            OldSearchEngine.Instance.RenameFile(@"C:\User\Moser\Desktop", @"C:\User\Moser\Documents");
             query =
                 query.Select(
                     result =>
@@ -155,7 +155,7 @@ namespace James.Test
                             Priority = result.Priority
                         }).ToList().ConvertAll(input => (ResultItem)input);
 
-            var secondQuery = SearchEngine.Instance.Query("first");
+            var secondQuery = OldSearchEngine.Instance.Query("first");
             CompareSearchResults(query, secondQuery);
         }
         #endregion
@@ -166,10 +166,10 @@ namespace James.Test
         {
             InsertManyTest();
 
-            var query = SearchEngine.Instance.Query("f");
-            SearchEngine.Instance.IncrementPriority(query[2].Subtitle, 1000);
+            var query = OldSearchEngine.Instance.Query("f");
+            OldSearchEngine.Instance.IncrementPriority(query[2].Subtitle, 1000);
 
-            var secondQuery = SearchEngine.Instance.Query("f");
+            var secondQuery = OldSearchEngine.Instance.Query("f");
 
             Assert.IsTrue(secondQuery.Count == query.Count, "Count shouldn't be changed");
             Assert.IsTrue(query[2].Subtitle == secondQuery[0].Subtitle);
@@ -181,10 +181,10 @@ namespace James.Test
         {
             InsertManyTest();
 
-            var query = SearchEngine.Instance.Query("f");
-            SearchEngine.Instance.IncrementPriority(query[0].Subtitle, -10);
+            var query = OldSearchEngine.Instance.Query("f");
+            OldSearchEngine.Instance.IncrementPriority(query[0].Subtitle, -10);
 
-            var secondQuery = SearchEngine.Instance.Query("f");
+            var secondQuery = OldSearchEngine.Instance.Query("f");
 
             Assert.IsTrue(secondQuery.Count == query.Count, "Count shouldn't be changed");
             Assert.IsTrue(query[0].Subtitle == secondQuery[0].Subtitle);
@@ -196,10 +196,10 @@ namespace James.Test
         {
             InsertManyTest();
 
-            var query = SearchEngine.Instance.Query("f");
-            SearchEngine.Instance.IncrementPriority(query[0].Subtitle, -1000);
+            var query = OldSearchEngine.Instance.Query("f");
+            OldSearchEngine.Instance.IncrementPriority(query[0].Subtitle, -1000);
 
-            var secondQuery = SearchEngine.Instance.Query("f");
+            var secondQuery = OldSearchEngine.Instance.Query("f");
             query.RemoveAt(0);
             CompareSearchResults(query, secondQuery);
         }
@@ -210,9 +210,9 @@ namespace James.Test
         public void DeleteOneTest()
         {
             InsertManyTest();
-            var query = SearchEngine.Instance.Query("f");
-            SearchEngine.Instance.DeletePath(query[0].Subtitle);
-            var secondQuery = SearchEngine.Instance.Query("f");
+            var query = OldSearchEngine.Instance.Query("f");
+            OldSearchEngine.Instance.DeletePath(query[0].Subtitle);
+            var secondQuery = OldSearchEngine.Instance.Query("f");
 
             query.RemoveAt(0);
             CompareSearchResults(query, secondQuery);
@@ -222,9 +222,9 @@ namespace James.Test
         public void DeleteOneWhichDoesntExsistsTest()
         {
             InsertManyTest();
-            var query = SearchEngine.Instance.Query("f");
-            SearchEngine.Instance.DeletePath(query[0].Subtitle + "something");
-            var secondQuery = SearchEngine.Instance.Query("f");
+            var query = OldSearchEngine.Instance.Query("f");
+            OldSearchEngine.Instance.DeletePath(query[0].Subtitle + "something");
+            var secondQuery = OldSearchEngine.Instance.Query("f");
             CompareSearchResults(query, secondQuery);
         }
 
@@ -232,11 +232,11 @@ namespace James.Test
         public void InsertWithEuro()
         {
             PrepareTest();
-            SearchEngine.Instance.AddFile(new SearchResultItem(@"C:\Users\moser\OneDrive\Dokumente\tmp\rene 5€.txt", 10));
-            var query = SearchEngine.Instance.Query("rene");
+            OldSearchEngine.Instance.AddFile(new SearchResultItem(@"C:\Users\moser\OneDrive\Dokumente\tmp\rene 5€.txt", 10));
+            var query = OldSearchEngine.Instance.Query("rene");
             Assert.IsTrue(query.Count == 1, "One result should be returned!");
 
-            query = SearchEngine.Instance.Query("5€");
+            query = OldSearchEngine.Instance.Query("5€");
             Assert.IsTrue(query.Count == 1, "One result should be returned!");
         }
 
@@ -246,7 +246,7 @@ namespace James.Test
             PrepareTest();
 
             ResultItem testPath = new SearchResultItem(@"C:\User\Moser\Desktop\firstFile.txt", 0);
-            SearchEngine.Instance.AddFile(testPath);
+            OldSearchEngine.Instance.AddFile(testPath);
             
             QueryOnce(testPath, "first");
 
@@ -266,7 +266,7 @@ namespace James.Test
         /// <param name="search"></param>
         private static void QueryOnce(ResultItem testPath, string search)
         {
-            var query = SearchEngine.Instance.Query(search);
+            var query = OldSearchEngine.Instance.Query(search);
             Assert.IsTrue(query.Count == 1, $"One result should be returned by searching for '{search}'!");
             Assert.IsTrue(query[0].Subtitle == testPath.Subtitle, "Both paths should match!");
         }
@@ -277,7 +277,7 @@ namespace James.Test
         public void AdvancedRebuildTest()
         {
             Config.ConfigFolderLocation = Environment.CurrentDirectory + "\\second";
-            var instance = SearchEngine.Instance;
+            var instance = OldSearchEngine.Instance;
             instance.DeletePath(@"C:\Users\moser\Desktop");
             instance.DeletePath(@"C:\Users\moser\Downloads");
             instance.DeletePath(@"C:\Users\moser\Documents");
