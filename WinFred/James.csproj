@@ -222,7 +222,6 @@
     <Compile Include="HelperClasses\WindowHelper.cs" />
     <Compile Include="Search\DeleteEvent.cs" />
     <Compile Include="Search\SearchEngine.cs" />
-    <Compile Include="Search\OldSearchEngine.cs" />
     <Compile Include="Windows\ChangelogWindow.xaml.cs">
       <DependentUpon>ChangelogWindow.xaml</DependentUpon>
     </Compile>
