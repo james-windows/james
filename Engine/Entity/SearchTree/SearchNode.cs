@@ -25,11 +25,7 @@ namespace Engine.Entity.SearchTree
             switch (nextStep.option)
             {
                 case TraversalOptions.Split:
-                    if (nextStep.commonPrefixLength < Label.Length)
-                    {
-                        return this;
-                    }
-                    return null;
+                    return (nextStep.commonPrefixLength + pos == search.Length) ? this : null;
                 case TraversalOptions.Found:
                     return this;
                 case TraversalOptions.MoveNext:
