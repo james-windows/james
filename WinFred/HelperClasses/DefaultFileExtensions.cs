@@ -62,6 +62,7 @@ namespace James.HelperClasses
                 new FileExtension("cpp", 11),
                 new FileExtension("html", 15),
                 new FileExtension("js", 13),
+                new FileExtension("py", 13),
                 new FileExtension("cs", 13),
                 new FileExtension("cshtml", 10),
                 new FileExtension("reg", 10),
