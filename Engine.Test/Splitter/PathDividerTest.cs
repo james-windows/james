@@ -31,7 +31,7 @@ namespace Engine.Test.Splitter
         {
             IDivider divider = new Divider.Divider();
             var results = divider.SplitPath(@"C:\Users\moser\Desktop\reading\College_Physics-OP.pdf");
-            string[] test = { "College_Physics-OP.pdf", "Physics-OP.pdf", "OP.pdf", "pdf", ".pdf" };
+            string[] test = { "College_Physics-OP.pdf", "Physics-OP.pdf", "OP.pdf", "P.pdf", "pdf", ".pdf" };
 
             Assert.IsTrue(results.Count() == test.Length);
             foreach (var item in results)

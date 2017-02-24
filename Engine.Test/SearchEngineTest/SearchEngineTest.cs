@@ -9,7 +9,7 @@ namespace Engine.Test.SearchEngineTest
     [TestClass]
     public class SearchEngineTest
     {
-        private string _testFile = "D:\\WinFred\\Project\\james-windows\\Engine.Test\\bin\\Debug\\files.txt";
+        private string _testFile = "D:\\WinFred\\Project\\james\\Engine.Test\\bin\\Debug\\files.txt";
         [TestMethod]
         public void FirstInsertTest()
         {
@@ -201,20 +201,21 @@ namespace Engine.Test.SearchEngineTest
             Assert.IsTrue(engine.Find("ind").ToArray()[0] == "D:\\WinFred\\index.html;66");
         }
 
+        private string testFilePath = "D:\\WinFred\\Project\\james\\Engine.Test\\bin\\Debug\\files2.txt";
         [TestMethod]
         public void RealisticInsertAndSaveManyTest()
         {
             SearchEngine engine = new SearchEngine(_testFile);
-            engine.Save("D:\\WinFred\\Project\\james-windows\\Engine.Test\\bin\\Debug\\files2.txt");
-            Assert.IsTrue(File.ReadAllLines("D:\\WinFred\\Project\\james-windows\\Engine.Test\\bin\\Debug\\files2.txt").Length == 23754);
+            engine.Save(testFilePath);
+            Assert.IsTrue(File.ReadAllLines(testFilePath).Length == 23754);
         }
         [TestMethod]
         public void RealisticInsertDeletePathAndSaveManyTest()
         {
             SearchEngine engine = new SearchEngine(_testFile);
             engine.DeletePath(@"C:\Users\moser\Dropbox\SirDrawALot Presentation\");
-            engine.Save("D:\\WinFred\\Project\\james-windows\\Engine.Test\\bin\\Debug\\files2.txt");
-            Assert.IsTrue(File.ReadAllLines("D:\\WinFred\\Project\\james-windows\\Engine.Test\\bin\\Debug\\files2.txt").Length == 23754 - 47);
+            engine.Save(testFilePath);
+            Assert.IsTrue(File.ReadAllLines(testFilePath).Length == 23754 - 47);
         }
 
         [TestMethod]

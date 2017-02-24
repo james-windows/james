@@ -20,7 +20,7 @@ namespace Engine.Divider
         {
             for (int i = 1; i < path.Length - 1; i++)
             {
-                if (char.IsUpper(path[i]) && char.IsLower(path[i - 1]))
+                if (char.IsUpper(path[i]))
                 {
                     yield return path.Substring(i);
                 }
