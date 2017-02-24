@@ -66,9 +66,13 @@ namespace James.ResultItems
         /// </summary>
         /// <param name="e"></param>
         /// <param name="search"></param>
-        public override void Open(KeyEventArgs e, string search)
+        public override void Open(KeyEventArgs e, string search, bool showFileProperties)
         {
-            if (e.KeyboardDevice.Modifiers == (ModifierKeys.Shift | ModifierKeys.Control))
+            if (showFileProperties)
+            {
+                PathHelper.OpenPathPropertyWindow(Subtitle);
+            }
+            else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Shift | ModifierKeys.Control))
             {
                 if (_isDirectory)
                 {
@@ -82,10 +86,6 @@ namespace James.ResultItems
             else if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift)
             {
                 OpenFolder(true);
-            }
-            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Alt)
-            {
-                PathHelper.OpenPathPropertyWindow(Subtitle);
             }
             else
             {

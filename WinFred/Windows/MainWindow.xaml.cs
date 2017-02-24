@@ -136,7 +136,7 @@ namespace James.Windows
                     searchResultControl.MoveUp();
                     break;
                 case Key.Enter:
-                    searchResultControl.Open(e, SearchTextBox.Text);
+                    searchResultControl.Open(e, SearchTextBox.Text, e.KeyboardDevice.IsKeyDown(Key.RightAlt));
                     break;
                 case Key.Tab:
                     string text = searchResultControl.AutoComplete();

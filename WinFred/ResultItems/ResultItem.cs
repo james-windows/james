@@ -13,7 +13,7 @@ namespace James.ResultItems
 
         public int CompareTo(ResultItem other) => Priority - other.Priority;
 
-        public abstract void Open(KeyEventArgs e, string search);
+        public abstract void Open(KeyEventArgs e, string search, bool showFileProperties);
 
         public bool Equals(ResultItem other) => other.Title == Title && other.Subtitle == Subtitle;
 

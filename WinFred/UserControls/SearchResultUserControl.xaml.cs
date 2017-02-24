@@ -42,7 +42,7 @@ namespace James.UserControls
                 var window = Window.GetWindow(this);
                 window?.Hide();
                 var index = (int) (e.GetPosition(this).Y/SearchResultElement.RowHeight);
-                results[index].Open(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter), Windows.MainWindow.GetInstance().SearchTextBox.Text);
+                results[index].Open(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter), Windows.MainWindow.GetInstance().SearchTextBox.Text, false);
             }
         }
 
@@ -133,13 +133,13 @@ namespace James.UserControls
         /// </summary>
         /// <param name="e"></param>
         /// <param name="input"></param>
-        public void Open(KeyEventArgs e, string input)
+        public void Open(KeyEventArgs e, string input, bool showFileProperties = false)
         {
             e.Handled = true;
             var index = _searchResultElement.CurrentFocus;
             if (index >= 0 && index < results.Count)
             {
-                results[index].Open(e, input);
+                results[index].Open(e, input, showFileProperties);
             }
         }
 

@@ -17,7 +17,7 @@ namespace James.ResultItems
         /// </summary>
         /// <param name="e"></param>
         /// <param name="search">The current text in the SearchBox</param>
-        public override void Open(KeyEventArgs e, string search)
+        public override void Open(KeyEventArgs e, string search, bool showFileProperties)
         {
             WorkflowComponent.ParentWorkflow.IsCanceled = false;
             WorkflowComponent.CallNext(WorkflowArguments);
