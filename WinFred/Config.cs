@@ -42,7 +42,7 @@ namespace James
                             Directory.CreateDirectory(path);
                             _config = SerializationHelper.Deserialize<Config>(path + "\\config.json");
                         }
-                        catch (Exception e)
+                        catch (FileNotFoundException e)
                         {
                             InitConfig();
                         }

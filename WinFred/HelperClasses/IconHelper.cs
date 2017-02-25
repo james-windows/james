@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Media.Imaging;
-using Alphaleonis.Win32.Filesystem;
 
 namespace James.HelperClasses
 {

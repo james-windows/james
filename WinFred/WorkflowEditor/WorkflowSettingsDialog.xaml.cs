@@ -126,7 +126,7 @@ namespace James.WorkflowEditor
                 WorkflowImage.Source = null;
                 WorkflowImage.Source = Workflow.Icon;
             }
-            catch (Exception e) when (e is ExternalException || e is ArgumentException)
+            catch (SystemException e) when (e is ExternalException || e is ArgumentException)
             {
                 var parentWindow = (MetroWindow)Window.GetWindow(this);
                 await parentWindow.ShowMessageAsync("Icon Error",

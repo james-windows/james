@@ -145,7 +145,7 @@ namespace James.Workflows
             {
                 Directory.Delete(Path, true);
             }
-            catch (Exception)
+            catch (IOException)
             {
                 MessageBox.Show("An error occured while deleting the folder of the workflow: " + Name, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

@@ -21,22 +21,15 @@ namespace James.ResultItems
         {
             get
             {
-                try
-                {
-                    if (!File.Exists(Subtitle) && !Directory.Exists(Subtitle))
-                    {
-                        return null;
-                    }
-                    else if (_isDirectory)
-                    {
-                        return Config.Instance.FolderIcon;
-                    }
-                    return System.Drawing.Icon.ExtractAssociatedIcon(Subtitle).ToImageSource();
-                }
-                catch (FileNotFoundException)
+                if (!File.Exists(Subtitle) && !Directory.Exists(Subtitle))
                 {
                     return null;
                 }
+                else if (_isDirectory)
+                {
+                    return Config.Instance.FolderIcon;
+                }
+                return System.Drawing.Icon.ExtractAssociatedIcon(Subtitle).ToImageSource();
             }
         }
 
