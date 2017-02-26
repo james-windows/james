@@ -62,29 +62,16 @@ namespace James
         /// <param name="e"></param>
         private static void AlternativeRun(StartupEventArgs e)
         {
-            using (NamedPipeClientStream client = new NamedPipeClientStream("james"))
+            using (NamedPipeClientStream namedPipeClient = new NamedPipeClientStream("james"))
             {
-                client.Connect(100);
-                using (StreamWriter writer = new StreamWriter(client))
-                {
-                    
+                namedPipeClient.Connect(100);
+                using (StreamWriter writer = new StreamWriter(namedPipeClient))
+                {                    
                     if (e.Args.Length == 1 && File.Exists(e.Args[0]) && e.Args[0].EndsWith(".james"))
                     {
-                        string workflowFolder = Config.WorkflowFolderLocation + "\\" + PathHelper.GetFilename(e.Args[0]).Replace(".james", "");
-                        if (!Directory.Exists(workflowFolder))
-                        {
-                            ZipFile.ExtractToDirectory(e.Args[0], workflowFolder);
-                            if (client.IsConnected)
-                            {
-                                writer.WriteLine("workflow/" + PathHelper.GetFilename(e.Args[0]).Replace(".james", ""));
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show($"An Workflow with the name '{PathHelper.GetFilename(e.Args[0]).Replace(".james", "")}' is already importet!", "Workflow already imported!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
+                        ImportWorkflow(e.Args[0], namedPipeClient, writer);
                     }
-                    else if (client.IsConnected)
+                    else if (namedPipeClient.IsConnected)
                     {
                         writer.WriteLine(string.Join(" ", e.Args).Substring(6));
                     }
@@ -92,6 +79,29 @@ namespace James
                 }
             }
             Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// Tries to import the workflow with the providen path
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="client"></param>
+        /// <param name="writer"></param>
+        private static void ImportWorkflow(string filePath, NamedPipeClientStream client, StreamWriter writer)
+        {
+            string workflowFolder = Config.WorkflowFolderLocation + "\\" + PathHelper.GetFilename(filePath).Replace(".james", "");
+            if (!Directory.Exists(workflowFolder))
+            {
+                ZipFile.ExtractToDirectory(filePath, workflowFolder);
+                if (client.IsConnected)
+                {
+                    writer.WriteLine("workflow/" + PathHelper.GetFilename(filePath).Replace(".james", ""));
+                }
+            }
+            else
+            {
+                MessageBox.Show($"An Workflow with the name '{PathHelper.GetFilename(filePath).Replace(".james", "")}' is already importet!", "Workflow already imported!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private static void StartProgram()
