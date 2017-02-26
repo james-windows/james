@@ -39,8 +39,7 @@ namespace James.UserControls
             lock (this)
             {
                 e.Handled = true;
-                var window = Window.GetWindow(this);
-                window?.Hide();
+                Window.GetWindow(this)?.Hide();
                 var index = (int) (e.GetPosition(this).Y/SearchResultElement.RowHeight);
                 results[index].Open(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter), Windows.MainWindow.GetInstance().SearchTextBox.Text, false);
             }
@@ -109,23 +108,18 @@ namespace James.UserControls
         /// </summary>
         public void MoveUp()
         {
-            if (FocusedIndex > 0)
-            {
-                FocusedIndex--;
-                _searchResultElement.DrawItems(results, FocusedIndex, out _focusedItem);
-            }
+            FocusedIndex += results.Count - 1;
+            FocusedIndex %= results.Count;
+            _searchResultElement.DrawItems(results, FocusedIndex, out _focusedItem);
         }
 
         /// <summary>
         /// Moves current selection down
         /// </summary>
         public void MoveDown()
-            {
-            if (FocusedIndex < results.Count - 1)
-            {
-                FocusedIndex++;
-                _searchResultElement.DrawItems(results, FocusedIndex, out _focusedItem);
-            }
+        {
+            FocusedIndex = ++FocusedIndex % results.Count;
+            _searchResultElement.DrawItems(results, FocusedIndex, out _focusedItem);
         }
 
         /// <summary>
