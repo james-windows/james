@@ -7,6 +7,7 @@ using Engine.Divider;
 using Engine.Entity.DirectoryTree;
 using Engine.Entity.SearchTree;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Engine.Entity
 {
@@ -27,16 +28,12 @@ namespace Engine.Entity
             _filePath = filePath;
             if (loadIndex)
             {
-                StreamReader reader = new StreamReader(filePath);
-                while (!reader.EndOfStream)
+                string[] lines = File.ReadAllLines(filePath);
+                foreach( var line in lines)
                 {
-                    var splits = reader.ReadLine().Split(';');
-                    if (splits.Count() == 2)
-                    {
-                        Insert(splits[0], int.Parse(splits[1]));
-                    }
+                    var splits = line.Split(';');
+                    Insert(splits[0], int.Parse(splits[1]));
                 }
-                reader.Close();
             }
         }
 
