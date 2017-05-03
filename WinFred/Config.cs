@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Net.Cache;
 using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.Search;
@@ -57,8 +56,7 @@ namespace James
         /// </summary>
         private static void InitConfig()
         {
-            _config = new Config();
-            _config.Paths = new ObservableCollection<Path>(DefaultPaths.GetDefault());
+            _config = new Config {Paths = new ObservableCollection<Path>(DefaultPaths.GetDefault())};
             _config.DefaultFileExtensions.AddRange(HelperClasses.DefaultFileExtensions.GetDefault());
             _config.ShortcutManagerSettings = new ShortcutManagerSettings();
             _config.Persist();
@@ -156,8 +154,6 @@ namespace James
 
         [JsonIgnore]
         public BitmapImage Icon { get; set; } = IconHelper.GetIcon("logo2.ico");
-        [JsonIgnore]
-        public BitmapImage FolderIcon { get; set; } = IconHelper.GetIcon("folder.ico");
 
         #endregion
     }

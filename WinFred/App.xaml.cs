@@ -11,7 +11,6 @@ using James.Shortcut;
 using James.Workflows;
 using Microsoft.Win32.TaskScheduler;
 using Squirrel;
-using Task = System.Threading.Tasks.Task;
 
 namespace James
 {
@@ -134,6 +133,7 @@ namespace James
             var watcher = MyFileWatcher.Instance;
             var shortcutManager = ShortcutManager.Instance;
             var apiListener = ApiListener.Instance;
+            var fileIconCache = FileIconCache.Instance;
         }
 
         private static void OnAppUninstall(Version version)

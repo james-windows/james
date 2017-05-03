@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>James</RootNamespace>
     <AssemblyName>James</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -161,10 +161,6 @@
       <HintPath>..\packages\squirrel.windows.1.4.0\lib\Net45\NuGet.Squirrel.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SearchEngineWrapper, Version=1.0.5889.34635, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\x64\Debug\SearchEngineWrapper.dll</HintPath>
-    </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
       <Private>True</Private>
@@ -216,8 +212,11 @@
     <Compile Include="ApiListener.cs" />
     <Compile Include="HelperClasses\DefaultFileExtensions.cs" />
     <Compile Include="HelperClasses\DefaultPaths.cs" />
+    <Compile Include="HelperClasses\FileIconCache.cs" />
     <Compile Include="HelperClasses\IconHelper.cs" />
+    <Compile Include="HelperClasses\MetroDialogHelper.cs" />
     <Compile Include="HelperClasses\MouseHelper.cs" />
+    <Compile Include="HelperClasses\PathHelper.cs" />
     <Compile Include="HelperClasses\RegistryHelper.cs" />
     <Compile Include="HelperClasses\WindowHelper.cs" />
     <Compile Include="Search\DeleteEvent.cs" />
@@ -231,7 +230,6 @@
     <Compile Include="Shortcut\ShortcutManager.cs" />
     <Compile Include="HelperClasses\SerializationHelper.cs" />
     <Compile Include="HelperClasses\GridHelper.cs" />
-    <Compile Include="HelperClasses\PathHelper.cs" />
     <Compile Include="Shortcut\ShortcutManagerSettings.cs" />
     <Compile Include="Windows\PartialConfigClasses\MainWindowConfig.cs" />
     <Compile Include="ResultItems\MagicResultItem.cs" />

@@ -9,6 +9,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using James.Workflows;
 using MahApps.Metro.Controls;
+using System.Windows.Controls;
+using Task = System.Threading.Tasks.Task;
 
 namespace James.HelperClasses
 {
@@ -103,6 +105,22 @@ namespace James.HelperClasses
         public static GlobalHotKey.HotKey ToGlobalHotKey(this HotKey hotkey)
         {
             return new GlobalHotKey.HotKey(hotkey.Key, hotkey.ModifierKeys);
+        }
+
+        public static MetroWindow GetWindow(this UserControl uc)
+        {
+            return (MetroWindow)Window.GetWindow(uc);
+        }
+
+        /// <summary>
+        /// Used for an intuitive way of caching fileIcon inline
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string AndCacheFileIcon(this string path)
+        {
+            Task.Run(() => FileIconCache.Instance.GetFileIcon(path));
+            return path;
         }
     }
 }

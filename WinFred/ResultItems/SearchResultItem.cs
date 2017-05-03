@@ -17,21 +17,7 @@ namespace James.ResultItems
             
         }
 
-        public override ImageSource Icon
-        {
-            get
-            {
-                if (!File.Exists(Subtitle) && !Directory.Exists(Subtitle))
-                {
-                    return null;
-                }
-                else if (_isDirectory)
-                {
-                    return Config.Instance.FolderIcon;
-                }
-                return System.Drawing.Icon.ExtractAssociatedIcon(Subtitle).ToImageSource();
-            }
-        }
+        public override ImageSource Icon => FileIconCache.Instance.GetFileIcon(Subtitle);
 
         private readonly bool _isDirectory;
 
