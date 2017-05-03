@@ -210,8 +210,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApiListener.cs" />
-    <Compile Include="HelperClasses\DefaultFileExtensions.cs" />
-    <Compile Include="HelperClasses\DefaultPaths.cs" />
+    <Compile Include="Initialisation\DefaultFileExtensions.cs" />
+    <Compile Include="Initialisation\DefaultPaths.cs" />
     <Compile Include="HelperClasses\FileIconCache.cs" />
     <Compile Include="HelperClasses\IconHelper.cs" />
     <Compile Include="HelperClasses\MetroDialogHelper.cs" />
@@ -491,6 +491,7 @@
       <Name>Engine</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using James.Search;
 
-namespace James.HelperClasses
+namespace James.Initialisation
 {
     public class DefaultFileExtensions
     {

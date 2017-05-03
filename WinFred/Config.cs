@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Media.Imaging;
 using James.HelperClasses;
+using James.Initialisation;
 using James.Search;
 using James.Shortcut;
 using Newtonsoft.Json;
@@ -57,7 +58,7 @@ namespace James
         private static void InitConfig()
         {
             _config = new Config {Paths = new ObservableCollection<Path>(DefaultPaths.GetDefault())};
-            _config.DefaultFileExtensions.AddRange(HelperClasses.DefaultFileExtensions.GetDefault());
+            _config.DefaultFileExtensions.AddRange(Initialisation.DefaultFileExtensions.GetDefault());
             _config.ShortcutManagerSettings = new ShortcutManagerSettings();
             _config.Persist();
             RegistryHelper.AssociateFileExtension();

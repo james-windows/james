@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using James.HelperClasses;
 using James.Search;
 
-namespace James.HelperClasses
+namespace James.Initialisation
 {
     public class DefaultPaths
     {
