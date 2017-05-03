@@ -8,6 +8,7 @@ using Engine.Entity.DirectoryTree;
 using Engine.Entity.SearchTree;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Engine.Helper;
 
 namespace Engine.Entity
 {
@@ -35,6 +36,11 @@ namespace Engine.Entity
                     Insert(splits[0], int.Parse(splits[1]));
                 }
             }
+        }
+
+        public SearchEngine(string filePath, int resultListLength, bool loadIndex = true) : this(filePath, loadIndex)
+        {
+            StaticVariables.ResultListLength = resultListLength;
         }
 
         public SearchEngine()

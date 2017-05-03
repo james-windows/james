@@ -2,6 +2,6 @@
 {
     public static class StaticVariables
     {
-        public const int ResultListLength = 10;
+        public static int ResultListLength = 10;
     }
 }

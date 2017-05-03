@@ -6,6 +6,7 @@ using System.Timers;
 using James.Properties;
 using James.ResultItems;
 using System.IO;
+using James.HelperClasses;
 
 namespace James.Search
 {
@@ -26,7 +27,13 @@ namespace James.Search
                 File.Create(filePath);
             }
             _searchEngineWrapper =
-                new Engine.Entity.SearchEngine(filePath);
+                new Engine.Entity.SearchEngine(filePath, Config.Instance.MaxSearchResults, false);
+            string[] lines = File.ReadAllLines(filePath);
+            foreach (var line in lines)
+            {
+                var splits = line.Split(';');
+                _searchEngineWrapper.Insert(splits[0].AndCacheFileIcon(), int.Parse(splits[1]));
+            }
 
             //Triggers index backup every 5 minutes
             _timer = new Timer(1000*60*5)
@@ -132,14 +139,14 @@ namespace James.Search
         /// Wraps the Insert method of the SearchEngineWrapper
         /// </summary>
         /// <param name="file"></param>
-        public void AddFile(ResultItem file) => _searchEngineWrapper.Insert(file.Subtitle, file.Priority);
+        public void AddFile(ResultItem file) => _searchEngineWrapper.Insert(file.Subtitle.AndCacheFileIcon(), file.Priority);
 
         /// <summary>
         /// Wraps the Rename method of the SearchEngineWrapper
         /// </summary>
         /// <param name="oldPath"></param>
         /// <param name="newPath"></param>
-        public void RenameFile(string oldPath, string newPath) => _searchEngineWrapper.Rename(oldPath, newPath);
+        public void RenameFile(string oldPath, string newPath) => _searchEngineWrapper.Rename(oldPath, newPath.AndCacheFileIcon());
 
         /// <summary>
         /// Wraps the Delete Path method of the SearchEngineWrapper
