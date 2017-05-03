@@ -2,9 +2,9 @@
 using System.Windows;
 using James.WorkflowEditor;
 using James.Workflows;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using UserControl = System.Windows.Controls.UserControl;
+using James.HelperClasses;
 
 namespace James.UserControls
 {
@@ -26,17 +26,11 @@ namespace James.UserControls
         /// <param name="e"></param>
         private async void DeleteWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
-            var parentWindow = (MetroWindow) Window.GetWindow(this);
-            var setting = new MetroDialogSettings
+            (await MetroDialogHelper.ShowDialog(this, "Delete Workflow", "Are you sure?"))
+            .OnSuccess(() =>
             {
-                NegativeButtonText = "Cancel",
-                AffirmativeButtonText = "Yes, I'm sure!"
-            };
-            var result = await parentWindow.ShowMessageAsync("Delete Workflow", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative, setting);
-            if (MessageDialogResult.Affirmative == result)
-            {
-                WorkflowManager.Instance.Remove((Workflow) WorkflowListBox.SelectedItem);
-            }
+                WorkflowManager.Instance.Remove((Workflow)WorkflowListBox.SelectedItem);
+            });
         }
 
         /// <summary>
@@ -46,8 +40,7 @@ namespace James.UserControls
         /// <param name="e"></param>
         private async void AddWorkflowButton_Click(object sender, RoutedEventArgs e)
         {
-            var parentWindow = (MetroWindow) Window.GetWindow(this);
-            var name = await parentWindow.ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
+            var name = await this.GetWindow().ShowInputAsync("Create new Workflow", "What should be the name of your new Workflow?");
             if (name != null && WorkflowManager.Instance.Workflows.All(workflow => workflow.Name != name))
             {
                 var wf = new Workflow(name) {IsEnabled = true};
@@ -68,8 +61,7 @@ namespace James.UserControls
         private void OpenWorkflowSettings(object sender, RoutedEventArgs e)
         {
             var dialog = new WorkflowSettingsDialog((Workflow)WorkflowListBox.SelectedItem);
-            var window = Window.GetWindow(this);
-            ((MetroWindow)window)?.ShowMetroDialogAsync(dialog);
+            this.GetWindow()?.ShowMetroDialogAsync(dialog);
             dialog.Unloaded += (o, args) =>
             {
                 int index = WorkflowListBox.SelectedIndex;

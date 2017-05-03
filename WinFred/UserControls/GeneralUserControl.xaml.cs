@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Squirrel;
+using James.HelperClasses;
 
 namespace James.UserControls
 {
@@ -38,22 +39,12 @@ namespace James.UserControls
         /// <param name="e"></param>
         private async void ResetConfig(object sender, RoutedEventArgs e)
         {
-            var parentWindow = (MetroWindow) Window.GetWindow(this);
-            var setting = new MetroDialogSettings
-            {
-                NegativeButtonText = "Cancel",
-                AffirmativeButtonText = "Yes, I'm sure!"
-            };
-            var result =
-                await
-                    parentWindow.ShowMessageAsync("Reset config",
-                        "Are you sure that you want to reset your config? All edits in the config will be permanently removed!",
-                        MessageDialogStyle.AffirmativeAndNegative, setting);
-            if (MessageDialogResult.Affirmative == result)
+            (await MetroDialogHelper.ShowDialog(this, "Reset config", "Are you sure that you want to reset your config? All edits in the config will be permanently removed!"))
+            .OnSuccess(() =>
             {
                 Config.Instance.ResetConfig();
                 DataContext = Config.Instance;
-            }
+            });
         }
 
         private void LaunchWelcomeWindow(object sender, RoutedEventArgs e) => new Windows.WelcomeWindow(false).Show();

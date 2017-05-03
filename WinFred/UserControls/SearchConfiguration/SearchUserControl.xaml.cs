@@ -8,6 +8,7 @@ using James.Search;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using UserControl = System.Windows.Controls.UserControl;
+using James.HelperClasses;
 
 namespace James.UserControls.SearchConfiguration
 {
@@ -41,21 +42,11 @@ namespace James.UserControls.SearchConfiguration
         /// <param name="e"></param>
         public async void RebuildIndexButton_Click(object sender, RoutedEventArgs e)
         {
-            var parentWindow = (MetroWindow) Window.GetWindow(this);
-            var setting = new MetroDialogSettings
-            {
-                NegativeButtonText = "Cancel",
-                AffirmativeButtonText = "Yes, I'm sure!"
-            };
-            var result =
-                await
-                    parentWindow.ShowMessageAsync("Rebuilding file index",
-                        "Do you really want to rebuild your index, this may take a few minutes?",
-                        MessageDialogStyle.AffirmativeAndNegative, setting);
-            if (MessageDialogResult.Affirmative == result)
+            (await MetroDialogHelper.ShowDialog(this, "Rebuilding file index", "Do you really want to rebuild your index, this may take a few minutes?"))
+            .OnSuccess(() =>
             {
                 BuildIndexInTheBg();
-            }
+            });
         }
 
         /// <summary>
@@ -115,23 +106,15 @@ namespace James.UserControls.SearchConfiguration
         /// <param name="e"></param>
         private async void RemoveFolderButton_Click(object sender, RoutedEventArgs e)
         {
-            var parentWindow = (MetroWindow) Window.GetWindow(this);
-            var setting = new MetroDialogSettings
+            (await MetroDialogHelper.ShowDialog(this, "Delete Path", "Are you sure?"))
+            .OnSuccess(() =>
             {
-                NegativeButtonText = "Cancel",
-                AffirmativeButtonText = "Yes, I'm sure!"
-            };
-            var result =
-                await
-                    parentWindow.ShowMessageAsync("Delete Path", "Are you sure?",
-                        MessageDialogStyle.AffirmativeAndNegative, setting);
-            if (MessageDialogResult.Affirmative == result)
-            {
-                var oldPath = (Path) PathListBox.SelectedItem;
+                var oldPath = (Path)PathListBox.SelectedItem;
                 Config.Instance.Paths.Remove(oldPath);
                 Config.Instance.Persist();
                 MyFileWatcher.Instance.RemovePath(oldPath);
-            }
+            });
+
         }
 
         /// <summary>
