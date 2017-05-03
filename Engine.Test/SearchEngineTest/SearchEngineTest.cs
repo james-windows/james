@@ -201,21 +201,21 @@ namespace Engine.Test.SearchEngineTest
             Assert.IsTrue(engine.Find("ind").ToArray()[0] == "D:\\WinFred\\index.html;66");
         }
 
-        private string testFilePath = "D:\\WinFred\\Project\\james\\Engine.Test\\bin\\Debug\\files2.txt";
+        private readonly string _testFilePath = "D:\\WinFred\\Project\\james\\Engine.Test\\bin\\Debug\\files2.txt";
         [TestMethod]
         public void RealisticInsertAndSaveManyTest()
         {
             SearchEngine engine = new SearchEngine(_testFile);
-            engine.Save(testFilePath);
-            Assert.IsTrue(File.ReadAllLines(testFilePath).Length == 23754);
+            engine.Save(_testFilePath);
+            Assert.IsTrue(File.ReadAllLines(_testFilePath).Length == 23754);
         }
         [TestMethod]
         public void RealisticInsertDeletePathAndSaveManyTest()
         {
             SearchEngine engine = new SearchEngine(_testFile);
             engine.DeletePath(@"C:\Users\moser\Dropbox\SirDrawALot Presentation\");
-            engine.Save(testFilePath);
-            Assert.IsTrue(File.ReadAllLines(testFilePath).Length == 23754 - 47);
+            engine.Save(_testFilePath);
+            Assert.IsTrue(File.ReadAllLines(_testFilePath).Length == 23754 - 47);
         }
 
         [TestMethod]

@@ -4,10 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using James.ResultItems;
-using James.Shortcut;
 using James.Workflows;
 using MahApps.Metro.Controls;
-using Microsoft.Win32;
 
 namespace James.Windows
 {
@@ -27,29 +25,9 @@ namespace James.Windows
                 Visibility = Visibility.Hidden;
             }
             InitializeComponent();
-            Loaded += SetPosition;
-            SystemEvents.DisplaySettingsChanged += SetPosition;
-            ShortcutManager.Instance.ShortcutPressed += (sender, args) => OnHotKeyHandler(sender as Shortcut.Shortcut);
-            LargeType.Instance.Deactivated += LargeType_Deactivated;
-            LargeType.Instance.Activated += LargeType_Activated;
+            BindEvents();
         }
-
-        private void SetPosition(object sender, EventArgs e)
-        {
-            var desktopWorkingArea = SystemParameters.WorkArea;
-            this.Left = (desktopWorkingArea.Width - this.Width) / 2;
-            this.Top = desktopWorkingArea.Height / 4;
-        }
-
-        public static MainWindow GetInstance(bool showOnStartup = false)
-        {
-            lock (SingeltonLock)
-            {
-                return _mainWindow ?? (_mainWindow = new MainWindow(showOnStartup));
-            }
-        }
-
-
+        
         private void LargeType_Activated(object sender, EventArgs e) => _showLargeType = false;
 
         /// <summary>
@@ -66,9 +44,7 @@ namespace James.Windows
             }
             else
             {
-                Show();
-                Activate();
-                SearchTextBox.Focus();
+                ShowWindow();
             }
         }
 
@@ -86,36 +62,15 @@ namespace James.Windows
             {
                 if (Equals(shortcut.HotKey, Config.Instance.ShortcutManagerSettings.JamesHotKey.HotKey))
                 {
-                    if (Config.Instance.AlwaysClearLastInput)
-                    {
-                        SearchTextBox.Text = "";
-                    }
+                    ClearInputAtUsersDesire();
                 }
                 else
                 {
                     SearchTextBox.Text = shortcut.Action;
                 }
                 SearchTextBox.SelectAll();
-                Show();
-                Activate();
-                SearchTextBox.Focus();
+                ShowWindow();
             }
-        }
-
-        /// <summary>
-        /// Hides search window
-        /// </summary>
-        public void HideWindow()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                LargeType.Instance.Hide();
-                if (Config.Instance.AlwaysClearLastInput)
-                {
-                    SearchTextBox.Text = "";
-                }
-                Hide();
-            });
         }
 
         #region Window-Events
@@ -147,13 +102,14 @@ namespace James.Windows
                     }
                     break;
                 case Key.Escape:
-                    Hide();
-                    if (Config.Instance.AlwaysClearLastInput)
-                    {
-                        SearchTextBox.Text = "";
-                    }
+                    HideWindow();
                     break;
             }
+            HandleShortcuts(e);
+        }
+
+        private void HandleShortcuts(KeyEventArgs e)
+        {
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
                 if (e.KeyboardDevice.IsKeyDown(Key.Up))
@@ -182,26 +138,26 @@ namespace James.Windows
         }
 
         /// <summary>
+        /// Clears Input if user specifies this behavoir in the settings
+        /// </summary>
+        private void ClearInputAtUsersDesire()
+        {
+            if (Config.Instance.AlwaysClearLastInput)
+            {
+                SearchTextBox.Text = "";
+            }
+        }
+
+        /// <summary>
         /// Opens LargeType and brings it to the front
         /// </summary>
         private void CallLargeType()
         {
-            int index = searchResultControl.FocusedIndex;
-            if (index < searchResultControl.results?.Count)
+            var resultItem = searchResultControl.FocusedIndex < searchResultControl.results.Count ? searchResultControl.results[searchResultControl.FocusedIndex] as MagicResultItem: null;
+            string message = resultItem?.Title ?? SearchTextBox.Text;
+            if (message.Trim().Length != 0)
             {
-                var resultItem = searchResultControl.results[index] as MagicResultItem;
-                if (resultItem != null)
-                {
-                    DisplayLargeType(resultItem.Title);
-                }
-                else if (SearchTextBox.Text.Trim().Length > 0)
-                {
-                    DisplayLargeType(SearchTextBox.Text);
-                }
-            }
-            else if (SearchTextBox.Text.Trim().Length > 0)
-            {
-                DisplayLargeType(SearchTextBox.Text);
+                DisplayLargeType(message);
             }
         }
 
@@ -221,10 +177,7 @@ namespace James.Windows
         /// <param name="hotkey"></param>
         /// <param name="e"></param>
         /// <returns></returns>
-        private bool HotKeyPressed(HotKey hotkey, KeyEventArgs e)
-        {
-            return e.KeyboardDevice.IsKeyDown(hotkey.Key) && e.KeyboardDevice.Modifiers == hotkey.ModifierKeys;
-        }
+        private bool HotKeyPressed(HotKey hotkey, KeyEventArgs e) => e.KeyboardDevice.Modifiers == hotkey.ModifierKeys && e.KeyboardDevice.IsKeyDown(hotkey.Key);
 
         /// <summary>
         /// Starts a new search on TextChanged
@@ -238,31 +191,14 @@ namespace James.Windows
         }
 
         /// <summary>
-        /// Hides current window if it's no longer in the focus
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_Deactivated(object sender, EventArgs e)
-        {
-            if (!_showLargeType)
-            {
-                OnHotKeyHandler(null);
-            }
-        }
-
-        /// <summary>
         /// Opens the settings window and hides james
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OpenSettings(object sender, RoutedEventArgs e)
-        {
-            new OptionWindow().Show();
-            HideWindow();
-        }
+        private void OpenSettings(object sender, RoutedEventArgs e) => new OptionWindow().Show();
 
         /// <summary>
-        /// Closes the hole application
+        /// Closes the whole application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

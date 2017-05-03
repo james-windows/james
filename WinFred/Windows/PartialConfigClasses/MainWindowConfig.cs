@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using James.HelperClasses;
+using James.Shortcut;
+using Microsoft.Win32;
 
 namespace James.Windows
 {
@@ -72,6 +74,67 @@ namespace James.Windows
             public int AccentFlags;
             public int GradientColor;
             public int AnimationId;
+        }
+
+        private void BindEvents()
+        {
+            Loaded += SetWindowPosition;
+            SystemEvents.DisplaySettingsChanged += SetWindowPosition;
+            ShortcutManager.Instance.ShortcutPressed += (sender, args) => OnHotKeyHandler(sender as Shortcut.Shortcut);
+            LargeType.Instance.Deactivated += LargeType_Deactivated;
+            LargeType.Instance.Activated += LargeType_Activated;
+        }
+
+        private void SetWindowPosition(object sender, EventArgs e)
+        {
+            var desktopWorkingArea = SystemParameters.WorkArea;
+            this.Left = (desktopWorkingArea.Width - this.Width) / 2;
+            this.Top = desktopWorkingArea.Height / 4;
+        }
+
+
+        public static MainWindow GetInstance(bool showOnStartup = false)
+        {
+            lock (SingeltonLock)
+            {
+                return _mainWindow ?? (_mainWindow = new MainWindow(showOnStartup));
+            }
+        }
+
+        /// <summary>
+        /// Hides current window if it's no longer in the focus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            if (!_showLargeType)
+            {
+                HideWindow();
+            }
+        }
+
+        /// <summary>
+        /// Shows search window
+        /// </summary>
+        private void ShowWindow()
+        {
+            Show();
+            Activate();
+            SearchTextBox.Focus();
+        }
+
+        /// <summary>
+        /// Hides search window
+        /// </summary>
+        public void HideWindow()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                LargeType.Instance.Hide();
+                ClearInputAtUsersDesire();
+                Hide();
+            });
         }
     }
 }
