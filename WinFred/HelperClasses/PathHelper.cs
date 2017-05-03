@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using Alphaleonis.Win32.Filesystem;
+using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -14,7 +14,14 @@ namespace James.HelperClasses
         /// <returns></returns>
         public static string GetFilename(string path)
         {
-            return Path.GetFileName(path);
+            for (int i = (path ?? "").Length - 2; i >= 0; i--)
+            {
+                if (path[i] == '\\')
+                {
+                    return path.Substring(i + 1);
+                }
+            }
+            return path;
         }
 
         /// <summary>
@@ -24,7 +31,14 @@ namespace James.HelperClasses
         /// <returns></returns>
         public static string GetFolderPath(string path)
         {
-            return Path.GetDirectoryName(path);
+            for (int i = (path ?? "").Length - 2; i >= 0; i--)
+            {
+                if (path[i] == '\\')
+                {
+                    return path.Substring(0,i);
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -101,5 +115,25 @@ namespace James.HelperClasses
             return ShellExecuteEx(ref info);
         }
         #endregion
+
+        /// <summary>
+        /// Calculates the fileExtension in an effective way
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static string GetFileExtension(string filePath)
+        {
+            for (int i = (filePath??"").Length - 2; i >= 0 ; i--)
+            {
+                switch (filePath[i])
+                {
+                    case '.':
+                        return filePath.Substring(i + 1);
+                    case '\\':
+                        return null;
+                }
+            }
+            return null;
+        }
     }
 }
