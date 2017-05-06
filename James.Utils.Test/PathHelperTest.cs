@@ -80,5 +80,18 @@ namespace James.Utils.Test
                 }
             }
         }
+
+        [TestMethod]
+        public void BasicPathHelperGetFullPathOfExeTest()
+        {
+            Assert.IsTrue(@"C:\WINDOWS\system32\notepad.exe" == PathHelper.GetFullPathOfExe("notepad.exe"));
+            Assert.IsNull(PathHelper.GetFullPathOfExe("asdf123"));
+        }
+
+        [TestMethod]
+        public void BasicGetLocationOfJamesTest()
+        {
+            Assert.IsTrue(PathHelper.GetLocationOfJames().Length > 10);
+        }
     }
 }

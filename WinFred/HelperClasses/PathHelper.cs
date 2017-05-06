@@ -73,7 +73,7 @@ namespace James.HelperClasses
         /// <returns></returns>
         public static string GetLocationOfJames()
         {
-            var folders = Alphaleonis.Win32.Filesystem.Directory.GetDirectories(Config.ConfigFolderLocation).Where(s => PathHelper.GetFilename(s).StartsWith("app-")).Select(s => new { path = s, version = new Version(PathHelper.GetFilename(s).Replace("app-", "")) });
+            var folders = Directory.GetDirectories(Config.ConfigFolderLocation).Where(s => PathHelper.GetFilename(s).StartsWith("app-")).Select(s => new { path = s, version = new Version(PathHelper.GetFilename(s).Replace("app-", "")) });
             return folders.OrderByDescending(arg => arg.version).First().path;
         }
 

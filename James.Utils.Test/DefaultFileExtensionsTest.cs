@@ -1,8 +1,8 @@
 ﻿using System;
-using James.HelperClasses;
+using James.Initialisation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace James.Test
+namespace James.Utils.Test
 {
     [TestClass]
     public class DefaultFileExtensionsTest

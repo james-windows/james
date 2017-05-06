@@ -67,6 +67,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultFileExtensionsTest.cs" />
     <Compile Include="FileIconCacheTest.cs" />
     <Compile Include="PathHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
