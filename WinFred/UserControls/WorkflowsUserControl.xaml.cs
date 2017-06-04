@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using James.HelperClasses;
 using James.WorkflowEditor;
 using James.Workflows;
 using MahApps.Metro.Controls.Dialogs;
-using UserControl = System.Windows.Controls.UserControl;
-using James.HelperClasses;
 
 namespace James.UserControls
 {

@@ -1,5 +1,4 @@
-﻿using Engine.Entity;
-using Engine.Entity.SearchTree;
+﻿using Engine.Entity.SearchTree;
 using Engine.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

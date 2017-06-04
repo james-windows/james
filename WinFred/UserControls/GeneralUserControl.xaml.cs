@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using Squirrel;
 using James.HelperClasses;
+using Squirrel;
 
 namespace James.UserControls
 {

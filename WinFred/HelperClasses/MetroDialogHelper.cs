@@ -1,7 +1,7 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace James.HelperClasses
 {

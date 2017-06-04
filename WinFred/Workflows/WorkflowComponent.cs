@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using James.HelperClasses;
 using James.Properties;
 using Newtonsoft.Json.Linq;
-using Task = System.Threading.Tasks.Task;
 
 namespace James.Workflows
 {

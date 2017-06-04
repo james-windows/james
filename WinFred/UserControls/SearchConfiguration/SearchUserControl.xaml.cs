@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using James.HelperClasses;
 using James.Search;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using UserControl = System.Windows.Controls.UserControl;
-using James.HelperClasses;
 
 namespace James.UserControls.SearchConfiguration
 {

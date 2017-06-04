@@ -1,7 +1,7 @@
-﻿using Alphaleonis.Win32.Filesystem;
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Alphaleonis.Win32.Filesystem;
 
 namespace James.HelperClasses
 {

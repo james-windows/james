@@ -1,6 +1,5 @@
 using System.IO;
 using Newtonsoft.Json;
-using Formatting = Newtonsoft.Json.Formatting;
 
 namespace James.HelperClasses
 {

@@ -1,7 +1,7 @@
-﻿using James.Workflows.Outputs;
-using James.Workflows.Triggers;
-using System.Timers;
+﻿using System.Timers;
 using James.HelperClasses;
+using James.Workflows.Outputs;
+using James.Workflows.Triggers;
 
 namespace James.Workflows.Actions
 {

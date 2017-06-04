@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using James.Workflows;
 using MahApps.Metro.Controls;
-using System.Windows.Controls;
-using Task = System.Threading.Tasks.Task;
 
 namespace James.HelperClasses
 {

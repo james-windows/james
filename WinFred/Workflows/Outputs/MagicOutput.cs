@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Windows.Media.Imaging;
 using James.HelperClasses;
 using James.ResultItems;

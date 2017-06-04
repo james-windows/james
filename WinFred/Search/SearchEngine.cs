@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Timers;
+using James.HelperClasses;
 using James.Properties;
 using James.ResultItems;
-using System.IO;
-using James.HelperClasses;
 
 namespace James.Search
 {
