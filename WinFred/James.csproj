@@ -199,6 +199,10 @@
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="Windows">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -500,4 +504,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <PropertyGroup>
+      <TargetUWP>..\James.Package\win32\</TargetUWP>
+    </PropertyGroup>
+    <ItemGroup>
+      <Win32Binaries Include="$(TargetDir)\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(Win32Binaries)" DestinationFolder="$(TargetUWP)" />
+  </Target>
 </Project>

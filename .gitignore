@@ -219,3 +219,4 @@ nuget.exe
 *.reg
 *James.Web/wwwroot/workflows*
 *James.VC.db
+*James.Package/win32/*
