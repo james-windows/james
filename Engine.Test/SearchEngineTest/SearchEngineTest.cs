@@ -165,7 +165,7 @@ namespace Engine.Test.SearchEngineTest
                 var splits = reader.ReadLine().Split(';');
                 engine.DeleteFile(splits[0]);
             }
-
+            
             Assert.IsTrue(!engine.Find("?").Any());
             for (int i = 'A'; i <= 'Z'; i++)
             {

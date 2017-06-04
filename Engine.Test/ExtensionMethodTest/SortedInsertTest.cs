@@ -28,6 +28,16 @@ namespace Engine.Test.ExtensionMethodTest
         }
 
         [TestMethod]
+        public void BasicDirectoryNodeMockTest()
+        {
+            var a = new DirectoryNodeMock("abc");
+            var b = new DirectoryNodeMock("abc");
+            var c = new DirectoryNodeMock("abcd");
+            Assert.IsTrue(a.ComparePath(b.GetFullPath()));
+            Assert.IsFalse(a.ComparePath(c.GetFullPath()));
+        }
+
+        [TestMethod]
         public void BasicInsertItemTest()
         {
             List<Item> list = new List<Item>();
