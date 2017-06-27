@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26608.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "James", "WinFred\James.csproj", "{8E5DFE89-26D4-4E81-A6CA-338B4E8DED8A}"
 EndProject
@@ -16,6 +16,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "James.Utils.Test", "James.Utils.Test\James.Utils.Test.csproj", "{06C988E2-10A3-4AB6-B489-F1630B971998}"
 EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "James.Package", "James.Package\James.Package.jsproj", "{72BEA79E-6E10-4AF7-92C5-500AD4CE82EB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8E5DFE89-26D4-4E81-A6CA-338B4E8DED8A} = {8E5DFE89-26D4-4E81-A6CA-338B4E8DED8A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

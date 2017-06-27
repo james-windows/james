@@ -220,3 +220,4 @@ nuget.exe
 *James.Web/wwwroot/workflows*
 *James.VC.db
 *James.Package/win32/*
+/James.Package/BundleArtifacts

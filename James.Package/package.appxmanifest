@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap rescap mp">
-  <Identity Name="72bea79e-6e10-4af7-92c5-500ad4ce82eb" Version="1.0.0.0" Publisher="CN=moser" />
-  <mp:PhoneIdentity PhoneProductId="72bea79e-6e10-4af7-92c5-500ad4ce82eb" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="59765MichaelMoser.James-Windows" Version="1.1.14.0" Publisher="CN=37E7756A-99D9-40A1-A264-B5F51E497E41" />
+  <mp:PhoneIdentity PhoneProductId="cfa67a7e-0b0e-4af6-8860-2b180b2457fd" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>James.Package</DisplayName>
-    <PublisherDisplayName>moser</PublisherDisplayName>
+    <DisplayName>James-Windows</DisplayName>
+    <PublisherDisplayName>Michael Moser</PublisherDisplayName>
     <Logo>images\storelogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -15,8 +15,11 @@
   </Resources>
   <Applications>
     <Application Id="James" Executable="win32\James.exe" EntryPoint="Windows.FullTrustApplication">
-      <uap:VisualElements DisplayName="James.Package" Description="James.Package" BackgroundColor="transparent" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="images\Wide310x150Logo.png" Square310x310Logo="images\LargeTile.png" Square71x71Logo="images\SmallTile.png">
+      <uap:VisualElements DisplayName="James-Windows" Description="James is an application launcher for windows enabling you to find and open files as well as programs easily and fast. Furhtermore it's possible to extend James by the use of so-called Workflows." BackgroundColor="transparent" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="images\Wide310x150Logo.png" Square310x310Logo="images\LargeTile.png" Square71x71Logo="images\SmallTile.png" ShortName="James">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
         <uap:SplashScreen Image="images\James.png" BackgroundColor="transparent" />
       </uap:VisualElements>
