@@ -11,10 +11,6 @@ namespace James.UserControls
         public AboutUserControl()
         {
             InitializeComponent();
-#if !DEBUG 
-                if(AppDomain.CurrentDomain.BaseDirectory.Split('-').Length == 2)
-                    Version = "v" + AppDomain.CurrentDomain.BaseDirectory.Split('-')[1].Replace("\\","");
-            #endif
             versionLabel.Content = Version;
         }
 

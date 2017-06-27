@@ -11,11 +11,12 @@ namespace James.HelperClasses
     {
         private FileIconCache()
         {
-
+            //FolderIcon = IconHelper.GetIcon("folder.ico");
+            FolderIcon = null;
         }
 
         [JsonIgnore]
-        public BitmapImage FolderIcon { get; } = IconHelper.GetIcon("folder.ico");
+        public BitmapImage FolderIcon { get; }
         #region singleton
 
         private static FileIconCache _instance;
