@@ -4,13 +4,10 @@ using System.IO.Compression;
 using System.IO.Pipes;
 using System.Threading;
 using System.Windows;
-using Exceptionless;
 using James.HelperClasses;
 using James.Search;
 using James.Shortcut;
 using James.Workflows;
-using Microsoft.Win32.TaskScheduler;
-using Squirrel;
 
 namespace James
 {
@@ -19,18 +16,16 @@ namespace James
     /// </summary>
     public partial class App : Application
     {
-        private static bool _showTheWelcomeWizard;
-
         private static Mutex _mutex;
 
         private static void SetStyleAccents()
         {
             var accentColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/" +
                               Config.Instance.WindowAccentColor + ".xaml";
-            (((App) Current).Resources).MergedDictionaries[5].Source = new Uri(accentColor);
+            ((App) Current).Resources.MergedDictionaries[5].Source = new Uri(accentColor);
             var baseColor = Config.Instance.IsBaseLight ? "BaseLight" : "BaseDark";
             baseColor = "pack://application:,,,/MahApps.Metro;component/Styles/Accents/" + baseColor + ".xaml";
-            (((App) Current).Resources).MergedDictionaries[4].Source = new Uri(baseColor);
+            ((App) Current).Resources.MergedDictionaries[4].Source = new Uri(baseColor);
         }
         
         /// <summary>
@@ -40,7 +35,6 @@ namespace James
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
-            ExceptionlessClient.Default.Register();
             bool createdNew;
             _mutex = new Mutex(true, "James", out createdNew);
             if (createdNew)
@@ -107,23 +101,16 @@ namespace James
         {
             Config.Instance.WindowChangedAccentColor += App_WindowChangedAccentColor;
             SetStyleAccents();
-            SquirrelAwareApp.HandleEvents(onFirstRun: OnFirstRun, onAppUninstall: OnAppUninstall, onAppUpdate: OnAppUpdate);
             InitializeSingeltons();
-            if (_showTheWelcomeWizard)
+            if (Config.Instance.FirstStart)
             {
+                Config.Instance.FirstStart = false;
                 new Windows.WelcomeWindow().Show();
             }
             else
             {
                 James.Windows.MainWindow.GetInstance().Show();
             }
-        }
-
-        private static void OnAppUpdate(Version version)
-        {
-            MessageBox.Show($"James got an update to: {version}");
-            RegistryHelper.AssociateFileExtension();
-            RegistryHelper.RegisterCustomProtocol();
         }
 
         private static void InitializeSingeltons()
@@ -134,43 +121,6 @@ namespace James
             var shortcutManager = ShortcutManager.Instance;
             var apiListener = ApiListener.Instance;
             var fileIconCache = FileIconCache.Instance;
-        }
-
-        private static void OnAppUninstall(Version version)
-        {
-            using (var ts = new TaskService())
-            {
-                ts.RootFolder.DeleteTask("James");
-            }
-            using (var updateManager = new UpdateManager(Config.Instance.ReleaseUrl))
-            {
-                updateManager.RemoveShortcutsForExecutable("James.exe", ShortcutLocation.Desktop);
-                updateManager.RemoveShortcutsForExecutable("James.exe", ShortcutLocation.StartMenu);
-            }
-        }
-
-        private static void AddAutoUpdateTask()
-        {
-            using (var ts = new TaskService())
-            {
-                var td = ts.NewTask();
-                td.RegistrationInfo.Description = "Calls the updater for James once a day";
-                td.Triggers.Add(new DailyTrigger {DaysInterval = 1});
-                td.Actions.Add(new ExecAction(Config.ConfigFolderLocation + "\\Update.exe",
-                    "--update " + Config.Instance.ReleaseUrl, null));
-                ts.RootFolder.RegisterTaskDefinition(@"James", td);
-            }
-        }
-
-        private static void OnFirstRun()
-        {
-            _showTheWelcomeWizard = true;
-            using (var updateManager = new UpdateManager(Config.Instance.ReleaseUrl))
-            {
-                updateManager.CreateShortcutsForExecutable("James.exe", ShortcutLocation.Desktop, true);
-                updateManager.CreateShortcutsForExecutable("James.exe", ShortcutLocation.StartMenu, true);
-            }
-            AddAutoUpdateTask();
         }
 
         private static void App_WindowChangedAccentColor(object sender, EventArgs e) => SetStyleAccents();

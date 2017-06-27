@@ -38,11 +38,10 @@ namespace James
                     {
                         try
                         {
-                            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
-                            Directory.CreateDirectory(path);
-                            _config = SerializationHelper.Deserialize<Config>(path + "\\config.json");
+                            Directory.CreateDirectory(ConfigFolderLocation);
+                            _config = SerializationHelper.Deserialize<Config>(ConfigFolderLocation + "\\config.json");
                         }
-                        catch (FileNotFoundException e)
+                        catch (FileNotFoundException)
                         {
                             InitConfig();
                         }
@@ -100,7 +99,7 @@ namespace James
         public ObservableCollection<string> ExcludedFolders { get; set; }
         public ShortcutManagerSettings ShortcutManagerSettings { get; set; }
 
-        public static string ConfigFolderLocation = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\James";
+        public static string ConfigFolderLocation = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\James";
         public static string WorkflowFolderLocation => ConfigFolderLocation + "\\workflows";
 
         private string _windowAccentColor = "Cyan";
@@ -122,6 +121,8 @@ namespace James
 
         [JsonIgnore] //sets by the first instance
         public bool FirstInstance { get; set; } = true;
+
+        public bool FirstStart { get; set; } = true;
 
         public bool StartProgramOnStartup
         {

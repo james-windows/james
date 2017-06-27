@@ -67,16 +67,6 @@ namespace James.HelperClasses
             }
         }
 
-        /// <summary>
-        /// Gets the location of James
-        /// </summary>
-        /// <returns></returns>
-        public static string GetLocationOfJames()
-        {
-            var folders = Directory.GetDirectories(Config.ConfigFolderLocation).Where(s => PathHelper.GetFilename(s).StartsWith("app-")).Select(s => new { path = s, version = new Version(PathHelper.GetFilename(s).Replace("app-", "")) });
-            return folders.OrderByDescending(arg => arg.version).First().path;
-        }
-
         #region P/Invoke for open explorer's file properties window
         [DllImport("shell32.dll", CharSet = CharSet.Auto)]
         private static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);

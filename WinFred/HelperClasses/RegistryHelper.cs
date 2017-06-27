@@ -12,7 +12,7 @@ namespace James.HelperClasses
         {
             if (Config.Instance.FirstInstance)
             {
-                string executablePath = PathHelper.GetLocationOfJames() + "\\James.exe";
+                string executablePath = Config.WorkflowFolderLocation + "\\James.exe";
                 RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\james");
                 reg?.SetValue("URL PROTOCOL", "");
                 reg?.CreateSubKey("shell\\open\\command")?.SetValue("", $"\"{executablePath}\" \"%1\"");
@@ -26,8 +26,8 @@ namespace James.HelperClasses
         {
             if (Config.Instance.FirstInstance)
             {
-                string executablePath = PathHelper.GetLocationOfJames() + "\\James.exe";
-                string iconPath = PathHelper.GetLocationOfJames() + "\\Resources\\logo2.ico";
+                string executablePath = Config.WorkflowFolderLocation + "\\James.exe";
+                string iconPath = Config.WorkflowFolderLocation + "\\Resources\\logo2.ico";
                 RegistryKey FileReg = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.james");
                 Registry.CurrentUser.CreateSubKey("Software\\Classes\\Applicatons\\MyNotepad.exe");
                 Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.james");

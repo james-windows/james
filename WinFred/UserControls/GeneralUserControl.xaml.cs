@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using James.HelperClasses;
-using Squirrel;
 
 namespace James.UserControls
 {
@@ -21,10 +20,9 @@ namespace James.UserControls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void UninstallProgram(object sender, RoutedEventArgs e)
+        private void UninstallProgram(object sender, RoutedEventArgs e)
         {
-            var manager = new UpdateManager(Config.Instance.ReleaseUrl);
-            await manager.FullUninstall();
+            MessageBox.Show("must be fixed!");
             Environment.Exit(0);
         }
 
