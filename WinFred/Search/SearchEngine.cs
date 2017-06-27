@@ -7,6 +7,7 @@ using System.Timers;
 using James.HelperClasses;
 using James.Properties;
 using James.ResultItems;
+using System.Threading.Tasks;
 
 namespace James.Search
 {
@@ -17,7 +18,7 @@ namespace James.Search
         private static SearchEngine _searchEngine;
         private static readonly object SingeltonLock = new object();
         private Engine.Entity.SearchEngine _searchEngineWrapper;
-        private readonly Timer _timer;
+        private Timer _timer;
 
         private SearchEngine()
         {
@@ -26,17 +27,30 @@ namespace James.Search
             {
                 File.Create(filePath);
             }
-            _searchEngineWrapper =
-                new Engine.Entity.SearchEngine(filePath, Config.Instance.MaxSearchResults, false);
-            string[] lines = File.ReadAllLines(filePath);
-            foreach (var line in lines)
+            else
             {
-                var splits = line.Split(';');
-                _searchEngineWrapper.Insert(splits[0].AndCacheFileIcon(), int.Parse(splits[1]));
+                _searchEngineWrapper =
+                    new Engine.Entity.SearchEngine(filePath, Config.Instance.MaxSearchResults, false);
+                string[] lines = File.ReadAllLines(filePath);
+                Task.Run(() =>
+                {
+                    lines.ForEach(line =>
+                    {
+                        var splits = line.Split(';');
+                        _searchEngineWrapper.Insert(splits[0].AndCacheFileIcon(), int.Parse(splits[1]));
+                    });
+                });
             }
 
-            //Triggers index backup every 5 minutes
-            _timer = new Timer(1000*60*5)
+            RegisterAutoBackup();
+        }
+
+        /// <summary>
+        /// Triggers index backup every 5 minutes
+        /// </summary>
+        private void RegisterAutoBackup()
+        {
+            _timer = new Timer(1000 * 60 * 5)
             {
                 AutoReset = true,
                 Enabled = true
