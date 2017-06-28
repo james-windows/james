@@ -105,11 +105,11 @@ namespace James
             if (Config.Instance.FirstStart)
             {
                 Config.Instance.FirstStart = false;
-                new Windows.WelcomeWindow().Show();
+                new MyWindows.WelcomeWindow().Show();
             }
             else
             {
-                James.Windows.MainWindow.GetInstance().Show();
+                James.MyWindows.MainWindow.GetInstance().Show();
             }
         }
 

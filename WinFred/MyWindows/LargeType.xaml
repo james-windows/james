@@ -1,4 +1,4 @@
-﻿<Window x:Class="James.Windows.LargeType"
+﻿<Window x:Class="James.MyWindows.LargeType"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="LargeType" Height="300" Width="300" WindowStartupLocation="CenterScreen" AllowsTransparency="True"

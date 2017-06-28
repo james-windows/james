@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using James.HelperClasses;
-using James.Windows;
+using James.MyWindows;
 using James.Workflows.Interfaces;
 
 namespace James.Workflows.Outputs

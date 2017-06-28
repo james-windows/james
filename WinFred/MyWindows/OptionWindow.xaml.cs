@@ -5,7 +5,7 @@ using James.Shortcut;
 using James.Workflows;
 using MahApps.Metro.Controls;
 
-namespace James.Windows
+namespace James.MyWindows
 {
     /// <summary>
     ///     Interaction logic for OptionWindow.xaml

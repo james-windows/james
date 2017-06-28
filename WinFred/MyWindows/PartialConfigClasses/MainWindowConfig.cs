@@ -6,7 +6,7 @@ using James.HelperClasses;
 using James.Shortcut;
 using Microsoft.Win32;
 
-namespace James.Windows
+namespace James.MyWindows
 {
     /// <summary>
     /// Blurs the MainWindow and hides it from Tasklist

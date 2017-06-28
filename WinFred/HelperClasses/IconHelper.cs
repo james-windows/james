@@ -14,7 +14,7 @@ namespace James.HelperClasses
         {
             try
             {
-                BitmapImage tmp = new BitmapImage(new Uri(PathHelper.GetLocationOfJames() + "\\Resources\\" + path));
+                BitmapImage tmp = new BitmapImage(new Uri(Config.ConfigFolderLocation + "\\Resources\\" + path));
                 tmp.Freeze();
                 return tmp;
             }

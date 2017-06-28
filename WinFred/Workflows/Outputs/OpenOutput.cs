@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using James.HelperClasses;
-using James.Windows;
+using James.MyWindows;
 
 namespace James.Workflows.Outputs
 {

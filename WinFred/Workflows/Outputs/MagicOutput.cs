@@ -43,7 +43,7 @@ namespace James.Workflows.Outputs
             }
             if (outputResults.Count > 0)
             {
-                Windows.MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
+                MyWindows.MainWindow.GetInstance().searchResultControl.WorkflowOutput(outputResults);
             }
         }
 

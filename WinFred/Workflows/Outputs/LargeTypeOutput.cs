@@ -20,11 +20,11 @@ namespace James.Workflows.Outputs
             if (FirstRun)
             {
                 FirstRun = false;
-                Windows.MainWindow.GetInstance().DisplayLargeType(text);
+                MyWindows.MainWindow.GetInstance().DisplayLargeType(text);
             }
             else
             {
-                Windows.LargeType.Instance.ChangeMessage(text);
+                MyWindows.LargeType.Instance.ChangeMessage(text);
             }
         }
 

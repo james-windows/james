@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows;
 using James.HelperClasses;
-using James.Windows;
+using James.MyWindows;
 
 namespace James.Workflows.Outputs
 {

@@ -195,11 +195,14 @@
     <Compile Include="HelperClasses\PathHelper.cs" />
     <Compile Include="HelperClasses\RegistryHelper.cs" />
     <Compile Include="HelperClasses\WindowHelper.cs" />
+    <Compile Include="MyWindows\ChangelogWindow.xaml.cs" />
+    <Compile Include="MyWindows\LargeType.xaml.cs" />
+    <Compile Include="MyWindows\MainWindow.xaml.cs" />
+    <Compile Include="MyWindows\OptionWindow.xaml.cs" />
+    <Compile Include="MyWindows\PartialConfigClasses\MainWindowConfig.cs" />
+    <Compile Include="MyWindows\WelcomeWindow.xaml.cs" />
     <Compile Include="Search\DeleteEvent.cs" />
     <Compile Include="Search\SearchEngine.cs" />
-    <Compile Include="Windows\ChangelogWindow.xaml.cs">
-      <DependentUpon>ChangelogWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Enumerations\AccentColorTypes.cs" />
     <Compile Include="HelperClasses\CustomExtensionMethods.cs" />
     <Compile Include="Shortcut\Shortcut.cs" />
@@ -207,7 +210,6 @@
     <Compile Include="HelperClasses\SerializationHelper.cs" />
     <Compile Include="HelperClasses\GridHelper.cs" />
     <Compile Include="Shortcut\ShortcutManagerSettings.cs" />
-    <Compile Include="Windows\PartialConfigClasses\MainWindowConfig.cs" />
     <Compile Include="ResultItems\MagicResultItem.cs" />
     <Compile Include="ResultItems\SearchResultItem.cs" />
     <Compile Include="SearchResultElement.cs" />
@@ -254,18 +256,12 @@
     <Compile Include="UserControls\WorkflowsUserControl.xaml.cs">
       <DependentUpon>WorkflowsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\OptionWindow.xaml.cs">
-      <DependentUpon>OptionWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Config.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Search\FileExtension.cs" />
     <Compile Include="Search\MyFileWatcher.cs" />
     <Compile Include="Search\Path.cs" />
     <Compile Include="ResultItems\ResultItem.cs" />
-    <Compile Include="Windows\WelcomeWindow.xaml.cs">
-      <DependentUpon>WelcomeWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WorkflowEditor\WorkflowSettingsDialog.xaml.cs">
       <DependentUpon>WorkflowSettingsDialog.xaml</DependentUpon>
     </Compile>
@@ -294,27 +290,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\ChangelogWindow.xaml">
+    <Page Include="MyWindows\ChangelogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\LargeType.xaml">
+    <Page Include="MyWindows\LargeType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\MainWindow.xaml">
+    <Page Include="MyWindows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Windows\LargeType.xaml.cs">
-      <DependentUpon>LargeType.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\AboutUserControl.xaml">
@@ -373,11 +362,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\OptionWindow.xaml">
+    <Page Include="MyWindows\OptionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\WelcomeWindow.xaml">
+    <Page Include="MyWindows\WelcomeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -467,7 +456,9 @@
       <Name>Engine</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MyWindows\PartialConfigClasses\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

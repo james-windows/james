@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using James.HelperClasses;
 
-namespace James.Windows
+namespace James.MyWindows
 {
     /// <summary>
     ///     Interaction logic for LargeType.xaml

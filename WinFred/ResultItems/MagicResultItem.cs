@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using James.Windows;
+using James.MyWindows;
 using James.Workflows;
 using James.Workflows.Outputs;
 using James.Workflows.Triggers;
