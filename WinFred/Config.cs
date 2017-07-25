@@ -84,7 +84,6 @@ namespace James
             {
                 InitConfig();
                 ShortcutManagerSettings.Reset();
-                StartProgramOnStartup = false;
                 WindowChangedAccentColor?.Invoke(this, null);
             }
             Persist();
@@ -99,7 +98,7 @@ namespace James
         public ObservableCollection<string> ExcludedFolders { get; set; }
         public ShortcutManagerSettings ShortcutManagerSettings { get; set; }
 
-        public static string ConfigFolderLocation = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\James";
+        public static string ConfigFolderLocation = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\James";
         public static string WorkflowFolderLocation => ConfigFolderLocation + "\\workflows";
 
         private string _windowAccentColor = "Cyan";
@@ -113,7 +112,6 @@ namespace James
         public event ChangedWindowAccentColorEventHandler WindowChangedAccentColor;
 
         private bool _isBaseLight = true;
-        private bool _startProgramOnStartup;
         public bool AlwaysClearLastInput { get; set; } = true;
         public bool DisplayFileIcons { get; set; } = true;
         public bool DisplayPriorities { get; set; } = false;
@@ -123,17 +121,7 @@ namespace James
         public bool FirstInstance { get; set; } = true;
 
         public bool FirstStart { get; set; } = true;
-
-        public bool StartProgramOnStartup
-        {
-            get { return _startProgramOnStartup; }
-            set
-            {
-                RegistryHelper.SetProgramAtStartup(value);
-                _startProgramOnStartup = value;
-            }
-        }
-
+        
         public string WindowAccentColor
         {
             get { return _windowAccentColor; }

@@ -10,9 +10,49 @@ namespace James.UserControls
     /// </summary>
     public partial class GeneralUserControl : UserControl
     {
+        private bool _startup = false;
+
         public GeneralUserControl()
         {
             InitializeComponent();
+            SetStartup();
+        }
+
+        public bool Startup
+        {
+            get { return _startup; }
+            set
+            {
+                SetStartupStatus(value);
+                _startup = value;
+            }
+        }
+
+        private async void SetStartupStatus(bool status)
+        {
+            var startupTask = await Windows.ApplicationModel.StartupTask.GetAsync("JamesStartupTask");
+            if(status)
+            {
+                startupTask.RequestEnableAsync();
+            }
+            else
+            {
+                startupTask.Disable();
+            }
+        }
+
+        private async void SetStartup()
+        {
+            try
+            {
+                var startupTask = await Windows.ApplicationModel.StartupTask.GetAsync("JamesStartupTask");
+                _startup = startupTask.State == Windows.ApplicationModel.StartupTaskState.Enabled;
+            }
+            catch(Exception e)
+            {
+                //ignore buggy startuptask
+            }
+            
         }
 
         /// <summary>
