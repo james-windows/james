@@ -32,7 +32,7 @@
                             <TextBlock FontSize="34.667" Padding="50,10">Space</TextBlock>
                         </Grid>
                     </StackPanel>
-                    <MediaElement Source="Resources/openJames.mp4" Margin="75,20" MediaEnded="MediaElement_MediaEnded"/>
+                    <MediaElement Source="Resources/openJames.mp4" Margin="75,20" MediaEnded="MediaElement_MediaEnded" UnloadedBehavior="Manual"/>
                     <TextBlock HorizontalAlignment="Center" FontSize="21">and start typing...</TextBlock>
                     <TextBlock HorizontalAlignment="Left" FontSize="14" TextWrapping="Wrap">James will always stay running in the background for you and listens to a specific shortcut to come to foreground:</TextBlock>
                     <TextBlock HorizontalAlignment="Left" FontSize="12" Foreground="#ffaaaaaa" TextWrapping="Wrap"><Bold>Note: </Bold> There is only one way to really close James and that is through the "Close Program" button in the option window</TextBlock>
