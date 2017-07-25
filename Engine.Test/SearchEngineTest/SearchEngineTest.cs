@@ -40,6 +40,28 @@ namespace Engine.Test.SearchEngineTest
         }
 
         [TestMethod]
+        public void RealisticInsertAndQueryManyTest()
+        {
+            SearchEngine engine = new SearchEngine();
+            var lines = File.ReadAllLines(_testFile).Select(x => x.Split(';')).Select(x => new Tuple<string, int, string>(x[0], int.Parse(x[1]), x[0].Split('\\').Last()));
+            DateTime start = DateTime.Now;
+            foreach(var line in lines)
+            {
+                engine.Insert(line.Item1, line.Item2);
+            }
+            Console.WriteLine((DateTime.Now - start).TotalMilliseconds);
+            start = DateTime.Now;
+            for (int i = 0; i < 100; i++)
+            {
+                foreach (var line in lines)
+                {
+                    engine.Find(line.Item3);
+                }
+            }
+            Console.WriteLine((DateTime.Now - start).TotalMilliseconds);
+        }
+
+        [TestMethod]
         public void RealisticInsertManyTest()
         {
             SearchEngine engine = new SearchEngine();
