@@ -35,20 +35,19 @@ namespace James
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
-            bool createdNew;
-            _mutex = new Mutex(true, "James", out createdNew);
+            _mutex = new Mutex(true, "James", out bool createdNew);
             if (createdNew)
             {
                 StartProgram();
                 base.OnStartup(e);
             }
-            else if (e.Args.Length != 0)
+            else
             {
                 Config.Instance.FirstInstance = false;
                 AlternativeRun(e);
             }
         }
-
+        
         /// <summary>
         /// If an instance of James is already running, its opened to import a workflow or triggers the Api
         /// </summary>
@@ -66,7 +65,7 @@ namespace James
                     }
                     else if (namedPipeClient.IsConnected)
                     {
-                        writer.WriteLine(string.Join(" ", e.Args).Substring(6));
+                        writer.WriteLine(string.Join(" ", e.Args).Replace("james-cmd:", ""));
                     }
                     writer.Flush();
                 }

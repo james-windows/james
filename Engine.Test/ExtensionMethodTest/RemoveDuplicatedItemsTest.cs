@@ -12,19 +12,20 @@ namespace Engine.Test.ExtensionMethodTest
         [TestMethod]
         public void BasicRemoveDuplicatedItemsTest()
         {
-            List<Item> items = new List<Item>();
-            items.Add(new Item(new DirectoryNodeMock("asdf")) { Priority = 20 });
-            items.Add(new Item(new DirectoryNodeMock("asdf")) { Priority = 20 });
-            items.Add(new Item(new DirectoryNodeMock("asdf")) { Priority = 20 });
-            items.Add(new Item(new DirectoryNodeMock("aba")) { Priority = 15 });
-            items.Add(new Item(new DirectoryNodeMock("aba")) { Priority = 14 });
-            items.Add(new Item(new DirectoryNodeMock("asdf")) { Priority = 14 });
-            items.Add(new Item(new DirectoryNodeMock("aba")) { Priority = 14 });
-            items.Add(new Item(new DirectoryNodeMock("asdf")) { Priority = 4 });
-            items.Add(new Item(new DirectoryNodeMock("asdf")) { Priority = 4 });
-            items.Add(new Item(new DirectoryNodeMock("a")) { Priority = 4 });
-            items.Add(new Item(new DirectoryNodeMock("asdf")) { Priority = 4 });
-
+            List<Item> items = new List<Item>
+            {
+                new Item(new DirectoryNodeMock("asdf")) { Priority = 20 },
+                new Item(new DirectoryNodeMock("asdf")) { Priority = 20 },
+                new Item(new DirectoryNodeMock("asdf")) { Priority = 20 },
+                new Item(new DirectoryNodeMock("aba")) { Priority = 15 },
+                new Item(new DirectoryNodeMock("aba")) { Priority = 14 },
+                new Item(new DirectoryNodeMock("asdf")) { Priority = 14 },
+                new Item(new DirectoryNodeMock("aba")) { Priority = 14 },
+                new Item(new DirectoryNodeMock("asdf")) { Priority = 4 },
+                new Item(new DirectoryNodeMock("asdf")) { Priority = 4 },
+                new Item(new DirectoryNodeMock("a")) { Priority = 4 },
+                new Item(new DirectoryNodeMock("asdf")) { Priority = 4 }
+            };
             items.RemoveDuplicatedItems();
 
             Assert.IsTrue(items.Count == 6);

@@ -56,7 +56,6 @@ namespace Engine.Entity
             var tmp = new MergeResult();
             foreach (string combination in _divider.SplitPath(path))
             {
-                Console.WriteLine(combination);
                 _rootSearchNode.Insert(combination.ToLower(), item, ref tmp);
             }
         }

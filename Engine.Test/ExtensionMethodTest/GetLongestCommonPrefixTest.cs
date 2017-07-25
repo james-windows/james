@@ -10,8 +10,7 @@ namespace Engine.Test.ExtensionMethodTest
         [TestMethod]
         public void BasicTest()
         {
-            int longestCommonPrefix;
-            Assert.AreEqual("hallo".GetLongestCommonPrefix("hallohallo", out longestCommonPrefix), TraversalOptions.MoveDown);
+            Assert.AreEqual("hallo".GetLongestCommonPrefix("hallohallo", out int longestCommonPrefix), TraversalOptions.MoveDown);
             Assert.AreEqual(5, longestCommonPrefix);
 
             Assert.AreEqual("h".GetLongestCommonPrefix("h", out longestCommonPrefix), TraversalOptions.Found);

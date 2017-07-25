@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Timers;
 using James.HelperClasses;
-using James.Properties;
 using James.ResultItems;
 using System.Threading.Tasks;
-
 namespace James.Search
 {
     public class SearchEngine
@@ -77,7 +74,7 @@ namespace James.Search
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
 #if DEBUG
-            Console.WriteLine(Resources.SearchEngine_SearchEngineBackup_Notification);
+            System.Console.WriteLine(James.Properties.Resources.SearchEngine_SearchEngineBackup_Notification);
 #endif
             SaveIndex();
         }
