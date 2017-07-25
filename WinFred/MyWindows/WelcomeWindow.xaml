@@ -18,7 +18,7 @@
                     <TextBlock HorizontalAlignment="Center" FontSize="21">Now we will give you a brief demo how to use James!</TextBlock>
                 </StackPanel>
                 <StackPanel Width="600" Height="500">
-                    <TextBlock HorizontalAlignment="Center" FontSize="26">To open James simply press:</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="21">To open James simply press:</TextBlock>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                         <Grid>
                             <Rectangle Stroke="#FF333333" />
@@ -32,10 +32,14 @@
                             <TextBlock FontSize="34.667" Padding="50,10">Space</TextBlock>
                         </Grid>
                     </StackPanel>
-                    <TextBlock HorizontalAlignment="Center" FontSize="26">and start typing...</TextBlock>
+                    <MediaElement Source="Resources/openJames.mp4" Margin="75,20" MediaEnded="MediaElement_MediaEnded"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="21">and start typing...</TextBlock>
+                    <TextBlock HorizontalAlignment="Left" FontSize="14" TextWrapping="Wrap">James will always stay running in the background for you and listens to a specific shortcut to come to foreground:</TextBlock>
+                    <TextBlock HorizontalAlignment="Left" FontSize="12" Foreground="#ffaaaaaa" TextWrapping="Wrap"><Bold>Note: </Bold> There is only one way to really close James and that is through the "Close Program" button in the option window</TextBlock>
                 </StackPanel>
                 <StackPanel Width="600" Height="500">
-                    <TextBlock HorizontalAlignment="Center" FontSize="26">Customize James for a better experience:</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="24">To open the options of James and to</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="26">customize James for a better user experience:</TextBlock>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                         <Grid>
                             <Rectangle Stroke="#FF333333" />
@@ -52,6 +56,8 @@
                             <TextBlock FontSize="34.667" Padding="5,10,15,10">ettings</TextBlock>
                         </Grid>
                     </StackPanel>
+                    <MediaElement Source="Resources/optionWindow.mp4" Margin="75,20" MediaEnded="MediaElement_MediaEnded" UnloadedBehavior="Manual"/>
+                    <TextBlock HorizontalAlignment="Left" FontSize="12" Foreground="#ffaaaaaa" TextWrapping="Wrap"><Bold>Note: </Bold> you can also open the options via right clicking the searchbar and selecting "Settings" in the context menu.</TextBlock>
                 </StackPanel>
                 <StackPanel Width="600" Height="500">
                     <TextBlock HorizontalAlignment="Center" FontSize="26">Share messages with your friends:</TextBlock>

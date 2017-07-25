@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using MahApps.Metro.Controls;
+using System.Windows.Controls;
+using System;
 
 namespace James.MyWindows
 {
@@ -31,6 +33,13 @@ namespace James.MyWindows
             }
             var instance = MainWindow.GetInstance();
             Close();
+        }
+
+        private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            MediaElement element = sender as MediaElement;
+            element.Position = new TimeSpan(0, 0, 1);
+            element.Play();
         }
     }
 }
