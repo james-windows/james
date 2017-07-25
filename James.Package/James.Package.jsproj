@@ -909,8 +909,6 @@
     <Content Include="win32\Mono.Cecil.Rocks.dll" />
     <Content Include="win32\Newtonsoft.Json.dll" />
     <Content Include="win32\Newtonsoft.Json.xml" />
-    <Content Include="win32\NuGet.Squirrel.dll" />
-    <Content Include="win32\NuGet.Squirrel.pdb" />
     <Content Include="win32\Splat.dll" />
     <Content Include="win32\System.Windows.Interactivity.dll" />
     <None Include="Package.StoreAssociation.xml" />

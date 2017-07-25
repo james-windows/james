@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap, rescap, mp, uap3">
-  <Identity Name="59765MichaelMoser.James-Windows" Version="1.1.7.0" Publisher="CN=37E7756A-99D9-40A1-A264-B5F51E497E41" />
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:rescap3="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities/3" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2" xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10" xmlns:wincap3="http://schemas.microsoft.com/appx/manifest/foundation/windows10/windowscapabilities/3" IgnorableNamespaces="uap4 wincap3 rescap3 desktop2 com rescap">
+  <Identity Name="59765MichaelMoser.James-Windows" Version="1.1.1.0" Publisher="CN=37E7756A-99D9-40A1-A264-B5F51E497E41" />
   <mp:PhoneIdentity PhoneProductId="cfa67a7e-0b0e-4af6-8860-2b180b2457fd" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>James-Windows</DisplayName>
@@ -25,15 +25,16 @@
       </uap:VisualElements>
       <Extensions>
         <uap3:Extension Category="windows.protocol">
-          <uap3:Protocol Name="james-cmd" Parameters="/p &quot;%1&quot;" />
+          <uap3:Protocol Name="james-cmd" />
         </uap3:Extension>
-        <!--<Extension Category="windows.fileTypeAssociation">
-          <uap3:FileTypeAssociation Name="documenttypes" UseUrl="True" Parameters="%1">
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="james">
+            <uap:DisplayName>james</uap:DisplayName>
             <uap:SupportedFileTypes>
               <uap:FileType>.james</uap:FileType>
             </uap:SupportedFileTypes>
-          </uap3:FileTypeAssociation>
-        </Extension>-->
+          </uap:FileTypeAssociation>
+        </uap:Extension>
         <desktop:Extension Category="windows.startupTask" Executable="win32\James.exe" EntryPoint="Windows.FullTrustApplication">
           <desktop:StartupTask TaskId="JamesStartupTask" Enabled="true" DisplayName="Hello James Startup Task" />
         </desktop:Extension>
