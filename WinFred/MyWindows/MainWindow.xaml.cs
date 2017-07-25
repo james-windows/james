@@ -54,6 +54,11 @@ namespace James.MyWindows
         /// <param name="shortcut"></param>
         public void OnHotKeyHandler(Shortcut.Shortcut shortcut)
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(() => OnHotKeyHandler(shortcut)));
+                return;
+            }
             if (IsVisible || shortcut == null)
             {
                 HideWindow();

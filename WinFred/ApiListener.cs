@@ -61,6 +61,10 @@ namespace James
                                 ChecksForNewImportedWorkflow(splits);
                             }
                         }
+                        else
+                        {
+                            MyWindows.MainWindow.GetInstance().OnHotKeyHandler(new Shortcut.Shortcut() { HotKey = Config.Instance.ShortcutManagerSettings.JamesHotKey.HotKey });
+                        }
                     }
                 }
             }
