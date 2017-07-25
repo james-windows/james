@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine.csproj", "{BFC549C1-B62A-4CA7-B3E4-E1C6A83E3597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine.Test", "Engine.Test\Engine.Test.csproj", "{658E6E6F-08C1-4D5F-9792-27DA5307E789}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine.Test", "..\Engine.Test\Engine.Test.csproj", "{658E6E6F-08C1-4D5F-9792-27DA5307E789}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,16 +39,16 @@ Global
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Debug|ARM.Build.0 = Debug|Any CPU
-		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Debug|x64.Build.0 = Debug|Any CPU
+		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Debug|x64.ActiveCfg = Debug|x64
+		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Debug|x64.Build.0 = Debug|x64
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Debug|x86.Build.0 = Debug|Any CPU
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|Any CPU.Build.0 = Release|Any CPU
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|ARM.ActiveCfg = Release|Any CPU
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|ARM.Build.0 = Release|Any CPU
-		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|x64.ActiveCfg = Release|Any CPU
-		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|x64.Build.0 = Release|Any CPU
+		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|x64.ActiveCfg = Release|x64
+		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|x64.Build.0 = Release|x64
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|x86.ActiveCfg = Release|Any CPU
 		{658E6E6F-08C1-4D5F-9792-27DA5307E789}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
