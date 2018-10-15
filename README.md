@@ -3,7 +3,7 @@
 
 [![Join the chat at https://gitter.im/james-windows/james](https://badges.gitter.im/james-windows/james.svg)](https://gitter.im/james-windows/james?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ```
-Announcement: First installer for the public beta is coming on March 1st!
+Announcement: Currently this project gets transfered to the UWP in order to make it easily downloadable over the Microsoft store.
 ```
 
 James is an application launcher for windows enabling you to find and open files as well as programs easily and fast. Furhtermore it's possible to extend James by the use of so-called Workflows.
@@ -16,17 +16,12 @@ When developing James, our team invented a powerful Search-Algorithm enabling yo
 Moreover does the search provide a variety of options besides opening the files and folders. For example, by pressing cmd, or ctrl on windows, your filemanager will pop up, showing you where the search result actually is.
 Other features include auto-completion and quick-look support, making James the most awesome launcher that has ever existed.
 
-<img src="https://s32.postimg.org/lqy4889zp/search.gif"/>
-
-
 #### Configure your Search Scope
 Other than tools like Spotlight, James allows your to define exactly where he's gonna search. Define rules like: "My desktop is the most important folder", "I don't want to find txt files inside my movie folder", "Never index any bin directories" or "Prefer cpp over py files".
 Of course there's a default configuration, if you don't want to mess around with these things.
 But just in case, having possibilities like that is pretty nice, isn't it?
 
-<img src="https://s32.postimg.org/a6op2gbkl/customzie.gif"/>
-
-#### Extend James with Workflows
+#### Extend James with Workflows (deprecated)
 James ships with an immensely powerful Workflow-Editor, which takes launchers to the next level. It allows even none-programmers to extends the launcher using a simple drag & drop system.
 Viewing the weather forecast, setting timers, searching youtube - even opening SAP transactions is possible.
 Create your very own Workflows to increase your productivity!
